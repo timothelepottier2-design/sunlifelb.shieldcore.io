@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<CVehicleModelInfoVariation>
+  <variationData>
+	<Item>
+      <modelName>ringbati</modelName>
+      <colors>
+        <Item>
+          <indices content="char_array">
+            0 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            120 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            121 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            122 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            123 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            124 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            125 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            126 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            127 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            128 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            129 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            130 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            131 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            132 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            133 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            134 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            135 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            136 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            137 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            138 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            139 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            140 0 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            0 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            120 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            121 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            122 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            123 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            124 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            125 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            126 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            127 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            128 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            129 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            130 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            131 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            132 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            133 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            134 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            135 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            136 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            137 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            138 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            139 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+		<Item>
+          <indices content="char_array">
+            140 131 0 0 0 0
+          </indices>
+          <liveries />
+        </Item>
+      </colors>
+      <kits>
+        <Item>799_ringbati_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges />
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Standard White</Name>
+            <Value value="100" />
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="0" />
+      <sirenSettings value="0" />
+    </Item>
+  </variationData>
+</CVehicleModelInfoVariation>

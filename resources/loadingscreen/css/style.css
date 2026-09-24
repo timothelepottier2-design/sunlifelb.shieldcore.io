@@ -1,0 +1,421 @@
+
+  @import url("bootstrap.css");
+  @import url("http://fonts.googleapis.com/css?family=Open+Sans:700italic,800,700,300,400&subset=latin,latin-ext");
+  @import url("font-awesome.min.css");
+  @import url("owl.carousel.css");
+
+
+
+/* 2. BASIC STYLES */
+
+  /* * {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;  
+  } */
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    font: 16px/1.5 'Open Sans', "Century Gothic", "Trebuchet MS", Helvetica, sans-serif;
+    background-color: #262626;
+    color: rgb(0, 176, 245);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { 
+    color: #ff751fb3;
+    transition: all 0.125s ease-in-out 0s;
+    -moz-transition: all 0.125s ease-in-out 0s;
+    -webkit-transition: all 0.125s ease-in-out 0s;
+    -o-transition: all 0.125s ease-in-out 0s;
+    -ms-transition: all 0.125s ease-in-out 0s;
+  }
+
+
+
+
+
+/* 5. HEADER */
+
+  header {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: transparent;
+  }
+  
+  header > .container {
+    height: 100%;
+    position: relative;
+  }
+
+  .wrapper {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 50%;
+  }
+
+  body
+{
+    margin: 0px;
+    padding: 0px;
+    
+	background-size: 0%;
+
+	font-family: "Segoe UI", sans-serif;
+
+}
+
+
+.log-top-right
+{
+    top: 20px;
+    right: 20px;
+    text-align: right;
+    display: none;
+}
+
+.loading-container
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 5;
+
+    color: rgba(250, 250, 250);
+
+    font-family: Arial;
+}
+
+/* Anciens elements par etape : masques */
+.loading-legacy
+{
+    display: none;
+}
+
+/* Texte au-dessus de la barre (etape + pourcentage) */
+.loading-text
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 22px 5px 22px;
+    font-family: 'Open Sans', "Segoe UI", sans-serif;
+    font-size: 11px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.loading-text #progress-percent
+{
+    font-weight: 800;
+    color: #ff8a1f;
+}
+
+/* Piste pleine largeur, transparente : la barre passe par-dessus l'image */
+.loading-track
+{
+    position: relative;
+    width: 100%;
+    height: 18px;
+    background: transparent;
+    overflow: visible;
+}
+
+/* Remplissage : rayures "chantier" orange / orange fonce, inclinees en / */
+.loading-fill
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0%;
+    background-color: #c9611a;
+    background-image: repeating-linear-gradient(
+        135deg,
+        #ff8a1f 0px,
+        #ff8a1f 12px,
+        #c9611a 12px,
+        #c9611a 24px
+    );
+    background-size: 34px 34px;
+    box-shadow: 0 0 12px rgba(255, 138, 31, 0.35);
+    animation: hazard-scroll 1.2s linear infinite;
+    transition: width 0.3s ease-out;
+}
+
+@keyframes hazard-scroll
+{
+    0%   { background-position: 0 0; }
+    100% { background-position: 34px 0; }
+}
+
+/* La voiture : centree sur la tete de la progression, posee sur la barre */
+.loading-car
+{
+    position: absolute;
+    left: 0%;
+    bottom: -4px;
+    height: 72px;
+    width: auto;
+    transform: translateX(-50%);
+    pointer-events: none;
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.7));
+    transition: left 0.3s ease-out;
+    z-index: 2;
+}
+
+.loading-labels
+{
+    width: 100%;
+    height: 20px;
+
+    margin-left: 2px;
+    margin-right: 3px;
+
+    margin-top: 5px;
+    margin-bottom: 12px;
+
+    padding: 3px;
+    text-align: center;
+    position: relative;
+    display: inline;
+    white-space: nowrap;
+}
+
+.loading-labels div
+{
+    display: none;
+    text-align: left;
+    font-size: 18px;
+    position: relative;
+}
+
+.loading-bar-container
+{
+    width: 100%;
+    background-color: rgba(110, 171, 190, 0.9);
+    height: 20px;
+
+    margin-left: 2px;
+    margin-right: 3px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+    background-color: #1a1a1a;
+
+    border-radius: 6px;
+    padding: 5px;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    white-space: nowrap;
+}
+
+.loading-bar
+{
+    width: 0%;
+    height: 25px;
+    border-radius: 2px;
+
+    background-size: 30px 30px;      
+    background-image: linear-gradient(135deg, rgba(250, 250, 250, 0.15) 25%, transparent 25%, transparent 50%, rgba(250, 250, 250, .15) 50%, rgba(250, 250, 250, .15) 75%, transparent 75%, transparent);
+    -webkit-animation: animate-stripes 3s linear infinite;
+
+    display: none;
+
+    transition: width 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.bgcolor-first 
+{
+    background-color: #ff751fb3;
+    
+}
+
+.bgcolor-second 
+{
+    background-color: #ff751fb3;
+}
+
+.bgcolor-third 
+{
+    background-color: #ff751fb3;
+}
+
+.bgcolor-fourth 
+{
+    background-color: #ff751fb3;
+}
+
+
+.color-first 
+{
+    color: #ffffffb3;
+}
+
+.color-second 
+{
+    color: #ffffffb3;
+}
+
+.color-third 
+{
+    color: #ffffffb3;
+}
+
+.color-fourth 
+{
+    color: #ffffffb3;
+}
+
+.logo
+{
+  position: absolute;
+  top: 350px;
+  left: 750px;
+}
+
+.enable_music {
+  color: #ffffff;
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
+
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  font-weight: 400;
+
+  margin: 15px auto;
+  animation: music 3s;
+}
+
+@keyframes animate-stripes {
+    0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}
+
+@keyframes music {
+  from {
+      opacity: 0.7;
+      transform: translateY(-80px);
+  }
+
+  to { 
+      transform: translateY(0px);
+  }
+}
+
+/* ---------- Lecteur audio (pilule, bouton mute, slider orange) ---------- */
+.custom-audio-player {
+  position: absolute;
+  bottom: 60px;
+  right: 26px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.55);
+  border: 1px solid rgba(255, 138, 31, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  font-family: 'Open Sans', "Segoe UI", sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-audio-player:hover {
+  border-color: rgba(255, 138, 31, 0.7);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(255, 138, 31, 0.25);
+}
+
+/* Bouton mute / lecture : rond orange avec icone haut-parleur SVG */
+.custom-audio-player button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #ff9a3c 0%, #e0701c 100%);
+  color: #1a0d03;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.custom-audio-player button:hover { filter: brightness(1.08); }
+.custom-audio-player button:active { transform: scale(0.94); }
+
+.custom-audio-player button svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.custom-audio-player button .icon-on  { display: block; }
+.custom-audio-player button .icon-off { display: none; }
+.custom-audio-player.muted button .icon-on  { display: none; }
+.custom-audio-player.muted button .icon-off { display: block; }
+.custom-audio-player.muted button {
+  background: linear-gradient(180deg, #4a4a4a 0%, #2b2b2b 100%);
+  color: #bbb;
+}
+
+/* Slider : piste grise avec remplissage orange (via --vol), pouce blanc */
+.custom-audio-player input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 6px;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  --vol: 40%;
+  background: linear-gradient(90deg, #ff8a1f 0%, #ff8a1f var(--vol), rgba(255, 255, 255, 0.18) var(--vol), rgba(255, 255, 255, 0.18) 100%);
+}
+
+.custom-audio-player input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #ff8a1f;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.custom-audio-player input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+.custom-audio-player .volume-value {
+  min-width: 34px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.85);
+  font-variant-numeric: tabular-nums;
+}

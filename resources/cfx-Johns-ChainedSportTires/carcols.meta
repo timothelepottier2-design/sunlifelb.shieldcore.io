@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfoVarGlobal>    
+  <Wheels>
+        <Item> <!-- VWT_SPORT -->
+  <Item>
+        <wheelName>wheel_jd_spt_01</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_02</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_03</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_04</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_05</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_06</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_07</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_08</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_09</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_10</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_11</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_12</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_13</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_14</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_15</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_16</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_17</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_18</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_19</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_20</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_21</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_22</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_23</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_24</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+  <Item>
+        <wheelName>wheel_jd_spt_25</wheelName> 
+        <wheelVariation />
+        <modShopLabel>JOHNDESIGNS_1</modShopLabel>
+        <rimRadius value="0.272000"/>
+        <rear value="false"/>
+      </Item>
+	</Item>
+    <Item/> <!-- VWT_SPORT -->
+    <Item/> <!-- VWT_BIKE -->
+    <Item> <!-- VWT_HIEND -->
+
+	</Item>
+    <Item/> <!-- VWT_SUPERMOD1 -->
+    <Item/> <!-- VWT_SUPERMOD2 -->
+    <Item/>
+  </Wheels>
+</CVehicleModelInfoVarGlobal>

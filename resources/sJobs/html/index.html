@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sJobs NUI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; background: rgba(0,0,0,0) !important; overflow: hidden; }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- LSFD FIRE HUD (inlined from lsfd/html/index.html)            -->
+<!-- ============================================================ -->
+<div id="fireHUD" class="firehud" style="display:none;">
+  <div class="row">
+    <div class="left">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="ttl">Incendie</span>
+    </div>
+    <div class="vals" id="fireText">Feu 100% • Extinction 0%</div>
+  </div>
+  <div class="bar" role="progressbar" aria-label="Progression de l'extinction"
+       aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="fill" id="fireFill"></div>
+  </div>
+</div>
+
+<style>
+  :root{
+    --bg:#10100b; --panel:#1a1912; --panel-2:#252417;
+    --text:#e7e7f0; --muted:#9aa0b3;
+    --accent:#fff83c; --accent-2:#ffe684; --accent-3:#e6ca2e;
+    --success:#d4cc2e; --danger:#ff5c7a;
+    --font-sans:"Montserrat",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --hud-w: 30%; --hud-w-min: 36%; --hud-w-max: 60%;
+  }
+  .firehud{
+    position: fixed; left: 50%; bottom: 6%;
+    transform: translate(-50%, 0) translateZ(0);
+    will-change: transform; display: none;
+    width: var(--hud-w); max-width: var(--hud-w-max); min-width: var(--hud-w-min);
+    background: radial-gradient(150% 150% at -20% -50%, rgba(255,193,7,.10), transparent),
+      linear-gradient(180deg, rgba(26,26,18,.94), rgba(26,26,18,.86));
+    border: .12em solid rgba(255,255,255,.10); border-radius: 1.2em;
+    color: var(--text); font: 600 1rem/1.3 var(--font-sans);
+    padding: 1.6% 2%; z-index: 9998; user-select: none;
+  }
+  .firehud:not(.is-visible) .fill::after{ animation: none !important; }
+  .firehud .row{ display:flex; align-items:center; justify-content:space-between; gap:4%; margin-bottom: 1.2%; }
+  .firehud .left{ display:flex; align-items:center; gap:.8em; }
+  .firehud .ttl{ font-weight:800; letter-spacing:.3px; }
+  .firehud .vals{ color:var(--muted); font-weight:700; }
+  .firehud .dot{
+    width:1em; height:1em; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #fff, #ffc107 28%, #ff9800 65%, #ff6a00 100%);
+    box-shadow: 0 0 .9em rgba(255,152,0,.45); display:inline-block;
+  }
+  .bar{
+    position:relative; width:100%; height: 1.15em;
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)) padding-box;
+    border-radius: 999px; border: .1em solid rgba(255,255,255,.12); overflow:hidden; isolation:isolate;
+  }
+  .fill{
+    width:100%; height:100%; transform-origin: left center; transform: scaleX(0);
+    transition: transform var(--p-dur, 240ms) cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
+    background: linear-gradient(90deg, #ff9800, #ff9800 55%, #ff9800 100%);
+    border-radius: 999px 0 0 999px; position:relative;
+  }
+  .fill::after{
+    content:""; position:absolute; inset:0;
+    background: repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.18) 8%, rgba(255,255,255,0) 8%, rgba(255,255,255,0) 16%);
+    mix-blend-mode: overlay; animation: slide 2.2s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .fill{ transition: none !important; } .fill::after{ animation: none !important; } }
+  @keyframes slide{ 0%{ background-position: 0% 0%; } 100%{ background-position: 100% 0%; } }
+</style>
+
+<script>
+(function(){
+  var hud = document.getElementById('fireHUD');
+  var fill = document.getElementById('fireFill');
+  var text = document.getElementById('fireText');
+  var bar = document.querySelector('.bar');
+  var currentProgress = 0;
+
+  function showHUD(){ hud.style.display = 'block'; hud.classList.add('is-visible'); }
+  function hideHUD(){ hud.classList.remove('is-visible'); requestAnimationFrame(function(){ hud.style.display = 'none'; }); }
+
+  window.setFireStatus = function(value){
+    var v = Math.max(0, Math.min(100, Number(value)||0));
+    if (v === currentProgress) return;
+    var delta = Math.abs(v - currentProgress);
+    currentProgress = v;
+    var dur = Math.min(900, Math.max(140, delta * 10));
+    document.documentElement.style.setProperty('--p-dur', dur + 'ms');
+    fill.style.transform = 'scaleX(' + (v/100) + ')';
+    bar.setAttribute('aria-valuenow', String(v));
+    text.textContent = 'Feu ' + (100 - v) + '% \u2022 Extinction ' + v + '%';
+    if (v >= 100) hideHUD();
+  };
+
+  function clampPct(x){ x = Number(x)||0; return Math.max(0, Math.min(100, x)); }
+  window.setFireBarWidth = function(pct){ hud.style.setProperty('--hud-w', clampPct(pct) + '%'); };
+  window.setFireBarMax   = function(pct){ hud.style.setProperty('--hud-w-max', clampPct(pct) + '%'); };
+  window.setFireBarMin   = function(pct){ hud.style.setProperty('--hud-w-min', clampPct(pct) + '%'); };
+  window.resetFireHUD = function(){ setFireStatus(0); hideHUD(); };
+
+  window.addEventListener('message', function(ev){
+    var d = ev.data || {};
+    switch (d.action){
+      case 'fire:show':   showHUD(); break;
+      case 'fire:hide':   hideHUD(); break;
+      case 'fire:update': if (typeof d.value !== 'undefined') setFireStatus(d.value); break;
+      case 'fire:size':
+        if (d.width != null) setFireBarWidth(d.width);
+        if (d.max   != null) setFireBarMax(d.max);
+        if (d.min   != null) setFireBarMin(d.min);
+        break;
+      case 'fire:reset':  resetFireHUD(); break;
+    }
+  });
+
+  setFireStatus(0);
+  hideHUD();
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- REMS DEATH SCREEN (inlined from rems/client/deathscreen/html) -->
+<!-- ============================================================ -->
+<div id="deathscreen" class="ds-hidden">
+  <div class="ds-vignette"></div>
+  <div class="ds-panel">
+    <p class="ds-label-soon">ATTENTION</p>
+    <h1 class="ds-title">VOUS &Ecirc;TES INCONSCIENT</h1>
+    <div class="ds-skull">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 8C20 8 14 18 14 28C14 38 22 48 32 56C42 48 50 38 50 28C50 18 44 8 32 8Z" fill="currentColor" opacity="0.95"/>
+        <ellipse cx="24" cy="28" rx="4" ry="5" fill="#1a1a1a"/>
+        <ellipse cx="40" cy="28" rx="4" ry="5" fill="#1a1a1a"/>
+        <path d="M22 40Q32 48 42 40" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <rect x="18" y="52" width="28" height="4" rx="1" fill="currentColor" opacity="0.9"/>
+        <rect x="28" y="48" width="8" height="8" fill="currentColor" opacity="0.9"/>
+        <rect x="12" y="48" width="8" height="8" fill="currentColor" opacity="0.9"/>
+        <rect x="44" y="48" width="8" height="8" fill="currentColor" opacity="0.9"/>
+      </svg>
+    </div>
+    <p class="ds-timer" id="ds-timer">05:00</p>
+    <p class="ds-label-cause">CAUS&Eacute; PAR</p>
+    <p class="ds-cause" id="ds-cause">Cause inconnue</p>
+    <p class="ds-respawn-info" id="ds-respawnInfo">Retour &agrave; l'h&ocirc;pital dans 0 min 00 s</p>
+  </div>
+  <div class="ds-buttons">
+    <button type="button" class="ds-btn ds-btn-emergency" id="ds-btnEmergency">
+      <span class="ds-btn-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </span>
+      <span class="ds-btn-text">
+        <span class="ds-btn-label">Appeler les urgences</span>
+        <span class="ds-btn-cooldown" id="ds-emergencyCooldown"></span>
+      </span>
+    </button>
+    <button type="button" class="ds-btn ds-btn-hospital" id="ds-btnHospital">
+      <span class="ds-btn-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </span>
+      <span class="ds-btn-label">Retour &agrave; l'h&ocirc;pital</span>
+    </button>
+  </div>
+  <div class="ds-footer-bottom">
+    <div class="ds-id-row">
+      <span class="ds-id-block"><span class="ds-id-label">Votre ID</span> <span class="ds-id-value" id="ds-playerId">-</span></span>
+      <span class="ds-id-separator" id="ds-idSeparator">|</span>
+      <span class="ds-id-block"><span class="ds-id-label">Tueur ID</span> <span class="ds-id-value" id="ds-killerId">-</span></span>
+    </div>
+    <button type="button" class="ds-report-link" id="ds-btnReport">Signaler le joueur</button>
+  </div>
+</div>
+
+<style>
+  .ds-hidden { display: none !important; }
+
+  #deathscreen {
+    position: fixed; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; pointer-events: auto; z-index: 10000;
+    font-family: 'Rajdhani', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .ds-vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 20%, rgba(180,80,20,0.12) 50%, rgba(100,40,10,0.4) 80%, rgba(40,15,5,0.65) 100%);
+    pointer-events: none;
+  }
+  .ds-panel {
+    position: relative; width: min(92vw, 640px); margin: 0 auto;
+    padding: 36px 40px 40px; background: transparent; text-align: center; z-index: 1;
+  }
+  .ds-label-soon { font-size: 16px; font-weight: 700; letter-spacing: 0.35em; color: #e87830; margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 0 18px rgba(230,120,40,0.5); }
+  .ds-title { font-size: clamp(26px, 5vw, 40px); font-weight: 700; letter-spacing: 0.08em; color: #fff; line-height: 1.2; margin-bottom: 20px; text-transform: uppercase; text-shadow: 0 2px 16px rgba(0,0,0,0.6); }
+  .ds-skull { width: 80px; height: 80px; margin: 0 auto 18px; color: #e87830; filter: drop-shadow(0 0 20px rgba(230,120,40,0.45)); opacity: 0.9; }
+  .ds-skull svg { width: 100%; height: 100%; }
+  .ds-timer { font-family: 'Orbitron', 'Rajdhani', monospace; font-size: 54px; font-weight: 700; color: #e87830; letter-spacing: 0.08em; margin-bottom: 16px; text-shadow: 0 0 28px rgba(230,120,40,0.55), 0 0 60px rgba(230,120,40,0.2); font-variant-numeric: tabular-nums; }
+  .ds-label-cause { font-size: 11px; font-weight: 700; letter-spacing: 0.25em; color: rgba(255,255,255,0.5); margin-bottom: 5px; text-transform: uppercase; }
+  .ds-cause { font-size: 18px; font-weight: 600; letter-spacing: 0.04em; color: rgba(255,255,255,0.9); margin-bottom: 20px; }
+  .ds-respawn-info { font-size: 18px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.02em; }
+  .ds-buttons { display: flex; gap: 14px; margin-top: 20px; margin-left: auto; margin-right: auto; flex-wrap: nowrap; justify-content: center; align-items: stretch; z-index: 1; width: min(92vw, 640px); }
+  .ds-footer-bottom { margin-top: 28px; margin-left: auto; margin-right: auto; width: min(92vw, 640px); text-align: center; z-index: 1; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+  .ds-id-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .ds-id-block { display: inline-flex; align-items: baseline; gap: 5px; }
+  .ds-id-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+  .ds-id-value { font-size: 16px; font-weight: 700; color: #e87830; text-shadow: 0 0 8px rgba(230,120,40,0.4); letter-spacing: 0.04em; }
+  .ds-id-separator { font-size: 14px; color: rgba(255,255,255,0.2); font-weight: 400; }
+  .ds-report-link { margin: 0; padding: 6px 14px; font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); background: rgba(230,120,40,0.12); border: 1px solid rgba(230,120,40,0.25); border-radius: 2px; cursor: pointer; transition: all 0.2s ease; }
+  .ds-report-link:hover { color: #fff; background: rgba(230,120,40,0.25); border-color: rgba(230,120,40,0.5); transform: translateY(-1px); }
+  .ds-report-link:active { transform: translateY(0); }
+  .ds-report-link:focus { outline: none; }
+
+  .ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; flex: 1; min-width: 0; width: 100%; max-width: 280px; padding: 16px 22px; font-size: 14px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; border: none; border-radius: 3px; cursor: pointer; transition: all 0.2s ease; font-family: inherit; position: relative; }
+  .ds-btn:focus { outline: none; }
+  .ds-btn:not(:disabled):hover { transform: translateY(-2px); }
+  .ds-btn:not(:disabled):active { transform: translateY(0); }
+  .ds-btn:disabled { cursor: not-allowed; transform: none; }
+  .ds-btn-emergency:disabled { opacity: 0.7; }
+  .ds-btn-hospital:disabled { opacity: 0.5; color: rgba(255,255,255,0.6); }
+  .ds-btn-hospital:disabled .ds-btn-label { color: rgba(255,255,255,0.6); }
+  .ds-btn-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ds-btn-icon svg { width: 20px; height: 20px; }
+  .ds-btn-text { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .ds-btn-label { white-space: nowrap; }
+  .ds-btn-cooldown { font-size: 11px; font-weight: 700; color: #e87830; line-height: 1; }
+  .ds-btn-emergency:not(:disabled) .ds-btn-cooldown { display: none; }
+  .ds-btn-emergency { background: rgba(255,255,255,0.06); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1); border: 1px solid rgba(230,120,40,0.2); }
+  .ds-btn-emergency:not(:disabled):hover { background: rgba(255,255,255,0.1); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15), 0 4px 16px rgba(0,0,0,0.3); border-color: rgba(230,120,40,0.4); }
+  .ds-btn-emergency:disabled .ds-btn-cooldown { color: #e87830; }
+  .ds-btn-hospital { background: linear-gradient(180deg, #c06020 0%, #8a4010 100%); box-shadow: 0 2px 0 rgba(0,0,0,0.3), 0 4px 16px rgba(180,80,20,0.35); border: 1px solid rgba(230,140,60,0.3); }
+  .ds-btn-hospital:not(:disabled):hover { background: linear-gradient(180deg, #d07030 0%, #9a4818 100%); box-shadow: 0 4px 0 rgba(0,0,0,0.25), 0 8px 24px rgba(200,100,30,0.4); border-color: rgba(230,140,60,0.5); }
+  .ds-btn-hospital.ds-ready { background: linear-gradient(180deg, #d07030 0%, #a05018 100%); box-shadow: 0 2px 0 rgba(0,0,0,0.25), 0 0 24px rgba(230,120,40,0.35); border: 1px solid rgba(230,140,60,0.4); }
+  .ds-btn-hospital.ds-ready:not(:disabled):hover { background: linear-gradient(180deg, #e08040 0%, #b06020 100%); box-shadow: 0 4px 0 rgba(0,0,0,0.2), 0 0 32px rgba(230,120,40,0.45); border-color: rgba(240,160,80,0.5); }
+</style>
+
+<script>
+(function () {
+  var deathscreen = document.getElementById('deathscreen');
+  var timerEl = document.getElementById('ds-timer');
+  var causeEl = document.getElementById('ds-cause');
+  var respawnInfoEl = document.getElementById('ds-respawnInfo');
+  var playerIdEl = document.getElementById('ds-playerId');
+  var killerIdEl = document.getElementById('ds-killerId');
+  var idSeparator = document.getElementById('ds-idSeparator');
+  var btnReport = document.getElementById('ds-btnReport');
+  var btnEmergency = document.getElementById('ds-btnEmergency');
+  var btnHospital = document.getElementById('ds-btnHospital');
+  var emergencyCooldownEl = document.getElementById('ds-emergencyCooldown');
+
+  var EMERGENCY_COOLDOWN_MS = 2.5 * 60 * 1000;
+  var emergencyCooldownEnd = 0;
+  var cooldownInterval = null;
+
+  function pad(n) { n = Math.max(0, Math.floor(n)); return n < 10 ? '0' + n : '' + n; }
+  function formatTime(minutes, seconds) { return pad(minutes) + ':' + pad(seconds); }
+
+  function stripGtaColors(str) {
+    if (!str || typeof str !== 'string') return '';
+    return str.replace(/~[a-z0-9]*~/gi, '').trim() || '';
+  }
+
+  function formatDeathCause(raw) {
+    var s = stripGtaColors(raw || '');
+    if (!s) return 'cause inconnue';
+    if (/chute|fall|est morte de chute/i.test(s)) return 'une chute';
+    if (/noyade|drowning|noy/i.test(s)) return 'noyade';
+    if (/v\u00e9hicule|vehicle|accident|\u00e9cras\u00e9|collision|renvers\u00e9/i.test(s)) return 'un accident de v\u00e9hicule';
+    if (/arme|weapon|bullet|balle|feu|tir|shot|melee|arme blanche/i.test(s)) return 'blessures par arme';
+    if (/explosion|explosif/i.test(s)) return 'une explosion';
+    if (/br\u00fblure|fire|burn|feu/i.test(s) && !/arme|tir|bullet/i.test(s)) return 'des br\u00fblures';
+    if (/inconnu|unknown/i.test(s)) return 'cause inconnue';
+    if (s.length > 3 && s.length < 60) return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    return 'cause inconnue';
+  }
+
+  function updateEmergencyCooldown() {
+    var now = Date.now();
+    if (now >= emergencyCooldownEnd) {
+      emergencyCooldownEl.textContent = '';
+      btnEmergency.disabled = false;
+      if (cooldownInterval) { clearInterval(cooldownInterval); cooldownInterval = null; }
+      return;
+    }
+    var left = Math.ceil((emergencyCooldownEnd - now) / 1000);
+    var m = Math.floor(left / 60);
+    var s = left % 60;
+    emergencyCooldownEl.textContent = '(' + pad(m) + ':' + pad(s) + ')';
+    btnEmergency.disabled = true;
+  }
+
+  function startEmergencyCooldown(seconds) {
+    emergencyCooldownEnd = Date.now() + (seconds || 150) * 1000;
+    btnEmergency.disabled = true;
+    updateEmergencyCooldown();
+    if (cooldownInterval) clearInterval(cooldownInterval);
+    cooldownInterval = setInterval(updateEmergencyCooldown, 1000);
+  }
+
+  function updateUI(data) {
+    if (!data) return;
+    causeEl.textContent = formatDeathCause(data.deathCause || '');
+    var bMin = data.bleedoutMinutes != null ? data.bleedoutMinutes : 0;
+    var bSec = data.bleedoutSeconds != null ? data.bleedoutSeconds : 0;
+    timerEl.textContent = formatTime(bMin, bSec);
+    var eMin = data.earlySpawnMinutes != null ? data.earlySpawnMinutes : 0;
+    var eSec = data.earlySpawnSeconds != null ? data.earlySpawnSeconds : 0;
+    respawnInfoEl.textContent = "Retour \u00e0 l'h\u00f4pital dans " + eMin + ' min ' + pad(eSec) + ' s';
+    var canHospital = (data.earlySpawnTimer != null && data.earlySpawnTimer <= 0) || (eMin === 0 && eSec === 0);
+    btnHospital.disabled = !canHospital;
+    btnHospital.classList.toggle('ds-ready', canHospital);
+    var pid = data.playerServerId;
+    playerIdEl.textContent = (pid !== undefined && pid !== null && pid !== '') ? pid : '-';
+    var kid = data.killerServerId;
+    if (kid !== undefined && kid !== null && kid !== '' && kid !== -1) {
+      killerIdEl.textContent = kid;
+    } else {
+      killerIdEl.textContent = '-';
+    }
+    killerIdEl.parentElement.style.display = '';
+    idSeparator.style.display = '';
+  }
+
+  function show() { deathscreen.classList.remove('ds-hidden'); }
+  function hide() {
+    deathscreen.classList.add('ds-hidden');
+    if (cooldownInterval) { clearInterval(cooldownInterval); cooldownInterval = null; }
+  }
+
+  function sendAction(action) {
+    fetch('https://sJobs/deathscreenAction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: action })
+    }).catch(function () {});
+  }
+
+  btnReport.addEventListener('click', function () { sendAction('report'); });
+  btnEmergency.addEventListener('click', function () {
+    if (this.disabled) return;
+    var cooldown = typeof window.emergencyCooldownSeconds === 'number' ? window.emergencyCooldownSeconds : 150;
+    startEmergencyCooldown(cooldown);
+    sendAction('emergency');
+  });
+  btnHospital.addEventListener('click', function () {
+    if (this.disabled) return;
+    sendAction('hospital');
+  });
+
+  window.addEventListener('message', function (event) {
+    var d = event.data;
+    if (!d || typeof d !== 'object') return;
+    if (d.type === 'deathscreenShow') {
+      window.emergencyCooldownSeconds = d.emergencyCooldownSeconds != null ? d.emergencyCooldownSeconds : 150;
+      show();
+      updateUI(d);
+    } else if (d.type === 'deathscreenUpdate') {
+      updateUI(d);
+    } else if (d.type === 'deathscreenHide') {
+      hide();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!deathscreen.classList.contains('ds-hidden')) {
+      if (e.key === 'F10' || e.keyCode === 121) {
+        e.preventDefault();
+        sendAction('key_f10');
+      } else if (e.key === 'Insert' || e.keyCode === 45) {
+        e.preventDefault();
+        sendAction('key_insert');
+      }
+    }
+  });
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- ROUTEUR NUI sJobs : heberge SNL_Mechanics + SNL_JobsUI dans   -->
+<!-- des iframes isolees. Les HUD inline ci-dessus (fire,          -->
+<!-- deathscreen) continuent de fonctionner : ils ecoutent les     -->
+<!-- messages non tagues (action/type) ; le routeur ne traite que  -->
+<!-- les messages tagues _slapp / _slrouter.                       -->
+<!-- ============================================================ -->
+<style>
+  #sl-root { position: fixed; inset: 0; pointer-events: none; }
+  .sl-frame {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    border: 0; margin: 0; padding: 0; background: transparent;
+    pointer-events: none; z-index: 50;
+  }
+  .sl-frame.sl-active { pointer-events: auto; z-index: 500; }
+</style>
+<div id="sl-root"></div>
+<script>
+(function () {
+  "use strict";
+  var APPS = {
+    mechanics: "../mechanics/ui/index.html",
+    jobsui: "../jobsui/html/shops.html"
+  };
+  var frames = {};
+  var root = null;
+  var activeFocus = null;
+
+  function getRoot() {
+    if (!root) root = document.getElementById("sl-root") || document.body;
+    return root;
+  }
+
+  function ensure(app) {
+    if (frames[app]) return frames[app];
+    var src = APPS[app];
+    if (!src) return null;
+    var el = document.createElement("iframe");
+    el.className = "sl-frame";
+    el.setAttribute("data-app", app);
+    el.setAttribute("allowtransparency", "true");
+    var rec = { el: el, ready: false, queue: [] };
+
+    function flush() {
+      if (rec.ready) return;
+      rec.ready = true;
+      if (poll) { clearInterval(poll); poll = null; }
+      var q = rec.queue; rec.queue = [];
+      for (var i = 0; i < q.length; i++) {
+        try { el.contentWindow.postMessage(q[i], "*"); } catch (e) {}
+      }
+      if (activeFocus === app) focusFrame(rec);
+    }
+
+    var pollTries = 0;
+    var poll = setInterval(function () {
+      pollTries++;
+      var doc = null;
+      try { doc = el.contentDocument; } catch (e) {}
+      if (doc && (doc.readyState === "interactive" || doc.readyState === "complete")) {
+        flush();
+      } else if (pollTries > 400) { clearInterval(poll); poll = null; }
+    }, 30);
+
+    el.addEventListener("load", flush);
+    el.src = src;
+    getRoot().appendChild(el);
+    frames[app] = rec;
+    return rec;
+  }
+
+  function forward(app, payload) {
+    var rec = ensure(app);
+    if (!rec) return;
+    if (rec.ready) {
+      try { rec.el.contentWindow.postMessage(payload, "*"); } catch (e) {}
+    } else {
+      rec.queue.push(payload);
+    }
+  }
+
+  function focusFrame(rec) {
+    try { if (rec.el.contentWindow) rec.el.contentWindow.focus(); } catch (e) {}
+  }
+
+  function setFocus(app, on) {
+    var rec = ensure(app);
+    if (!rec) return;
+    if (on) {
+      if (activeFocus && activeFocus !== app && frames[activeFocus]) {
+        frames[activeFocus].el.classList.remove("sl-active");
+      }
+      rec.el.classList.add("sl-active");
+      activeFocus = app;
+      focusFrame(rec);
+      setTimeout(function () { if (activeFocus === app) focusFrame(rec); }, 50);
+    } else {
+      rec.el.classList.remove("sl-active");
+      if (activeFocus === app) activeFocus = null;
+    }
+  }
+
+  window.addEventListener("message", function (e) {
+    var data = e.data;
+    if (!data || typeof data !== "object") return;
+    if (data._slrouter) { setFocus(data._slapp, !!data.focus); return; }
+    if (data._slapp) { forward(data._slapp, data._slpayload); return; }
+  });
+
+  function relayKey(type, e) {
+    if (!activeFocus) return;
+    var rec = frames[activeFocus];
+    if (!rec || !rec.el.contentDocument) return;
+    try {
+      rec.el.contentDocument.dispatchEvent(new KeyboardEvent(type, {
+        key: e.key, code: e.code, keyCode: e.keyCode, which: e.which,
+        location: e.location, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey,
+        altKey: e.altKey, metaKey: e.metaKey, repeat: e.repeat,
+        bubbles: true, cancelable: true
+      }));
+    } catch (err) {}
+  }
+  document.addEventListener("keydown", function (e) { relayKey("keydown", e); });
+  document.addEventListener("keyup", function (e) { relayKey("keyup", e); });
+})();
+</script>
+
+</body>
+</html>

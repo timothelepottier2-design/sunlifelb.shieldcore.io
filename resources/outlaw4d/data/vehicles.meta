@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfo__InitDataList>
+  <residentTxd>vehshare</residentTxd>
+  <residentAnims />
+  <InitDatas>    
+    <Item>
+      <modelName>outlaw4d</modelName>
+      <txdName>outlaw4d</txdName>
+      <handlingId>outlaw4d</handlingId>
+      <gameName>outlaw4d</gameName>
+      <vehicleMakeName>NAGASAKI</vehicleMakeName>
+      <expressionDictName>null</expressionDictName>
+      <expressionName>null</expressionName>
+      <animConvRoofDictName>null</animConvRoofDictName>
+      <animConvRoofName>null</animConvRoofName>
+      <ptfxAssetName>null</ptfxAssetName>
+      <audioNameHash>OUTLAW</audioNameHash>
+      <layout>LAYOUT_STANDARD</layout>
+      <coverBoundOffsets>OUTLAW_COVER_OFFSET_INFO</coverBoundOffsets>
+      <scenarioLayout />
+      <cameraName>DEFAULT_FOLLOW_VEHICLE_CAMERA</cameraName>
+      <aimCameraName>DEFAULT_THIRD_PERSON_VEHICLE_AIM_CAMERA</aimCameraName>
+      <bonnetCameraName>VEHICLE_BONNET_CAMERA_LOW_LOW</bonnetCameraName>
+      <povCameraName>DEFAULT_POV_CAMERA</povCameraName>
+      <FirstPersonDriveByIKOffset x="0.000000" y="-0.020000" z="0.020000" />
+      <FirstPersonDriveByUnarmedIKOffset x="0.000000" y="-0.100000" z="0.000000" />
+	  <FirstPersonProjectileDriveByIKOffset x="0.000000" y="0.000000" z="0.000000" />
+	  <FirstPersonProjectileDriveByPassengerIKOffset x="-0.140000" y="0.000000" z="0.000000" />
+	  <FirstPersonDriveByLeftPassengerIKOffset x="0.000000" y="0.000000" z="0.000000" />
+	  <FirstPersonDriveByRightPassengerIKOffset x="0.000000" y="-0.020000" z="0.020000" />
+	  <FirstPersonDriveByLeftPassengerUnarmedIKOffset x="0.000000" y="0.000000" z="0.000000" />
+	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="-0.100000" z="0.000000" />
+	  <FirstPersonMobilePhoneOffset x="0.140000" y="0.166000" z="0.526000" />
+      <FirstPersonPassengerMobilePhoneOffset x="0.136000" y="0.138000" z="0.438000" />
+      <PovCameraOffset x="0.000000" y="-0.250000" z="0.630000" />
+      <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
+      <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
+      <vfxInfoName>VFXVEHICLEINFO_MOTORBIKE_GENERIC</vfxInfoName>
+      <shouldUseCinematicViewMode value="true" />
+      <shouldCameraExitUseInterrupt value="false" />
+      <shouldCameraIgnoreExiting value="false" />
+      <AllowPretendOccupants value="true" />
+      <AllowJoyriding value="true" />
+      <AllowSundayDriving value="true" />
+      <AllowBodyColorMapping value="true" />
+      <wheelScale value="0.267500" />
+      <wheelScaleRear value="0.267500" />
+      <dirtLevelMin value="0.000000" />
+      <dirtLevelMax value="1.000000" />
+      <envEffScaleMin value="0.000000" />
+      <envEffScaleMax value="1.000000" />
+      <envEffScaleMin2 value="0.000000" />
+      <envEffScaleMax2 value="1.000000" />
+      <damageMapScale value="0.300000" />
+      <damageOffsetScale value="0.300000" />
+      <diffuseTint value="0x57000000" />
+      <steerWheelMult value="1.200000" />
+      <HDTextureDist value="5.000000" />
+      <lodDistances content="float_array">
+        10.000000	
+        25.000000	
+        60.000000	
+        120.000000	
+        500.000000	
+        500.000000
+      </lodDistances>
+      <minSeatHeight value="10" />
+      <identicalModelSpawnDistance value="20" />
+      <maxNumOfSameColor value="10" />
+      <defaultBodyHealth value="1000.000000" />
+      <pretendOccupantsScale value="1.000000" />
+      <frequency value="30" />
+      <swankness>SWANKNESS_1</swankness>
+      <vehicleClass>VC_OFF_ROAD</vehicleClass>
+      <maxNum value="5" />
+      <flags>FLAG_AVERAGE_CAR FLAG_POOR_CAR FLAG_IS_OFFROAD_VEHICLE FLAG_PEDS_INSIDE_CAN_BE_SET_ON_FIRE_MP FLAG_NO_HEAVY_BRAKE_ANIMATION FLAG_PEDS_INSIDE_CAN_BE_SET_ON_FIRE_MP</flags>
+      <type>VEHICLE_TYPE_CAR</type>
+	  <dashboardType>VDT_RACE</dashboardType>
+      <plateType>VPT_BACK_PLATES</plateType>
+      <wheelType>VWT_OFFROAD</wheelType>
+      <trailers />
+      <drivers />
+      <extraIncludes />
+      <doorsWithCollisionWhenClosed />
+      <driveableDoors />
+      <requiredExtras />
+      <rewards />
+      <cinematicPartCamera>
+        <Item>WHEEL_FRONT_RIGHT_CAMERA</Item>
+        <Item>WHEEL_FRONT_LEFT_CAMERA</Item>
+        <Item>WHEEL_WIDE_REAR_RIGHT_CAMERA</Item>
+        <Item>WHEEL_WIDE_REAR_LEFT_CAMERA</Item>
+      </cinematicPartCamera>
+      <NmBraceOverrideSet>Truck</NmBraceOverrideSet>
+	  <firstPersonDrivebyData>
+        <Item>LOW_OUTLAW_FRONT_LEFT</Item>
+        <Item>LOW_OUTLAW_FRONT_RIGHT</Item>
+      </firstPersonDrivebyData>
+	  <numSeatsOverride value="2" />
+    </Item>
+ </InitDatas>
+  <txdRelationships>
+    <Item>
+      <parent>vehshare</parent>
+      <child>vehicles_biker_shared</child>
+    </Item> 
+    <Item>
+      <parent>vehicles_race_generic</parent>
+      <child>outlaw4d</child>
+    </Item> 
+	<Item>
+      <parent>vehicles_biker_shared</parent>
+      <child>Stryder</child>
+    </Item>
+	<Item>
+      <parent>vehshare</parent>
+      <child>vehicles_racecar</child>
+    </Item>
+    <Item>
+      <parent>vehicles_jugular_interior</parent>
+      <child>Sugoi</child>
+    </Item>
+    <Item>
+      <parent>vehicles_monroe_interior</parent>
+      <child>jb7002</child>
+    </Item>
+	<Item>
+      <parent>vehicles_cav_interior</parent>
+      <child>everon</child>
+    </Item>
+     <Item>
+      <parent>vehicles_sup1_interior</parent>
+      <child>komoda</child>
+    </Item>
+	<Item>
+      <parent>vehicles_sup1_interior</parent>
+      <child>vstr</child>
+    </Item>
+    <Item>
+      <parent>vehicles_feroci_interior</parent>
+      <child>kanjo</child>
+    </Item>
+    <Item>
+      <parent>vehicles_nero_w_interior</parent>
+      <child>imorgon</child>
+    </Item>
+    <Item>
+      <parent>vehicles_schaf_w_interior</parent>
+      <child>asbo</child>
+    </Item>
+	<Item>
+      <parent>vehicles_fmj_interior</parent>
+      <child>rebla</child>
+    </Item>	
+	<Item>
+      <parent>vehicles_fmj_interior</parent>
+      <child>furia</child>
+    </Item>
+	<Item>
+      <parent>vehicles_s80_interior</parent>
+      <child>zhaba</child>
+    </Item>	
+    <Item>
+      <parent>vehicles_sultan_interior</parent>
+      <child>sultan2</child>
+    </Item>       
+    <Item>
+      <parent>vehicles_racecar</parent>
+      <child>formula</child>
+    </Item>	  
+	<Item>
+      <parent>vehicles_racecar</parent>
+      <child>formula2</child>
+    </Item>	  
+    <Item>
+      <parent>vehicles_bob_w_interior</parent>
+      <child>yosemite2</child>
+    </Item>  
+    <Item>
+      <parent>vehicles_race_generic</parent>
+      <child>retinue2</child>
+    </Item>
+	<Item>
+      <parent>vehicles_race_generic</parent>
+      <child>vagrant</child>
+    </Item> 
+  </txdRelationships>
+</CVehicleModelInfo__InitDataList>

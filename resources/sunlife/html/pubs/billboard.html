@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+        #ad {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <img id="ad" src="" />
+    <script>
+        var img = document.getElementById('ad');
+
+        window.addEventListener('message', function (e) {
+            var data = e.data || {};
+            if (data && typeof data.url === 'string' && data.url.length > 0) {
+                // Cache-bust pour forcer un rechargement quand l'URL change.
+                if (img.getAttribute('data-url') !== data.url) {
+                    img.setAttribute('data-url', data.url);
+                    img.src = data.url;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

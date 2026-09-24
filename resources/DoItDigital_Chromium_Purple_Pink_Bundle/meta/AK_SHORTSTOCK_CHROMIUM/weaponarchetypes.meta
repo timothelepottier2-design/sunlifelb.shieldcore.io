@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_ar_ak_shortstock_chromium_mag1</modelName>
+			<txdName>w_ar_ak_shortstock_chromium</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_ak_shortstock_chromium_holo</modelName>
+			<txdName>w_ar_ak_shortstock_chromium</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_ak_shortstock_chromium_boxmag</modelName>
+			<txdName>w_ar_ak_shortstock_chromium</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_ak_shortstock_chromium</modelName>
+			<txdName>w_ar_ak_shortstock_chromium</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
+

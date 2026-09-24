@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+/* ============================================================================
+   Badge Bobcat Security — fond rendu en DUI (914x544), affiche a l'echelle de
+   la carte d'identite (457x272).
+
+   IMPORTANT : les positions ci-dessous sont exprimees en fractions de la carte
+   et DOIVENT rester synchronisees avec BADGE_LAYOUT dans permis.lua. Le Lua
+   dessine par-dessus le mugshot et les valeurs ; ce fichier ne fournit que le
+   decor et les intitules.
+
+     photo   x 0.004 -> 0.278   y 0.000 -> 0.607
+     titre   x 0.300 -> 1.000   y 0.000 -> 0.200
+     nom     x 0.315            y 0.300
+     ligne   x 0.315 / 0.560 / 0.700   y 0.520
+     pied    y 0.780 -> 1.000   matricule x 0.220 y 0.845
+   ========================================================================== */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    width: 914px;
+    height: 544px;
+    background: transparent;
+    overflow: hidden;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+.card {
+    position: relative;
+    width: 914px;
+    height: 544px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #171b23 0%, #212734 48%, #12151b 100%);
+    box-shadow: inset 0 0 0 5px #b8942e;
+}
+
+/* Trame diagonale facon papier securise. */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        118deg,
+        rgba(184, 148, 46, 0.05) 0 2px,
+        transparent 2px 14px
+    );
+}
+
+/* Emplacement de la photo : le Lua dessine le mugshot exactement ici. */
+.photo {
+    position: absolute;
+    left: 4px;
+    top: 0;
+    width: 250px;
+    height: 330px;
+    background: rgba(0, 0, 0, 0.35);
+    border-right: 3px solid rgba(184, 148, 46, 0.85);
+    border-bottom: 3px solid rgba(184, 148, 46, 0.85);
+    border-bottom-right-radius: 14px;
+}
+
+/* En-tete : commence a droite de la photo pour ne jamais passer dessous. */
+.header {
+    position: absolute;
+    left: 274px;
+    top: 0;
+    right: 0;
+    height: 109px;
+    padding: 0 26px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient(90deg, #b8942e 0%, #8f7020 65%, #6d5518 100%);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.4);
+}
+
+.crest {
+    flex: 0 0 auto;
+    width: 58px;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #12151b;
+    clip-path: polygon(50% 0%, 100% 16%, 100% 62%, 50% 100%, 0% 62%, 0% 16%);
+}
+
+.crest span {
+    font-size: 22px;
+    font-weight: 800;
+    color: #e8c65c;
+}
+
+.titles { line-height: 1.15; }
+
+.titles .main {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.titles .sub {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 2px;
+}
+
+/* Intitules : places JUSTE AU-DESSUS des valeurs ecrites par le Lua. */
+.label {
+    position: absolute;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #b8942e;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.label::after {
+    content: "";
+    display: block;
+    margin-top: 5px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(184, 148, 46, 0.65), rgba(184, 148, 46, 0));
+}
+
+.l-name   { left: 288px; top: 128px; }
+.l-name::after   { width: 300px; }
+.l-birth  { left: 288px; top: 248px; }
+.l-birth::after  { width: 130px; }
+.l-sex    { left: 512px; top: 248px; }
+.l-sex::after    { width: 60px; }
+.l-height { left: 640px; top: 248px; }
+.l-height::after { width: 60px; }
+
+.watermark {
+    position: absolute;
+    right: 24px;
+    top: 332px;
+    font-size: 120px;
+    font-weight: 800;
+    letter-spacing: -6px;
+    color: rgba(184, 148, 46, 0.09);
+    line-height: 1;
+}
+
+.footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 424px;
+    height: 120px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.45);
+    border-top: 2px solid rgba(184, 148, 46, 0.6);
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.footer .right { color: rgba(184, 148, 46, 0.95); font-weight: 700; }
+</style>
+</head>
+<body>
+    <div class="card">
+        <div class="photo"></div>
+
+        <div class="header">
+            <div class="crest"><span>BS</span></div>
+            <div class="titles">
+                <div class="main">BOBCAT SECURITY</div>
+                <div class="sub">AGENT ACCREDITE</div>
+            </div>
+        </div>
+
+        <div class="label l-name">Nom &amp; Prenom</div>
+        <div class="label l-birth">Naissance</div>
+        <div class="label l-sex">Sexe</div>
+        <div class="label l-height">Taille</div>
+
+        <div class="watermark">BS</div>
+
+        <div class="footer">
+            <span>Matricule</span>
+            <span class="right">San Andreas &middot; Securite privee</span>
+        </div>
+    </div>
+</body>
+</html>

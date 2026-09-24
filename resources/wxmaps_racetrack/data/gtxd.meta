@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CMapParentTxds>
+  <txdRelationships>
+    <Item>
+      <parent>wx_racetrack_global_txd</parent>
+      <child>wx_racetrack_garage_txd</child>
+    </Item>
+    <Item>
+      <parent>wx_racetrack_garage_txd</parent>
+      <child>wx_racetrack_interiors_txd</child>
+    </Item>
+    <Item>
+      <parent>wx_racetrack_interiors_txd</parent>
+      <child>wx_racetrack_interior2_txd</child>
+    </Item>
+    <Item>
+      <parent>wx_racetrack_interior2_txd</parent>
+      <child>wx_racetrack_grandstands_txd</child>
+    </Item>
+    <Item>
+      <parent>wx_racetrack_grandstands_txd</parent>
+      <child>wx_racetrack_pitlane_txd</child>
+    </Item>
+    <Item>
+      <parent>wx_racetrack_pitlane_txd</parent>
+      <child>wx_racetrack_paddock_txd</child>
+    </Item>
+    <Item>
+      <parent>wx_racetrack_paddock_txd</parent>
+      <child>wx_racetrack_karting_txd</child>
+    </Item>
+  </txdRelationships>
+</CMapParentTxds>

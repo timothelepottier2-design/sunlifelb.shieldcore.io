@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Garage — Customisation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="mecano-ui" class="hidden">
+        <div id="wheel-zoom-overlay" class="wheel-zoom-overlay" aria-hidden="true"></div>
+        <div class="wrap">
+            <div class="panel">
+                <header class="header">
+                    <div class="header-top">
+                        <div class="title">
+                            <h1 class="title-h" id="vehicle-name">—</h1>
+                            <p class="title-p" id="plate">—</p>
+                        </div>
+                        <button type="button" class="btn-close" id="btn-close" aria-label="Fermer">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                </header>
+
+                <nav class="breadcrumb" id="breadcrumb">
+                    <button type="button" class="breadcrumb-item root" data-path="">Garage</button>
+                </nav>
+
+                <main class="content">
+                    <ul class="list" id="list"></ul>
+                </main>
+
+                <footer class="footer">
+                    <div class="footer-cart" id="footer-cart">
+                        <span class="cart-summary" id="cart-summary">Panier : 0 $ (0 article)</span>
+                        <button type="button" class="btn-save-custom" id="btn-save-custom" disabled>💳 Sauvegarder et faire payer</button>
+                    </div>
+                    <span class="hint">ESC pour fermer</span>
+                </footer>
+            </div>
+        </div>
+
+        <div class="controls-legend" aria-hidden="true">
+            <div class="controls-legend-title">Contrôles</div>
+            <div class="controls-legend-row">
+                <kbd class="controls-legend-key">Molette</kbd>
+                <span class="controls-legend-desc">Zoom avant / arrière</span>
+            </div>
+            <div class="controls-legend-row">
+                <kbd class="controls-legend-key">← →</kbd>
+                <span class="controls-legend-desc">Tourner autour du véhicule</span>
+            </div>
+        </div>
+
+        <div id="notifications" class="notifications" aria-live="polite"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>did_combat_sg_chr_supp</modelName>
+			<txdName>did_combat_sg_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>did_combat_sg_chr_scope</modelName>
+			<txdName>did_combat_sg_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>did_combat_sg_chr_mag1</modelName>
+			<txdName>did_combat_sg_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>did_combat_sg_chr_camo3</modelName>
+			<txdName>did_combat_sg_chr_camo3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>did_combat_sg_chr_camo2</modelName>
+			<txdName>did_combat_sg_chr_camo2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>did_combat_sg_chr_camo1</modelName>
+			<txdName>did_combat_sg_chr_camo1</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>did_combat_sg_chr</modelName>
+			<txdName>did_combat_sg_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
+

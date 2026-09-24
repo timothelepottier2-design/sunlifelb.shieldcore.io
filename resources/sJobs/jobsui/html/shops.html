@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NUI Jobs — Amber Panel</title>
+
+  <!-- Fonts (style boutique : Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========= Thème SunLife — style boutique (dark + carré + orange pur) ========= */
+    :root{
+      /* Palette dark */
+      --bg-1:#0a0a0a;
+      --bg-2:#101010;
+      --bg-3:#181818;
+      --panel:#141414;
+      --panel-2:#1c1c1c;
+      --panel-3:#252525;
+
+      --line:rgba(255,255,255,.06);
+      --line-strong:rgba(255,255,255,.10);
+
+      --text:#f2f2f2;
+      --text-2:#d0d0d0;
+      --muted:#8a8a8a;
+
+      /* Orange SunLife pur — RGB 255,117,31 = #ff751f */
+      --accent:        #ff751f;
+      --accent-2:      #ff8a3c;
+      --accent-3:      #e6661a;
+      --accent-soft:   rgba(255,117,31,.16);
+      --accent-soft-2: rgba(255,117,31,.30);
+      --accent-ring:   rgba(255,117,31,.55);
+      --accent-shadow: rgba(255,117,31,.35);
+      --accent-glow:   rgba(255,117,31,.45);
+
+      --danger:#ff5c7a;
+
+      --shadow-sm: 0 4px 12px rgba(0,0,0,.30);
+      --shadow-md: 0 10px 28px rgba(0,0,0,.45);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.55);
+      --shadow:    0 10px 30px rgba(255,117,31,.20);
+
+      --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system,
+                   "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --ease-smooth: cubic-bezier(.22,.61,.36,1);
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0; background:transparent; color:var(--text);
+      font: 500 15px/1.5 var(--font-sans);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      letter-spacing:.005em;
+      display:grid; place-items:center;
+    }
+
+    /* ==== Overlay + Panel ==== */
+    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.45); opacity:0; pointer-events:none; transition:.2s var(--ease-smooth); }
+    .overlay.show{ opacity:1; pointer-events:auto; }
+
+    .panel{
+      position:fixed; inset:auto; left:50%; top:50%;
+      transform:translate(-50%,-46%) scale(.99);
+      width:min(920px, 86vw); height:min(78vh, 760px);
+      display:flex; flex-direction:column; overflow:hidden;
+      background:
+        radial-gradient(1100px 700px at 0% -10%, rgba(255,255,255,.04), transparent 60%),
+        radial-gradient(900px 700px at 100% 110%, rgba(255,117,31,.06), transparent 55%),
+        linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 100%);
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:0;
+      box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.04);
+      opacity:0; pointer-events:none;
+      transition: opacity .22s var(--ease-smooth), transform .22s var(--ease-smooth);
+    }
+    .panel.show{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+
+    .panel .top{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:14px 22px;
+      border-bottom:1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,0)),
+        rgba(10,10,10,.85);
+      position:relative; z-index:2;
+    }
+    .title{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.04em; text-transform:uppercase; font-size:13px;
+      margin:0;
+    }
+    .title .ico{
+      width:30px; height:30px; border-radius:0;
+      display:grid; place-items:center;
+      color:var(--accent);
+      border:1px solid var(--accent-ring);
+      background:var(--accent-soft);
+    }
+    .top .close, .close{
+      display:grid; place-items:center; width:34px; height:34px; border-radius:0; cursor:pointer;
+      border:1px solid var(--line-strong);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      font:800 14px/1 var(--font-sans);
+      transition:.18s var(--ease-smooth);
+    }
+    .top .close:hover, .close:hover{
+      background:rgba(255,92,122,.18);
+      border-color:rgba(255,92,122,.55);
+      box-shadow:0 8px 22px rgba(255,92,122,.25);
+    }
+
+    .body{ flex:1 1 auto; min-height:0; padding:18px 22px; overflow:auto; }
+
+    /* ==== Liste Jobs (cartes) ==== */
+    .grid{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px; }
+    @media (max-width:760px){ .grid{ grid-template-columns: 1fr; } }
+
+    .job{
+      position:relative;
+      display:grid; grid-template-columns: 160px 1fr; gap:12px; align-items:stretch;
+      border-radius:0; overflow:hidden; padding:10px;
+      background: var(--panel-2);
+      border:1px solid var(--line-strong);
+      transition: transform .22s var(--ease-smooth), border-color .22s var(--ease-smooth), box-shadow .22s var(--ease-smooth);
+    }
+    .job:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.20);
+      box-shadow: 0 12px 28px rgba(0,0,0,.40);
+    }
+    .job.selected{
+      border-color: var(--accent);
+      box-shadow:
+        0 0 0 2px var(--accent-soft) inset,
+        0 14px 38px var(--accent-shadow);
+    }
+
+    .thumb{ position:relative; border-radius:0; overflow:hidden; background:var(--bg-1); min-height:120px; border:1px solid var(--line); }
+    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; transform: scale(1); transition: transform .45s var(--ease-smooth); }
+    .job:hover .thumb img{ transform: scale(1.05); }
+
+    .stock-badge{
+      position:absolute; top:8px; left:8px;
+      display:inline-flex; align-items:center; gap:8px; padding:5px 10px;
+      background:rgba(10,10,10,.80);
+      border:1px solid var(--line-strong);
+      color:#fff;
+      font:700 11px/1 var(--font-sans);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .stock-badge .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent-glow); }
+
+    .info{ display:flex; flex-direction:column; gap:8px; }
+    .name{ font-weight:800; letter-spacing:.02em; display:flex; align-items:center; gap:8px; font-size:15px; }
+    .badge{
+      display:inline-flex; align-items:center; gap:6px; padding:3px 8px;
+      font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+      background: var(--accent-soft);
+      border:1px solid var(--accent-ring);
+      color:#fff;
+    }
+
+    .desc{
+      color: var(--text-2);
+      font-size:13px; line-height:1.45;
+      display:flex; gap:8px; align-items:flex-start;
+    }
+    .desc .ico{
+      display:inline-grid; place-items:center;
+      width:18px; height:18px; flex-shrink:0; margin-top:1px;
+      color: var(--accent);
+    }
+    .desc .ico svg{ width:18px; height:18px; }
+
+    .row{ margin-top:auto; display:flex; align-items:center; gap:10px; }
+    .choose{
+      margin-left:auto;
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 9px 14px;
+      background: var(--accent);
+      color: #1a0d04;
+      border: 1px solid var(--accent-ring);
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-size: 12px;
+      box-shadow: 0 4px 14px var(--accent-shadow);
+      transition: .18s var(--ease-smooth);
+    }
+    .choose:hover{
+      transform: translateY(-1px);
+      background: var(--accent-2);
+      filter: brightness(1.05);
+    }
+    .choose svg{ stroke: currentColor; fill: none; }
+
+    /* ==== Footer ==== */
+    .foot{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:14px 22px;
+      border-top:1px solid var(--line);
+      background: rgba(10,10,10,.55);
+    }
+    .hint{ color: var(--muted); font-size:12px; letter-spacing:.02em; }
+
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #fff;
+      transition: .15s var(--ease-smooth);
+    }
+    .btn.ghost{
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line-strong);
+    }
+    .btn.ghost:hover{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.20);
+      transform: translateY(-1px);
+    }
+    .btn.primary{
+      border: 1px solid var(--accent-ring);
+      background: var(--accent);
+      color: #1a0d04;
+      box-shadow: 0 4px 14px var(--accent-shadow);
+    }
+    .btn.primary:hover{
+      transform: translateY(-1px);
+      background: var(--accent-2);
+      filter: brightness(1.05);
+    }
+    .btn.primary[disabled]{
+      opacity:.4;
+      filter: grayscale(.6);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* ==== Scrollbar ==== */
+    .body{ scrollbar-width: thin; scrollbar-color: var(--accent) rgba(255,255,255,.06); }
+    .body::-webkit-scrollbar{ width:8px; height:8px; }
+    .body::-webkit-scrollbar-track{ background: rgba(255,255,255,.04); border:1px solid var(--line); }
+    .body::-webkit-scrollbar-thumb{
+      background: linear-gradient(180deg, var(--accent), var(--accent-3));
+      border:2px solid var(--bg-1);
+      box-shadow: 0 2px 8px var(--accent-shadow) inset;
+    }
+    .body::-webkit-scrollbar-thumb:hover{ background: linear-gradient(180deg, var(--accent-2), var(--accent)); }
+
+    @media (prefers-reduced-motion: reduce){
+      .panel, .job, .thumb img, .btn{ transition: none !important; }
+    }
+
+    /* ==== Compteur "déjà choisi" ==== */
+    .count-badge{
+      position:absolute; top:8px; right:8px;
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 5px 10px;
+      color:#fff;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-ring);
+      box-shadow: 0 6px 16px var(--accent-shadow), 0 0 0 1px rgba(255,255,255,.06) inset;
+      font: 800 11px/1 var(--font-sans);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      overflow: hidden;
+      z-index: 5;
+      pointer-events: auto;
+    }
+    .count-badge::before{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(120deg, transparent 20%, rgba(255,255,255,.30) 45%, transparent 70%);
+      transform:translateX(-120%);
+      animation: cb-sheen 3.2s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .count-badge::after{
+      content:""; position:absolute; inset:-6px;
+      box-shadow: 0 0 0 0 var(--accent-shadow);
+      animation: cb-pulse 2.2s ease-out infinite;
+      pointer-events:none;
+    }
+    .count-badge svg{ width:14px; height:14px; stroke:currentColor; }
+
+    @keyframes cb-sheen{
+      0%{ transform:translateX(-120%) skewX(-20deg); opacity:.0; }
+      10%{ opacity:.30; }
+      35%{ transform:translateX(120%) skewX(-20deg); opacity:.0; }
+      100%{ transform:translateX(120%) skewX(-20deg); opacity:.0; }
+    }
+    @keyframes cb-pulse{
+      0%  { box-shadow:0 0 0 0 var(--accent-shadow); }
+      70% { box-shadow:0 0 0 10px rgba(255,117,31,0); }
+      100%{ box-shadow:0 0 0 0 rgba(255,117,31,0); }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .count-badge::before, .count-badge::after{ animation:none; }
+    }
+
+    .count-badge[data-tip]::after{
+      content: attr(data-tip);
+      position:absolute; top:calc(100% + 8px); right:0;
+      white-space:nowrap; padding:6px 10px;
+      background: rgba(10,10,10,.95); color:#fff;
+      border: 1px solid var(--line-strong);
+      font: 600 11px/1.2 var(--font-sans); letter-spacing:.04em; text-transform:uppercase;
+      box-shadow: var(--shadow-md);
+      opacity:0; transform:translateY(-4px);
+      pointer-events:none; transition:.14s var(--ease-smooth);
+    }
+    .count-badge:hover::after{ opacity:1; transform:translateY(0); }
+
+    .head-left{ display:flex; align-items:center; gap:14px; }
+
+    /* ==== Tabs catégories (style boutique) ==== */
+    .tabs{ display:flex; align-items:center; gap:8px; }
+    .tab{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font: 700 12px/1 var(--font-sans);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line-strong);
+      transition: .15s var(--ease-smooth);
+    }
+    .tab .count{
+      display:inline-grid; place-items:center;
+      min-width:20px; height:20px; padding:0 6px;
+      font-weight:800; font-size:10px;
+      background: var(--accent);
+      color:#1a0d04;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+    }
+    .tab:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); }
+    .tab.active{
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: var(--accent-ring);
+      box-shadow: 0 4px 14px var(--accent-shadow);
+    }
+    .tab.active .count{
+      background:#1a0d04; color:#fff; box-shadow: inset 0 0 0 1px var(--accent-ring);
+    }
+
+    /* ==== Apparition progressive des cartes ==== */
+    .grid.stagger .job{
+      opacity: 0;
+      transform: translateY(8px) scale(.99);
+      filter: blur(1px);
+    }
+    .grid.stagger .job.reveal{
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+    @media (prefers-reduced-motion: reduce){
+      .grid.stagger .job,
+      .grid.stagger .job.reveal{
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* Même largeur pour les 2 boutons du footer */
+    .foot .actions{ display: flex; gap: 10px; }
+    .foot .actions .btn{ flex: 1; justify-content: center; }
+
+    body, button, input, .btn, .choose{
+      font-family: var(--font-sans);
+      font-weight: 600;
+    }
+
+    /* Anti-sélection / drag */
+    body, body *{
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* ==== Modal "Postuler" ==== */
+    #applyModal{ z-index: 9999; }
+
+    .form{
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .form label{
+      display: flex;
+      flex-direction: column;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-size: 11px;
+      color: var(--text-2);
+    }
+    .form input, .form textarea{
+      margin-top: 6px;
+      padding: 10px 12px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.04);
+      color: #fff;
+      font: 500 14px var(--font-sans);
+      letter-spacing: 0;
+      text-transform: none;
+      outline: none;
+      border-radius: 0;
+      transition: border-color .18s var(--ease-smooth), background .18s var(--ease-smooth), box-shadow .18s var(--ease-smooth);
+    }
+    .form input::placeholder, .form textarea::placeholder{ color: rgba(255,255,255,.30); }
+    .form input:focus, .form textarea:focus{
+      border-color: var(--accent-ring);
+      background: rgba(255,117,31,.04);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .form input, .form textarea{
+      user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+    }
+
+    /* Icône blanche pour le header du modal "Postuler" */
+    #applyModal .title .ico{
+      border:none;
+      background:transparent;
+      color:#fff;
+    }
+    #applyModal .title .ico svg,
+    #applyModal .title .ico svg *{
+      fill: currentColor !important;
+      stroke: currentColor !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Overlay -->
+  <div id="overlay" class="overlay" aria-hidden="true"></div>
+
+  <!-- Modal Postuler -->
+  <div id="applyModal" class="overlay" style="display:none;">
+    <div class="panel" style="max-width:600px; height:auto;">
+      <header class="top">
+        <h2 class="title">
+          <span class="ico" aria-hidden="true">
+            <!-- SVG full white (forcé via CSS ci-dessus) -->
+            <svg width="18" height="18" viewBox="0 0 392.598 392.598" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g>
+                <path style="fill:#FFFFFF;" d="M150.073,238.158c0-51.459,41.891-93.285,93.285-93.285c13.964,0,27.216,3.168,39.111,8.727v-49.455 h-71.305c-2.844,0-5.624-1.164-7.758-3.168c-2.004-2.004-3.168-4.784-3.168-7.758V21.786H32.739 c-6.012,0-10.925,4.848-10.925,10.925v327.111c0,6.012,4.848,10.925,10.925,10.925h238.933c6.012,0,10.925-4.848,10.925-10.925 v-37.107c-11.895,5.56-25.083,8.727-39.111,8.727C191.964,331.442,150.073,289.552,150.073,238.158z"></path>
+                <polygon style="fill:#FFC10D;" points="222.089,37.236 222.089,82.295 267.147,82.295 "></polygon>
+                <path style="fill:#FFFFFF;" d="M243.422,166.594c-39.434,0-71.499,32.065-71.499,71.499s32.129,71.434,71.499,71.434 s71.499-32.065,71.499-71.499S282.857,166.594,243.422,166.594z"></path>
+                <path style="fill:#56ACE0;" d="M243.422,287.806c-27.41,0-49.713-22.238-49.713-49.713s22.238-49.713,49.713-49.713 s49.713,22.238,49.713,49.713C293.135,265.503,270.768,287.806,243.422,287.806z"></path>
+                <g>
+                  <path style="fill:#194F82;" d="M57.822,166.723h90.505c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925 H57.822c-6.012,0-10.925,4.848-10.925,10.925C46.897,161.81,51.81,166.723,57.822,166.723z"></path>
+                  <path style="fill:#194F82;" d="M57.822,222.836h66.715c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925 H57.822c-6.012,0-10.925,4.848-10.925,10.925S51.81,222.836,57.822,222.836z"></path>
+                  <path style="fill:#194F82;" d="M57.822,278.95h66.715c6.012,0,10.925-4.849,10.925-10.925s-4.848-10.925-10.925-10.925H57.822 c-6.012,0-10.925,4.849-10.925,10.925S51.81,278.95,57.822,278.95z"></path>
+                  <path style="fill:#194F82;" d="M148.327,313.277H57.822c-6.012,0-10.925,4.848-10.925,10.925c0,6.012,4.848,10.925,10.925,10.925 h90.505c6.012,0,10.925-4.848,10.925-10.925C159.188,318.125,154.339,313.277,148.327,313.277z"></path>
+                </g>
+                <g>
+                  <path style="fill:#FFC10D;" d="M46.444,53.333h14.675v26.505c0,7.434-4.073,8.275-5.624,8.275c-3.232,0-6.335-1.875-9.374-5.495 l-5.689,9.051c4.396,5.236,9.632,7.887,15.515,7.887c4.784,0,16.291-1.939,16.291-20.17V42.537H46.444V53.333z"></path>
+                  <path style="fill:#FFC10D;" d="M171.859,69.624c0.84-0.453,7.24-2.78,7.24-12.218c0-14.998-14.158-14.998-17.455-14.998H142.38 v56.501h21.657c6.788,0,17.39-1.939,17.842-15.709C182.202,73.568,174.962,70.4,171.859,69.624z M153.499,53.139h5.301 c3.232,0,5.56,0.388,6.982,1.228c1.422,0.776,2.069,2.457,2.069,4.913c0,2.457-0.776,4.202-2.263,4.848 c-1.487,0.776-3.814,1.164-6.788,1.164h-5.236V53.075h-0.065V53.139z M168.174,87.014c-1.552,0.905-3.943,1.293-7.111,1.293h-7.564 V75.313h6.465c3.685,0,6.335,0.388,8.016,1.228c1.681,0.84,2.457,2.521,2.457,5.172C170.566,84.364,169.725,86.044,168.174,87.014z "></path>
+                  <path style="fill:#FFC10D;" d="M107.147,41.18c-17.261,0-25.988,15.709-25.988,29.22c0,11.055,6.853,29.22,25.988,29.22 c17.261,0,25.988-15.709,25.988-29.22C133.071,59.345,126.218,41.18,107.147,41.18z M121.822,70.4 c0,8.727-5.624,18.166-14.675,18.166c-7.564,0-14.675-7.564-14.675-18.166h0.065c0-8.727,5.624-18.166,14.675-18.166 C114.776,52.17,121.822,59.733,121.822,70.4L121.822,70.4z"></path>
+                  <path style="fill:#FFC10D;" d="M312.659,300.671c-0.065,0-0.129,0-0.259,0c-2.521,2.78-5.172,5.495-8.145,7.952v7.758 l51.911,51.911c3.168,3.168,8.792,3.168,11.96,0c3.297-3.297,3.297-8.663,0-11.96L312.659,300.671z"></path>
+                </g>
+                <path style="fill:#194F82;" d="M383.705,340.816l-58.311-58.44c7.176-13.188,11.442-28.186,11.442-44.283 c0-28.121-12.606-53.398-32.388-70.465V93.156c0-2.844-1.164-5.624-3.168-7.758l-82.36-82.23C216.917,1.164,214.137,0,211.164,0 H32.739C14.703,0,0.028,14.675,0.028,32.711v327.111c0,18.101,14.675,32.776,32.711,32.776h238.933 c18.036,0,32.711-14.675,32.711-32.711v-12.671l36.461,36.461c12.283,12.671,32.517,10.99,42.796,0 C395.535,371.846,395.535,352.646,383.705,340.816z M368.319,368.291c-3.232,3.168-8.792,3.168-11.96,0l-51.911-51.911v-7.758 c2.844-2.457,5.56-5.172,8.145-7.952c0.065,0,0.129,0,0.259,0l55.661,55.661C371.551,359.564,371.551,364.929,368.319,368.291z M314.921,238.158c0,39.434-32.065,71.499-71.499,71.499s-71.499-32.065-71.499-71.499s32.129-71.499,71.499-71.499 C282.857,166.594,314.921,198.659,314.921,238.158z M222.089,37.236l45.059,45.059h-45.059L222.089,37.236L222.089,37.236z M282.533,359.822c0,6.012-4.848,10.925-10.925,10.925H32.739c-6.012,0-10.925-4.848-10.925-10.925V32.711 c0-6.012,4.848-10.925,10.925-10.925h167.499v71.305c0,2.844,1.164,5.624,3.168,7.758c2.004,2.004,4.784,3.168,7.758,3.168h71.305 v49.455c-11.895-5.56-25.083-8.727-39.111-8.727c-51.459,0-93.285,41.891-93.285,93.285c0,51.459,41.891,93.285,93.285,93.285 c13.964,0,27.216-3.168,39.111-8.727v37.236H282.533z"></path>
+              </g>
+            </svg>
+          </span>
+          Postuler à l'emploi
+        </h2>
+        <button class="close" id="closeApply">&times;</button>
+      </header>
+      <div class="body">
+        <form id="applyForm" class="form">
+          <label>Nom & Prénom:
+            <input type="text" name="fullname" required />
+          </label>
+          <label>Téléphone:
+            <input type="text" name="phone" required />
+          </label>
+          <label>Motivations:
+            <textarea name="motivation" rows="4" required></textarea>
+          </label>
+        </form>
+      </div>
+      <footer class="foot">
+        <button class="btn ghost" id="cancelApply">Annuler</button>
+        <button class="btn primary" type="submit" form="applyForm">Envoyer</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Panel principal -->
+  <section id="jobsPanel" class="panel" role="dialog" aria-modal="true" aria-labelledby="jobsTitle">
+    <header class="top">
+      <div class="head-left">
+        <h2 class="title" id="jobsTitle">
+          <span class="ico" aria-hidden="true">
+            <!-- icône -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          Emplois disponibles
+        </h2>
+
+        <div class="tabs" id="jobTabs" role="tablist" aria-label="Catégories d'emplois">
+          <button class="tab active" data-cat="public" role="tab" aria-selected="true">
+            Public <span class="count">0</span>
+          </button>
+          <button class="tab" data-cat="private" role="tab" aria-selected="false">
+            Privés <span class="count">0</span>
+          </button>
+        </div>
+      </div>
+
+      <button class="close" id="closeBtn" aria-label="Fermer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" 
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="body">
+      <div id="jobsGrid" class="grid" aria-live="polite"></div>
+    </div>
+
+    <footer class="foot">
+      <div class="hint">Entrée pour valider • Échap pour fermer</div>
+      <div class="actions">
+        <button class="btn ghost" id="cancelBtn">Annuler</button>
+        <button class="btn primary" id="confirmBtn" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Rejoindre
+        </button>
+      </div>
+    </footer>
+  </section>
+
+  <script>
+  (() => {
+    const overlay   = document.getElementById('overlay');
+    const panel     = document.getElementById('jobsPanel');
+    const grid      = document.getElementById('jobsGrid');
+    const confirmBt = document.getElementById('confirmBtn');
+    const cancelBt  = document.getElementById('cancelBtn');
+    const closeBt   = document.getElementById('closeBtn');
+    const hintEl    = document.querySelector('.hint');
+
+    // Modal Postuler
+    const applyModal   = document.getElementById('applyModal');
+    const applyForm    = document.getElementById('applyForm');
+    const cancelApply  = document.getElementById('cancelApply');
+    const closeApply   = document.getElementById('closeApply');
+
+    let currentJobs = [];
+    let selectedIdx = -1;
+    let resource    = 'sJobs/jobsui'; // [sJobs] cible le callback prefixe du routeur
+
+    let jobsData  = { public:[], private:[] };
+    let category  = 'public';
+
+    const isPanelOpen = () => panel.classList.contains('show');
+    const isApplyOpen = () => applyModal && applyModal.classList.contains('show');
+
+    function getCurrentJobs(){
+      return jobsData[category] || [];
+    }
+
+    function updateFooterForCategory(){
+      if (!confirmBt || !hintEl) return;
+      if (category === 'private'){
+        confirmBt.style.display = 'none';
+        hintEl.textContent = 'Entrée pour postuler • Échap pour fermer';
+      } else {
+        confirmBt.style.display = '';
+        hintEl.textContent = 'Entrée pour valider • Échap pour fermer';
+      }
+    }
+
+    function openUI(jobsOrGroups){
+      jobsData = { public:[], private:[] };
+
+      if (Array.isArray(jobsOrGroups)) {
+        jobsData.public = jobsOrGroups;
+      } else if (jobsOrGroups && typeof jobsOrGroups === 'object') {
+        jobsData.public  = Array.isArray(jobsOrGroups.public)  ? jobsOrGroups.public  : [];
+        jobsData.private = Array.isArray(jobsOrGroups.private) ? jobsOrGroups.private : [];
+      }
+
+      category = (jobsData.public.length ? 'public' : 'private');
+      selectedIdx = -1;
+
+      renderTabs();
+      renderJobs();
+      updateFooterForCategory();
+      confirmBt.disabled = true;
+      overlay.classList.add('show');
+      panel.classList.add('show');
+    }
+
+    function closeUI(sendClose = true){
+      overlay.classList.remove('show');
+      panel.classList.remove('show');
+      if (sendClose) post('close');
+    }
+
+    function post(endpoint, payload={}){
+      try{
+        fetch(`https://${resource}/${endpoint}`, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+      }catch(e){ /* silencieux hors NUI */ }
+    }
+
+    function pick(i){
+      selectedIdx = i;
+      [...grid.children].forEach((el,idx)=> el.classList.toggle('selected', idx===i));
+      confirmBt.disabled = (i<0);
+    }
+
+    function renderTabs(){
+      const tabs = document.getElementById('jobTabs');
+      if(!tabs) return;
+
+      tabs.querySelectorAll('.tab').forEach(btn=>{
+        const cat = btn.dataset.cat;
+        const on  = (cat === category);
+        btn.classList.toggle('active', on);
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        const countSpan = btn.querySelector('.count');
+        if (countSpan) countSpan.textContent = (jobsData[cat] || []).length;
+      });
+    }
+
+    function renderJobs(){
+      grid.innerHTML = '';
+      const list = getCurrentJobs();
+      currentJobs = list;
+
+      if(!list.length){
+        grid.innerHTML = `<div style="grid-column:1/-1; opacity:.85; text-align:center; padding:24px; border:1px dashed rgba(255,255,255,.12); color:var(--muted); letter-spacing:.04em; text-transform:uppercase; font-weight:700; font-size:12px;">Aucun job disponible.</div>`;
+        return;
+      }
+
+      grid.classList.add('stagger');
+
+      currentJobs.forEach((job, i)=>{
+        const card = document.createElement('article');
+        card.className = 'job';
+        card.tabIndex = 0;
+        card.setAttribute('role','button');
+        card.setAttribute('aria-pressed', selectedIdx===i);
+
+        const isPrivate = (category === 'private');
+
+        card.innerHTML = `
+          <div class="thumb">
+            ${job.banner ? `<img src="${job.banner}" alt="${job.name}">` : ''}
+          </div>
+          <div class="info">
+            <div class="name">${job.name}
+              ${job.value==='unemployed' ? `<span class="badge" title="Métier par défaut">De base</span>`: ''}
+            </div>
+
+            ${job.desc ? `<div class="desc">
+              <span class="ico" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                  <line x1="12" y1="12" x2="12" y2="16"/>
+                </svg>
+              </span>
+              <span class="txt">${job.desc}</span>
+            </div>` : ''}
+
+            <div class="row">
+              ${isPrivate
+                ? `<button class="choose apply" aria-label="Postuler ${job.name}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="22 2 11 13 7 9"></polyline><path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+                    </svg>
+                    Postuler
+                  </button>`
+                : `<button class="choose" aria-label="Choisir ${job.name}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Choisir
+                  </button>`
+              }
+            </div>
+          </div>`;
+
+        card.addEventListener('click', (e)=>{
+          // Clic sur Postuler (privé) -> ouvre le modal
+          if (e.target.closest('.apply')) {
+            openApply(job);
+            return;
+          }
+          // Sinon: sélectionne la carte
+          pick(i);
+        });
+
+        card.addEventListener('keydown', (e)=>{
+          if(e.key==='Enter' || e.key===' '){
+            e.preventDefault();
+            pick(i);
+            if (category === 'private') openApply(job);
+          }
+        });
+
+        grid.appendChild(card);
+
+        const delay = 65; // ms entre chaque carte
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        requestAnimationFrame(()=>{
+          [...grid.children].forEach((el, idx)=>{
+            el.classList.remove('reveal'); // reset
+            const d = reduceMotion ? 0 : idx * delay;
+            setTimeout(()=> el.classList.add('reveal'), d);
+          });
+          const total = (reduceMotion ? 0 : (grid.children.length - 1) * delay) + 350;
+          setTimeout(()=> grid.classList.remove('stagger'), total);
+        });
+      });
+    }
+
+    function confirm(){
+      if(selectedIdx<0) return;
+      const choice = currentJobs[selectedIdx];
+      // Public: sélectionner direct
+      if (category === 'public') {
+        post('selectJob', { value: choice.value, name: choice.name });
+        closeUI(false);
+      } else {
+        // Privé: on ouvre le formulaire à la place (au cas où l'utilisateur appuie Entrée)
+        openApply(choice);
+      }
+    }
+
+    function openApply(job){
+        const url = job.discord || 'https://discord.gg/KhGYSckByS';
+
+        try {
+            window.invokeNative('openUrl', url);
+        } catch (e) {
+        }
+
+        post('openExternal', {
+            url: url,
+            job: job.value,
+            name: job.name
+        });
+    }
+
+    function closeApplyModal(){
+      if (!applyModal) return;
+
+      // >>> important : masquer le panel du modal
+      const modalPanel = applyModal.querySelector('.panel');
+      if (modalPanel) modalPanel.classList.remove('show');
+
+      applyModal.classList.remove('show');
+      setTimeout(()=> applyModal.style.display = 'none', 150);
+    }
+
+    // Soumission du formulaire
+    if (applyForm){
+      applyForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const data = {
+          job: applyForm.dataset.jobValue,
+          name: applyForm.dataset.jobName,
+          fullname: applyForm.fullname.value,
+          phone: applyForm.phone.value,
+          motivation: applyForm.motivation.value,
+        };
+        post('applyJob', data);
+        closeApplyModal();
+        // petit feedback
+        alert('✅ Merci, le patron vous recontactera si vous avez été retenu.');
+      });
+    }
+
+    cancelApply?.addEventListener('click', closeApplyModal);
+    closeApply?.addEventListener('click', closeApplyModal);
+
+    // Fermer modal au clic sur son overlay
+    applyModal?.addEventListener('click', (e)=>{
+      if(e.target === applyModal){ closeApplyModal(); }
+    });
+    // Fermer modal au clic droit sur son overlay
+    applyModal?.addEventListener('contextmenu', (e)=>{
+      if(e.target === applyModal){
+        e.preventDefault();
+        closeApplyModal();
+      }
+    });
+
+    // Actions footer
+    confirmBt.addEventListener('click', confirm);
+    cancelBt.addEventListener('click', ()=> closeUI(true));
+    closeBt.addEventListener('click',  ()=> closeUI(true));
+
+    document.getElementById('jobTabs')?.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.tab');
+      if(!btn) return;
+      const cat = btn.dataset.cat;
+      if(cat && cat !== category){
+        category = cat;
+        selectedIdx = -1;
+        renderTabs();
+        renderJobs();
+        updateFooterForCategory();
+        confirmBt.disabled = true;
+      }
+    });
+
+    window.addEventListener('keydown', (e)=>{
+      if(!isPanelOpen()) return;
+
+      // Si le modal "Postuler" est ouvert: Échap ferme le modal et on ne propage pas
+      if (isApplyOpen()){
+        if (e.key === 'Escape'){
+          e.preventDefault();
+          closeApplyModal();
+        }
+        return;
+      }
+
+      if(e.key === 'Escape') closeUI(true);
+      if(e.key === 'Enter'){
+        if (category === 'private' && selectedIdx >= 0){
+          // Privé: Entrée = Postuler
+          openApply(currentJobs[selectedIdx]);
+        } else {
+          confirm();
+        }
+      }
+
+      // touche "E" (majuscule ou minuscule)
+      if(e.key.toLowerCase() === 'e') closeUI(true);
+    });
+
+    // Réception NUI
+    window.addEventListener('message', (ev)=>{
+      const msg = ev.data || {};
+      if(msg.action === 'openJobs'){
+        openUI(msg.data || []);
+      }
+      if(msg.action === 'closeJobs') closeUI(false);
+    });
+
+    // Fermer si on clique sur l’overlay (en dehors du panel principal)
+    overlay.addEventListener('click', (e)=>{
+      if(e.target === overlay){
+        closeUI(true);
+      }
+    });
+
+    // Fermer si clic droit sur l’overlay du panel principal
+    overlay.addEventListener('contextmenu', (e)=>{
+      if(e.target === overlay){
+        e.preventDefault();
+        closeUI(true);
+      }
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       Click sound (identique à SNL_Boutique).
+       Web Audio synthétisé : 3 couches (snap + pop + sub) pour un
+       click "tactile/punchy". Aucun asset audio requis.
+       Throttle 35ms anti-spam, opt-out via [data-no-click-sound].
+       ============================================================ -->
+  <script>
+  (() => {
+    let _audioCtx = null;
+    function getAudioCtx(){
+      if (_audioCtx) return _audioCtx;
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      if (!Ctor) return null;
+      try { _audioCtx = new Ctor(); } catch(e){ return null; }
+      return _audioCtx;
+    }
+
+    const CLICK_VOL = 0.1;
+    let _lastClickAt = 0;
+    function playClickSound(opts){
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const nowMs = performance.now();
+      if (nowMs - _lastClickAt < 35) return;
+      _lastClickAt = nowMs;
+      try { if (ctx.state === 'suspended') ctx.resume(); } catch(e){}
+
+      const now = ctx.currentTime;
+      const intensity = (opts && opts.soft) ? 0.6 : 1;
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.95 * CLICK_VOL * intensity, now);
+      master.connect(ctx.destination);
+
+      // 1) Transient SNAP : burst de bruit large bande, attaque ultra-rapide.
+      const noiseLen = 0.030;
+      const buf = ctx.createBuffer(1, Math.max(1, Math.floor(ctx.sampleRate * noiseLen)), ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) {
+        const env = (i < 4 ? 1 : (1 - i / data.length));
+        data[i] = (Math.random() * 2 - 1) * env;
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buf;
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.value = 2200;
+      bp.Q.value = 0.9;
+      const noiseG = ctx.createGain();
+      noiseG.gain.setValueAtTime(0.0001, now);
+      noiseG.gain.exponentialRampToValueAtTime(0.85, now + 0.001);
+      noiseG.gain.exponentialRampToValueAtTime(0.0001, now + noiseLen);
+      noise.connect(bp).connect(noiseG).connect(master);
+      noise.start(now);
+      noise.stop(now + noiseLen);
+
+      // 2) Mid POP : oscillateur square pour donner du grain (plastic switch).
+      const baseHz = 1300 + (Math.random() * 200 - 100);
+      const osc = ctx.createOscillator();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(baseHz, now);
+      osc.frequency.exponentialRampToValueAtTime(baseHz * 0.55, now + 0.05);
+      const oscFilt = ctx.createBiquadFilter();
+      oscFilt.type = 'lowpass';
+      oscFilt.frequency.value = 3200;
+      oscFilt.Q.value = 0.5;
+      const oscG = ctx.createGain();
+      oscG.gain.setValueAtTime(0.0001, now);
+      oscG.gain.exponentialRampToValueAtTime(0.55, now + 0.002);
+      oscG.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+      osc.connect(oscFilt).connect(oscG).connect(master);
+      osc.start(now);
+      osc.stop(now + 0.08);
+
+      // 3) Sub THUMP : sine basse pour le poids "haptique" du click.
+      const sub = ctx.createOscillator();
+      sub.type = 'sine';
+      sub.frequency.setValueAtTime(160, now);
+      sub.frequency.exponentialRampToValueAtTime(60, now + 0.07);
+      const subG = ctx.createGain();
+      subG.gain.setValueAtTime(0.0001, now);
+      subG.gain.exponentialRampToValueAtTime(0.50, now + 0.003);
+      subG.gain.exponentialRampToValueAtTime(0.0001, now + 0.085);
+      sub.connect(subG).connect(master);
+      sub.start(now);
+      sub.stop(now + 0.09);
+    }
+
+    document.addEventListener('click', (e) => {
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      // Pas de son sur les inputs / opt-out.
+      if (t.closest('input, textarea, select')) return;
+      if (t.closest('[data-no-click-sound]')) return;
+      // "Soft" pour un clic dans le vide / hors cible interactive.
+      const isInteractive = !!t.closest('button, a, [role="button"], .btn, .choose, .close, .job, .panel, .tab, [tabindex]');
+      playClickSound({ soft: !isInteractive });
+    }, true);
+  })();
+  </script>
+</body>
+</html>

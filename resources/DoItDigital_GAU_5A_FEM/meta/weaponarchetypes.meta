@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_at_gau_5a_gurly_mod_supp</modelName>
+			<txdName>w_ar_gau_5a_gurly</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_gau_5a_gurly_mod_scope_small</modelName>
+			<txdName>w_ar_gau_5a_gurly</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_gau_5a_gurly_mod_scope_sight</modelName>
+			<txdName>w_ar_gau_5a_gurly</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_gau_5a_gurly_grip</modelName>
+			<txdName>w_ar_gau_5a_gurly</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_gau_5a_gurly_mag2</modelName>
+			<txdName>w_ar_gau_5a_gurly</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_gau_5a_gurly_mag1</modelName>
+			<txdName>w_ar_gau_5a_gurly</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_gau_5a_gurly</modelName>
+			<txdName>w_ar_gau_5a_gurly</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
+

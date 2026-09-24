@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dispatch Police — Amber UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#10100b; --panel:#1a1912; --panel-2:#252417;
+      --text:#e7e7f0; --muted:#9aa0b3;
+      --accent:#fff83c; --accent-2:#ffe684; --accent-3:#e6ca2e;
+      --blue:#36a3ff; --success:#2ed47a; --danger:#ff5c7a;
+      --green-soft: rgba(46,212,122,.20);
+      --green-soft-b: rgba(46,212,122,.45);
+      --red-soft: rgba(255,92,122,.20);
+      --red-soft-b: rgba(255,92,122,.45);
+      --amber-soft: rgba(255,193,7,.22);
+      --amber-soft-b: rgba(255,193,7,.45);
+      --shadow: 0 10px 30px rgba(255,193,7,.12);
+      --radius:16px; --font-sans:"Montserrat",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      --ui-scale: 1; /* 1 = normal (0.6 à 1.4 conseillé) */
+      --ui-top: 128px; /* << offset haut ajustable */
+      --sig-cycle: 1.2s;           /* vitesse du fondu (1.2–2s conseillé) */
+      --sig-ease: linear;          /* linear = super fluide ; ou cubic-bezier(...) */
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0; background:transparent; color:var(--text);
+      font:600 14px/1.45 var(--font-sans);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      user-select:none; pointer-events:none;
+    }
+
+    .stack{
+      position:fixed; top: var(--ui-top); right:16px; width:min(420px, 92vw);
+      display:flex; flex-direction:column; gap:12px; z-index:9999;
+      transform: scale(var(--ui-scale));
+      transform-origin: top right;
+    }
+
+    .card{
+      pointer-events:auto; position:relative; overflow:hidden;
+      background:#0a0a0a;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:0; box-shadow:0 20px 60px rgba(0,0,0,.6);
+      transition: transform .18s ease, opacity .18s ease;
+      transform: translateY(-6px); opacity:0;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+    }
+    .card.show{ transform:none; opacity:1; }
+    .card::before{
+      content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--blue); z-index:2;
+    }
+    .card.u1::before{ background:var(--success); }
+    .card.u2::before{ background:var(--accent); }
+    .card.u3::before{ background:var(--danger); }
+
+    .top{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:10px 12px 10px 14px; border-bottom:1px solid rgba(255,255,255,.10);
+      background:#0d0d0d;
+    }
+    .title{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px; text-transform:uppercase; }
+    .badge-police{
+      display:grid; place-items:center; width:28px; height:28px; border-radius:0;
+      color:#fff; background:#050505;
+      border:1px solid rgba(255,255,255,.16); box-shadow:none;
+    }
+
+    /* Urgency dot */
+    .urg{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:4px 10px; border-radius:0;
+      font:800 12px/1 var(--font-sans);
+      color:#fff; border:1px solid transparent;
+      white-space:nowrap; text-transform:uppercase; letter-spacing:.4px;
+    }
+    .urg.u1{ background:var(--green-soft);  border-color:var(--green-soft-b);  color:#bff3d5; }
+    .urg.u2{ background:var(--amber-soft);  border-color:var(--amber-soft-b);  color:#ffe9a8; }
+    .urg.u3{ background:var(--red-soft);    border-color:var(--red-soft-b);    color:#ffd0d8; }
+
+    .close{
+      display:grid; place-items:center; width:32px; height:32px; border-radius:0; cursor:pointer;
+      color:#fff; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16);
+    }
+    .close:hover{ filter:brightness(1.06); transform:translateY(-1px); }
+
+    .body{ padding:12px 12px 12px 14px; display:grid; gap:10px; }
+    .row{ display:flex; align-items:center; gap:8px; }
+    .label{ color:var(--muted); font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:.4px; }
+    .loc{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:0;
+      background:rgba(54,163,255,.14); border:1px solid rgba(54,163,255,.35); color:#fff; font-weight:800; font-size:12px;
+      box-shadow:none;
+    }
+    .msg{ color:#fff; font-weight:600; line-height:1.45; }
+
+    .footer{
+      padding:10px 12px 10px 14px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+
+    .keys{ display:flex; align-items:center; gap:8px; }
+    .key{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; /* plus petit */
+      border-radius:0; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.4px;
+      color:#fff; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18);
+    }
+    .key.accept{ background: var(--green-soft); border-color: var(--green-soft-b); }
+    .key.refuse{ background: var(--red-soft);   border-color: var(--red-soft-b);   }
+    .key .k{
+      display:inline-grid; place-items:center;
+      min-width:18px; height:18px; padding:0 6px; /* plus petit */
+      border-radius:0; font-size:12px; font-weight:900;
+      color:#111; /* remplacé ci-dessous selon le bouton */
+      background:rgba(255,255,255,.14); /* fallback */
+      box-shadow:none;
+    }
+    /* Harmoniser la couleur de la touche avec le bouton */
+    .key.accept .k{ background: var(--green-soft-b); color:#0c1a13; }
+    .key.refuse .k{ background: var(--red-soft-b);   color:#2a0f14; }
+
+    .agents{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:0;
+      color:#fff; background:rgba(46,212,122,.14); border:1px solid rgba(46,212,122,.45);
+      font-weight:800; font-size:12px; box-shadow:none; text-transform:uppercase; letter-spacing:.4px;
+    }
+
+    /* Barre de temps — bleu discret sans lueur */
+    .time{
+      position:absolute; left:0; bottom:0; height:3px; width:100%; background:rgba(255,255,255,.04);
+    }
+    .time .prog{
+      height:100%;
+      background: rgba(54,163,255,.35);
+      width:100%;
+      transform-origin:left center;
+      transition: width .1s linear;
+      box-shadow:none;
+    }
+
+    .card.hide{ opacity:0; transform:translateY(-6px); }
+
+    @media (prefers-reduced-motion: reduce){
+      .card{ transition:none !important; }
+      .time .prog{ transition:none !important; }
+    }
+
+    .card{
+      pointer-events:auto; position:relative; overflow:hidden;
+      background:#0a0a0a;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:0; box-shadow:0 20px 60px rgba(0,0,0,.6);
+
+      /* >>> fade-in baseline */
+      opacity:0;
+      transform: translateY(8px) scale(.98);
+      transition: opacity .28s ease, transform .28s ease;
+      will-change: opacity, transform;
+    }
+    .card.show{
+      /* >>> arrive en douceur */
+      opacity:1;
+      transform:none;
+    }
+    .card.hide{
+      /* >>> fade-out + léger lift */
+      opacity:0;
+      transform: translateY(-8px) scale(.98);
+    }
+
+    /* Badge police = conteneur de l'icône animé */
+    .badge-police{
+      position:relative; overflow:hidden;
+      display:grid; place-items:center; width:28px; height:28px; border-radius:0;
+      color:#fff; background:#050505;
+      border:1px solid rgba(255,255,255,.16); box-shadow:none;
+    }
+
+    /* Deux calques superposés (A/B) qui se crossfadent */
+    .badge-police .sig{
+      position:absolute; inset:3px; display:grid; place-items:center;
+      opacity:0; will-change:opacity; pointer-events:none;
+      filter: drop-shadow(0 1px 4px rgba(0,0,0,.35));
+    }
+    .badge-police .sig svg{ width:20px; height:20px; display:block; }
+
+    .badge-police .sig-a{ animation: sigSwapA 1.2s ease-in-out infinite; opacity:1; }
+    .badge-police .sig-b{ animation: sigSwapB 1.2s ease-in-out infinite; }
+
+    @keyframes sigSwapA{
+      0%,45%{opacity:1}
+      55%,100%{opacity:0}
+    }
+    @keyframes sigSwapB{
+      0%,45%{opacity:0}
+      55%,100%{opacity:1}
+    }
+
+    /* Accessibilité : si l’utilisateur réduit les animations, on fige sur A */
+    @media (prefers-reduced-motion: reduce){
+      .badge-police .sig-a, .badge-police .sig-b{ animation:none !important; }
+      .badge-police .sig-a{ opacity:1 !important; }
+      .badge-police .sig-b{ opacity:0 !important; }
+    }
+
+    /* Calques superposés */
+    .badge-police .sig{
+      position:absolute; inset:3px; display:grid; place-items:center;
+      opacity:0; will-change:opacity; pointer-events:none;
+      filter: drop-shadow(0 1px 4px rgba(0,0,0,.35));
+    }
+    .badge-police .sig svg{ width:20px; height:20px; display:block; }
+
+    /* Crossfade continu */
+    .badge-police .sig-a{
+      animation: crossfade var(--sig-cycle) var(--sig-ease) infinite alternate;
+      opacity:1; /* start visible */
+    }
+    .badge-police .sig-b{
+      animation: crossfade var(--sig-cycle) var(--sig-ease) infinite alternate-reverse;
+    }
+
+    @keyframes crossfade{
+      from{ opacity:1; }
+      to  { opacity:0; }
+    }
+
+    /* Accessibilité */
+    @media (prefers-reduced-motion: reduce){
+      .badge-police .sig-a, .badge-police .sig-b{ animation:none !important; }
+      .badge-police .sig-a{ opacity:1 !important; }
+      .badge-police .sig-b{ opacity:0 !important; }
+    }
+
+    .key{
+      cursor:pointer;
+      user-select:none;
+    }
+    .key:active{ transform: translateY(1px); }
+    .key:focus{
+      outline:2px solid rgba(54,163,255,.6);
+      outline-offset:2px;
+    }
+
+    /* ====================== PANNEAU DISPATCH ====================== */
+    .dpanel{
+      position:fixed; inset:0; z-index:99999; display:none;
+      align-items:center; justify-content:flex-end;
+      padding:18px;
+      background:transparent;
+      pointer-events:none;
+      font:600 14px/1.45 var(--font-sans); color:var(--text);
+    }
+    .dpanel.open{ display:flex; animation:dpFade .18s ease; }
+    @keyframes dpFade{ from{opacity:0} to{opacity:1} }
+
+    .dwrap{
+      pointer-events:auto;
+      width:min(520px, 34vw); height:min(820px, 94vh);
+      display:flex; flex-direction:column; overflow:hidden;
+      background:#000;
+      border:1px solid rgba(255,255,255,.14); border-radius:0;
+      box-shadow:0 0 0 1px rgba(0,0,0,.6), 0 30px 90px rgba(0,0,0,.85);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+      animation:dpSlide .22s ease;
+    }
+    @keyframes dpSlide{ from{ transform:translateX(24px); opacity:0; } to{ transform:none; opacity:1; } }
+
+    .dhead{
+      display:flex; align-items:center; gap:14px;
+      padding:16px 20px; border-bottom:1px solid rgba(255,255,255,.12);
+      background:#0a0a0a;
+    }
+    .dhead .logo{
+      display:grid; place-items:center; width:38px; height:38px; border-radius:0;
+      background:#050505; border:1px solid rgba(255,255,255,.18); box-shadow:none;
+    }
+    .dhead h1{ margin:0; font-size:18px; font-weight:800; letter-spacing:1.5px; }
+    .dhead .sub{ color:var(--muted); font-size:12px; font-weight:700; }
+    .dhead .spacer{ flex:1; }
+    .dhead .hint{
+      display:inline-flex; align-items:center; gap:8px; color:var(--muted); font-size:12px; font-weight:700;
+    }
+    .dhead .hint b{
+      display:inline-grid; place-items:center; min-width:22px; height:22px; padding:0 7px;
+      border-radius:6px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18);
+      color:#fff; font-weight:900;
+    }
+    .dhead .xbtn{
+      display:grid; place-items:center; width:36px; height:36px; border-radius:0; cursor:pointer;
+      color:#fff; background:rgba(255,92,122,.16); border:1px solid rgba(255,92,122,.4);
+    }
+    .dhead .xbtn:hover{ filter:brightness(1.08); }
+
+    .dbody{ flex:1; display:flex; min-height:0; background:#000; }
+
+    .dmain{ flex:1; min-width:0; display:flex; flex-direction:column; }
+    .dmain .dtitle{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 20px 8px; color:var(--muted); font-size:12px; font-weight:800; letter-spacing:.6px; text-transform:uppercase;
+    }
+    /* Barre d'outils : recherche + filtre */
+    .dtools{
+      display:flex; align-items:center; gap:12px; padding:14px 16px 10px;
+    }
+    .dsearch{
+      flex:1; min-width:0; display:flex; align-items:center; gap:9px;
+      height:42px; padding:0 14px; border-radius:0;
+      background:#0c0c0c; border:1px solid rgba(255,255,255,.14);
+      color:var(--muted); transition:border-color .15s ease, background .15s ease;
+    }
+    .dsearch:focus-within{ border-color:rgba(54,163,255,.5); background:#0f1115; }
+    .dsearch svg{ flex:none; opacity:.8; }
+    .dsearch input{
+      flex:1; min-width:0; border:0; outline:0; background:transparent;
+      color:var(--text); font:600 14px var(--font-sans);
+    }
+    .dsearch input::placeholder{ color:var(--muted); }
+
+    .dfilter{
+      position:relative; display:inline-flex; align-items:center; gap:8px;
+      height:42px; padding:0 14px; border-radius:0; cursor:pointer; white-space:nowrap;
+      background:#0c0c0c; border:1px solid rgba(255,255,255,.14);
+      color:var(--text); font-weight:700; font-size:13px; user-select:none;
+      text-transform:uppercase; letter-spacing:.5px;
+    }
+    .dfilter:hover{ border-color:rgba(255,255,255,.28); }
+    .dfilter svg{ opacity:.8; transition:transform .18s ease; }
+    .dfilter.open svg{ transform:rotate(180deg); }
+    .dfmenu{
+      position:absolute; top:calc(100% + 6px); right:0; min-width:180px; z-index:5;
+      display:none; flex-direction:column; padding:4px;
+      background:#0a0a0a; border:1px solid rgba(255,255,255,.16); border-radius:0;
+      box-shadow:0 20px 50px rgba(0,0,0,.7);
+    }
+    .dfilter.open .dfmenu{ display:flex; }
+    .dfopt{
+      padding:9px 11px; border-radius:0; font-size:13px; font-weight:700; color:var(--muted); cursor:pointer;
+    }
+    .dfopt:hover{ background:rgba(255,255,255,.06); color:var(--text); }
+    .dfopt.active{ background:rgba(54,163,255,.16); color:#cfe8ff; }
+
+    .dlist{
+      flex:1; overflow-y:auto; padding:4px 16px 16px;
+      display:flex; flex-direction:column; gap:10px;
+      scrollbar-width:thin; scrollbar-color:var(--blue) transparent;
+    }
+    .dlist::-webkit-scrollbar{ width:6px; }
+    .dlist::-webkit-scrollbar-thumb{ background:var(--blue); border-radius:8px; }
+
+    .dempty{ color:var(--muted); text-align:center; padding:40px 0; font-weight:700; }
+
+    /* Code radio (utilisé aussi par les notifications toast) */
+    .dcode{
+      display:inline-flex; align-items:center; padding:3px 8px; border-radius:7px;
+      background:rgba(54,163,255,.16); border:1px solid rgba(54,163,255,.4); color:#cfe8ff;
+      font-size:11px; font-weight:900; letter-spacing:.4px;
+    }
+
+    /* === Carte d'appel (style warzone) === */
+    .dcall{
+      flex:none;
+      position:relative; border:1px solid rgba(255,255,255,.10); border-radius:0; overflow:hidden;
+      background:#0a0a0a;
+      transition:border-color .15s ease, transform .15s ease, background .15s ease;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    }
+    .dcall::before{
+      content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--blue);
+    }
+    .dcall.u1::before{ background:var(--success); }
+    .dcall.u2::before{ background:var(--accent); }
+    .dcall.u3::before{ background:var(--danger); }
+    .dcall:hover{ border-color:rgba(255,255,255,.22); background:#0e0e0e; }
+
+    .dcall .crow{ display:flex; align-items:flex-start; gap:12px; padding:13px 14px 13px 16px; }
+
+    .dcall .cicon{
+      flex:none; display:grid; place-items:center; width:34px; height:34px; border-radius:0;
+      background:rgba(54,163,255,.16); border:1px solid rgba(54,163,255,.35); color:#8fc4ff;
+      box-shadow:none;
+    }
+    .dcall.u3 .cicon{ background:rgba(255,92,122,.16); border-color:rgba(255,92,122,.4); color:#ff9fb0; }
+    .dcall.u2 .cicon{ background:rgba(255,193,7,.16); border-color:rgba(255,193,7,.4); color:#ffd97a; }
+
+    .dcall .cmain{ flex:1; min-width:0; }
+    .dcall .ctop{ display:flex; align-items:flex-start; gap:8px; }
+    .dcall .cbadges{ display:flex; align-items:center; gap:6px; flex:none; margin-left:auto; flex-wrap:wrap; justify-content:flex-end; }
+
+    .dcall .ctitle{
+      flex:1; min-width:0;
+      position:relative; font-size:14px; font-weight:800; color:#fff; padding-bottom:5px;
+    }
+    .dcall .ctitle::after{
+      content:""; position:absolute; left:0; bottom:0; width:34px; height:2.5px; border-radius:2px;
+      background:var(--blue);
+    }
+    .dcall.u1 .ctitle::after{ background:var(--success); }
+    .dcall.u2 .ctitle::after{ background:var(--accent); }
+    .dcall.u3 .ctitle::after{ background:var(--danger); }
+
+    .dbadge{
+      display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:0;
+      font-size:11px; font-weight:900; letter-spacing:.3px; line-height:1;
+    }
+    .dbadge.idx{ background:rgba(54,163,255,.18); border:1px solid rgba(54,163,255,.4); color:#cfe8ff; }
+    .dbadge.code{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); color:#d7d8e0; }
+    .dbadge.agents{ background:rgba(54,163,255,.18); border:1px solid rgba(54,163,255,.4); color:#cfe8ff; }
+    .dbadge.agents svg{ width:11px; height:11px; }
+
+    .dcall .cinfo{ margin-top:9px; display:flex; flex-direction:column; gap:6px; }
+    .dcall .iline{
+      display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px; font-weight:600;
+      min-width:0;
+    }
+    .dcall .iline svg{ flex:none; opacity:.85; }
+    .dcall .iline .v{ color:#d7d8e0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+    .dactions{ display:flex; align-items:center; gap:8px; padding:0 14px 13px 60px; flex-wrap:wrap; }
+    .dbtn{
+      display:inline-flex; align-items:center; justify-content:center; gap:6px;
+      padding:7px 12px; border-radius:0; cursor:pointer; font-weight:800; font-size:12px;
+      text-transform:uppercase; letter-spacing:.4px;
+      color:#fff; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); white-space:nowrap;
+    }
+    .dbtn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+    .dbtn:active{ transform:translateY(0); }
+    .dbtn.accept{ background:var(--green-soft); border-color:var(--green-soft-b); color:#d6ffe7; }
+    .dbtn.refuse{ background:var(--red-soft); border-color:var(--red-soft-b); color:#ffd6de; }
+    .dbtn.gps{ background:rgba(54,163,255,.14); border-color:rgba(54,163,255,.4); color:#cfe8ff; }
+    .dbtn.taken{ background:rgba(46,212,122,.10); border-color:rgba(46,212,122,.3); color:#9fe8c1; cursor:default; }
+
+    /* Onglets Appels / Unités */
+    .dtabs{
+      display:flex; align-items:stretch; gap:0;
+      padding:0 16px; border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .dtab{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:13px 16px; border:0; background:transparent; cursor:pointer;
+      color:var(--muted); font:800 13px var(--font-sans); letter-spacing:.6px; text-transform:uppercase;
+      border-bottom:2px solid transparent; margin-bottom:-1px;
+    }
+    .dtab:hover{ color:var(--text); }
+    .dtab.active{ color:#fff; border-bottom-color:var(--blue); }
+
+    .ucount{
+      display:inline-grid; place-items:center; min-width:22px; height:20px; padding:0 7px; border-radius:0;
+      background:rgba(46,212,122,.16); border:1px solid rgba(46,212,122,.4); color:#bff3d5; font-weight:900; font-size:11px;
+    }
+    .ulist{
+      flex:1; overflow-y:auto; padding:4px 14px 16px; display:flex; flex-direction:column; gap:8px;
+      scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.18) transparent;
+    }
+    .ulist::-webkit-scrollbar{ width:8px; }
+    .ulist::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.16); border-radius:8px; }
+    .unit{
+      display:flex; align-items:center; gap:10px; padding:9px 11px; border-radius:0;
+      background:#0c0c0c; border:1px solid rgba(255,255,255,.1);
+    }
+    .unit .dot{ width:9px; height:9px; border-radius:50%; background:var(--success); box-shadow:0 0 8px rgba(46,212,122,.7); flex:none; }
+    .unit .uname{ font-weight:800; font-size:13px; }
+    .unit .ujob{ color:var(--muted); font-size:11px; font-weight:700; }
+    .unit .ucs{ margin-left:auto; color:#cfe8ff; font-weight:900; font-size:12px; }
+
+    /* === Onglet Canaux === */
+    .clist{
+      flex:1; overflow-y:auto; padding:12px 16px 16px; display:flex; flex-direction:column; gap:10px;
+      scrollbar-width:thin; scrollbar-color:var(--blue) transparent;
+    }
+    .clist::-webkit-scrollbar{ width:6px; }
+    .clist::-webkit-scrollbar-thumb{ background:var(--blue); border-radius:8px; }
+    .chwrap{ display:flex; flex-direction:column; gap:10px; }
+
+    /* Barre matricule (statique, à droite des canaux) */
+    .matrbar{
+      flex:none; display:flex; align-items:center; gap:8px;
+      padding:9px 11px; background:#0c0c0c; border:1px solid rgba(255,255,255,.1);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+    }
+    .matrbar-lab{
+      flex:none; font-size:10px; font-weight:800; letter-spacing:1.6px;
+      text-transform:uppercase; color:var(--muted);
+    }
+    .matrbar-in{
+      flex:1; min-width:0; background:#050505; color:#fff; outline:none;
+      border:1px solid rgba(255,255,255,.14); padding:7px 9px;
+      font-family:inherit; font-size:13px; font-weight:800; letter-spacing:1px;
+      text-transform:uppercase;
+    }
+    .matrbar-in:focus{ border-color:var(--blue); }
+    .matrbar-in::placeholder{ color:rgba(255,255,255,.25); letter-spacing:0; }
+    .matrbar-btn{
+      flex:none; cursor:pointer; padding:7px 13px; color:#cfe8ff;
+      background:rgba(54,163,255,.16); border:1px solid rgba(54,163,255,.45);
+      font-family:inherit; font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase;
+    }
+    .matrbar-btn:hover{ filter:brightness(1.15); }
+    .matrbar-btn.saved{ background:rgba(54,224,140,.18); border-color:rgba(54,224,140,.5); color:#bff5d8; }
+
+    /* Bandeau "Votre unité" */
+    .myunit{
+      position:relative; display:flex; align-items:center; gap:11px;
+      padding:13px 14px; background:#0c0c0c; border:1px solid var(--blue-bord, rgba(54,163,255,.5));
+      border-color:rgba(54,163,255,.5);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
+    }
+    .myunit::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--blue); }
+    .myunit .mu-ic{
+      flex:none; display:grid; place-items:center; width:34px; height:34px;
+      background:rgba(54,163,255,.16); border:1px solid rgba(54,163,255,.4); color:#8fc4ff;
+    }
+    .myunit .mu-main{ flex:1; min-width:0; }
+    .myunit .mu-lab{ font-size:10px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); }
+    .myunit .mu-name{ font-size:14px; font-weight:800; color:#fff; }
+    .myunit .mu-chan{
+      font-size:11px; font-weight:700; color:#cfe8ff; margin-top:2px;
+    }
+    .myunit .mu-leave{
+      flex:none; padding:7px 11px; border-radius:0; cursor:pointer; white-space:nowrap;
+      font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px;
+      background:rgba(255,92,122,.16); border:1px solid rgba(255,92,122,.4); color:#ffd0d8;
+    }
+    .myunit .mu-leave:hover{ filter:brightness(1.1); }
+    .myunit.offduty{ border-color:rgba(255,255,255,.12); }
+    .myunit.offduty::before{ background:var(--muted); }
+
+    .chsec-label{
+      display:flex; align-items:center; gap:8px; margin-top:4px;
+      font-size:10px; font-weight:800; color:var(--muted); letter-spacing:2px; text-transform:uppercase;
+    }
+    .chsec-label::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg, rgba(255,255,255,.12), transparent); }
+
+    .chan{
+      position:relative; border:1px solid rgba(255,255,255,.1); background:#0a0a0a;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
+      transition:border-color .15s, background .15s;
+    }
+    .chan.clickable{ cursor:pointer; }
+    .chan.clickable:hover{ border-color:rgba(255,255,255,.22); background:#0e0e0e; }
+    .chan.active{ border-color:var(--blue); background:rgba(54,163,255,.08); }
+    .chan.active::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--blue); }
+    .chan.locked{ opacity:.92; }
+    .chan.full{ opacity:.55; }
+    .chan.full:not(.clickable){ cursor:not-allowed; }
+    .chan-full{
+      display:inline-grid; place-items:center; padding:2px 7px; border-radius:0;
+      background:rgba(255,92,122,.16); border:1px solid rgba(255,92,122,.4); color:#ffd0d8;
+      font-size:9px; font-weight:900; letter-spacing:.5px; text-transform:uppercase;
+    }
+    .chan-count.is-full{ color:#ffd0d8; border-color:rgba(255,92,122,.4); }
+
+    .chan-head{ display:flex; align-items:center; gap:9px; padding:11px 13px; }
+    .chan-emoji{ font-size:15px; line-height:1; flex:none; }
+    .chan-name{ font-size:13px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:#fff; }
+    .chan-lock{ color:var(--muted); display:inline-grid; place-items:center; }
+    .chan-count{
+      margin-left:auto; display:inline-grid; place-items:center; min-width:20px; height:19px; padding:0 6px;
+      border-radius:0; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16);
+      color:#cfe8ff; font-size:11px; font-weight:900;
+    }
+    .chan-members{ display:flex; flex-wrap:wrap; gap:6px; padding:0 13px 12px; }
+    .chan-members:empty{ display:none; }
+    .cmem{
+      display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:0;
+      background:rgba(46,212,122,.12); border:1px solid rgba(46,212,122,.35); color:#bff3d5;
+      font-size:11px; font-weight:700;
+    }
+    .cmem.me{ background:rgba(54,163,255,.16); border-color:rgba(54,163,255,.45); color:#cfe8ff; }
+    .cmem .cmem-cs{ opacity:.8; font-weight:900; }
+
+    /* === Bouton suppression locale d'un appel (X) === */
+    .dbtn.del{ margin-left:auto; padding:7px 10px; background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.14); color:var(--muted); }
+    .dbtn.del:hover{ background:rgba(255,92,122,.16); border-color:rgba(255,92,122,.4); color:#ffd0d8; }
+    .dbtn.del svg{ display:block; }
+  </style>
+</head>
+<body>
+  <div id="stack" class="stack" aria-live="polite"></div>
+  <audio id="dispatchSound" src="sounds/alert.mp3" preload="auto"></audio>
+
+  <div id="dispatchPanel" class="dpanel" aria-hidden="true">
+    <div class="dwrap" role="dialog" aria-label="Dispatch police">
+      <header class="dhead">
+        <span class="logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8fc4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l7 3v6c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V5l7-3z"></path>
+          </svg>
+        </span>
+        <div>
+          <h1>DISPATCH</h1>
+          <div class="sub">Centre de répartition</div>
+        </div>
+        <span class="spacer"></span>
+        <span class="hint"><b>ÉCHAP</b> Fermer</span>
+        <span id="dpClose" class="xbtn" role="button" tabindex="0" title="Fermer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </span>
+      </header>
+      <div class="dbody">
+        <section class="dmain">
+          <div class="dtabs">
+            <button class="dtab active" data-tab="calls" type="button">Appels</button>
+            <button class="dtab" data-tab="units" type="button">Unités <span id="dpUnitCount" class="ucount">0</span></button>
+            <button class="dtab" data-tab="channels" type="button">Canaux</button>
+          </div>
+          <div class="dtools" id="dpTools">
+            <div class="dsearch">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path>
+              </svg>
+              <input id="dpSearch" type="text" placeholder="Rechercher..." autocomplete="off" spellcheck="false" />
+            </div>
+            <div class="dfilter" id="dpFilter" role="button" tabindex="0">
+              <span id="dpFilterLabel">Filtrer</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+              <div class="dfmenu" id="dpFilterMenu">
+                <div class="dfopt active" data-val="all">Toutes les urgences</div>
+                <div class="dfopt" data-val="3">Importante</div>
+                <div class="dfopt" data-val="2">Moyenne</div>
+                <div class="dfopt" data-val="1">Modérée</div>
+              </div>
+            </div>
+          </div>
+          <div id="dpList" class="dlist"></div>
+          <div id="dpUnits" class="ulist" style="display:none;"></div>
+          <div id="dpChannels" class="clist" style="display:none;">
+            <div class="matrbar">
+              <span class="matrbar-lab">Matricule</span>
+              <input id="dpMatr" class="matrbar-in" type="text" maxlength="10" placeholder="—" autocomplete="off" spellcheck="false" />
+              <button id="dpMatrSave" class="matrbar-btn" type="button">OK</button>
+            </div>
+            <div id="dpChannelsList" class="chwrap"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    const stack = document.getElementById('stack');
+    const MAX_VISIBLE = 3;
+
+    const baseBeep = document.getElementById('dispatchSound');
+    let beepVolume = 0.02; // actuellement ~2% (mets 0.2 pour ~20%)
+    const BEEP_COOLDOWN = 5000; // ms
+    let lastBeepAt = performance.now() - 5000;
+
+    let muted = false; // NEW: piloté depuis le client Lua
+
+    function playAlert(){
+      if (muted) return;                 // <<<< respect du mute
+      const now = performance.now();
+      if (now - lastBeepAt < BEEP_COOLDOWN) return; // throttle
+      lastBeepAt = now;
+
+      try{
+        const a = baseBeep.cloneNode(true);
+        a.volume = beepVolume;
+        a.play().catch(()=>{});
+      }catch(e){}
+    }
+
+    function post(endpoint, data={}){
+      try{
+        // [sunlife_ui] endpoint = '/dispatch/<cb>' -> https://sunlife_ui/dispatch/<cb>
+        // (le shim Lua enregistre les callbacks sous 'dispatch/<cb>').
+        fetch(`https://sunlife_ui${endpoint}`, {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(data)
+        }).catch(()=>{});
+      }catch(e){}
+    }
+
+    const queue = [];
+    const byId  = new Map();
+
+    // === clavier global: Y/N -> agit sur la carte tout en haut ===
+    let __keysBound = false;
+    function bindGlobalKeys(){
+      if (__keysBound) return;
+      window.addEventListener('keydown', (e)=>{
+        if (window.__dispatchPanelOpen) return; // panneau ouvert : Y/N gérés par le panneau
+        const k = e.key?.toLowerCase();
+        if (k !== 'y' && k !== 'n') return;
+        const top = queue[0];
+        if (!top || !top.__dispatch) return;
+        e.preventDefault();
+        if (k === 'y') top.__dispatch.accept();
+        else top.__dispatch.refuse();
+      }, true);
+      __keysBound = true;
+    }
+    bindGlobalKeys();
+
+    // scale runtime (déjà présent)
+    function setScale(val){
+      const s = Math.max(0.6, Math.min(1.4, Number(val) || 1));
+      document.documentElement.style.setProperty('--ui-scale', String(s));
+    }
+
+    // NEW: top offset runtime (accepte number => px, ou string => 'vh', 'px', etc.)
+    function setTop(val){
+      let out = '16px';
+      if (typeof val === 'number') out = `${Math.max(0, val)}px`;
+      else if (typeof val === 'string' && val.trim()) out = val.trim();
+      document.documentElement.style.setProperty('--ui-top', out);
+    }
+
+    // Expose en debug si besoin
+    window.__dispatchSetScale = setScale;
+    window.__dispatchSetTop   = setTop;
+
+    function renderStack(){
+      const visible = queue.slice(0, MAX_VISIBLE);
+      const hidden  = queue.slice(MAX_VISIBLE);
+      while (stack.firstChild) stack.removeChild(stack.firstChild);
+      for (const el of visible) {
+        stack.appendChild(el);
+        if (!el.classList.contains('show')) requestAnimationFrame(()=> el.classList.add('show'));
+        el.style.display = '';
+      }
+      for (const el of hidden) el.style.display = 'none';
+    }
+
+    function promoteToTop(el){
+      const idx = queue.indexOf(el);
+      if (idx > -1){
+        queue.splice(idx, 1);
+        queue.unshift(el);
+        renderStack();
+      }
+    }
+
+    function urgencyLabel(u){
+      const n = Math.max(1, Math.min(3, Number(u)||1));
+      if (n === 1) return 'Urgence modérée';
+      if (n === 2) return 'Urgence moyenne';
+      return 'Urgence importante';
+    }
+
+    function urgencyClass(u){
+      const n = Math.max(1, Math.min(3, Number(u)||1));
+      return 'u'+n;
+    }
+
+    // Génère une carte
+    function createDispatchCard({id, code, title, message, location, baseMs=10000, urgency=1}){
+      playAlert(); // 🔊 bip discret à chaque dispatch créé
+      const card = document.createElement('article');
+      card.className = 'card ' + urgencyClass(urgency);
+      card.setAttribute('role','group');
+      card.dataset.id = String(id || (Date.now()+''+Math.floor(Math.random()*999)));
+
+      card.innerHTML = `
+        <header class="top">
+          <div class="title">
+            ${code ? `<span class="dcode">${code}</span>` : ''}
+            <span>${title || 'Appel en cours'}</span>
+            <span class="urg ${urgencyClass(urgency)}" title="${urgencyLabel(urgency)}">
+              ${urgencyLabel(urgency)}
+            </span>
+          </div>
+          <span class="close" role="button" tabindex="0" title="Retirer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+          </span>
+        </header>
+        <div class="body">
+          <div class="row">
+            <span class="label">Lieu</span>
+            <span class="loc">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 6-9 13-9 13S3 16 3 10a9 9 0 1 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span class="txt">${location || '—'}</span>
+            </span>
+          </div>
+          <div class="msg">${message || ''}</div>
+        </div>
+        <footer class="footer">
+          <div class="keys">
+            <span class="key accept"><span class="k">Y</span> Accepter</span>
+            <span class="key refuse"><span class="k">N</span> Refuser</span>
+          </div>
+          <div class="agents" data-count="0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span class="cnt">0 agent</span>
+          </div>
+        </footer>
+        <div class="time"><div class="prog"></div></div>
+      `;
+
+      // Boutons accepter/refuser (clic + clavier)
+      const acceptBtn = card.querySelector('.key.accept');
+      const refuseBtn = card.querySelector('.key.refuse');
+
+      [acceptBtn, refuseBtn].forEach((el, i)=>{
+        el.setAttribute('role','button');
+        el.setAttribute('tabindex','0');
+        el.addEventListener('keydown', (e)=>{
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); (i===0?accept:refuse)(); }
+        });
+      });
+      acceptBtn.addEventListener('click', accept);
+      refuseBtn.addEventListener('click', refuse);
+
+      // Fermeture locale (clic sur la croix) : retire la carte uniquement
+      // côté client, sans rien notifier au serveur.
+      const closeBtn = card.querySelector('.close');
+      function closeLocal(){
+        if (state.closing) return;
+        state.closing = true;
+        clearTimeout(state.timer);
+        card.classList.remove('show');
+        card.classList.add('hide');
+        setTimeout(()=>{
+          const idx = queue.indexOf(card);
+          if (idx > -1) queue.splice(idx, 1);
+          byId.delete(state.id);
+          card.remove();
+          renderStack();
+        }, 280);
+      }
+      closeBtn.addEventListener('click', closeLocal);
+      closeBtn.addEventListener('keydown', (e)=>{
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); closeLocal(); }
+      });
+
+      const state = {
+        id: card.dataset.id,
+        accepted: 0,
+        duration: baseMs,
+        startedAt: performance.now(),
+        timer: null
+      };
+
+      const prog = card.querySelector('.prog');
+      function tick(){
+        const now = performance.now();
+        const elapsed = now - state.startedAt;
+        const remain = Math.max(0, state.duration - elapsed);
+        const ratio = remain / state.duration;
+        prog.style.width = (ratio*100).toFixed(2) + '%';
+        if(remain <= 0){ dismiss('timeout'); return; }
+        state.timer = setTimeout(tick, 100);
+      }
+
+      function updateAgentsCount(newCount){
+        const prev = state.accepted;
+        state.accepted = Math.max(0, Number(newCount)||0);
+
+        const tag = card.querySelector('.agents');
+        const cnt = card.querySelector('.agents .cnt');
+        tag.dataset.count = String(state.accepted);
+        cnt.textContent = state.accepted + (state.accepted>1 ? ' agents' : ' agent');
+
+        const newDuration = (10 + (state.accepted * 1)) * 1000;
+        const elapsed = performance.now() - state.startedAt;
+        if (newDuration > elapsed) state.duration = newDuration;
+
+        if (state.accepted > prev){
+          promoteToTop(card);
+        }
+      }
+
+      function accept(){
+        updateAgentsCount(state.accepted + 1);
+        post('/dispatch/accept', { id: state.id, accepted: state.accepted, coords: state.coords });
+      }
+      function refuse(){
+        post('/dispatch/refuse', { id: state.id });
+        dismiss('refused');
+      }
+
+      function dismiss(reason){
+        if (state.closing) return;      // guard
+        clearTimeout(state.timer);
+        post('/dispatch/'+(reason||'closed'), { id: state.id, accepted: state.accepted });
+
+        // >>> fade-out
+        card.classList.remove('show');
+        card.classList.add('hide');
+
+        setTimeout(()=> {
+          const idx = queue.indexOf(card);
+          if (idx > -1) queue.splice(idx, 1);
+          byId.delete(state.id);
+          card.remove();
+          renderStack();
+        }, 280); // durée alignée avec le CSS (.28s)
+      }
+
+      card.__dispatch = {
+        accept, refuse, updateAgentsCount,
+        get id(){ return state.id; }
+      };
+
+      queue.unshift(card);
+      byId.set(state.id, card);
+      renderStack();
+      if (queue.indexOf(card) < MAX_VISIBLE) requestAnimationFrame(()=> card.classList.add('show'));
+      tick();
+
+      return card;
+    }
+
+    // === Bus NUI ===
+    window.addEventListener('message', (ev)=>{
+      const data = ev.data || {};
+      if(!data.action) return;
+
+      if(data.action === 'dispatch:add'){
+        const payload = data.payload || {};
+        if (payload.scale != null) setScale(payload.scale); // global
+        if (payload.top != null) setTop(payload.top); // global top offset
+        createDispatchCard(payload);
+
+      } else if (data.action === 'dispatch:updateAgents'){
+        const { id, count } = data.payload || {};
+        const el = byId.get(String(id));
+        if(el && el.__dispatch){ el.__dispatch.updateAgentsCount(count); }
+
+      } else if (data.action === 'dispatch:setMuted') {
+        const { muted: m } = data.payload || {};
+        if (typeof m === 'boolean') muted = m;
+
+      } else if (data.action === 'dispatch:accept'){
+        const { id } = data.payload || {};
+        const el = byId.get(String(id));
+        if(el && el.__dispatch){ el.__dispatch.accept(); }
+
+      } else if (data.action === 'dispatch:refuse'){
+        const { id } = data.payload || {};
+        const el = byId.get(String(id));
+        if(el && el.__dispatch){ el.__dispatch.refuse(); }
+
+      } else if (data.action === 'dispatch:close'){
+        const { id } = data.payload || {};
+        const el = byId.get(String(id));
+        if(el){ el.remove(); byId.delete(String(id));
+          const idx = queue.indexOf(el); if (idx>-1) queue.splice(idx,1);
+          renderStack();
+        }
+      } else if (data.action === 'dispatch:setScale'){
+        const { scale } = data.payload || {};
+        setScale(scale);
+      } else if (data.action === 'dispatch:setTop'){
+        const { top } = data.payload || {};
+        setTop(top);
+      }
+    });
+
+    // ======================= PANNEAU DISPATCH =======================
+    // [sunlife_ui] callbacks panneau routés via le shim : 'dispatch/<name>'.
+    function panelPost(name, data){
+      try{
+        fetch(`https://sunlife_ui/dispatch/${name}`, {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(data || {})
+        }).catch(()=>{});
+      }catch(e){}
+    }
+
+    const dPanel    = document.getElementById('dispatchPanel');
+    const dList     = document.getElementById('dpList');
+    const dUnits    = document.getElementById('dpUnits');
+    const dChannels = document.getElementById('dpChannels');
+    const dChannelsList = document.getElementById('dpChannelsList');
+    const dMatr     = document.getElementById('dpMatr');
+    const dMatrSave = document.getElementById('dpMatrSave');
+    const dUCount   = document.getElementById('dpUnitCount');
+    let panelVisible = false;
+    let lastState = { calls: [], units: [], channels: [], channelGroups: [], me: null, myMatricule: '' };
+
+    // Appels supprimés LOCALEMENT (visible uniquement par ce client) :
+    // on les masque côté UI sans rien envoyer au serveur ni aux autres unités.
+    const hiddenCalls = new Set();
+
+    function esc(s){
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
+        { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+      ));
+    }
+
+    // icônes SVG réutilisables pour les lignes d'info
+    const ICON = {
+      phone: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>',
+      clock: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>',
+      pin:   '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13S3 16 3 10a9 9 0 1 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+      msg:   '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
+      user:  '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
+      trash: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path></svg>'
+    };
+
+    let searchTerm = '';
+    let filterUrg = 'all';
+
+    function relativeTime(t){
+      return t ? esc(t) : 'À l\'instant';
+    }
+
+    function renderCalls(calls){
+      calls = Array.isArray(calls) ? calls : [];
+
+      // filtrage urgence + recherche (+ appels supprimés localement)
+      const term = searchTerm.trim().toLowerCase();
+      const filtered = calls.filter(c => {
+        if (hiddenCalls.has(String(c.id))) return false;
+        if (filterUrg !== 'all' && String(Math.max(1, Math.min(3, Number(c.urgency)||1))) !== filterUrg) return false;
+        if (!term) return true;
+        const hay = [c.title, c.code, c.location, c.message, (Array.isArray(c.accepted)?c.accepted.join(' '):'')].join(' ').toLowerCase();
+        return hay.includes(term);
+      });
+
+      if (!filtered.length){
+        dList.innerHTML = '<div class="dempty">' + (calls.length ? 'Aucun résultat' : 'Aucun appel récent') + '</div>';
+        return;
+      }
+
+      const html = filtered.map((c, i) => {
+        const uc = urgencyClass(c.urgency);
+        const names = Array.isArray(c.accepted) ? c.accepted : [];
+        const agentCount = (typeof c.agents === 'number') ? c.agents : names.length;
+        const codeTag = c.code ? `<span class="dbadge code">${esc(c.code)}</span>` : '';
+        const coordsAttr = c.coords ? esc(JSON.stringify(c.coords)) : '';
+        const agentsText = names.length ? esc(names.join(', ')) : 'Aucun agent';
+        return `
+          <article class="dcall ${uc}" data-id="${esc(c.id)}">
+            <div class="crow">
+              <span class="cicon" aria-hidden="true">${ICON.phone}</span>
+              <div class="cmain">
+                <div class="ctop">
+                  <span class="ctitle">${esc(c.title || 'Appel')}</span>
+                  <span class="cbadges">
+                    <span class="dbadge idx">#${i + 1}</span>
+                    ${codeTag}
+                    <span class="dbadge agents" title="Agents sur l'appel">${ICON.phone}${String(agentCount).padStart(2, '0')}</span>
+                  </span>
+                </div>
+                <div class="cinfo">
+                  <span class="iline">${ICON.clock}<span class="v">${relativeTime(c.time)}</span></span>
+                  ${c.location ? `<span class="iline">${ICON.pin}<span class="v">${esc(c.location)}</span></span>` : ''}
+                  ${c.message ? `<span class="iline">${ICON.msg}<span class="v">${esc(c.message)}</span></span>` : ''}
+                  <span class="iline">${ICON.user}<span class="v">${agentsText}</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="dactions">
+              <span class="dbtn accept" data-act="accept" data-id="${esc(c.id)}">✓ Prendre</span>
+              <span class="dbtn refuse" data-act="refuse" data-id="${esc(c.id)}">✕ Refuser</span>
+              ${coordsAttr ? `<span class="dbtn gps" data-act="gps" data-coords='${coordsAttr}'>GPS</span>` : ''}
+              <span class="dbtn del" data-act="del" data-id="${esc(c.id)}" title="Supprimer (visible uniquement par vous)">${ICON.trash}</span>
+            </div>
+          </article>`;
+      }).join('');
+      dList.innerHTML = html;
+    }
+
+    // Libellé d'affichage d'une unité : matricule + nom de famille si dispo,
+    // sinon repli sur le nom RP complet.
+    function unitLabel(u){
+      const parts = [];
+      if (u.matricule) parts.push(String(u.matricule));
+      if (u.lastname)  parts.push(String(u.lastname));
+      return parts.length ? parts.join(' · ') : (u.name || 'Agent');
+    }
+
+    function renderUnits(units){
+      units = Array.isArray(units) ? units : [];
+      dUCount.textContent = String(units.length);
+      if (!units.length){
+        dUnits.innerHTML = '<div class="dempty">Aucune unité</div>';
+        return;
+      }
+      dUnits.innerHTML = units.map(u => `
+        <div class="unit">
+          <span class="dot"></span>
+          <div>
+            <div class="uname">${esc(unitLabel(u))}</div>
+            ${u.job ? `<div class="ujob">${esc(u.job)}</div>` : ''}
+          </div>
+          ${u.matricule ? `<span class="ucs">${esc(u.matricule)}</span>` : (u.callsign ? `<span class="ucs">${esc(u.callsign)}</span>` : '')}
+        </div>`).join('');
+    }
+
+    function renderChannels(state){
+      const channels = Array.isArray(state.channels) ? state.channels : [];
+      const units    = Array.isArray(state.units) ? state.units : [];
+      const me        = state.me;
+
+      // Unité locale + regroupement des unités par canal
+      const myUnit = units.find(u => String(u.id) === String(me));
+      const byChannel = {};
+      units.forEach(u => {
+        if (!u.channel) return;
+        (byChannel[u.channel] = byChannel[u.channel] || []).push(u);
+      });
+
+      const chip = (u) => {
+        const meCls = (String(u.id) === String(me)) ? ' me' : '';
+        const tag = u.matricule || u.callsign;
+        const cs = tag ? `<span class="cmem-cs">${esc(tag)}</span>` : '';
+        const nm = u.lastname || u.name || 'Agent';
+        return `<span class="cmem${meCls}">${cs}${esc(nm)}</span>`;
+      };
+
+      // Bandeau "Votre unité"
+      let html = '';
+      if (myUnit) {
+        const cur = channels.find(c => c.id === myUnit.channel);
+        const curLabel = cur ? `${cur.emoji || ''} ${cur.label}`.trim() : 'Non assigné';
+        html += `
+          <div class="myunit">
+            <span class="mu-ic">${ICON.user}</span>
+            <div class="mu-main">
+              <div class="mu-lab">Votre unité</div>
+              <div class="mu-name">${esc(unitLabel(myUnit))}</div>
+              <div class="mu-chan">Canal : ${esc(curLabel)}</div>
+            </div>
+            ${myUnit.channel ? `<span class="mu-leave" data-act="leave">Quitter</span>` : ''}
+          </div>`;
+      } else {
+        html += `<div class="myunit offduty">
+            <span class="mu-ic">${ICON.user}</span>
+            <div class="mu-main"><div class="mu-lab">Votre unité</div><div class="mu-name">Hors service</div></div>
+          </div>`;
+      }
+
+      const lockIcon = '<span class="chan-lock" title="Réservé"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="1"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>';
+
+      // Rendu d'un canal individuel
+      const renderChan = (c) => {
+        const members = byChannel[c.id] || [];
+        const isMine = myUnit && myUnit.channel === c.id;
+        const isFull = c.max ? (members.length >= c.max) : false;
+        // cliquable si en service, et (pas plein OU déjà dedans pour pouvoir quitter)
+        const clickable = !!myUnit && (!isFull || isMine);
+        const cls = ['chan'];
+        if (isMine) cls.push('active');
+        if (c.locked) cls.push('locked');
+        if (isFull && !isMine) cls.push('full');
+        if (clickable) cls.push('clickable');
+        const countTxt = c.max ? `${members.length}/${c.max}` : `${members.length}`;
+        return `
+          <div class="${cls.join(' ')}" data-channel="${esc(c.id)}" ${c.locked ? 'data-locked="1"' : ''}>
+            <div class="chan-head">
+              <span class="chan-emoji">${esc(c.emoji || '📻')}</span>
+              <span class="chan-name">${esc(c.label)}</span>
+              ${c.locked ? lockIcon : ''}
+              ${(isFull && !isMine) ? '<span class="chan-full">Complet</span>' : ''}
+              <span class="chan-count${isFull ? ' is-full' : ''}">${countTxt}</span>
+            </div>
+            <div class="chan-members">${members.map(chip).join('')}</div>
+          </div>`;
+      };
+
+      // Sections par force (LSPD / BCSO / communs...). On suit l'ordre des
+      // groupes ; les canaux sans groupe connu tombent dans "Autres".
+      const groups = Array.isArray(state.channelGroups) ? state.channelGroups : [];
+      const order = groups.length ? groups : [{ id: null, label: 'Canaux' }];
+      const used = new Set();
+      order.forEach(g => {
+        const list = channels.filter(c => (c.group || null) === (g.id || null));
+        if (!list.length) return;
+        list.forEach(c => used.add(c.id));
+        const lbl = `${g.emoji ? g.emoji + ' ' : ''}${g.label || 'Canaux'}`.trim();
+        html += `<div class="chsec-label">${esc(lbl)}</div>`;
+        html += list.map(renderChan).join('');
+      });
+      const leftovers = channels.filter(c => !used.has(c.id));
+      if (leftovers.length){
+        html += `<div class="chsec-label">Autres</div>`;
+        html += leftovers.map(renderChan).join('');
+      }
+
+      dChannelsList.innerHTML = html;
+    }
+
+    function renderPanel(state){
+      state = state || {};
+      // La liste des canaux est statique et envoyée seulement à l'ouverture :
+      // on la conserve entre les syncs (qui ne la renvoient pas, pour le réseau).
+      const channels = (Array.isArray(state.channels) && state.channels.length)
+        ? state.channels
+        : (lastState.channels || []);
+      const channelGroups = (Array.isArray(state.channelGroups) && state.channelGroups.length)
+        ? state.channelGroups
+        : (lastState.channelGroups || []);
+      lastState = {
+        calls:    state.calls || [],
+        units:    state.units || [],
+        channels: channels,
+        channelGroups: channelGroups,
+        me:       (state.me !== undefined ? state.me : lastState.me),
+        myMatricule: (state.myMatricule !== undefined ? state.myMatricule : lastState.myMatricule),
+      };
+      renderCalls(lastState.calls);
+      renderUnits(lastState.units);
+      renderChannels(lastState);
+      syncMatrInput();
+    }
+
+    // Pré-remplit le champ matricule sans écraser une saisie en cours.
+    function syncMatrInput(){
+      if (!dMatr || document.activeElement === dMatr) return;
+      const myUnit = (lastState.units || []).find(u => String(u.id) === String(lastState.me));
+      const val = (myUnit && myUnit.matricule) || lastState.myMatricule || '';
+      if (dMatr.value !== val) dMatr.value = val;
+    }
+
+    function openPanel(state){
+      searchTerm = '';
+      filterUrg = 'all';
+      const si = document.getElementById('dpSearch');
+      if (si) si.value = '';
+      const fl = document.getElementById('dpFilterLabel');
+      if (fl) fl.textContent = 'Filtrer';
+      const fm = document.getElementById('dpFilterMenu');
+      if (fm) fm.querySelectorAll('.dfopt').forEach((o, idx) => o.classList.toggle('active', idx === 0));
+      setTab('calls');
+      renderPanel(state);
+      dPanel.classList.add('open');
+      dPanel.setAttribute('aria-hidden', 'false');
+      panelVisible = true;
+      window.__dispatchPanelOpen = true;
+    }
+
+    function closePanelLocal(){
+      dPanel.classList.remove('open');
+      dPanel.setAttribute('aria-hidden', 'true');
+      panelVisible = false;
+      window.__dispatchPanelOpen = false;
+    }
+
+    function requestClose(){
+      if (!panelVisible) return;
+      closePanelLocal();
+      panelPost('panelClose', {});
+    }
+
+    // Délégation des clics sur les appels
+    dList.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.dbtn');
+      if (!btn) return;
+      const act = btn.dataset.act;
+      if (act === 'accept'){
+        panelPost('panelAccept', { id: btn.dataset.id });
+        btn.classList.add('taken'); btn.textContent = '✓ Pris';
+      } else if (act === 'refuse'){
+        panelPost('panelRefuse', { id: btn.dataset.id });
+      } else if (act === 'del'){
+        // Suppression LOCALE : on masque l'appel pour ce client uniquement.
+        hiddenCalls.add(String(btn.dataset.id));
+        const card = btn.closest('.dcall');
+        if (card) card.remove();
+        renderCalls(lastState.calls);
+      } else if (act === 'gps'){
+        let coords = null;
+        try { coords = JSON.parse(btn.dataset.coords || 'null'); } catch(_){}
+        if (coords) panelPost('panelWaypoint', { coords });
+      }
+    });
+
+    // Recherche
+    const dSearch = document.getElementById('dpSearch');
+    if (dSearch){
+      dSearch.addEventListener('input', ()=>{
+        searchTerm = dSearch.value || '';
+        renderCalls(lastState.calls);
+      });
+    }
+
+    // Filtre par urgence
+    const dFilter = document.getElementById('dpFilter');
+    const dFilterMenu = document.getElementById('dpFilterMenu');
+    const dFilterLabel = document.getElementById('dpFilterLabel');
+    if (dFilter && dFilterMenu){
+      dFilter.addEventListener('click', (e)=>{
+        const opt = e.target.closest('.dfopt');
+        if (opt){
+          filterUrg = opt.dataset.val || 'all';
+          dFilterMenu.querySelectorAll('.dfopt').forEach(o => o.classList.toggle('active', o === opt));
+          dFilterLabel.textContent = (filterUrg === 'all') ? 'Filtrer' : opt.textContent;
+          dFilter.classList.remove('open');
+          renderCalls(lastState.calls);
+          return;
+        }
+        dFilter.classList.toggle('open');
+      });
+      document.addEventListener('click', (e)=>{
+        if (!dFilter.contains(e.target)) dFilter.classList.remove('open');
+      });
+    }
+
+    // Onglets Appels / Unités
+    const dTools = document.getElementById('dpTools');
+    function setTab(tab){
+      document.querySelectorAll('.dtab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+      const isCalls    = (tab === 'calls');
+      const isUnits    = (tab === 'units');
+      const isChannels = (tab === 'channels');
+      dList.style.display     = isCalls ? '' : 'none';
+      dUnits.style.display    = isUnits ? 'flex' : 'none';
+      dChannels.style.display = isChannels ? 'flex' : 'none';
+      if (dTools) dTools.style.display = isCalls ? '' : 'none';
+    }
+    document.querySelectorAll('.dtab').forEach(t => {
+      t.addEventListener('click', ()=> setTab(t.dataset.tab));
+    });
+
+    // Clics dans l'onglet Canaux : rejoindre un canal / quitter
+    let lastChanClick = 0;
+    function chanThrottled(){
+      const now = Date.now();
+      if (now - lastChanClick < 500) return true; // anti-spam réseau
+      lastChanClick = now;
+      return false;
+    }
+    dChannels.addEventListener('click', (e)=>{
+      const leave = e.target.closest('[data-act="leave"]');
+      if (leave){
+        if (chanThrottled()) return;
+        panelPost('panelSetChannel', { channel: false });
+        return;
+      }
+      const chan = e.target.closest('.chan');
+      if (!chan || !chan.classList.contains('clickable')) return;
+      if (chanThrottled()) return;
+      const id = chan.dataset.channel;
+      // Re-cliquer sur son canal actuel = le quitter
+      if (chan.classList.contains('active')){
+        panelPost('panelSetChannel', { channel: false });
+      } else {
+        panelPost('panelSetChannel', { channel: id });
+      }
+    });
+
+    // Enregistrement du matricule (persisté en cache client côté Lua via KVP)
+    let lastMatSave = 0;
+    function saveMatricule(){
+      const now = Date.now();
+      if (now - lastMatSave < 500) return; // anti-spam réseau
+      lastMatSave = now;
+      const m = (dMatr.value || '').replace(/[^0-9A-Za-z\-]/g, '').slice(0, 10).toUpperCase();
+      dMatr.value = m;
+      panelPost('panelSetMatricule', { matricule: m });
+      if (dMatrSave){
+        dMatrSave.classList.add('saved');
+        setTimeout(()=> dMatrSave.classList.remove('saved'), 900);
+      }
+      dMatr.blur();
+    }
+    if (dMatrSave) dMatrSave.addEventListener('click', saveMatricule);
+    if (dMatr){
+      dMatr.addEventListener('keydown', (e)=>{
+        if (e.key === 'Enter'){ e.preventDefault(); saveMatricule(); }
+      });
+    }
+
+    document.getElementById('dpClose').addEventListener('click', requestClose);
+    dPanel.addEventListener('mousedown', (e)=>{ if (e.target === dPanel) requestClose(); });
+
+    window.addEventListener('keydown', (e)=>{
+      if (e.key === 'Escape' && panelVisible){
+        e.preventDefault();
+        requestClose();
+      }
+    }, true);
+
+    // Bus NUI dédié au panneau
+    window.addEventListener('message', (ev)=>{
+      const data = ev.data || {};
+      if (!data.action) return;
+      if (data.action === 'dispatch:openPanel'){
+        openPanel(data.payload || { calls: [], units: [] });
+      } else if (data.action === 'dispatch:panelUpdate'){
+        if (panelVisible) renderPanel(data.payload || { calls: [], units: [] });
+      } else if (data.action === 'dispatch:closePanel'){
+        closePanelLocal();
+      }
+    });
+
+    // // debug
+    // setTimeout(()=> {
+    //   window.postMessage({ action:'dispatch:add', payload:{
+    //     id:'ex1', title:'Vol en cours', message:'Individu cagoulé armé, caisse grise, direction nord.',
+    //     location:'Vespucci Canaux', baseMs: 10000, urgency: 2
+    //   }});
+    //   window.postMessage({ action:'dispatch:add', payload:{
+    //     id:'ex2', title:'Code 99', message:'Officier en détresse.',
+    //     location:'Mission Row', baseMs: 10000, urgency: 3
+    //   }});
+    //   window.postMessage({ action:'dispatch:add', payload:{
+    //     id:'ex3', title:'Tapage nocturne', message:'Signalement voisinage.',
+    //     location:'Mirror Park', baseMs: 10000, urgency: 1
+    //   }});
+    //   setTimeout(()=> window.postMessage({ action:'dispatch:updateAgents', payload:{ id:'ex2', count: 1 }}), 2500);
+    // }, 600);
+  })();
+  </script>
+</body>
+</html>

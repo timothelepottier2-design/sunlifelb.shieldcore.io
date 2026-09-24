@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>LSPD MDT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="app" class="hidden">
+        <div class="tablet-device">
+            <div class="tablet-hardware">
+                <div class="tablet-top-sensors">
+                    <div class="tablet-mic-grille" aria-hidden="true"></div>
+                    <div class="tablet-camera" aria-hidden="true"></div>
+                    <div class="tablet-ambient-sensor" aria-hidden="true"></div>
+                </div>
+                <div class="tablet-volume-rocker" id="btnPowerTablet" role="button" title="Fermer la tablette" tabindex="0"></div>
+                <div class="tablet-power-btn" aria-hidden="true"></div>
+                <div class="tablet-led" aria-hidden="true"></div>
+            </div>
+            <div class="frame" id="frame">
+                <div class="screen">
+
+                <!-- ====== BOOT SCREEN ====== -->
+                <div class="boot-screen" id="bootScreen">
+                    <div class="boot-topbar">
+                        <span class="boot-version">LSPD MDT v3.2</span>
+                        <span class="boot-status-icons">
+                            <svg class="boot-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.24 4.24 0 0 0-6 0zm-4-4l2 2a7.07 7.07 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                            <span class="boot-battery">94%</span>
+                            <svg class="boot-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="6" width="18" height="12" rx="2"/><rect x="20" y="9" width="2" height="6" rx="1"/></svg>
+                            <span class="boot-time" id="bootTime">00:00</span>
+                        </span>
+                    </div>
+                    <div class="boot-center">
+                        <div class="boot-shield">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h1 class="boot-title">MDT</h1>
+                        <p class="boot-subtitle">Mobile Data Terminal</p>
+                        <div class="boot-progress-wrap">
+                            <div class="boot-progress-bar" id="bootProgressBar"></div>
+                        </div>
+                        <div class="boot-progress-labels">
+                            <span>LOADING</span>
+                            <span id="bootProgressStep">0/5</span>
+                        </div>
+                        <ul class="boot-steps" id="bootSteps"></ul>
+                    </div>
+                    <div class="boot-footer">
+                        <span>Mode Immersif &bull; Appuyez sur ESC pour quitter</span>
+                    </div>
+                </div>
+
+                <!-- ====== MAIN SCREEN ====== -->
+                <div class="main-screen hidden" id="mainScreen">
+                    <!-- Status Bar -->
+                    <div class="mdt-statusbar">
+                        <div class="mdt-statusbar-left">
+                            <span class="mdt-sb-time" id="statusTime">00:00</span>
+                        </div>
+                        <div class="mdt-statusbar-right">
+                            <svg class="mdt-sb-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.24 4.24 0 0 0-6 0zm-4-4l2 2a7.07 7.07 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                            <svg class="mdt-sb-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="6" width="18" height="12" rx="2"/><rect x="20" y="9" width="2" height="6" rx="1"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Header -->
+                    <header class="mdt-header">
+                        <div class="mdt-header-left">
+                            <div class="mdt-header-shield">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </div>
+                            <div>
+                                <h1 class="mdt-header-title" id="headerTitle">MDT</h1>
+                                <p class="mdt-header-dept" id="headerSubtitle">LSPD</p>
+                            </div>
+                        </div>
+                        <div class="mdt-header-right">
+                            <button type="button" class="panic-btn" id="panicBtn" title="Alerte d'urgence"></button>
+                            <button type="button" class="duty-btn duty-off" id="dutyBtn" title="Cliquer pour prendre/quitter le service">
+                                <span class="duty-dot"></span>
+                                <span class="duty-label" id="dutyLabel">Hors service</span>
+                            </button>
+                            <div class="mdt-player-card" id="playerCard">
+                                <div class="mdt-player-avatar" id="playerMugshot">
+                                    <span class="mdt-player-initials" id="playerInitials">&mdash;</span>
+                                </div>
+                                <div class="mdt-player-info">
+                                    <span class="mdt-player-name" id="playerName">&mdash;</span>
+                                    <span class="mdt-player-grade" id="playerGrade">&mdash;</span>
+                                </div>
+                            </div>
+                            <button type="button" class="mdt-close-btn" id="btnCloseTablet" title="Fermer la tablette">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- Content Area -->
+                    <main class="mdt-content">
+                        <!-- DASHBOARD -->
+                        <div class="mdt-page" id="pageDashboard">
+                            <div class="dash-stats">
+                                <div class="dash-stat dash-stat-red">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                    <span class="dash-stat-val" id="statMandats">0</span>
+                                    <span class="dash-stat-label">Mandats d'arrêt</span>
+                                </div>
+                                <div class="dash-stat dash-stat-yellow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                                    <span class="dash-stat-val" id="statAlertes">0</span>
+                                    <span class="dash-stat-label">Alertes du jour</span>
+                                </div>
+                                <div class="dash-stat dash-stat-green">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    <span class="dash-stat-val" id="statUnites">0</span>
+                                    <span class="dash-stat-label">Unités en service</span>
+                                </div>
+                                <div class="dash-stat dash-stat-blue">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                    <span class="dash-stat-val" id="statCasiers">0</span>
+                                    <span class="dash-stat-label">Casiers</span>
+                                </div>
+                            </div>
+                            <div class="dash-grid">
+                                <div class="dash-left">
+                                    <div class="dash-card dash-agents-card">
+                                        <div class="dash-card-header">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                            <div><p class="dash-card-title">Agents en service</p><p class="dash-card-sub" id="agentsCountLabel">0 agent(s) connecté(s)</p></div>
+                                        </div>
+                                        <ul class="dash-agents-list" id="dashAgentsList">
+                                            <li class="dash-agents-empty">Aucun agent en service</li>
+                                        </ul>
+                                    </div>
+                                    <!-- Recherche rapide -->
+                                    <div class="dash-card">
+                                        <div class="dash-card-header">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                            <div><p class="dash-card-title">Recherche rapide</p><p class="dash-card-sub">Tous les registres</p></div>
+                                        </div>
+                                        <div class="quick-search-filters" id="quickSearchFilters">
+                                            <button type="button" class="qs-filter active" data-filter="citoyens">Citoyens</button>
+                                            <button type="button" class="qs-filter" data-filter="vehicules">Véhicules</button>
+                                            <button type="button" class="qs-filter" data-filter="mandats">Mandats</button>
+                                            <button type="button" class="qs-filter" data-filter="casiers">Casiers</button>
+                                            <button type="button" class="qs-filter" data-filter="rapports">Rapports</button>
+                                        </div>
+                                        <div class="dash-search-row">
+                                            <input type="text" class="mdt-input" id="quickSearchInput" placeholder="Nom, prénom, plaque…" autocomplete="off" />
+                                            <button type="button" class="mdt-btn mdt-btn-primary" id="quickSearchBtn">OK</button>
+                                        </div>
+                                    </div>
+                                    <!-- Alertes -->
+                                    <div class="dash-card dash-alerts-card">
+                                        <div class="dash-card-header">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                            <div><p class="dash-card-title">Alertes</p><p class="dash-card-sub" id="alertsCountLabel">0 alerte(s)</p></div>
+                                            <button type="button" class="mdt-btn mdt-btn-accent" id="btnNewAlert" style="margin-left:auto;padding:5px 10px;font-size:11px;">+ Alerte</button>
+                                        </div>
+                                        <!-- New alert form (hidden by default) -->
+                                        <div class="alert-form hidden" id="alertForm">
+                                            <div class="alert-presets" id="alertPresets">
+                                                <button type="button" class="alert-preset-btn" data-reason="Tirs entendus">Tirs entendus</button>
+                                                <button type="button" class="alert-preset-btn" data-reason="Poursuite en cours">Poursuite en cours</button>
+                                                <button type="button" class="alert-preset-btn" data-reason="Braquage en cours">Braquage en cours</button>
+                                                <button type="button" class="alert-preset-btn" data-reason="Agression signalée">Agression signalée</button>
+                                                <button type="button" class="alert-preset-btn" data-reason="Véhicule suspect">Véhicule suspect</button>
+                                                <button type="button" class="alert-preset-btn" data-reason="Individu armé">Individu armé</button>
+                                                <button type="button" class="alert-preset-btn" data-reason="Accident de la route">Accident de la route</button>
+                                                <button type="button" class="alert-preset-btn" data-reason="Contrôle routier">Contrôle routier</button>
+                                                <button type="button" class="alert-preset-btn" data-reason="Renfort demandé">Renfort demandé</button>
+                                            </div>
+                                            <input type="hidden" id="alertReasonInput" value="" />
+                                            <div class="alert-urgency-row">
+                                                <span style="font-size:10px;color:var(--mdt-text2);font-weight:600;">Urgence :</span>
+                                                <button type="button" class="alert-urgency-btn active" data-level="low"><span class="alert-dot green"></span>Faible</button>
+                                                <button type="button" class="alert-urgency-btn" data-level="medium"><span class="alert-dot yellow"></span>Moyenne</button>
+                                                <button type="button" class="alert-urgency-btn" data-level="high"><span class="alert-dot red"></span>Élevée</button>
+                                            </div>
+                                            <div style="display:flex;gap:5px;justify-content:flex-end;">
+                                                <button type="button" class="mdt-btn mdt-btn-ghost" id="alertFormCancel" style="padding:4px 10px;font-size:11px;">Annuler</button>
+                                                <button type="button" class="mdt-btn mdt-btn-primary" id="alertFormSubmit" style="padding:4px 10px;font-size:11px;">Envoyer</button>
+                                            </div>
+                                        </div>
+                                        <ul class="dash-alerts-list" id="dashAlertsList">
+                                            <li class="dash-alerts-empty">Aucune alerte active</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="dash-right">
+                                    <div class="dash-card dash-map-card">
+                                        <p class="dash-card-title">Position des agents</p>
+                                        <div class="map-container" id="mapContainer">
+                                            <div id="leafletMap" class="leaflet-map"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PROFILES PAGE -->
+                        <div class="mdt-page hidden" id="pageProfiles">
+                            <header class="page-header">
+                                <div class="page-header-row">
+                                    <input type="text" id="profilesSearchInput" class="mdt-input page-search" placeholder="Rechercher par nom ou prénom (4 car. min)…" autocomplete="off" />
+                                    <button type="button" class="mdt-btn mdt-btn-filter" id="profilesWantedFilter" title="Filtrer les recherchés">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                        <span>Recherchés</span>
+                                    </button>
+                                </div>
+                            </header>
+                            <div class="page-body">
+                                <!-- Results list -->
+                                <div id="profilesResultsWrap" class="page-panel">
+                                    <div class="page-scroll">
+                                        <ul class="result-list" id="profilesResultsList"></ul>
+                                        <div class="recent-wrap" id="profilesRecentWrap">
+                                            <p class="recent-title">Recherches récentes</p>
+                                            <ul class="result-list" id="profilesRecentList"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Profile detail (ID card view) -->
+                                <div class="page-panel hidden" id="profilesDetail">
+                                    <div class="profile-detail-scroll" id="profileDetailScroll"></div>
+                                </div>
+                                <!-- Section drill-down -->
+                                <div class="page-panel hidden" id="profilesSectionWrap">
+                                    <button type="button" class="mdt-back" id="btnBackProfilesSection">&larr; Retour</button>
+                                    <h2 class="section-title" id="profilesSectionTitle"></h2>
+                                    <div class="section-scroll" id="profilesSectionContent"></div>
+                                </div>
+                            </div>
+                            <!-- Action form overlay -->
+                            <div class="action-form hidden" id="profilesActionForm">
+                                <p class="action-form-title" id="profilesActionFormTitle">Motif</p>
+                                <textarea id="profilesActionFormInput" class="mdt-textarea" rows="3" placeholder="Saisir le texte…"></textarea>
+                                <div class="action-form-btns">
+                                    <button type="button" class="mdt-btn mdt-btn-ghost" id="profilesActionFormCancel">Annuler</button>
+                                    <button type="button" class="mdt-btn mdt-btn-primary" id="profilesActionFormSubmit">Valider</button>
+                                </div>
+                            </div>
+                            <!-- Photo URL modal -->
+                            <div class="photo-modal hidden" id="citizenPhotoModal">
+                                <div class="photo-modal-box">
+                                    <p class="photo-modal-title">Photo du dossier</p>
+                                    <input type="url" class="mdt-input" id="citizenPhotoInput" placeholder="URL de l'image (fivemanage, imgur…)" />
+                                    <div class="photo-modal-btns">
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="citizenPhotoCancelBtn">Annuler</button>
+                                        <button type="button" class="mdt-btn mdt-btn-primary" id="citizenPhotoSaveBtn">Enregistrer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VEHICLES PAGE -->
+                        <div class="mdt-page hidden" id="pageVehicles">
+                            <header class="page-header" style="position:relative;">
+                                <div class="page-header-row">
+                                    <input type="text" id="vehiclesSearchInput" class="mdt-input page-search" placeholder="Rechercher un véhicule par plaque…" autocomplete="off" />
+                                    <button type="button" class="mdt-btn mdt-btn-accent" id="btnVehiclesAddWanted">+ Signaler</button>
+                                </div>
+                                <ul class="vehicle-suggestions hidden" id="vehicleSuggestions"></ul>
+                            </header>
+                            <div class="page-body">
+                                <!-- Main list view -->
+                                <div id="vehiclesResultsWrap" class="page-panel">
+                                    <div class="page-scroll">
+                                        <div id="vehiclesWantedSection">
+                                            <p class="section-label">Véhicules recherchés</p>
+                                            <ul class="result-list" id="vehiclesWantedList"></ul>
+                                            <p class="page-hint" id="vehiclesWantedHint">Aucun véhicule recherché.</p>
+                                        </div>
+                                        <div id="vehiclesSearchResultsSection" class="hidden">
+                                            <p class="section-label">Résultats de recherche</p>
+                                            <ul class="result-list" id="vehiclesResultsList"></ul>
+                                        </div>
+                                        <div class="recent-wrap" id="vehiclesRecentWrap">
+                                            <p class="recent-title">Recherches récentes</p>
+                                            <ul class="result-list" id="vehiclesRecentList"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Wanted vehicle detail -->
+                                <div class="page-panel hidden" id="vehiclesDetailPanel">
+                                    <button type="button" class="mdt-back" id="btnVehiclesDetailBack">&larr; Retour</button>
+                                    <div id="vehiclesDetailContent"></div>
+                                </div>
+                                <!-- Create wanted vehicle form -->
+                                <div class="page-panel hidden" id="vehiclesCreateForm">
+                                    <button type="button" class="mdt-back" id="btnVehiclesFormBack">&larr; Retour</button>
+                                    <h3 class="form-title">Signaler un véhicule recherché</h3>
+                                    <label class="form-label">Plaque d'immatriculation</label>
+                                    <input type="text" id="vehiclesFormPlate" class="mdt-input" placeholder="Ex: AB 123 CD" maxlength="32" />
+                                    <label class="form-label">Motif</label>
+                                    <input type="text" id="vehiclesFormReason" class="mdt-input" placeholder="Ex: Vol de véhicule, délit de fuite…" maxlength="500" />
+                                    <label class="form-label">Description</label>
+                                    <textarea id="vehiclesFormDescription" class="mdt-textarea" placeholder="Description détaillée…" rows="4"></textarea>
+                                    <div class="action-form-btns" style="margin-top:14px;">
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="vehiclesFormCancel">Annuler</button>
+                                        <button type="button" class="mdt-btn mdt-btn-primary" id="vehiclesFormSubmit">Signaler</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- WARRANTS PAGE -->
+                        <div class="mdt-page hidden" id="pageWarrants">
+                            <header class="page-header">
+                                <div class="page-header-row">
+                                    <input type="text" id="warrantsSearchInput" class="mdt-input page-search" placeholder="Rechercher un mandat…" autocomplete="off" />
+                                    <button type="button" class="mdt-btn mdt-btn-accent" id="btnWarrantsCreate">+ Créer</button>
+                                </div>
+                            </header>
+                            <div class="page-body">
+                                <div id="warrantsResultsWrap" class="page-panel">
+                                    <div class="page-scroll">
+                                        <ul class="result-list" id="warrantsResultsList"></ul>
+                                        <p class="page-hint" id="warrantsHint">Chargement des mandats…</p>
+                                    </div>
+                                </div>
+                                <div class="page-panel hidden" id="warrantDetailPanel">
+                                    <button type="button" class="mdt-back" id="btnWarrantDetailBack">&larr; Retour</button>
+                                    <div class="warrant-detail" id="warrantDetailContent"></div>
+                                </div>
+                            </div>
+                            <div class="warrants-create-form hidden" id="warrantsCreateForm">
+                                <div class="form-scroll">
+                                    <p class="form-title">Nouveau mandat d'arrêt</p>
+                                    <label class="form-label">Joueur visé</label>
+                                    <div class="form-row">
+                                        <input type="text" id="warrantsTargetSearch" class="mdt-input" placeholder="Rechercher le citoyen…" autocomplete="off" />
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="btnWarrantsTargetClear">Effacer</button>
+                                    </div>
+                                    <div id="warrantsTargetSelected" class="form-selected hidden"></div>
+                                    <ul id="warrantsTargetResults" class="form-results hidden"></ul>
+                                    <label class="form-label">Motif</label>
+                                    <input type="text" id="warrantsFormReason" class="mdt-input" placeholder="Vol, évasion…" maxlength="500" />
+                                    <label class="form-label">Description</label>
+                                    <textarea id="warrantsFormDescription" class="mdt-textarea" rows="4" placeholder="Description détaillée…" maxlength="5000"></textarea>
+                                    <label class="form-label">Photos / Preuves</label>
+                                    <div class="casier-photos-section">
+                                        <div class="casier-photos-grid" id="warrantsFormPhotosGrid"></div>
+                                        <button type="button" class="mdt-btn mdt-btn-ghost mdt-btn-sm" id="btnWarrantsAddFromGallery">+ Ajouter depuis la galerie</button>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="btnWarrantsFormCancel">Annuler</button>
+                                        <button type="button" class="mdt-btn mdt-btn-primary" id="btnWarrantsFormSubmit">Créer le mandat</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CASIERS PAGE -->
+                        <div class="mdt-page hidden" id="pageCasiers">
+                            <header class="page-header">
+                                <div class="page-header-row">
+                                    <input type="text" id="casiersSearchInput" class="mdt-input page-search" placeholder="Rechercher un casier…" autocomplete="off" />
+                                    <button type="button" class="mdt-btn mdt-btn-accent" id="btnCasiersCreate">+ Créer</button>
+                                </div>
+                            </header>
+                            <div class="page-body">
+                                <div id="casiersResultsWrap" class="page-panel">
+                                    <div class="page-scroll">
+                                        <div id="casiersPinnedSection" class="hidden">
+                                            <p class="section-label">Casiers épinglés</p>
+                                            <ul class="result-list" id="casiersPinnedList"></ul>
+                                        </div>
+                                        <ul class="result-list" id="casiersResultsList"></ul>
+                                        <p class="page-hint" id="casiersHint">Chargement des casiers récents…</p>
+                                    </div>
+                                </div>
+                                <div class="page-panel hidden" id="casiersDetailPanel">
+                                    <button type="button" class="mdt-back" id="btnCasiersDetailBack">&larr; Retour</button>
+                                    <div class="casier-detail" id="casiersDetailContent"></div>
+                                </div>
+                            </div>
+                            <!-- Create casier form -->
+                            <div class="warrants-create-form hidden" id="casiersCreateForm">
+                                <div class="form-scroll">
+                                    <p class="form-title">Nouveau casier judiciaire</p>
+                                    <label class="form-label">Citoyen visé</label>
+                                    <div class="form-row">
+                                        <input type="text" id="casiersTargetSearch" class="mdt-input" placeholder="Rechercher le citoyen…" autocomplete="off" />
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="btnCasiersTargetClear">Effacer</button>
+                                    </div>
+                                    <div id="casiersTargetSelected" class="form-selected hidden"></div>
+                                    <ul id="casiersTargetResults" class="form-results hidden"></ul>
+                                    <!-- NOTE: ce champ "type" == "agents présents" désormais (renommage backend prévu plus tard) -->
+                                    <label class="form-label">Agent(s) présent(s)</label>
+                                    <input type="text" id="casiersFormType" class="mdt-input" placeholder="Nom des agents présents…" maxlength="500" />
+                                    <label class="form-label">Description</label>
+                                    <textarea id="casiersFormDescription" class="mdt-textarea" rows="4" placeholder="Détails de l'infraction…" maxlength="2000"></textarea>
+                                    <label class="form-label">Peine / Sanction</label>
+                                    <input type="text" id="casiersFormSanction" class="mdt-input" placeholder="Prison, TIG, sursis…" maxlength="500" />
+                                    <label class="form-label">Amende ($)</label>
+                                    <input type="number" id="casiersFormAmende" class="mdt-input" placeholder="0" min="0" />
+                                    <label class="form-label">Photos / Preuves</label>
+                                    <div class="casier-photos-section">
+                                        <div class="casier-photos-grid" id="casiersFormPhotosGrid"></div>
+                                        <button type="button" class="mdt-btn mdt-btn-ghost mdt-btn-sm" id="btnCasiersAddFromGallery">+ Ajouter depuis la galerie</button>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="btnCasiersFormCancel">Annuler</button>
+                                        <button type="button" class="mdt-btn mdt-btn-primary" id="btnCasiersFormSubmit">Créer le casier</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PHOTO PAGE -->
+                        <div class="mdt-page hidden" id="pagePhoto">
+                            <header class="page-header">
+                                <div class="page-header-row">
+                                    <p class="page-title" style="margin:0;">Photos</p>
+                                    <button type="button" class="mdt-btn mdt-btn-accent" id="btnTakePhoto">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;margin-right:6px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="4"/><path d="M16 8l.465-.465"/></svg>
+                                        Prendre une photo
+                                    </button>
+                                </div>
+                            </header>
+                            <div class="page-body">
+                                <div class="photo-gallery-wrap">
+                                    <p class="section-label">Galerie</p>
+                                    <div class="photo-gallery" id="photoGallery">
+                                        <p class="page-hint" id="photoGalleryHint">Aucune photo. Prenez une capture d'écran pour l'ajouter.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RAPPORTS PAGE -->
+                        <div class="mdt-page hidden" id="pageRapports">
+                            <header class="page-header">
+                                <div class="page-header-row">
+                                    <input type="text" id="rapportsSearchInput" class="mdt-input page-search" placeholder="Rechercher un rapport…" autocomplete="off" />
+                                    <button type="button" class="mdt-btn mdt-btn-accent" id="btnRapportsCreate">+ Créer</button>
+                                </div>
+                            </header>
+                            <div class="page-body">
+                                <div id="rapportsResultsWrap" class="page-panel">
+                                    <div class="page-scroll">
+                                        <ul class="result-list" id="rapportsResultsList"></ul>
+                                        <p class="page-hint" id="rapportsHint">Chargement des rapports récents…</p>
+                                    </div>
+                                </div>
+                                <div class="page-panel hidden" id="rapportsDetailPanel">
+                                    <button type="button" class="mdt-back" id="btnRapportsDetailBack">&larr; Retour</button>
+                                    <div class="rapport-detail" id="rapportsDetailContent"></div>
+                                </div>
+                            </div>
+                            <!-- Create/Edit rapport form -->
+                            <div class="warrants-create-form hidden" id="rapportsCreateForm">
+                                <div class="form-scroll">
+                                    <p class="form-title" id="rapportsFormTitle">Nouveau rapport</p>
+                                    <label class="form-label">Citoyen visé</label>
+                                    <div class="form-row">
+                                        <input type="text" id="rapportsTargetSearch" class="mdt-input" placeholder="Rechercher le citoyen…" autocomplete="off" />
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="btnRapportsTargetClear">Effacer</button>
+                                    </div>
+                                    <div id="rapportsTargetSelected" class="form-selected hidden"></div>
+                                    <ul id="rapportsTargetResults" class="form-results hidden"></ul>
+                                    <label class="form-label">Titre</label>
+                                    <input type="text" id="rapportsFormTitleInput" class="mdt-input" placeholder="Titre du rapport…" maxlength="500" />
+                                    <label class="form-label">Contenu</label>
+                                    <textarea id="rapportsFormContent" class="mdt-textarea" rows="6" placeholder="Contenu détaillé du rapport…" maxlength="5000"></textarea>
+                                    <label class="form-label">Images (une URL par ligne)</label>
+                                    <div class="form-images-row">
+                                        <textarea id="rapportsFormImages" class="mdt-textarea" rows="2" placeholder="https://…"></textarea>
+                                        <button type="button" class="mdt-btn mdt-btn-ghost mdt-btn-sm" id="btnRapportsAddFromGallery" title="Ajouter depuis la galerie">+ Galerie</button>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="btnRapportsFormCancel">Annuler</button>
+                                        <button type="button" class="mdt-btn mdt-btn-primary" id="btnRapportsFormSubmit">Créer le rapport</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SETTINGS PAGE -->
+                        <div class="mdt-page hidden" id="pageSettings">
+                            <div class="settings-scroll">
+                                <div class="settings-card">
+                                    <h2 class="settings-card-title">Sons</h2>
+                                    <p class="settings-desc">Bruitages réalistes lors de la navigation sur la tablette.</p>
+                                    <div class="settings-row" style="margin-bottom:10px;">
+                                        <label class="settings-label" for="soundToggle">Activer les sons</label>
+                                        <input type="checkbox" id="soundToggle" class="mdt-toggle" />
+                                    </div>
+                                    <div class="sound-pack-wrap" id="soundPackWrap">
+                                        <label class="settings-label" for="soundPackSelect">Type de son</label>
+                                        <select id="soundPackSelect" class="mdt-input mdt-input-compact">
+                                            <option value="touch">Tactile (doux)</option>
+                                            <option value="mechanical">Mécanique (marqué)</option>
+                                            <option value="subtle">Discret</option>
+                                            <option value="off">Désactivé</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="settings-card">
+                                    <h2 class="settings-card-title">Apparence</h2>
+                                    <p class="settings-desc">Choisissez le thème de l'interface.</p>
+                                    <div class="theme-buttons">
+                                        <button type="button" class="mdt-btn mdt-btn-theme-dark" id="btnThemeDark" title="Thème sombre">Dark theme</button>
+                                        <button type="button" class="mdt-btn mdt-btn-theme-navy" id="btnThemeNavy" title="Thème bleu navy">Navy theme</button>
+                                        <button type="button" class="mdt-btn mdt-btn-theme-light" id="btnThemeLight" title="Thème clair">Light theme</button>
+                                    </div>
+                                </div>
+                                <div class="settings-card">
+                                    <h2 class="settings-card-title">Photo de profil (vous)</h2>
+                                    <p class="settings-desc">URL Fivemanage ou fmfile.com pour votre avatar.</p>
+                                    <label class="settings-label" for="profileImageUrl">URL de l'image</label>
+                                    <input type="url" id="profileImageUrl" class="mdt-input" placeholder="https://r2.fivemanage.com/..." />
+                                    <div class="settings-btns">
+                                        <button type="button" class="mdt-btn mdt-btn-primary" id="btnSaveProfileImage">Enregistrer</button>
+                                        <button type="button" class="mdt-btn mdt-btn-ghost" id="btnClearProfileImage">Supprimer</button>
+                                    </div>
+                                    <p class="settings-feedback hidden" id="profileImageFeedback"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gallery picker modal (Add from gallery - warrants/rapports) -->
+                        <div class="photo-modal hidden" id="galleryPickerModal">
+                            <div class="photo-modal-box gallery-picker-box">
+                                <p class="photo-modal-title">Ajouter depuis la galerie</p>
+                                <div class="gallery-picker-grid" id="galleryPickerGrid"></div>
+                                <p class="page-hint hidden" id="galleryPickerHint">Aucune photo dans la galerie.</p>
+                                <div class="photo-modal-btns">
+                                    <button type="button" class="mdt-btn mdt-btn-ghost" id="galleryPickerCancel">Annuler</button>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- Bottom Navigation -->
+                    <nav class="mdt-nav">
+                        <button class="mdt-nav-btn active" data-page="dashboard">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            <span>Accueil</span>
+                        </button>
+                        <button class="mdt-nav-btn" data-page="warrants">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                            <span>Mandats</span>
+                        </button>
+                        <button class="mdt-nav-btn" data-page="profiles">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <span>Citoyens</span>
+                        </button>
+                        <button class="mdt-nav-btn" data-page="vehicles">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H8.5a1 1 0 0 0-.8.4L5 11l-4.16.86a1 1 0 0 0-.84.99V16h3"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+                            <span>Véhicules</span>
+                        </button>
+                        <button class="mdt-nav-btn" data-page="casiers">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
+                            <span>Casiers</span>
+                        </button>
+                        <button class="mdt-nav-btn" data-page="rapports">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                            <span>Rapports</span>
+                        </button>
+                        <button class="mdt-nav-btn" data-page="photo">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="4"/><path d="M16 8l.465-.465"/></svg>
+                            <span>Photo</span>
+                        </button>
+                        <button class="mdt-nav-btn" data-page="settings">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <span>Paramètres</span>
+                        </button>
+                    </nav>
+
+                    <div class="mdt-immersive-hint">ESC pour fermer</div>
+                    <!-- Overlay alerte panic -->
+                    <div class="panic-overlay hidden" id="panicOverlay">
+                        <div class="panic-overlay-content">
+                            <div class="panic-overlay-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            </div>
+                            <h2 class="panic-overlay-title">ALERTE PANIC</h2>
+                            <p class="panic-overlay-sub" id="panicOverlayAgent">Agent en difficulté</p>
+                            <p class="panic-overlay-coords" id="panicOverlayCoords"></p>
+                            <button type="button" class="mdt-btn mdt-btn-primary panic-overlay-btn" id="panicOverlayDismiss">OK</button>
+                        </div>
+                    </div>
+                </div><!-- /main-screen -->
+                </div><!-- /screen -->
+            </div><!-- /frame -->
+            <!-- Camera bezel overlay: visible ONLY in camera mode, sits inside tablet-device -->
+            <div id="cameraBezel" class="camera-bezel hidden">
+                <div class="camera-bezel-border"></div>
+                <div class="camera-bezel-crosshair"></div>
+                <div class="camera-bezel-bottom">
+                    <p class="camera-bezel-hint">Visez • ENTRÉE ou clic gauche pour capturer</p>
+                    <div class="camera-bezel-shutter" id="cameraOverlayShutter"></div>
+                </div>
+            </div>
+        </div><!-- /tablet-device -->
+    </div><!-- /app -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</html>

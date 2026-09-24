@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponComponentInfoBlob>
+  <Data />
+  <Infos>
+
+    <Item type="CWeaponComponentVariantModelInfo">
+      <Name>COMPONENT_MICROSMG_DARKMATTER_ANIM</Name>
+      <Model>w_sb_microsmg_darkmatter</Model>
+      <LocName>WCT_INVALID</LocName>
+      <LocDesc>WCD_INVALID</LocDesc>
+      <AttachBone />
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="false" />
+      <CreateObject value="false" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+      <TintIndexOverride value="2" />
+      <ExtraComponents>
+        <Item>
+          <ComponentName>COMPONENT_MICROSMG_CLIP_01</ComponentName>
+          <ComponentModel>w_sb_microsmg_darkmatter_mag1</ComponentModel>
+        </Item>
+        <Item>
+          <ComponentName>WEAPON_SKIN_OMEX_BASE</ComponentName>
+          <ComponentModel>microsmg_darkmatter_anim</ComponentModel>
+        </Item>
+      </ExtraComponents>
+    </Item>
+
+
+  </Infos>
+  <InfoBlobName>Siri</InfoBlobName>
+</CWeaponComponentInfoBlob>

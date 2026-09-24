@@ -1,0 +1,431 @@
+
+-- BRIDGE SIDE
+
+--FunctionsSirens = {}
+--
+---- Any additional checks before a player places a light can be addded here
+--FunctionsSirens.CanPlayerDeployLight = function()
+--    return true
+--end
+--
+---- Any additional checks before a vehicle gets a light can be addded here
+--FunctionsSirens.CanVehicleDeployLight = function(vehicle)
+--    return true
+--end
+--
+--FunctionsSirens.OnPlayerDeployLight = function(vehicle)
+--    -- Do something when a player deploys a light
+--end
+--
+--FunctionsSirens.OnPlayerRemoveLight = function(vehicle)
+--    -- Do something when a player removes a light
+--end
+--
+--FunctionsSirens.ShouldLightOnVehicleBeBroken = function(vehicle)
+--    local engineHealth = GetVehicleEngineHealth(vehicle)
+--    return (engineHealth < 100)
+--end
+--
+---- BRIDGE SIDE END
+--
+--RegisterNetEvent('gs_deployablelight:UseDeployableLight', function()
+--    local playerPed = PlayerPedId()
+--    local vehicle = GetVehiclePedIsIn(playerPed, false)
+--    if not CanVehicleDeployLight(vehicle) then
+--        return
+--    end
+--
+--    if not CanPlayerDeployLight(vehicle) then
+--        return
+--    end
+--
+--    local lightNetId = Entity(vehicle).state.deployedLightNetId or false
+--    if not lightNetId then
+--        AddDeployableLight()
+--    end
+--end)
+--
+--function CanVehicleDeployLight(vehicle)
+--    if vehicle == 0 then
+--        return false
+--    end
+--
+--    local vehicleClass = GetVehicleClass(vehicle)
+--    for _, class in ipairs(ConfigSirens.Blacklist['classes'] or {}) do
+--        if class == vehicleClass then
+--            return false
+--        end
+--    end
+--
+--    local vehicleModel = GetEntityModel(vehicle)
+--    for _, model in ipairs(ConfigSirens.Blacklist['models'] or {}) do
+--        if model == vehicleModel then
+--            return false
+--        end
+--    end
+--
+--    if (not FunctionsSirens.CanVehicleDeployLight(vehicle)) then
+--        return false
+--    end
+--
+--    return true
+--end
+--
+--function IsPlayerDriver(vehicle)
+--    local playerPed = PlayerPedId()
+--    local driver = GetPedInVehicleSeat(vehicle, -1)
+--    if (playerPed == driver) then
+--        return true
+--    end
+--
+--    return false
+--end
+--
+--function CanPlayerDeployLight(vehicle)
+--    if (not IsPlayerDriver(vehicle)) then
+--        return false
+--    end
+--
+--    if (not FunctionsSirens.CanPlayerDeployLight()) then
+--        return false
+--    end
+--
+--    return true
+--end
+--
+--function CreateLightProp(boneId, propHash, HandPosition, HandRotation)
+--    RequestModel(propHash)
+--    while not HasModelLoaded(propHash) do
+--        Wait(0)
+--    end
+--
+--    local playerPed = PlayerPedId()
+--    local playerCoords = GetEntityCoords(playerPed)
+--    local lightProp = CreateObject(propHash, playerCoords.x, playerCoords.y, playerCoords.z, true, true, true)
+--    while (not DoesEntityExist(lightProp)) do
+--        Wait(0)
+--    end
+--
+--    local boneIndex = GetPedBoneIndex(playerPed, boneId)
+--    AttachEntityToEntity(lightProp, playerPed, boneIndex, HandPosition, HandRotation, true, true, false, true, 1,
+--        true)
+--
+--    SetModelAsNoLongerNeeded(propHash)
+--    return lightProp
+--end
+--
+--function PlayDeployAnimation(animType)
+--    local playerPed = PlayerPedId()
+--    RequestAnimDict(ConfigSirens.Animation[animType].Dict)
+--    while not HasAnimDictLoaded(ConfigSirens.Animation[animType].Dict) do
+--        Wait(100)
+--    end
+--    TaskPlayAnim(playerPed, ConfigSirens.Animation[animType].Dict, ConfigSirens.Animation[animType].Name, 2.5, -8.0, -1, 50, 0, false,
+--        false, false)
+--
+--    Wait(ConfigSirens.Animation[animType].AnimTime)
+--    ClearPedTasks(playerPed)
+--end
+--
+--function FindLightAnimation(vehicle)
+--    local vehicleModel = GetEntityModel(vehicle)
+--    local animationType = ConfigSirens.VehicleData['default'].Animation
+--    if ConfigSirens.VehicleData[vehicleModel] then
+--        animationType = ConfigSirens.VehicleData[vehicleModel].Animation
+--    end
+--
+--    return animationType
+--end
+--
+--function FindLightPropertiesOnVehicle(vehicle)
+--    local vehicleModel = GetEntityModel(vehicle)
+--    local attachCoords = (ConfigSirens.VehicleData[vehicleModel] and ConfigSirens.VehicleData[vehicleModel].Position) or ConfigSirens.VehicleData['default'].Position
+--    local rotationCoords = (ConfigSirens.VehicleData[vehicleModel] and ConfigSirens.VehicleData[vehicleModel].Rotation) or ConfigSirens.VehicleData['default'].Rotation
+--    local lightSetting = (ConfigSirens.VehicleData[vehicleModel] and ConfigSirens.VehicleData[vehicleModel].LightSetting) or ConfigSirens.VehicleData['default'].LightSetting
+--    local sirenName = (ConfigSirens.VehicleData[vehicleModel] and ConfigSirens.VehicleData[vehicleModel].SirenName) or (not ConfigSirens.VehicleData[vehicleModel] and ConfigSirens.VehicleData['default'].SirenName)
+--
+--    if (attachCoords == ConfigSirens.VehicleData['default'].Position) then
+--        local lightLocation = Entity(vehicle).state.deployedLightLocation or nil
+--        if (lightLocation) then
+--            attachCoords = lightLocation
+--        else
+--            local driverSeatIndex = GetEntityBoneIndexByName(vehicle, "seat_dside_f")
+--            local driverSeatPosition = GetWorldPositionOfEntityBone(vehicle, driverSeatIndex)
+--            local _, max = GetModelDimensions(GetEntityModel(vehicle))
+--
+--            local flags = 2
+--            local rayHandle = StartExpensiveSynchronousShapeTestLosProbe(driverSeatPosition.x, driverSeatPosition.y, driverSeatPosition.z + 2.0, driverSeatPosition.x, driverSeatPosition.y, driverSeatPosition.z - 2.0, flags, 0, 0)
+--            local _, hit, hitCoords, _, entityHit = GetShapeTestResult(rayHandle)
+--            local attachCoordsInWorldCoords = (hit == 1 and entityHit == vehicle) and hitCoords or GetOffsetFromEntityInWorldCoords(vehicle, -max.x / 2.5, 0.0, max.z)
+--            attachCoords = GetOffsetFromEntityGivenWorldCoords(vehicle, attachCoordsInWorldCoords.x, attachCoordsInWorldCoords.y, attachCoordsInWorldCoords.z - 0.01)
+--        end
+--    end
+--
+--    return attachCoords, rotationCoords, lightSetting, sirenName
+--end
+--
+--local isBusy = false
+--function AddDeployableLight()
+--    if (isBusy) then
+--        return
+--    end
+--    isBusy = true
+--
+--    local playerPed = PlayerPedId()
+--    local vehicle = GetVehiclePedIsIn(playerPed, false)
+--    local animType = FindLightAnimation(vehicle)
+--    local attachCoords, attachRotation, lightSetting = FindLightPropertiesOnVehicle(vehicle)
+--    local lightProp = CreateLightProp(ConfigSirens.Animation[animType].AttachBoneId, ConfigSirens.LightSettings[lightSetting].LightPropHash, ConfigSirens.Animation[animType].HandPosition,
+--        ConfigSirens.Animation[animType].HandRotation)
+--    PlayDeployAnimation(animType)
+--
+--    vehicle = GetVehiclePedIsIn(playerPed, false)
+--    if (not IsPlayerDriver(vehicle)) then
+--        DeleteObject(lightProp)
+--        isBusy = false
+--        return
+--    end
+--
+--    FunctionsSirens.OnPlayerDeployLight(vehicle)
+--
+--    DetachEntity(lightProp)
+--    AttachEntityToEntity(lightProp, vehicle, -1, attachCoords.x, attachCoords.y, attachCoords.z, attachRotation.x,
+--        attachRotation.y, attachRotation.z, true,
+--        true, false, true, 1, true)
+--    local netId = NetworkGetNetworkIdFromEntity(lightProp)
+--    local vehicleNetId = NetworkGetNetworkIdFromEntity(vehicle)
+--    TriggerServerEvent('gs_deployablelight:syncLightState', vehicleNetId, netId, attachCoords)
+--    isBusy = false
+--end
+--
+--function RemoveDeployableLight(lightNetId)
+--    if (isBusy) then
+--        return
+--    end
+--    isBusy = true
+--
+--    local playerPed = PlayerPedId()
+--    local vehicle = GetVehiclePedIsIn(playerPed, false)
+--    local animType = FindLightAnimation(vehicle)
+--    PlayDeployAnimation(animType)
+--
+--    if (not NetworkDoesNetworkIdExist(lightNetId)) then
+--        isBusy = false
+--        return
+--    end
+--
+--    local lightEntity = NetworkGetEntityFromNetworkId(lightNetId)
+--    if (not DoesEntityExist(lightEntity)) then
+--        isBusy = false
+--        return
+--    end
+--
+--    vehicle = GetVehiclePedIsIn(playerPed, false)
+--    if (not IsPlayerDriver(vehicle)) then
+--        isBusy = false
+--        return
+--    end
+--
+--    FunctionsSirens.OnPlayerRemoveLight(vehicle)
+--
+--    local vehicleNetId = NetworkGetNetworkIdFromEntity(vehicle)
+--    TriggerServerEvent('gs_deployablelight:removeLight', vehicleNetId)
+--    isBusy = false
+--end
+--
+--function GetFrameRate()
+--    return 1 / GetFrameTime()
+--end
+--
+--local cos_x, sin_x = 0, 0
+--local activeVehicles = {}
+--CreateThread(function()
+--    local x = 0
+--    local step = 0.1 * ConfigSirens.LightRotationSpeedMultiplier
+--    while true do
+--        if (#activeVehicles > 0) then
+--            local speed = step * (100 / GetFrameRate())
+--            cos_x, sin_x = math.cos(x), math.sin(x)
+--            x = x + speed
+--            Wait(0)
+--        else
+--            Wait(500)
+--        end
+--    end
+--end)
+--
+--local closestVehicle = 0
+--CreateThread(function()
+--    while ConfigSirens.OptimizeMode do
+--        if (#activeVehicles > 0) then
+--            local smallestDistance = 1000.0
+--            local pedCoords = GetEntityCoords(PlayerPedId())
+--            for _, vehicleFromList in ipairs(activeVehicles) do
+--                local vehicleCoords = GetEntityCoords(vehicleFromList)
+--                local distance = #(pedCoords - vehicleCoords)
+--                if (distance < smallestDistance) then
+--                    smallestDistance = distance
+--                    closestVehicle = vehicleFromList
+--                end
+--            end
+--        end
+--        Wait(500)
+--    end
+--end)
+--
+--CreateThread(function()
+--    while true do
+--        local delay = 500
+--        local playerPed = PlayerPedId()
+--        local vehicle = GetVehiclePedIsIn(playerPed, false)
+--        local isDriver = IsPlayerDriver(vehicle)
+--        if (isDriver) then
+--            local lightNetId = Entity(vehicle).state.deployedLightNetId or nil
+--            if (lightNetId) then
+--                delay = 0
+--                if (IsControlJustReleased(0, ConfigSirens.RemoveLightKey)) then
+--                    RemoveDeployableLight(lightNetId)
+--                end
+--
+--                if (ConfigSirens.Siren.Enabled and IsControlJustReleased(0, ConfigSirens.Siren.Key)) then
+--                    local sirenState = Entity(vehicle).state.deployedSirenState or false
+--                    Entity(vehicle).state:set('deployedSirenState', not sirenState, true)
+--                end
+--            end
+--        end
+--
+--        Wait(delay)
+--    end
+--end)
+--
+--AddStateBagChangeHandler('deployedLightNetId', nil, function(bagName, key, lightNetId)
+--    local startTime = GetGameTimer()
+--    local vehicle = 0
+--    while (vehicle == 0 and GetGameTimer() - startTime < 1000) do
+--        vehicle = GetEntityFromStateBagName(bagName)
+--        Wait(0)
+--    end
+--    if vehicle == 0 then return end
+--
+--    startTime = GetGameTimer()
+--    while (not HasCollisionLoadedAroundEntity(vehicle) and GetGameTimer() - startTime < 1000) do
+--        Wait(0)
+--    end
+--    if (not HasCollisionLoadedAroundEntity(vehicle)) then return end
+--
+--    if (not NetworkDoesNetworkIdExist(lightNetId)) then return end
+--    local lightEntity = NetworkGetEntityFromNetworkId(lightNetId)
+--    if (not DoesEntityExist(lightEntity)) then return end
+--
+--    local playerId = PlayerId()
+--    local entityOwner = NetworkGetEntityOwner(vehicle)
+--    local attachCoords, attachRotation, lightSetting, sirenName = FindLightPropertiesOnVehicle(vehicle)
+--    if (entityOwner == playerId and not IsEntityAttached(lightEntity)) then
+--        AttachEntityToEntity(lightEntity, vehicle, -1, attachCoords.x, attachCoords.y, attachCoords.z, attachRotation.x,
+--            attachRotation.y, attachRotation.z, true,
+--            true, false, true, 1, true)
+--    end
+--
+--    table.insert(activeVehicles, vehicle)
+--
+--    local r, g, b = math.floor(ConfigSirens.LightSettings[lightSetting].RGB.x), math.floor(ConfigSirens.LightSettings[lightSetting].RGB.y),
+--        math.floor(ConfigSirens.LightSettings[lightSetting].RGB.z)
+--    local soundId = nil
+--
+--    local runSlowThread = true
+--    local brokenLight = true
+--    CreateThread(function()
+--        while runSlowThread do
+--            if (FunctionsSirens.ShouldLightOnVehicleBeBroken(vehicle)) then
+--                brokenLight = true
+--            else
+--                brokenLight = false
+--            end
+--
+--            if (ConfigSirens.Siren.Enabled and sirenName ~= nil) then
+--                local sirenState = Entity(vehicle).state.deployedSirenState or false
+--                if (sirenState and not brokenLight) and soundId == nil then
+--                    soundId = GetSoundId()
+--                    PlaySoundFromEntity(soundId, sirenName, vehicle, 0, 0, 0);
+--                elseif (not sirenState or brokenLight) and soundId ~= nil then
+--                    StopSound(soundId)
+--                    ReleaseSoundId(soundId)
+--                    soundId = nil
+--                end
+--            end
+--
+--            Wait(250)
+--        end
+--
+--        if (ConfigSirens.Siren.Enabled) then
+--            if (soundId) then
+--                StopSound(soundId)
+--                ReleaseSoundId(soundId)
+--            end
+--        end
+--    end)
+--
+--    while (DoesEntityExist(lightEntity) and DoesEntityExist(vehicle)) do
+--        if (not brokenLight) then
+--            local lightCoords = GetOffsetFromEntityInWorldCoords(vehicle, attachCoords)
+--            local spotLightCoords = GetOffsetFromEntityInWorldCoords(vehicle, attachCoords.x + cos_x / 20, attachCoords.y + sin_x / 20,
+--                attachCoords.z)
+--
+--            local forwardVectorLight = vector3(
+--                spotLightCoords.x - lightCoords.x,
+--                spotLightCoords.y - lightCoords.y,
+--                spotLightCoords.z - lightCoords.z
+--            )
+--            forwardVectorLight = forwardVectorLight / #(forwardVectorLight)
+--
+--            DrawSpotLightWithShadow(spotLightCoords.x, spotLightCoords.y, spotLightCoords.z + 0.3,
+--                forwardVectorLight.x, forwardVectorLight.y, forwardVectorLight.z, r, g, b,
+--                ConfigSirens.LightSettings[lightSetting].Distance, ConfigSirens.LightSettings[lightSetting].Brightness, ConfigSirens.LightSettings[lightSetting].Roundness,
+--                ConfigSirens.LightSettings[lightSetting].Radius, ConfigSirens.LightSettings[lightSetting].Falloff)
+--
+--            if (not ConfigSirens.OptimizeMode or vehicle == closestVehicle) then
+--                local spotLightCoordsFar = GetOffsetFromEntityInWorldCoords(vehicle, attachCoords.x + cos_x, attachCoords.y + sin_x,
+--                    attachCoords.z)
+--
+--                DrawSpotLightWithShadow(spotLightCoordsFar.x, spotLightCoordsFar.y, spotLightCoordsFar.z + 0.3,
+--                    -forwardVectorLight.x, -forwardVectorLight.y, -forwardVectorLight.z, r, g, b,
+--                    2.0, ConfigSirens.LightSettings[lightSetting].Brightness, ConfigSirens.LightSettings[lightSetting].Roundness,
+--                    ConfigSirens.LightSettings[lightSetting].Radius, ConfigSirens.LightSettings[lightSetting].Falloff)
+--            end
+--        end
+--
+--        Wait(0)
+--    end
+--
+--    runSlowThread = false
+--
+--    for i, vehicleFromList in ipairs(activeVehicles) do
+--        if vehicleFromList == vehicle then
+--            table.remove(activeVehicles, i)
+--            break
+--        end
+--    end
+--end)
+--
+--CreateThread(function()
+--    if (not ConfigSirens.EnableLightCommand) then return end
+--
+--    RegisterCommand('light', function()
+--        local playerPed = PlayerPedId()
+--        local vehicle = GetVehiclePedIsIn(playerPed, false)
+--        if not CanVehicleDeployLight(vehicle) then
+--            return
+--        end
+--
+--        if (not CanPlayerDeployLight(vehicle)) then
+--            return
+--        end
+--
+--        local lightNetId = Entity(vehicle).state.deployedLightNetId or false
+--        if (not lightNetId) then
+--            AddDeployableLight()
+--        else
+--            RemoveDeployableLight(lightNetId)
+--        end
+--    end, false)
+--end)

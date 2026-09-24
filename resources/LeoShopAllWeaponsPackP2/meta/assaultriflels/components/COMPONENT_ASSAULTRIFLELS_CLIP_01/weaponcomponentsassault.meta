@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponComponentInfoBlob>
+	<Infos>
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_VARMOD_2</Name>
+			<Model>w_ar_assaultrifle2ls</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<FallOffModifier type="CWeaponFallOffModifier">
+       		 <RangeModifier value="1.10000" />
+      		</FallOffModifier>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+			</ExtraComponents>
+		</Item>
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_VARMOD_3</Name>
+			<Model>w_ar_assaultrifle3ls</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<FallOffModifier type="CWeaponFallOffModifier">
+       		 <RangeModifier value="1.10000" />
+      		</FallOffModifier>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+			</ExtraComponents>
+		</Item>
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_VARMOD_4</Name>
+			<Model>w_ar_assaultrifle4ls</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<FallOffModifier type="CWeaponFallOffModifier">
+       		 <RangeModifier value="1.10000" />
+      		</FallOffModifier>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+			</ExtraComponents>
+		</Item>
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_VARMOD_5</Name>
+			<Model>w_ar_assaultrifle5ls</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<FallOffModifier type="CWeaponFallOffModifier">
+       		 <RangeModifier value="1.10000" />
+      		</FallOffModifier>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+			</ExtraComponents>
+		</Item>
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_VARMOD_6</Name>
+			<Model>w_ar_assaultrifle6ls</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<FallOffModifier type="CWeaponFallOffModifier">
+       		 <RangeModifier value="1.10000" />
+      		</FallOffModifier>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+			</ExtraComponents>
+		</Item>
+		
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_CLIP_01</Name>
+			<Model>w_ar_assaultriflels_mag1</Model>
+			<LocName>WCT_CLIP1</LocName>
+			<LocDesc>WCD_AR_CLIP1</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<WeaponAttachBone>WAPClip</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<ClipSize value="30"/>
+			<AmmoInfo/>
+			<ReloadData ref="RELOAD_DEFAULT"/>
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_CLIP_02</Name>
+			<Model>w_ar_assaultriflels_mag2</Model>
+			<LocName>WCT_CLIP1</LocName>
+			<LocDesc>WCD_AR_CLIP1</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<WeaponAttachBone>WAPClip</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<ClipSize value="60"/>
+			<AmmoInfo/>
+			<ReloadData ref="RELOAD_DEFAULT"/>
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_CLIP_03</Name>
+			<Model>w_ar_assaultriflels_mag3</Model>
+			<LocName>WCT_CLIP1</LocName>
+			<LocDesc>WCD_AR_CLIP1</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<WeaponAttachBone>WAPClip</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<ClipSize value="140"/>
+			<AmmoInfo/>
+			<ReloadData ref="RELOAD_DEFAULT"/>
+		</Item>
+		<Item type="CWeaponComponentSuppressorInfo">
+			<Name>COMPONENT_AT_LS_SUPP_02</Name>
+			<Model>w_at_ls_supp_01</Model>
+			<LocName>WCT_SUPP</LocName>
+			<LocDesc>WCD_AR_SUPP2</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<WeaponAttachBone>WAPSupp</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000"/>
+			</DamageModifier>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="-5"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="-5"/>
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK01</Name>
+			<Model>w_ar_stock01</Model>
+			<LocName>"STOCK"</LocName>
+			<LocDesc>"STOCK"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK03</Name>
+			<Model>w_ar_stock03</Model>
+			<LocName>"STOCK3"</LocName>
+			<LocDesc>"STOCK3"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK04</Name>
+			<Model>w_ar_stock04</Model>
+			<LocName>"STOCK4"</LocName>
+			<LocDesc>"STOCK4"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK05</Name>
+			<Model>w_ar_stock05</Model>
+			<LocName>"STOCK5"</LocName>
+			<LocDesc>"STOCK5"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK2</Name>
+			<Model>w_ar_stock2</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK3</Name>
+			<Model>w_ar_stock3</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK4</Name>
+			<Model>w_ar_stock4</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK5</Name>
+			<Model>w_ar_stock5</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK6</Name>
+			<Model>w_ar_stock6</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK7</Name>
+			<Model>w_ar_stock7</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK8</Name>
+			<Model>w_ar_stock8</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_STOCK9</Name>
+			<Model>w_ar_stock9</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentSuppressorInfo">
+			<Name>COMPONENT_AT_LS_SUPP_01</Name>
+			<Model>w_at_ls_supp_01</Model>
+			<LocName>WCT_SUPP</LocName>
+			<LocDesc>WCD_AR_SUPP2</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000" />
+			</DamageModifier>
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="-5" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="-5" />
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+		<Item type="CWeaponComponentSuppressorInfo">
+			<Name>COMPONENT_AT_LS_SUPP_02</Name>
+			<Model>w_at_ls_supp_02</Model>
+			<LocName>WCT_SUPP</LocName>
+			<LocDesc>WCD_AR_SUPP2</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000" />
+			</DamageModifier>
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="-5" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="-5" />
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+		<Item type="CWeaponComponentSuppressorInfo">
+			<Name>COMPONENT_AT_LS_SUPP_03</Name>
+			<Model>w_at_ls_supp_03</Model>
+			<LocName>WCT_SUPP</LocName>
+			<LocDesc>WCD_AR_SUPP2</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000" />
+			</DamageModifier>
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="-5" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="-5" />
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_01</Name>
+			<Model>lsscope_01</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_02</Name>
+			<Model>lsscope_02</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>	
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_03</Name>
+			<Model>lsscope_03</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>	
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_04</Name>
+			<Model>lsscope_04</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>	
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_05</Name>
+			<Model>lsscope_05</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>		
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_06</Name>
+			<Model>lsscope_06</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>	
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_08</Name>
+			<Model>lsscope_08</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_09</Name>
+			<Model>lsscope_09</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_11</Name>
+			<Model>lsscope_11</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="0"/>
+			<HudRange value="0"/>
+			<CameraHash/>
+			<ExtraZoomFactorForAccurateMode value="1.200000"/>
+			<Reticule value="0"/>
+			<ReticuleHash/>
+		</Item>
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_ASSAULTRIFLELS_SCOPE_12</Name>
+			<Model>lsscope_12</Model>
+			<LocName></LocName>
+			<LocDesc></LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="10"/>
+			<HudRange value="0"/>
+			<CameraHash>SNIPER_AIM_CAMERA</CameraHash>
+			<RecoilShakeAmplitude value="0.280000"/>
+			<ExtraZoomFactorForAccurateMode value="0.000000"/>
+			<ReticuleHash>SNIPER_MAX</ReticuleHash>
+		</Item>
+		
+	</Infos>
+	<InfoBlobName/>
+</CWeaponComponentInfoBlob>
+

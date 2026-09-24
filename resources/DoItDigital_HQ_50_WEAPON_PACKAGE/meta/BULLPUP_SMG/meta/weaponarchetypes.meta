@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_sb_bullpup_smg_mag2</modelName>
+			<txdName>w_sb_bullpup_smg_mag2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_bullpup_smg_mag1</modelName>
+			<txdName>w_sb_bullpup_smg_mag1</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_bullpup_smg</modelName>
+			<txdName>w_sb_bullpup_smg</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_at_bullpup_smg_scope_small</modelName>
+			<txdName>w_at_bullpup_smg_scope_small</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_bullpup_smg_flsh</modelName>
+			<txdName>w_at_bullpup_smg_flsh</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_ar_bullpup_smg_supp</modelName>
+			<txdName>w_at_ar_bullpup_smg_supp</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
+

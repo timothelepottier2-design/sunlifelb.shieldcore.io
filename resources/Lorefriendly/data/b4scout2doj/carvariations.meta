@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Bobcat Pack Neyu -->
+<CVehicleModelInfoVariation>
+  <variationData>
+	<Item>
+      <modelName>b4scout2doj</modelName>
+      <colors>
+        <Item>
+          <indices content="char_array">
+            4
+            4
+            134
+            0
+          </indices>
+          <liveries/>
+        </Item>
+		<Item>
+          <indices content="char_array">
+            0
+            0
+            0
+            0
+          </indices>
+          <liveries/>
+        </Item>
+		<Item>
+          <indices content="char_array">
+            111
+            111
+            111
+            0
+          </indices>
+          <liveries/>
+        </Item>
+      </colors>
+      <kits>
+        <Item>0_default_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges/>
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Standard White</Name>
+            <Value value="100"/>
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="119"/>
+      <sirenSettings value="7283"/>
+    </Item>
+  </variationData>
+</CVehicleModelInfoVariation>

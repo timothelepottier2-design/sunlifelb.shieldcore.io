@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponComponentInfoBlob>
+  <Data />
+  <Infos>
+  
+    <Item type="CWeaponComponentVariantModelInfo">
+      <Name>COMPONENT_REVOLVER_MK2_DARKMATTER_ANIM</Name>
+      <Model>w_pi_revolvermk2_darkmatter</Model>
+      <LocName>WCT_INVALID</LocName>
+      <LocDesc>WCD_INVALID</LocDesc>
+      <AttachBone />
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="false" />
+      <CreateObject value="false" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+      <TintIndexOverride value="2" />
+      <ExtraComponents>
+        <Item>
+          <ComponentName>COMPONENT_REVOLVER_MK2_CLIP_01</ComponentName>
+          <ComponentModel>w_pi_revolvermk2_darkmatter_mag1</ComponentModel>
+        </Item>
+        <Item>
+          <ComponentName>COMPONENT_REVOLVER_MK2_CLIP_FMJ</ComponentName>
+          <ComponentModel>w_pi_revolvermk2_darkmatter_mag1</ComponentModel>
+        </Item>
+        <Item>
+          <ComponentName>COMPONENT_REVOLVER_MK2_CLIP_HOLLOWPOINT</ComponentName>
+          <ComponentModel>w_pi_revolvermk2_darkmatter_mag1</ComponentModel>
+        </Item>
+        <Item>
+          <ComponentName>COMPONENT_REVOLVER_MK2_CLIP_INCENDIARY</ComponentName>
+          <ComponentModel>w_pi_revolvermk2_darkmatter_mag1</ComponentModel>
+        </Item>
+        <Item>
+          <ComponentName>COMPONENT_REVOLVER_MK2_CLIP_TRACER</ComponentName>
+          <ComponentModel>w_pi_revolvermk2_darkmatter_mag1</ComponentModel>
+        </Item>                       
+        <Item>
+          <ComponentName>WEAPON_SKIN_OMEX_BASE</ComponentName>
+          <ComponentModel>revolvermk2_darkmatter_anim</ComponentModel>
+        </Item>
+      </ExtraComponents>
+    </Item>
+
+  </Infos>
+  <InfoBlobName>Siri</InfoBlobName>
+</CWeaponComponentInfoBlob>

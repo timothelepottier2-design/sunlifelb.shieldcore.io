@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>m249</modelName>
+			<txdName>m249</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="75"/>
+		</Item>
+		<Item>
+			<modelName>m249_barrel_01</modelName>
+			<txdName>m249</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="75"/>
+		</Item>
+		<Item>
+			<modelName>m249_barrel_02</modelName>
+			<txdName>m249</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="75"/>
+		</Item>	
+		<Item>
+			<modelName>m249_clip_01</modelName>
+			<txdName>m249</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="75"/>
+		</Item>	
+		<Item>
+			<modelName>m249_bipod_01</modelName>
+			<txdName>m249</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="75"/>
+		</Item>			
+		<Item>
+			<modelName>m249_bipod_02</modelName>
+			<txdName>m249</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="75"/>
+		</Item>		
+		<Item>
+			<modelName>m249_flsh_01</modelName>
+			<txdName>m249_flsh</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_flsh_02</modelName>
+			<txdName>m249_flsh_02</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>	
+		<Item>
+			<modelName>m249_flsh_03</modelName>
+			<txdName>m249_flsh_02</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>	
+		<Item>
+			<modelName>m249_flsh_04</modelName>
+			<txdName>m249_flsh</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>	
+		<Item>
+			<modelName>m249_flsh_05</modelName>
+			<txdName>m249_flsh</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>			
+		<Item>
+			<modelName>m249_scope_01</modelName>
+			<txdName>m249_scope</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>			
+		<Item>
+			<modelName>m249_scope_02</modelName>
+			<txdName>m249_scope</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_03</modelName>
+			<txdName>m249_scope2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_04</modelName>
+			<txdName>m249_scope2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_05</modelName>
+			<txdName>m249_scope3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_06</modelName>
+			<txdName>m249_scope3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_07</modelName>
+			<txdName>m249_scope3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_08</modelName>
+			<txdName>m249_scope3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_09</modelName>
+			<txdName>m249_scope3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_10</modelName>
+			<txdName>m249_scope3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_11</modelName>
+			<txdName>m249_scope4</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_12</modelName>
+			<txdName>m249_scope4</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_13</modelName>
+			<txdName>m249_scope5</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_14</modelName>
+			<txdName>m249_scope5</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_15</modelName>
+			<txdName>m249_scope6</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_16</modelName>
+			<txdName>m249_scope6</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>		
+		<Item>
+			<modelName>m249_scope_17</modelName>
+			<txdName>m249_scope7</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>				
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
+

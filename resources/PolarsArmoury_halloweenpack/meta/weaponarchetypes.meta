@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_me_boneclub</modelName>
+			<txdName>w_me_boneclub</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_bucket</modelName>
+			<txdName>w_me_bucket</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_coffin</modelName>
+			<txdName>w_me_coffin</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_deathnote</modelName>
+			<txdName>w_me_deathnote</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_gravestone</modelName>
+			<txdName>w_me_gravestone</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_hellfiresword_01</modelName>
+			<txdName>w_me_hellfiresword_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_inferno</modelName>
+			<txdName>w_me_inferno</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_pumpkin2</modelName>
+			<txdName>w_me_pumpkin2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_pumpkinbat</modelName>
+			<txdName>w_me_pumpkinbat</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_arm</modelName>
+			<txdName>w_me_arm</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_leg</modelName>
+			<txdName>w_me_leg</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_soulscythe</modelName>
+			<txdName>w_me_soulscythe</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_stake_01</modelName>
+			<txdName>w_me_stake_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_triplescythe</modelName>
+			<txdName>w_me_triplescythe</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_voodoodoll</modelName>
+			<txdName>w_me_voodoodoll</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_witchbroom</modelName>
+			<txdName>w_me_witchbroom</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>

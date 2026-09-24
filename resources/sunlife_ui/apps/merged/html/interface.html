@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SunLife — HUD + Gym</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#10100b;--panel:#1a1912;--panel-2:#252417;--text:#e7e7f0;--muted:#9aa0b3;
+      --accent:#63ff6d;--accent-2:#ffe684;--accent-3:#e6ca2e;--success:#2ed47a;--danger:#ff5c7a;--info:#6aa8ff;--med:#ff6868;
+      --font:"Montserrat",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      --hud-scale:.5;
+      --col-hunger-strong:#d9995e; --col-hunger-soft:rgba(217,153,94,.35);
+      --col-thirst-strong:#5eb8de; --col-thirst-soft:rgba(94,184,222,.35);
+      --col-stamina-strong:#6dd49a; --col-stamina-soft:rgba(109,212,154,.35);
+      --col-mic-strong:#dfc06a; --col-mic-soft:rgba(223,192,106,.35);
+      --track:rgba(255,255,255,.04);
+      --halo:rgba(0,0,0,.45);
+      --glow:rgba(255,255,255,.06);
+      --hud-shift:-41vw;
+      --hud-offset-y:18.75vh;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:transparent;color:var(--text);font:600 clamp(.85rem,1vw,1rem)/1.2 var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;pointer-events:none}
+
+    /* ===== STATUS HUD (modernized) ===== */
+    .status-hud{
+      position:fixed;left:50%;bottom:calc(1.4vh + var(--hud-offset-y));
+      display:flex;gap:1.2vw;align-items:flex-end;justify-content:center;
+      width:min(70vw,96vw);opacity:1;transition:opacity .2s ease;
+      transform:translateX(calc(-50% + var(--hud-shift))) scale(var(--hud-scale))
+    }
+    @media (max-width:720px){.status-hud{gap:2.4vw;bottom:calc(2vh + var(--hud-offset-y))}}
+    .status-hud.hidden{opacity:0}
+
+    .ball{
+      position:relative; width:clamp(6vh,7.5vh,9vh); aspect-ratio:1/1;
+      display:grid; place-items:center;
+      --pct:0;
+      --strong:#aaa; --soft:rgba(170,170,170,.4);
+      border-radius:50%; overflow:hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.35);
+    }
+    .ring{display:none}
+    .ball .meter{
+      position:absolute; inset:0; border-radius:50%; overflow:hidden;
+      background: rgba(8,8,12,.72);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .ball .level{
+      position:absolute; left:0; right:0; bottom:0;
+      height:calc(var(--pct) * 100%);
+      background: linear-gradient(to top, var(--strong) 0%, var(--soft) 100%);
+      transition: height .25s ease; will-change:height;
+    }
+    .ball .glass{
+      position:absolute; inset:0; border-radius:50%; pointer-events:none;
+      background: radial-gradient(80% 60% at 50% 25%, rgba(255,255,255,.06), transparent 65%);
+    }
+    .icon{
+      position:relative; z-index:2; width:100%; height:100%;
+      display:grid; place-items:center; color:rgba(255,255,255,.85);
+    }
+    .icon svg{
+      width:var(--icon-size,55%); height:var(--icon-size,55%);
+      display:block; opacity:.8; filter:none;
+    }
+    .ball--mic{--icon-size:52%}
+    .ball--hunger{--icon-size:48%}
+    .ball--thirst{--icon-size:48%}
+    .ball--stamina{--icon-size:42%}
+    .ball--hunger{--strong:var(--col-hunger-strong);--soft:var(--col-hunger-soft)}
+    .ball--thirst{--strong:var(--col-thirst-strong);--soft:var(--col-thirst-soft)}
+    .ball--stamina{--strong:var(--col-stamina-strong);--soft:var(--col-stamina-soft)}
+    .ball--mic{--strong:var(--col-mic-strong);--soft:var(--col-mic-soft)}
+    .mic--muted .icon{opacity:.5}
+    .mic--radio .icon{filter:drop-shadow(0 0 .6vh rgba(255,208,82,.7))}
+    @media (prefers-reduced-motion:reduce){.ball .level{transition:none!important}}
+    .ball--mic .icon{opacity:.25;transition:opacity .15s ease}
+    .ball--mic.mic--speaking .icon{opacity:1}
+
+    :root{--col-health:var(--danger);--col-armor:var(--info)}
+    .status-bars{
+      position:fixed;left:50%;bottom:calc(1.2vh + var(--hud-offset-y));
+      transform:translateX(calc(-50% + var(--hud-shift))) scale(var(--hud-scale));
+      width:var(--bars-width,26vw);display:grid;grid-template-columns:1fr 1fr;gap:.8vh 1.2vh;
+      pointer-events:none;filter:drop-shadow(0 .5vh 1vh rgba(0,0,0,.35));opacity:1;transition:opacity .2s ease;z-index:1
+    }
+    @media (max-width:720px){.status-bars{width:72vw}}
+    .status-bars.hidden{opacity:0}
+    .stat{display:grid;align-items:center;justify-items:center}
+    .bar{position:relative;height:.92vh;width:100%;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 .12vh rgba(255,255,255,.06),inset 0 .18vh .36vh rgba(0,0,0,.35)}
+    .bar__fill{--val:100%;position:absolute;top:0;left:0;bottom:0;right:auto!important;width:var(--val);transition:width .25s ease}
+    .bar--health .bar__fill{background:linear-gradient(0deg,rgba(255,255,255,.08),rgba(255,255,255,0)),linear-gradient(90deg,#d83b57,#ff5c7a);background-color:#ff5c7a}
+    .bar--armor .bar__fill{background:linear-gradient(0deg,rgba(255,255,255,.08),rgba(255,255,255,0)),linear-gradient(90deg,#4b90ff,#6aa8ff);background-color:#6aa8ff}
+
+    :root{
+      --ov-font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      --ov-logo-h:3.4vh;
+    }
+    .server-overlay{
+      position:fixed; top:1.8vh; left:50%; transform:translateX(-50%);
+      display:flex; align-items:center; gap:0;
+      padding:0; background:rgba(8,8,12,.72);
+      border-radius:999px; overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 2px 16px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+      pointer-events:none; z-index:9;
+      opacity:1; transition:opacity .25s ease;
+      font-family:var(--ov-font);
+    }
+    .server-overlay.hidden{opacity:0}
+    .server-overlay .logo{height:var(--ov-logo-h);width:auto;display:block;opacity:.95;filter:drop-shadow(0 .3vh .6vh rgba(0,0,0,.35))}
+    .server-overlay .items{display:flex;align-items:center;gap:0}
+
+    .ov-item, .p-row{
+      display:flex; align-items:center; gap:.5vw;
+      padding:.7vh 1vw; white-space:nowrap;
+      border:none; background:none; border-radius:0;
+      position:relative;
+    }
+    .ov-item + .p-row,
+    .p-row + .p-row{
+      border-left:1px solid rgba(255,255,255,.08);
+    }
+    .ov-icon{display:grid;place-items:center;width:1.15rem;height:1.15rem;opacity:.4}
+    .ov-icon svg{width:100%;height:100%;display:block}
+    .ov-text{
+      font-family:var(--ov-font); font-weight:600; font-size:.8rem;
+      letter-spacing:.03em; color:rgba(255,255,255,.85);
+    }
+
+    .p-key{display:none}
+    .p-ico{width:1.1rem;height:1.1rem;display:grid;place-items:center;opacity:.4}
+    .p-ico svg{width:100%;height:100%}
+    .p-val{
+      font-family:var(--ov-font); font-weight:600; font-size:.8rem;
+      letter-spacing:.02em; color:rgba(255,255,255,.88);
+    }
+    .p-val.money{color:#4ade80}
+    .p-val.dirty{color:#f87171}
+
+    .safezone{position:fixed;left:14.2%;bottom:2.2%;display:inline-flex;align-items:center;gap:1.2%;padding:.8% 1.6%;background:rgba(0,0,0,.35);color:#fff;font-weight:800;letter-spacing:.06em;border-radius:999em;box-shadow:0 .6% 1.2% rgba(0,0,0,.35);transform:scale(var(--hud-scale));pointer-events:none;z-index:9;opacity:1;transition:opacity .2s ease}
+    .safezone.hidden{opacity:0}
+    .safezone .sz-ico{width:2.2vw;height:2.2vw;min-width:1.8vw;min-height:1.8vw;display:grid;place-items:center;opacity:.95}
+    .safezone .sz-ico svg{width:100%;height:100%;display:block}
+    .safezone .sz-text{font-size:clamp(.7rem,.9vw,1rem)}
+    @media (max-width:720px){.safezone{left:3.5%;bottom:6%;padding:1.2% 2.4%}.safezone .sz-ico{width:4.2vw;height:4.2vw}}
+
+    :root{--logo-top:-2vh;--logo-right:0vw;--logo-width:12vh;--logo-scale:1;--logo-opacity:.95}
+    .corner-logo{position:fixed;top:var(--logo-top);right:var(--logo-right);width:var(--logo-width);height:auto;transform:scale(var(--logo-scale));transform-origin:top right;opacity:var(--logo-opacity);filter:drop-shadow(0 .3vh .6vh rgba(0,0,0,.35));pointer-events:none;z-index:10;transition:opacity .2s ease,transform .2s ease}
+    .corner-logo.hidden{opacity:0}
+
+    /* Minimap alignment overrides */
+    :root{
+      --mm-left: 1.6vw;
+      --mm-bottom: 3vh;
+      --mm-size: 18.6vw;
+      --mm-gap: -3%;
+    }
+    .status-hud{
+      left: calc(var(--mm-left) + var(--mm-size) + var(--mm-gap)) !important;
+      right: auto !important;
+      bottom: calc(var(--mm-bottom) + .2vh) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 1.1vh !important;
+      width: auto !important;
+      transform: scale(var(--hud-scale)) !important;
+      transform-origin: bottom left;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    :root{ --sz-shift: 3%; }
+    .safezone{ left: calc(14.2% + var(--sz-shift)) !important; }
+    @media (max-width:720px){ .safezone{ left: calc(3.5% + var(--sz-shift)) !important; } }
+    :root{ --sz-vshift: 1vh; }
+    .safezone{ bottom: calc(2.2% - var(--sz-vshift)) !important; }
+    @media (max-width:720px){ .safezone{ bottom: calc(6% - var(--sz-vshift)) !important; } }
+    :root{ --bars-vshift: 17.5vh; }
+    .status-bars{ bottom: calc(1.2vh + var(--hud-offset-y) - var(--bars-vshift)) !important; }
+    @media (max-width:720px){ .status-bars{ bottom: calc(2vh + var(--hud-offset-y) - var(--bars-vshift)) !important; } }
+
+    /* ===== GYM CHIP (from merged NUI) ===== */
+    .gym{position:fixed;left:50%;bottom:8vh;transform:translateX(-50%) scale(.95);display:none;opacity:0;transition:.18s ease;width:38vw;max-width:88vw;pointer-events:none}
+    .gym.show{display:block;opacity:1}
+    .chip{display:flex;align-items:center;gap:.92vw;margin:0 auto;width:fit-content;max-width:100%;padding:.92vh 1.22vw;border-radius:999rem;background:linear-gradient(180deg, rgba(26,23,18,.92), rgba(26,23,18,.82));border:.1rem solid rgba(255,255,255,.10);box-shadow:0 1.6vh 4vh rgba(0,0,0,.45), inset 0 0 .6rem rgba(0,0,0,.35)}
+    .ic{width:2.2rem;height:2.2rem;border-radius:50%;display:grid;place-items:center;border:.1rem solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);flex:0 0 auto}
+    .ic svg{width:80%;height:80%}
+    .info{display:flex;flex-direction:column;gap:.25vh;min-width:15.3vw;max-width:30.6vw}
+    .row{display:flex;align-items:center;gap:.68vw}
+    .value{font-weight:800;font-size:clamp(.88rem, 1.02vw, 1rem)}
+    .badge{font-weight:800;font-size:clamp(.72rem, .9vw, .9rem);padding:.2rem .5rem;border-radius:.6rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
+    .progress{width:70%;height:.9rem;margin:.35rem auto 0;border-radius:999rem;overflow:hidden;background:rgba(255,255,255,.08);border:.08rem solid rgba(255,255,255,.16)}
+    .progress>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#e6842e,#ffbd84);box-shadow:inset 0 0 0 .08rem rgba(0,0,0,.18);transition:width .25s ease}
+  
+  /* ==== VEHICLE SPEEDO (merged — redesigned) ==== */
+  :root{
+    --veh-scale: 0.75;
+    --veh-right-pct: 2.4vw;
+    --veh-bottom-pct: 4.2vh;
+    --veh-right: 34px;
+    --veh-bottom: 42px;
+    --veh-bg: rgba(8,8,12,.72);
+    --veh-border: rgba(255,255,255,.08);
+  }
+  .hud{position:fixed; inset:0; pointer-events:none}
+  .speedo{
+    position:fixed;
+    right: var(--veh-right-pct, var(--veh-right));
+    bottom: var(--veh-bottom-pct, var(--veh-bottom));
+    display:flex; flex-direction:column; gap:10px; align-items:flex-end;
+    font-family: var(--ov-font);
+    transform: scale(var(--veh-scale)); transform-origin: bottom right;
+  }
+  .speedo .top{
+    display:flex; align-items:flex-end; gap:12px;
+  }
+  .speedo .speed{
+    font-family: var(--ov-font);
+    font-size:80px; line-height:.86; font-weight:600; letter-spacing:-.02em;
+    color:rgba(255,255,255,.92);
+    font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1;
+    text-shadow: 0 2px 12px rgba(0,0,0,.4);
+  }
+  .gearStack{
+    display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+    padding-bottom:6px;
+  }
+  .gearPill{
+    height:36px; padding:0 14px; min-width:56px; border-radius:999px;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    background: var(--veh-bg); border:1px solid var(--veh-border);
+    box-shadow: 0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.04);
+    color:#fff; font-family: var(--ov-font); font-weight:700; font-size:20px;
+  }
+  .gearPill svg{opacity:.7}
+  .unit{
+    font-family: var(--ov-font); font-weight:500; font-size:22px;
+    color:rgba(255,255,255,.4); letter-spacing:.04em; margin-left:2px;
+  }
+  .fuelLine{ display:flex; align-items:center; gap:10px; }
+  .fuelWrap{
+    width:257px; height:10px; border-radius:999px; position:relative;
+    background: var(--veh-bg);
+    border:1px solid var(--veh-border);
+    box-shadow: 0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.03);
+  }
+  .fuel{
+    height:100%; width:70%; border-radius:inherit; position:relative;
+    background: linear-gradient(90deg, #e55d0f, #ff8c42);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 0 6px rgba(255,140,66,.3);
+    overflow:hidden; transition: width .25s ease, background .25s ease;
+  }
+  .fuel.low{
+    background: linear-gradient(90deg, #f87171, #ef4444);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 0 8px rgba(248,113,113,.4);
+    animation:fuelPulse 1.2s ease-in-out infinite;
+  }
+  @keyframes fuelPulse{
+    0%{ box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 0 6px rgba(248,113,113,.3) }
+    50%{ box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 0 14px rgba(248,113,113,.5) }
+    100%{ box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 0 6px rgba(248,113,113,.3) }
+  }
+  .fuel::after{ content:""; position:absolute; left:8%; right:8%; top:0; height:4px; background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.35), transparent 70%); pointer-events:none; }
+  .pumpIcon{opacity:.5}
+  .icons{display:flex; gap:8px; margin-top:2px}
+  .ico{
+    width:48px; height:40px; border-radius:999px;
+    background: var(--veh-bg); border:1px solid var(--veh-border);
+    box-shadow: 0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.04);
+    display:grid; place-items:center; opacity:.95; position:relative;
+    transition: background .2s, border-color .2s, opacity .2s, filter .2s, transform .2s;
+  }
+  .ico svg{opacity:.7; transition:opacity .15s, filter .15s}
+  .ico.off{opacity:.45; filter:grayscale(.3)}
+  .ico.on{
+    background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.2);
+    box-shadow: 0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .ico.on svg{opacity:1}
+  .ico.anim-on{ animation: vehPopOn .32s ease-out both; }
+  .ico.anim-on::after{ content:""; position:absolute; inset:-3px; border-radius:999px; border:1.5px solid rgba(255,255,255,.6); opacity:0; animation: vehRing .32s ease-out forwards; pointer-events:none; }
+  .ico.anim-off{ animation: vehFadeOff .22s ease-in both; }
+  @keyframes vehPopOn{ 0%{transform:scale(.88);opacity:.6} 60%{transform:scale(1.06)} 100%{transform:scale(1);opacity:1} }
+  @keyframes vehRing{ 0%{opacity:.9;transform:scale(1)} 100%{opacity:0;transform:scale(1.25)} }
+  @keyframes vehFadeOff{ 0%{filter:none;opacity:.95;transform:scale(1)} 100%{filter:grayscale(.3);opacity:.45;transform:scale(.98)} }
+</style>
+</head>
+<body>
+
+  <!-- ===== Vehicle Speedo (merged — redesigned) ===== -->
+  <div class="hud">
+    <div class="speedo" id="speedo" style="display:none">
+      <div class="top">
+        <div class="speed" id="spd">0</div>
+        <div class="gearStack">
+          <div class="gearPill" title="Rapport engagé">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/>
+            </svg>
+            <span id="gear">N</span>
+          </div>
+          <div class="unit">km/h</div>
+        </div>
+      </div>
+      <div class="fuelLine" aria-label="Carburant">
+        <div class="fuelWrap"><div class="fuel" id="fuel" style="width:70%"></div></div>
+        <svg class="pumpIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 22V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v17"/><path d="M13 10h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 6"/><path d="M3 22h10"/>
+        </svg>
+      </div>
+      <div class="icons">
+        <div id="icoEngine" class="ico off" title="Moteur">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 10h10l2 2v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-4l2-2z"/><path d="M12 10V6"/><path d="M9 6h6"/>
+          </svg>
+        </div>
+        <div id="icoLights" class="ico off" title="Feux">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="10" cy="12" r="6"/><path d="M16 8h4"/><path d="M16 12h4"/><path d="M16 16h4"/>
+          </svg>
+        </div>
+        <div id="icoDoors" class="ico off" title="Portes">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="8" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div id="icoBelt" class="ico off" title="Ceinture">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 12h6"/><path d="M14 12h6"/><rect x="8" y="9" width="8" height="6" rx="1"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Corner logo (remote) -->
+  <img id="cornerLogo" class="corner-logo hidden" src="" alt="logo" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <!-- ===== Status HUD ===== -->
+  <div id="statusHud" class="status-hud">
+    <div class="ball ball--mic" data-key="mic">
+      <div class="meter"></div><div class="level"></div><div class="glass"></div>
+      <div class="icon" id="micIcon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M9.26 9.26a3 3 0 0 0 5.48 1.63"/><path d="M9 9V5a3 3 0 0 1 5.12-2.12"/><path d="M15 9.34V5"/><path d="M17 16.95A7 7 0 0 1 5 12v-2"/><path d="M19 10v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+      </div>
+    </div>
+    <div class="ball ball--hunger" data-key="hunger">
+      <div class="meter"></div><div class="level"></div><div class="glass"></div>
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3"/><path d="M18 22v-7"/></svg>
+      </div>
+    </div>
+    <div class="ball ball--thirst" data-key="thirst">
+      <div class="meter"></div><div class="level"></div><div class="glass"></div>
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-5-7-13-7-13S5 10 5 15a7 7 0 0 0 7 7z"/></svg>
+      </div>
+    </div>
+    <div class="ball ball--stamina" data-key="stamina">
+      <div class="meter"></div><div class="level"></div><div class="glass"></div>
+      <div class="icon" id="stamIcon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div id="statusBars" class="status-bars">
+    <div class="stat stat--health"><div class="bar bar--health"><div class="bar__fill"></div></div></div>
+    <div class="stat stat--armor"><div class="bar bar--armor"><div class="bar__fill"></div></div></div>
+  </div>
+
+  <div id="serverOverlay" class="server-overlay">
+    <div class="items">
+      <div class="ov-item"><span class="ov-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="ov-text" id="ovId">—</span></div>
+      <div class="p-row" title="Nom"><span class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="p-val" id="pName">—</span></div>
+      <div class="p-row" title="Job"><span class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span><span class="p-val" id="pJob">—</span></div>
+      <div class="p-row" title="Job 2"><span class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="p-val" id="pJob2">Sans groupe</span></div>
+      <div class="p-row" title="Liquide"><span class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span class="p-val money" id="pCash">—</span></div>
+      <div class="p-row" title="Sale"><span class="p-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span class="p-val dirty" id="pDirty">—</span></div>
+    </div>
+  </div>
+
+  <!-- ===== Gym chip ===== -->
+  <div class="gym" id="gymHud">
+    <div class="chip">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 10h2v4H2v-4Zm3-3h2v10H5V7Zm12 0h2v10h-2V7Zm3 3h2v4h-2v-4ZM8 11h8v2H8v-2Z"/></svg></div>
+      <div class="info">
+        <div class="row"><span id="gymStatus" class="value">Musculation</span><span id="gymBadge" class="badge" style="display:none;"></span></div>
+        <div class="progress"><i id="gymBar" style="width:0%"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="safeZone" class="safezone hidden">
+    <span class="sz-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5.25-3.438 9.997-8 11-4.562-1.003-8-5.75-8-11V5l8-3zM7 9.5l4.2 4.2L17 7.9l-1.4-1.4-4.4 4.4L8.4 8.5 7 9.5z" fill="currentColor"/></svg></span>
+    <span class="sz-text">SAFEZONE</span>
+  </div>
+
+  <script>
+    (() => {
+      const hud = document.getElementById('statusHud');
+      const serverOverlayEl = document.getElementById('serverOverlay');
+
+      function setCircleProgress(ball, v){
+        const x = Math.max(0, Math.min(1, Number(v) || 0));
+        ball.style.setProperty('--pct', String(x));
+        const level = ball.querySelector('.level');
+        if (level) level.style.height = (x*100) + '%';
+      }
+
+      function setBarValue(selector, pct) {
+        const v = Math.max(0, Math.min(100, Number(pct) || 0));
+        const el = document.querySelector(selector + ' .bar__fill');
+        if (el) el.style.setProperty('--val', v + '%');
+      }
+
+      function setHealthFlexible(selector, raw) {
+        const n = Number(raw);
+        let pct = 0;
+        if (!isNaN(n)) {
+          if (n >= 100 && n <= 200) pct = n - 100;
+          else if (n >= 0 && n <= 100) pct = n;
+          else if (n > 200) pct = Math.min(100, n / 2);
+        }
+        setBarValue(selector, pct);
+      }
+
+      // Flexible armor: supports 0..100 or 0..200
+      function setArmorFlexible(selector, raw){
+        const n = Number(raw);
+        let pct = 0;
+        if (!isNaN(n)) {
+          pct = n <= 100 ? n : Math.min(100, (n/200)*100);
+        }
+        setBarValue(selector, pct);
+      }
+
+      function setMicState({talking=false,radio=false}) {
+        const micBall = document.querySelector('.ball--mic');
+        const iconWrap = document.getElementById('micIcon');
+        micBall.classList.toggle('mic--speaking', !!talking || !!radio);
+        iconWrap.innerHTML = (!!talking || !!radio)
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>'
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M9.26 9.26a3 3 0 0 0 5.48 1.63"/><path d="M9 9V5a3 3 0 0 1 5.12-2.12"/><path d="M15 9.34V5"/><path d="M17 16.95A7 7 0 0 1 5 12v-2"/><path d="M19 10v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>';
+      }
+
+      const $name = document.getElementById('pName');
+      const $job = document.getElementById('pJob');
+      const $job2 = document.getElementById('pJob2');
+      const $cash = document.getElementById('pCash');
+      const $dirty = document.getElementById('pDirty');
+      const $ovId = document.getElementById('ovId');
+
+      function GroupDigits(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }
+      function setOverlayData(d){
+        if ('id' in d) $ovId.textContent = String(d.id);
+        if ('name' in d) $name.textContent = String(d.name);
+        if ('job' in d) $job.textContent = String(d.job);
+        if ('job2' in d) $job2.textContent = String(d.job2);
+        if ('cash' in d) $cash.textContent = GroupDigits(d.cash) + "$";
+        if ('dirty' in d) $dirty.textContent = GroupDigits(d.dirty) + "$";
+        if ('logo' in d) {
+          const $logo = document.querySelector('.server-overlay .logo');
+          if ($logo) $logo.src = d.logo;
+        }
+      }
+
+      // Portée voix dynamique : on normalise distance/max envoyé par le Lua
+      // (Config.VoiceSettings) plutôt que des paliers fixes, sinon tous les
+      // modes pma-voice (3.5/8/15m) tombent dans le même bucket et l'anneau
+      // ne bouge jamais.
+      let _micMaxMeters = 35; // fallback
+      function setMicRangeMeters(m, maxM){
+        if (typeof maxM === 'number' && maxM > 0) _micMaxMeters = maxM;
+        const ratio = Math.max(0, Math.min(1, (Number(m) || 0) / _micMaxMeters));
+        // Plancher visuel à 8% pour qu'un chuchotement reste lisible
+        const value = Math.max(0.08, ratio);
+        setCircleProgress(document.querySelector('.ball--mic'), value);
+      }
+
+      let gymHideTimer = null;
+      window.addEventListener('message', e => {
+        const d = e.data || {};
+        if (d.action === 'statushud:set') {
+          if (typeof d.on === 'boolean') {
+            hud.classList.toggle('hidden', !d.on);
+            document.getElementById('statusBars')?.classList.toggle('hidden', !d.on);
+          }
+          if (typeof d.hunger === 'number') setCircleProgress(document.querySelector('.ball--hunger'), d.hunger / 100);
+          if (typeof d.thirst === 'number') setCircleProgress(document.querySelector('.ball--thirst'), d.thirst / 100);
+          if (typeof d.stamina === 'number') {
+            const s = Math.max(0, Math.min(100, d.stamina));
+            const v = d.underwater ? (s / 100) : (1 - s / 100);
+            setCircleProgress(document.querySelector('.ball--stamina'), v);
+          }
+          if (typeof d.health === 'number') setHealthFlexible('.bar--health', d.health);
+          if (typeof d.armor === 'number') setArmorFlexible('.bar--armor', d.armor);
+          setMicState({talking:!!d.talking,radio:!!d.radio});
+          if ('name' in d || 'job' in d || 'job2' in d || 'cash' in d || 'dirty' in d) setOverlayData(d);
+        }
+        if (d.type === 'safezone:visible') document.getElementById('safeZone')?.classList.toggle('hidden', d.on === false);
+        if (d.type === 'UPDATE_MIC_DISTANCE') setMicRangeMeters(Number(d.distance) || 0, Number(d.max) || 0);
+        if (d.type === 'overlay:visible') {
+          const show = d.on !== false;
+          serverOverlayEl?.classList.toggle('hidden', !show);
+          window.postMessage({ type: 'logo:visible', on: show }, '*');
+        }
+        if (d.type === 'overlay:set') {
+          setOverlayData(d);
+          if ('visible' in d) {
+            const show = !!d.visible;
+            serverOverlayEl?.classList.toggle('hidden', !show);
+            window.postMessage({ type: 'logo:visible', on: show }, '*');
+          }
+        }
+        if (d.action === 'gym:set') {
+          if (gymHideTimer) { clearTimeout(gymHideTimer); gymHideTimer = null; }
+          const chip = document.getElementById('gymHud');
+          if (d.on) { chip.classList.add('show'); } else { chip.classList.remove('show'); }
+          if (typeof d.label === 'string') document.getElementById('gymStatus').textContent = d.label;
+          if (typeof d.percent === 'number') document.getElementById('gymBar').style.width = Math.max(0, Math.min(100, d.percent)) + '%';
+          if (typeof d.badge === 'string' && d.badge.length>0) { 
+            const b = document.getElementById('gymBadge'); b.style.display='inline-block'; b.textContent=d.badge; 
+          } else {
+            document.getElementById('gymBadge').style.display='none';
+          }
+          if (d.on) {
+            const ttl = (typeof d.duration === 'number' ? d.duration : 3500);
+            gymHideTimer = setTimeout(() => { chip.classList.remove('show'); }, Math.max(0, ttl));
+          }
+        }
+      });
+    })();
+
+    const cornerLogoEl = document.getElementById('cornerLogo');
+    function isSafeLogoUrl(u){
+      try{
+        const x = new URL(u, window.location.href);
+        if (x.protocol === 'data:') return /^data:image\//i.test(u);
+        return x.protocol === 'https:' || x.protocol === 'http:';
+      }catch(e){ return false }
+    }
+    cornerLogoEl.addEventListener('error', () => { cornerLogoEl.classList.add('hidden') });
+    cornerLogoEl.addEventListener('load', () => {
+      if (cornerLogoEl.naturalWidth === 0) cornerLogoEl.classList.add('hidden');
+      else cornerLogoEl.classList.remove('hidden');
+    });
+    function setLogoData(d){
+      if ('src' in d && isSafeLogoUrl(String(d.src))) cornerLogoEl.src = String(d.src);
+      if ('width' in d) cornerLogoEl.style.setProperty('--logo-width', String(d.width));
+      if ('top' in d) cornerLogoEl.style.setProperty('--logo-top', String(d.top));
+      if ('right' in d) cornerLogoEl.style.setProperty('--logo-right', String(d.right));
+      if ('scale' in d) cornerLogoEl.style.setProperty('--logo-scale', String(d.scale));
+      if ('opacity' in d) cornerLogoEl.style.setProperty('--logo-opacity', String(d.opacity));
+      if ('visible' in d) cornerLogoEl.classList.toggle('hidden', !d.visible);
+    }
+    let gymHideTimer = null;
+      window.addEventListener('message', e => {
+      const d = e.data || {};
+      if (d.type === 'logo:set') setLogoData(d);
+      if (d.type === 'logo:visible') cornerLogoEl.classList.toggle('hidden', d.on === false);
+    });
+    window.postMessage({type:'logo:set', src:'https://i.ibb.co/Kjsd95wk/logo.png', top:'0vh', right:'0vw', width:'12vh', scale:1, opacity:0.95, visible:true}, '*');
+  </script>
+
+  <script>
+    (function(){
+      const spdEl  = document.getElementById('spd');
+      const gearEl = document.getElementById('gear');
+      const fuelEl = document.getElementById('fuel');
+      const speedo = document.getElementById('speedo');
+      function vehPlayToggleAnimation(el, isOn){
+        el.classList.remove('anim-on','anim-off'); void el.offsetWidth;
+        el.classList.add(isOn ? 'anim-on' : 'anim-off');
+        function done(){ el.classList.remove('anim-on','anim-off'); el.removeEventListener('animationend', done); }
+        el.addEventListener('animationend', done);
+      }
+      function vehSetStatusKey(key, val){
+        const map={engine:document.getElementById('icoEngine'), lights:document.getElementById('icoLights'), doorsClosed:document.getElementById('icoDoors'), seatbelt:document.getElementById('icoBelt')};
+        const el=map[key]; if(!el) return;
+        const wasOn = el.classList.contains('on');
+        el.classList.toggle('on',  !!val);
+        el.classList.toggle('off', !val);
+        if (wasOn !== !!val) vehPlayToggleAnimation(el, !!val);
+      }
+      function vehSetStatus(s){
+        if('engine' in s) vehSetStatusKey('engine', !!s.engine);
+        if('lights' in s) vehSetStatusKey('lights', !!s.lights);
+        if('doorsClosed' in s) vehSetStatusKey('doorsClosed', !!s.doorsClosed);
+        if('seatbelt' in s) vehSetStatusKey('seatbelt', !!s.seatbelt);
+      }
+      window.addEventListener('message', function(ev){
+        const d = ev.data || {};
+        if(d.action === 'hud:update'){
+          if(typeof d.speed === 'number') spdEl.textContent = Math.round(d.speed);
+          if(typeof d.gear  === 'number') gearEl.textContent = d.gear;
+          if(typeof d.fuel  === 'number'){
+            const f = Math.max(0, Math.min(100, d.fuel));
+            fuelEl.style.width = f + '%';
+            fuelEl.classList.toggle('low', f <= 20);
+          }
+          if(typeof d.visible === 'boolean') speedo.style.display = d.visible ? 'flex' : 'none';
+          if(d.status && typeof d.status === 'object') vehSetStatus(d.status);
+          ['engine','lights','doorsClosed','seatbelt'].forEach(k => {
+            if(typeof d[k] === 'boolean') vehSetStatusKey(k, d[k]);
+          });
+        }
+        if(d.action === 'hud:config'){
+          const root = document.documentElement;
+          if(typeof d.scale === 'number'){
+            root.style.setProperty('--veh-scale', String(d.scale));
+            speedo.style.transform = 'scale(' + d.scale + ')';
+            speedo.style.transformOrigin = 'bottom right';
+          }
+          if(typeof d.offsetRightPct === 'number'){
+            const clamped = Math.max(0, Math.min(100, d.offsetRightPct));
+            root.style.setProperty('--veh-right-pct', clamped + 'vw');
+            speedo.style.right = clamped + 'vw';
+          }
+          if(typeof d.offsetBottomPct === 'number'){
+            const clamped = Math.max(0, Math.min(100, d.offsetBottomPct));
+            root.style.setProperty('--veh-bottom-pct', clamped + 'vh');
+            speedo.style.bottom = clamped + 'vh';
+          }
+          if(typeof d.offsetRight === 'number'){
+            root.style.setProperty('--veh-right', d.offsetRight + 'px');
+            speedo.style.right = d.offsetRight + 'px';
+          }
+          if(typeof d.offsetBottom === 'number'){
+            root.style.setProperty('--veh-bottom', d.offsetBottom + 'px');
+            speedo.style.bottom = d.offsetBottom + 'px';
+          }
+        }
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       KOTH (King of the Hill) — HUD + notifs
+       Mergé depuis le script captureZones de l'autre serveur.
+       Couleurs SunLife (orange #ff751f), aucune ref jaune/prime.
+       Listens : action='koth:show'|'koth:hide'|'koth:update'|'koth:notify'
+       ============================================================ -->
+  <style>
+    :root{
+      --koth-orange:    #ff751f;
+      --koth-orange-2:  #ff8a3c;
+      --koth-orange-3:  #e6661a;
+      --koth-red:       #e03232;
+      --koth-green:     #50dc64;
+      --koth-blue:      #5aafed;
+      --koth-grey:      #888;
+      --koth-bg:        rgba(10,10,10,.86);
+      --koth-bg-strong: rgba(10,10,10,.94);
+      --koth-line:      rgba(255,255,255,.06);
+      --koth-text:      #f2f2f2;
+      --koth-muted:     rgba(255,255,255,.55);
+      --koth-font:      "Inter", ui-sans-serif, system-ui, -apple-system,
+                        "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* ---- HUD principal (top center) ---- */
+    /* Scale +10% via transform : préserve la mise en page sans toucher à
+       chaque taille (width/padding/font-size). transform-origin top center
+       pour que le HUD grandisse vers le bas sans chevaucher le haut écran. */
+    .koth-hud{
+      position: fixed;
+      top: calc(9px + 3cm);
+      left: 50%;
+      transform: translateX(-50%) scale(1.1);
+      transform-origin: top center;
+      width: 200px;
+      background: var(--koth-bg);
+      border: 1px solid var(--koth-line);
+      border-radius: 0;                /* carré (boutique style) */
+      font-family: var(--koth-font);
+      z-index: 99999;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity .35s ease;
+      box-shadow: 0 8px 28px rgba(0,0,0,.45);
+    }
+    .koth-hud.koth-fadein{ opacity: 1; }
+    .koth-hud.koth-hidden{ display: none; opacity: 0; }
+
+    .koth-accent{
+      height: 2px;
+      width: 100%;
+      background: var(--koth-orange);
+      box-shadow: 0 0 10px rgba(255,117,31,.55);
+    }
+
+    .koth-header{
+      display: flex;
+      align-items: center;
+      padding: 7px 10px 4px;
+      gap: 8px;
+    }
+    .koth-icon{
+      font-size: 13px;
+      color: var(--koth-orange);
+      line-height: 1;
+    }
+    .koth-titles{ flex: 1; min-width: 0; }
+    .koth-label{
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--koth-orange);
+    }
+    .koth-zone-name{
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: .3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+    }
+
+    .koth-state-badge{
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--koth-orange);
+      border: 1px solid var(--koth-orange);
+      border-radius: 0;
+      padding: 2px 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .koth-countdown-wrap{
+      text-align: center;
+      padding: 0 10px 5px;
+    }
+    .koth-cd-number{
+      font-size: 19px;
+      font-weight: 900;
+      color: var(--koth-orange);
+      letter-spacing: .5px;
+      transition: opacity .2s;
+    }
+    .koth-bar-bg{
+      height: 3px;
+      background: rgba(255,255,255,.08);
+      border-radius: 0;
+      margin-top: 2px;
+      overflow: hidden;
+    }
+    .koth-bar-fill{
+      height: 100%;
+      background: var(--koth-orange);
+      border-radius: 0;
+      transition: width .9s linear;
+      box-shadow: 0 0 6px rgba(255,117,31,.55);
+    }
+
+    .koth-status{
+      text-align: center;
+      font-size: 10px;
+      color: var(--koth-muted);
+      padding: 0 10px 6px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: 600;
+    }
+
+    /* Liste des groupes présents en bas du HUD ("Families : 2"). */
+    .koth-gangs{
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding: 4px 12px 6px;
+      border-top: 1px solid rgba(255,255,255,.05);
+      background: rgba(0,0,0,.18);
+      max-height: 92px;
+      overflow-y: auto;
+    }
+    .koth-gangs.koth-hidden{ display: none; }
+    .koth-gang-row{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      color: #e0e0e0;
+      padding: 1px 0;
+    }
+    .koth-gang-row .koth-gang-name{
+      text-transform: uppercase;
+      color: #f5f5f5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 70%;
+    }
+    .koth-gang-row .koth-gang-count{
+      color: var(--koth-orange);
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+    }
+
+    /* ---- Notifications (top right) ---- */
+    /* Même scale +10% que le HUD principal pour rester cohérent visuellement.
+       transform-origin top right : les notifs grandissent vers la gauche/bas
+       sans sortir de l'écran. */
+    .koth-notifs{
+      position: fixed;
+      top: calc(64px + 2cm);
+      right: 14px;
+      width: 320px;
+      z-index: 99998;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-family: var(--koth-font);
+      transform: scale(1.1);
+      transform-origin: top right;
+    }
+
+    .koth-notif{
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 14px 9px;
+      background: var(--koth-bg-strong);
+      border-left: 3px solid var(--koth-orange);
+      border-radius: 0;
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity .35s ease, transform .35s ease;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(0,0,0,.45);
+    }
+    .koth-notif-in{ opacity: 1; transform: translateX(0); }
+    .koth-notif-out{ opacity: 0; transform: translateX(40px); }
+
+    .koth-notif-row{
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .koth-notif-icon{
+      font-size: 18px;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .koth-notif-text{
+      font-size: 12px;
+      color: #e0e0e0;
+      line-height: 1.4;
+      flex: 1;
+      font-weight: 600;
+    }
+
+    /* Petite bannière KOTH affichée en dessous du texte de chaque notif. */
+    .koth-notif-banner{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .koth-notif-banner img{
+      display: block;
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 0;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,.5));
+    }
+
+    .koth-notif-timer{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(255,255,255,.05);
+    }
+    .koth-notif-timer-fill{
+      height: 100%;
+      width: 100%;
+      border-radius: 0;
+    }
+
+    .koth-notif-info    { border-left-color: var(--koth-blue); }
+    .koth-notif-info    .koth-notif-icon{ color: var(--koth-blue); }
+    .koth-notif-info    .koth-notif-timer-fill{ background: var(--koth-blue); }
+
+    .koth-notif-warning { border-left-color: var(--koth-orange); }
+    .koth-notif-warning .koth-notif-icon{ color: var(--koth-orange); }
+    .koth-notif-warning .koth-notif-timer-fill{ background: var(--koth-orange); }
+
+    .koth-notif-combat  { border-left-color: var(--koth-red); }
+    .koth-notif-combat  .koth-notif-icon{ color: var(--koth-red); }
+    .koth-notif-combat  .koth-notif-timer-fill{ background: var(--koth-red); }
+
+    .koth-notif-victory { border-left-color: var(--koth-green); }
+    .koth-notif-victory .koth-notif-icon{ color: var(--koth-green); }
+    .koth-notif-victory .koth-notif-timer-fill{ background: var(--koth-green); }
+
+    .koth-notif-defeat  { border-left-color: var(--koth-grey); }
+    .koth-notif-defeat  .koth-notif-icon{ color: var(--koth-grey); }
+    .koth-notif-defeat  .koth-notif-timer-fill{ background: var(--koth-grey); }
+
+    .koth-notif-enter   { border-left-color: var(--koth-orange); }
+    .koth-notif-enter   .koth-notif-icon{ color: var(--koth-orange); }
+    .koth-notif-enter   .koth-notif-timer-fill{ background: var(--koth-orange); }
+
+    .koth-notif-exit    { border-left-color: var(--koth-grey); }
+    .koth-notif-exit    .koth-notif-icon{ color: var(--koth-grey); }
+    .koth-notif-exit    .koth-notif-timer-fill{ background: var(--koth-grey); }
+
+    /* ---- Indicateur HORS-ZONE (combat en cours, joueur hors de la zone) ---- */
+    .koth-outzone{
+      position: fixed;
+      top: calc(9px + 3cm);
+      left: 50%;
+      transform: translateX(-50%) scale(1.1);
+      transform-origin: top center;
+      background: rgba(22,4,4,.88);
+      border: 1px solid var(--koth-red);
+      border-left: 3px solid var(--koth-red);
+      border-radius: 0;
+      padding: 8px 18px;
+      font-family: var(--koth-font);
+      text-align: center;
+      z-index: 99999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,.5);
+    }
+    .koth-outzone.koth-show{ opacity: 1; }
+    .koth-outzone.koth-hidden{ display: none; }
+    .koth-outzone-title{
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--koth-red);
+    }
+    .koth-outzone.koth-show .koth-outzone-title{
+      animation: kothOutzoneBlink 1s ease-in-out infinite;
+    }
+    .koth-outzone-sub{
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #f2c5c5;
+      margin-top: 3px;
+    }
+    @keyframes kothOutzoneBlink{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
+
+    @media (prefers-reduced-motion: reduce){
+      .koth-hud, .koth-notif{ transition: none !important; }
+      .koth-bar-fill, .koth-notif-timer-fill{ transition: none !important; }
+      .koth-outzone.koth-show .koth-outzone-title{ animation: none !important; }
+    }
+  </style>
+
+  <div id="koth-hud" class="koth-hud koth-hidden">
+    <div class="koth-accent"></div>
+    <div class="koth-header">
+      <div class="koth-icon">&#9876;</div>
+      <div class="koth-titles">
+        <div class="koth-label">ATTAQUE DE ZONE</div>
+        <div class="koth-zone-name" id="koth-zone-name"></div>
+      </div>
+      <div class="koth-state-badge" id="koth-state-badge"></div>
+    </div>
+    <div class="koth-countdown-wrap koth-hidden" id="koth-cd-wrap">
+      <div class="koth-cd-number" id="koth-cd-number">30</div>
+      <div class="koth-bar-bg"><div class="koth-bar-fill" id="koth-bar-fill"></div></div>
+    </div>
+    <div class="koth-status" id="koth-status"></div>
+    <div class="koth-gangs koth-hidden" id="koth-gangs"></div>
+  </div>
+
+  <div id="koth-notifs" class="koth-notifs"></div>
+
+  <div id="koth-outzone" class="koth-outzone koth-hidden">
+    <div class="koth-outzone-title">HORS-ZONE</div>
+    <div class="koth-outzone-sub">Tir désactivé — revenez dans la zone pour combattre</div>
+  </div>
+
+  <script>
+    (function(){
+      var hud      = document.getElementById("koth-hud");
+      var zoneName = document.getElementById("koth-zone-name");
+      var cdWrap   = document.getElementById("koth-cd-wrap");
+      var cdNumber = document.getElementById("koth-cd-number");
+      var barFill  = document.getElementById("koth-bar-fill");
+      var badge    = document.getElementById("koth-state-badge");
+      var status   = document.getElementById("koth-status");
+      var gangsBox = document.getElementById("koth-gangs");
+      var notifs   = document.getElementById("koth-notifs");
+      var outzone  = document.getElementById("koth-outzone");
+      if (!hud || !notifs) return;
+
+      function escapeHtml(s){
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function renderGangs(gangs){
+        if (!gangsBox) return;
+        gangs = Array.isArray(gangs) ? gangs : [];
+        if (gangs.length === 0){
+          gangsBox.innerHTML = "";
+          gangsBox.classList.add("koth-hidden");
+          return;
+        }
+        // Tri : plus de membres d'abord, puis nom alpha.
+        gangs.sort(function(a, b){
+          var ca = (a && a.count) || 0;
+          var cb = (b && b.count) || 0;
+          if (ca !== cb) return cb - ca;
+          var na = ((a && a.name) || "").toLowerCase();
+          var nb = ((b && b.name) || "").toLowerCase();
+          return na < nb ? -1 : (na > nb ? 1 : 0);
+        });
+        var html = "";
+        for (var i = 0; i < gangs.length; i++){
+          var g = gangs[i] || {};
+          var name  = escapeHtml(g.name || "?");
+          var count = parseInt(g.count, 10) || 0;
+          html +=
+            '<div class="koth-gang-row">' +
+              '<span class="koth-gang-name">' + name + '</span>' +
+              '<span class="koth-gang-count">' + count + '</span>' +
+            '</div>';
+        }
+        gangsBox.innerHTML = html;
+        gangsBox.classList.remove("koth-hidden");
+      }
+
+      var pulseTimer = null;
+
+      // SunLife : orange pour waiting/countdown, rouge combat, vert victoire.
+      // Plus de jaune (#f0c830) ni d'orange GTA standard (#ffa500).
+      var COLORS = {
+        waiting:   { accent: "#ff751f", badge: "#ff751f", text: "EN ATTENTE" },
+        countdown: { accent: "#ff751f", badge: "#ff751f", text: "DECOMPTE" },
+        active:    { accent: "#e03232", badge: "#e03232", text: "COMBAT" },
+        finished:  { accent: "#50dc64", badge: "#50dc64", text: "TERMINE" }
+      };
+
+      function setAccent(color){
+        var accent = hud.querySelector(".koth-accent");
+        var icon   = hud.querySelector(".koth-icon");
+        var label  = hud.querySelector(".koth-label");
+        if (accent) accent.style.background = color;
+        if (icon)   icon.style.color        = color;
+        if (label)  label.style.color       = color;
+      }
+
+      function startPulse(){
+        stopPulse();
+        var on = true;
+        pulseTimer = setInterval(function(){
+          on = !on;
+          cdNumber.style.opacity = on ? "1" : "0.4";
+        }, 400);
+      }
+      function stopPulse(){
+        if (pulseTimer){ clearInterval(pulseTimer); pulseTimer = null; }
+        if (cdNumber) cdNumber.style.opacity = "1";
+      }
+
+      var NOTIF_ICONS = {
+        info:    "&#9432;",
+        warning: "&#9888;",
+        combat:  "&#9876;",
+        victory: "&#9733;",
+        defeat:  "&#9760;",
+        enter:   "&#9654;",
+        exit:    "&#9664;"
+      };
+
+      var KOTH_NOTIF_BANNER_URL = "https://r2.fivemanage.com/FlZJYVNEkHLmaY1DsvXdC/koth.png";
+
+      function showKothNotif(text, type, duration, banner){
+        type     = type || "info";
+        duration = duration || 5000;
+
+        var notif = document.createElement("div");
+        notif.className = "koth-notif koth-notif-" + type;
+        var icon = NOTIF_ICONS[type] || NOTIF_ICONS.info;
+        // La bannière n'est affichée que lorsque le serveur le demande
+        // explicitement (banner === true), pour éviter qu'elle apparaisse
+        // sous chaque notification KOTH.
+        var bannerHtml = "";
+        if (banner === true){
+          bannerHtml =
+            '<div class="koth-notif-banner">' +
+              '<img src="' + KOTH_NOTIF_BANNER_URL + '" alt="Attaque de zone" onerror="this.style.display=\'none\'"/>' +
+            '</div>';
+        }
+        notif.innerHTML =
+          '<div class="koth-notif-row">' +
+            '<span class="koth-notif-icon">' + icon + '</span>' +
+            '<span class="koth-notif-text">' + text + '</span>' +
+          '</div>' +
+          bannerHtml +
+          '<div class="koth-notif-timer"><div class="koth-notif-timer-fill"></div></div>';
+        notifs.appendChild(notif);
+
+        var fill = notif.querySelector(".koth-notif-timer-fill");
+        fill.style.transition = "width " + duration + "ms linear";
+        requestAnimationFrame(function(){
+          notif.classList.add("koth-notif-in");
+          requestAnimationFrame(function(){ fill.style.width = "0%"; });
+        });
+
+        setTimeout(function(){
+          notif.classList.remove("koth-notif-in");
+          notif.classList.add("koth-notif-out");
+          setTimeout(function(){
+            if (notif.parentNode) notif.parentNode.removeChild(notif);
+          }, 400);
+        }, duration);
+      }
+
+      window.addEventListener("message", function(e){
+        var d = e.data || {};
+        if (d.action === "koth:notify"){
+          showKothNotif(d.text || "", d.type || "info", d.duration || 5000, d.banner === true);
+        }
+        else if (d.action === "koth:outzone"){
+          if (!outzone) return;
+          if (d.active){
+            outzone.classList.remove("koth-hidden");
+            requestAnimationFrame(function(){ outzone.classList.add("koth-show"); });
+          } else {
+            outzone.classList.remove("koth-show");
+            outzone.classList.add("koth-hidden");
+          }
+        }
+        else if (d.action === "koth:show"){
+          hud.classList.remove("koth-hidden");
+          hud.classList.add("koth-fadein");
+          zoneName.textContent = (d.zoneName || "").toUpperCase();
+        }
+        else if (d.action === "koth:hide"){
+          hud.classList.add("koth-hidden");
+          hud.classList.remove("koth-fadein");
+          stopPulse();
+          renderGangs([]);
+        }
+        else if (d.action === "koth:update"){
+          var st = d.state || "waiting";
+          var c  = COLORS[st] || COLORS.waiting;
+          setAccent(c.accent);
+
+          badge.textContent       = c.text;
+          badge.style.color       = c.badge;
+          badge.style.borderColor = c.badge;
+
+          status.textContent = d.status || "";
+
+          var barBg = barFill.parentNode;
+          if (st === "countdown" && d.countdown > 0){
+            cdWrap.classList.remove("koth-hidden");
+            cdNumber.textContent  = d.countdown + "s";
+            cdNumber.style.color  = "";
+            cdNumber.style.fontSize = "";
+            if (barBg) barBg.style.display = "";
+            var pct = d.countdown / (d.countdownMax || 30);
+            barFill.style.width      = (pct * 100) + "%";
+            barFill.style.background = c.accent;
+            startPulse();
+          } else if (st === "active"){
+            // Combat lancé : on remplace le décompte ("1s") par "COMBAT" en
+            // rouge, sans barre de progression.
+            cdWrap.classList.remove("koth-hidden");
+            cdNumber.textContent    = "COMBAT";
+            cdNumber.style.color    = "#e03232";
+            cdNumber.style.fontSize = "16px";
+            if (barBg) barBg.style.display = "none";
+            startPulse();
+          } else {
+            cdWrap.classList.add("koth-hidden");
+            cdNumber.style.color    = "";
+            cdNumber.style.fontSize = "";
+            if (barBg) barBg.style.display = "";
+            stopPulse();
+          }
+
+          // Liste des groupes présents (cachée si "finished" ou liste vide).
+          if (st === "finished"){
+            renderGangs([]);
+          } else {
+            renderGangs(d.gangs);
+          }
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

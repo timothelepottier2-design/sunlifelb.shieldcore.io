@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_at_m4a1_mod_supp</modelName>
+			<txdName>w_at_m4a1_mod_supp</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_m4a1_mod_scope_small</modelName>
+			<txdName>w_at_m4a1_mod_scope_small</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_m4a1_mod_iron_sight</modelName>
+			<txdName>w_at_m4a1_mod_iron_sight</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_atm4a1_mod_afgrip</modelName>
+			<txdName>w_atm4a1_mod_afgrip</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_m4a1_mod_mag2</modelName>
+			<txdName>w_ar_m4a1_mod_mag2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_m4a1_mod_mag1</modelName>
+			<txdName>w_ar_m4a1_mod_mag1</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_m4a1_mod</modelName>
+			<txdName>w_ar_m4a1_mod</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
+

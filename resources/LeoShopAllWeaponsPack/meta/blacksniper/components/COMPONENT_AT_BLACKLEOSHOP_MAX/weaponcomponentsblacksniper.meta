@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponComponentInfoBlob>
+	<Infos>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_BLACKLEOSHOP_CLIP_01</Name>
+			<Model>w_sr_blackleoshop_mag1</Model>
+			<LocName>WCT_CLIP1</LocName>
+			<LocDesc>WCD_SR_CLIP1</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="10" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_BLACKLEOSHOP_CLIP_02</Name>
+			<Model>w_sr_blackleoshop_mag2</Model>
+			<LocName>WCT_CLIP2</LocName>
+			<LocDesc>WCD_SR_CLIP2</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="20" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_AT_BLACKLEOSHOP_MAX</Name>
+			<Model>w_at_blackleoshop_max</Model>
+			<LocName>WCT_SCOPE_MAX</LocName>
+			<LocDesc>WCD_SCOPE_MAX</LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<WeaponAttachBone>WAPScop</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="true"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="10"/>
+			<HudRange value="0"/>
+			<CameraHash>SNIPER_AIM_CAMERA</CameraHash>
+			<RecoilShakeAmplitude value="0.280000"/>
+			<ExtraZoomFactorForAccurateMode value="0.000000"/>
+			<ReticuleHash>SNIPER_MAX</ReticuleHash>
+		</Item>
+		<Item type="CWeaponComponentSuppressorInfo">
+			<Name>COMPONENT_AT_AR_SUPPBLACKLEOSHOP_02</Name>
+			<Model>w_at_ar_suppblackleoshop_02</Model>
+			<LocName>WCT_SUPP</LocName>
+			<LocDesc>WCD_AR_SUPP2</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000" />
+			</DamageModifier>
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="-5" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="-5" />
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+	</Infos>
+	<InfoBlobName/>
+</CWeaponComponentInfoBlob>
+

@@ -1,0 +1,17 @@
+return {
+    ['connected_to'] = "Vous êtes connecté à : ",
+    ['restricted_channel'] = "Vous ne pouvez pas vous connecter à ce signal !",
+    ['invalid_frequency'] = "Cette fréquence n'est pas disponible.",
+    ['leave_channel'] = "Vous avez quitté le canal.",
+    ['max_volume'] = "Le volume de la radio est déjà réglé au maximum.",
+    ['min_volume'] = "Le volume de la radio est déjà réglé au minimum.",
+    ['jammer_restricted_jobs'] = "Vous ne pouvez pas utiliser cet objet.",
+    ['jammer_place_object'] = "Placement de l'objet",
+    ['jammer_remove_object'] = "Suppression de l'objet",
+    ['jammer_cancel_place_object'] = "Placement de l'objet annulé.",
+    ['jammer_cancel_remove_object'] = "Suppression de l'objet annulée.",
+    ['jammer_min_distance_error'] = "Un brouilleur est déjà à proximité.",
+    ["no_signal_disconnected"] = "La connexion radio a été perdue.",
+    ["no_signal_reconnect"] = "La connexion radio a été rétablie.",
+    ["no_signal"] = "Connexion impossible en raison de l'absence de signal.",
+}

@@ -1,0 +1,354 @@
+/* ================================================================== */
+/*                  LVC : Panneau de contrôle sirènes                 */
+/*        (boîtier industriel sombre, angles vifs, rivets)            */
+/* ================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Share+Tech+Mono&display=swap');
+
+/* Police 7 segments (DSEG7 Classic, licence SIL OFL) pour les vitesses radar */
+@font-face {
+    font-family: 'DSEG7';
+    src: url('fonts/DSEG7Classic-Bold.woff2') format('woff2'),
+         url('fonts/DSEG7Classic-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: block;
+}
+
+#lvcPanel {
+    position: absolute;
+    left: calc(16.5% + 2.5cm);
+    bottom: 4.5%;
+    transform-origin: bottom left;
+    transform: scale(0.72);
+    padding: 26px 24px 28px 24px;
+    border-radius: 0;
+    background:
+        linear-gradient(180deg, #23262c 0%, #141619 6%, #0b0c0f 100%);
+    border: 1px solid #000;
+    outline: 2px solid #1c1e24;
+    outline-offset: 2px;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 0 5px #000,
+        0 14px 30px rgba(0, 0, 0, 0.75);
+    user-select: none;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 22px;
+    z-index: 1000;
+}
+
+/* Rivets aux quatre coins */
+#lvcPanel::before,
+#lvcPanel::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    height: 5px;
+    background:
+        radial-gradient(circle at 2.5px 2.5px, #3a3e47 0 1.8px, #0a0b0e 2px, transparent 2.6px) left / 5px 5px no-repeat,
+        radial-gradient(circle at 2.5px 2.5px, #3a3e47 0 1.8px, #0a0b0e 2px, transparent 2.6px) right / 5px 5px no-repeat;
+    pointer-events: none;
+}
+#lvcPanel::before { top: 6px; }
+#lvcPanel::after  { bottom: 6px; }
+
+#lvcPanel.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Colonne gauche : sirenes (lightbar + boutons) */
+.lvc-sirens {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ---------- LIGHTBAR (LED bleue large) ---------- */
+.lvc-led-bar {
+    position: relative;
+    width: 210px;
+    height: 16px;
+    margin-top: 4px;
+    border-radius: 0;
+    background: linear-gradient(180deg, #050608 0%, #0c0e12 100%);
+    border: 1px solid #000;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 2px 4px rgba(0, 0, 0, 0.9);
+    overflow: hidden;
+    transition: all 0.18s ease;
+}
+
+.lvc-led-bar::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -18px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #8a909c;
+}
+
+.lvc-led-bar.on {
+    background: linear-gradient(180deg, #6cb4ff 0%, #1f7ade 100%);
+    box-shadow:
+        0 0 14px rgba(80, 160, 255, 0.9),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+    border-color: rgba(120, 180, 255, 0.6);
+}
+
+/* Cellules LED */
+.lvc-led-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 18px,
+            rgba(0, 0, 0, 0.45) 18px,
+            rgba(0, 0, 0, 0.45) 20px
+        );
+}
+
+/* ---------- Boutons SIREN / HORN / LOCK (carres) ---------- */
+.lvc-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.lvc-btn {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    border-radius: 0;
+    background: linear-gradient(180deg, #2a2d34 0%, #15171c 50%, #090a0d 100%);
+    border: 1px solid #000;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.6),
+        0 2px 3px rgba(0, 0, 0, 0.5);
+    transition: all 0.12s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lvc-btn::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #8a909c;
+}
+
+/* Temoin carre au centre du bouton */
+.lvc-btn::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+    background: linear-gradient(180deg, #2c2f37 0%, #0e1015 100%);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.06),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.7);
+    transition: all 0.15s ease;
+}
+
+#lvc-siren.on::before {
+    background: linear-gradient(180deg, #ff9a9a 0%, #d62929 100%);
+    box-shadow:
+        0 0 16px rgba(255, 60, 60, 0.9),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4),
+        inset 0 -1px 2px rgba(80, 0, 0, 0.6);
+}
+
+#lvc-horn.on::before {
+    background: linear-gradient(180deg, #ffd58a 0%, #d68d29 100%);
+    box-shadow:
+        0 0 16px rgba(255, 170, 60, 0.9),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4),
+        inset 0 -1px 2px rgba(90, 50, 0, 0.6);
+}
+
+#lvc-lock.on::before {
+    background: linear-gradient(180deg, #fff48a 0%, #d6c029 100%);
+    box-shadow:
+        0 0 16px rgba(255, 230, 60, 0.9),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4),
+        inset 0 -1px 2px rgba(90, 80, 0, 0.6);
+}
+
+#lvc-siren.on, #lvc-horn.on, #lvc-lock.on {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ---------- RADARS AVANT / ARRIERE (colonne droite) ---------- */
+.lvc-radars {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 14px;
+    padding-top: 4px;
+    padding-left: 22px;
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: -1px 0 0 #000;
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+}
+
+/* Une colonne radar = titre + boite vitesse + boite plaque */
+.lvc-radar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 132px;
+}
+
+.lvc-radar::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -19px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #8a909c;
+    white-space: nowrap;
+}
+
+.lvc-radar-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    background: linear-gradient(180deg, #050608 0%, #0c0e12 100%);
+    border: 1px solid #000;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+/* Reflet de vitre sur les afficheurs */
+.lvc-radar-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 45%);
+}
+
+/* Afficheur vitesse : fond rouge sombre, chiffres 7 segments rouges,
+   segments fantomes "888" derriere comme un vrai radar */
+.lvc-radar-speed {
+    height: 72px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    background:
+        radial-gradient(ellipse at 50% 40%, #4a0c0c 0%, #2a0505 55%, #170202 100%);
+    border-color: #000;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 80, 60, 0.08),
+        inset 0 2px 8px rgba(0, 0, 0, 0.9),
+        inset 0 0 18px rgba(120, 10, 10, 0.55);
+}
+
+.lvc-radar-plate {
+    flex: 1;
+    min-height: 46px;
+    font-family: 'Share Tech Mono', 'Consolas', monospace;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: #e8ecf3;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+    white-space: nowrap;
+    transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+
+/* Les chiffres remplissent toute la boite : 3 digits sur la largeur,
+   hauteur = quasi toute la boite. L'unite KM/H est reléguée en petit
+   dans le coin pour ne pas manger de place. */
+.lvc-radar-digits {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 1em; /* garde la hauteur meme vide (segments fantomes seuls) */
+    text-align: right;
+    font-family: 'DSEG7', 'Share Tech Mono', monospace;
+    font-size: 54px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 3px;
+    color: #ff2d1a;
+    text-shadow:
+        0 0 6px rgba(255, 60, 30, 0.95),
+        0 0 14px rgba(255, 40, 20, 0.6);
+    z-index: 1;
+    transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+
+/* Segments fantomes (les 3 chiffres eteints) derriere la valeur */
+.lvc-radar-digits::before {
+    content: '888';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    text-align: right;
+    color: rgba(255, 60, 40, 0.13);
+    text-shadow: none;
+    z-index: -1;
+}
+
+.lvc-radar-unit {
+    position: absolute;
+    left: 5px;
+    bottom: 3px;
+    margin: 0;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #7a2a24;
+    z-index: 2;
+}
+
+/* Pas de cible : seuls les segments fantomes restent */
+.lvc-radar.idle .lvc-radar-digits {
+    color: transparent;
+    text-shadow: none;
+}
+.lvc-radar.idle .lvc-radar-plate {
+    color: #2b2f38;
+    text-shadow: none;
+}
+

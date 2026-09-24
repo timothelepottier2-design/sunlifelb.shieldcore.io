@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banque — SunLife</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+    /* ============================================================
+       BANQUE — UI calquée sur SNL_Quest (sidebar + tabs, dark/orange)
+       ============================================================ */
+    *{ margin:0; padding:0; box-sizing:border-box; }
+
+    body{
+        overflow:hidden;
+        user-select:none;
+        font-family:'Inter', sans-serif;
+        background:transparent;
+    }
+
+    ::-webkit-scrollbar{ width:4px; }
+    ::-webkit-scrollbar-track{ background:rgba(0,0,0,.3); }
+    ::-webkit-scrollbar-thumb{ background:rgba(255,117,31,.5); border-radius:2px; }
+    ::-webkit-scrollbar-thumb:hover{ background:rgba(255,117,31,.8); }
+
+    /* ===== Overlay & app ===================================== */
+    .bank-overlay{
+        position:fixed; top:0; left:0;
+        width:100vw; height:100vh;
+        background: radial-gradient(ellipse at center, rgba(0,0,0,.6), rgba(0,0,0,.85));
+        z-index:0;
+    }
+
+    #bank-app{
+        position:fixed; top:0; left:0;
+        width:100vw; height:100vh;
+        z-index:9999;
+        display:none;
+        animation: fadeIn .3s ease;
+    }
+
+    @keyframes fadeIn{
+        from{ opacity:0; transform:scale(.98); }
+        to  { opacity:1; transform:scale(1); }
+    }
+
+    .bank-container{
+        position:relative;
+        display:flex;
+        width:54vw; height:60vh;
+        margin:20vh auto;
+        z-index:1;
+        border-radius:6px;
+        overflow:hidden;
+        border:1px solid rgba(255,117,31,.15);
+        box-shadow: 0 20px 60px rgba(0,0,0,.8), 0 0 40px rgba(255,117,31,.05);
+    }
+
+    /* ===== Sidebar =========================================== */
+    .bank-sidebar{
+        width:200px; min-width:200px;
+        background: linear-gradient(180deg, rgba(15,15,18,.98), rgba(10,10,12,.98));
+        border-right:1px solid rgba(255,117,31,.1);
+        display:flex; flex-direction:column;
+        backdrop-filter: blur(20px);
+    }
+
+    .bank-logo{
+        padding:16px 14px;
+        display:flex; align-items:center; gap:12px;
+        border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .bank-logo i{ font-size:18px; color:#ff751f; }
+    .bank-logo span{
+        font-family:'Montserrat', sans-serif;
+        font-size:15px; font-weight:700; color:#fff;
+        letter-spacing:3px; text-transform:uppercase;
+    }
+
+    .bank-nav{
+        flex:1;
+        padding:16px 0;
+    }
+    .nav-item{
+        display:flex; align-items:center; gap:8px;
+        padding:10px 16px;
+        cursor:pointer;
+        color: rgba(255,255,255,.45);
+        font-size:11px; font-weight:600;
+        text-transform:uppercase; letter-spacing:.5px;
+        transition: all .2s ease;
+        border-left: 3px solid transparent;
+    }
+    .nav-item:hover{
+        color: rgba(255,255,255,.8);
+        background: rgba(255,255,255,.03);
+    }
+    .nav-item.active{
+        color:#ff751f;
+        background: rgba(255,117,31,.08);
+        border-left-color:#ff751f;
+    }
+    .nav-item i{
+        width:16px; text-align:center; font-size:12px;
+    }
+
+    /* ===== Sidebar footer ==================================== */
+    .bank-sidebar-footer{
+        padding:16px;
+        border-top:1px solid rgba(255,255,255,.05);
+        display:flex; flex-direction:column; gap:14px;
+    }
+
+    .balance-display{ text-align:center; }
+    .balance-label{
+        font-size:10px; font-weight:700;
+        color: rgba(255,255,255,.35);
+        text-transform:uppercase; letter-spacing:1.5px;
+        margin-bottom:4px;
+    }
+    .balance-value{
+        font-family:'Montserrat', sans-serif;
+        font-size:22px; font-weight:800;
+        color:#ff751f; letter-spacing:.5px;
+        font-variant-numeric: tabular-nums;
+        word-break: break-all;
+    }
+
+    .player-display{
+        text-align:center;
+        font-size:11px;
+        font-weight:600;
+        color: rgba(255,255,255,.4);
+        text-transform:uppercase;
+        letter-spacing:.8px;
+        padding-top:10px;
+        border-top:1px solid rgba(255,255,255,.04);
+    }
+    .player-display .name{
+        color: rgba(255,255,255,.85);
+        text-transform:none;
+        letter-spacing:0;
+        font-weight:700;
+        font-size:12px;
+        margin-top:2px;
+    }
+
+    .btn-close{
+        display:flex; align-items:center; justify-content:center;
+        gap:8px; padding:10px;
+        background: rgba(255,255,255,.05);
+        color: rgba(255,255,255,.5);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:4px;
+        cursor:pointer;
+        font-family:'Inter', sans-serif;
+        font-size:13px; font-weight:700;
+        text-transform:uppercase; letter-spacing:.5px;
+        transition: all .2s ease;
+    }
+    .btn-close:hover{
+        background: rgba(255,255,255,.1);
+        color: rgba(255,255,255,.8);
+    }
+
+    /* ===== Content =========================================== */
+    .bank-content{
+        flex:1;
+        background: linear-gradient(180deg, rgba(18,18,22,.95), rgba(12,12,15,.95));
+        backdrop-filter: blur(20px);
+        overflow:hidden;
+        display:flex; flex-direction:column;
+    }
+
+    .tab-content{
+        display:none;
+        flex-direction:column;
+        height:100%;
+        overflow:hidden;
+    }
+    .tab-content.active{ display:flex; }
+
+    .tab-header{
+        display:flex; justify-content:space-between; align-items:center;
+        padding:16px 22px;
+        border-bottom:1px solid rgba(255,255,255,.05);
+        flex-shrink:0;
+    }
+    .tab-header h2{
+        font-family:'Montserrat', sans-serif;
+        font-size:22px; font-weight:600;
+        color:#fff;
+        letter-spacing:2px; text-transform:uppercase;
+    }
+    .tab-subtitle{
+        color: rgba(255,255,255,.35);
+        font-size:13px; font-weight:600;
+        text-transform:uppercase; letter-spacing:1px;
+    }
+
+    .tab-body{
+        flex:1;
+        overflow-y:auto;
+        padding:18px 22px;
+        display:flex; flex-direction:column; gap:14px;
+    }
+
+    /* ===== OVERVIEW (vue d'ensemble) ========================= */
+    .hero-balance{
+        padding:22px 24px;
+        background: linear-gradient(135deg, rgba(255,117,31,.10), rgba(255,117,31,.02));
+        border:1px solid rgba(255,117,31,.18);
+        border-radius:6px;
+        display:flex; align-items:center; justify-content:space-between; gap:16px;
+    }
+    .hero-balance .left{
+        display:flex; flex-direction:column; gap:6px; min-width:0;
+    }
+    .hero-balance .l1{
+        font-size:11px; font-weight:700;
+        color: rgba(255,255,255,.45);
+        text-transform:uppercase; letter-spacing:1.5px;
+    }
+    .hero-balance .l2{
+        font-family:'Montserrat', sans-serif;
+        font-size:38px; font-weight:800;
+        color:#ff751f;
+        font-variant-numeric: tabular-nums;
+        line-height:1;
+        letter-spacing:.5px;
+    }
+    .hero-balance .l3{
+        font-size:12px; color: rgba(255,255,255,.5);
+        margin-top:4px;
+    }
+    .hero-balance .icon-box{
+        width:68px; height:68px;
+        display:grid; place-items:center;
+        background: rgba(255,117,31,.10);
+        border:1px solid rgba(255,117,31,.25);
+        border-radius:6px;
+        color:#ff751f;
+        font-size:30px;
+        flex:0 0 68px;
+    }
+
+    /* Informations : style passif (pas de hover, pas d'icône en cercle) */
+    .info-grid{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:10px;
+    }
+    .info-card{
+        padding:12px 14px 12px 16px;
+        background: linear-gradient(90deg, rgba(255,117,31,.05), rgba(255,255,255,.01));
+        border:1px solid rgba(255,255,255,.04);
+        border-left: 2px solid rgba(255,117,31,.5);
+        border-radius: 0 4px 4px 0;
+        display:flex; align-items:flex-start; gap:10px;
+        cursor: default;
+    }
+    .info-card i{
+        color: rgba(255,117,31,.75);
+        font-size:12px;
+        margin-top:2px;
+        flex-shrink:0;
+    }
+    .info-card .info-text{ display:flex; flex-direction:column; gap:3px; min-width:0; }
+    .info-card .info-title{
+        font-size:10px; font-weight:700;
+        color: rgba(255,255,255,.55);
+        letter-spacing:1.5px; text-transform:uppercase;
+    }
+    .info-card .info-desc{
+        font-size:12px;
+        color: rgba(255,255,255,.45);
+        line-height:1.5;
+    }
+
+    .quick-actions{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:10px;
+        margin-top:4px;
+    }
+    .qa-btn{
+        display:flex; align-items:center; gap:12px;
+        padding:14px 16px;
+        background: rgba(255,255,255,.02);
+        border:1px solid rgba(255,255,255,.06);
+        border-radius:6px;
+        cursor:pointer;
+        color: rgba(255,255,255,.85);
+        text-align:left;
+        font-family:'Inter', sans-serif;
+        transition: all .2s ease;
+    }
+    .qa-btn:hover{
+        background: rgba(255,117,31,.06);
+        border-color: rgba(255,117,31,.25);
+    }
+    .qa-btn i{
+        width:36px; height:36px;
+        display:grid; place-items:center;
+        background: rgba(255,117,31,.10);
+        color:#ff751f;
+        border-radius:50%;
+        font-size:15px;
+        flex-shrink:0;
+    }
+    .qa-btn .qa-text{ display:flex; flex-direction:column; gap:2px; }
+    .qa-btn .qa-title{
+        font-size:13px; font-weight:700;
+        color:#fff;
+        letter-spacing:.3px; text-transform:uppercase;
+    }
+    .qa-btn .qa-desc{ font-size:11px; color: rgba(255,255,255,.45); }
+
+    /* ===== Section title ===================================== */
+    .section-title{
+        font-size:11px; font-weight:700;
+        color: rgba(255,255,255,.35);
+        text-transform:uppercase;
+        letter-spacing:1.5px;
+        margin: 4px 0 -2px 2px;
+    }
+
+    /* ===== FORMULAIRE (dépôt / retrait) ===================== */
+    .form-card{
+        background: rgba(255,255,255,.02);
+        border:1px solid rgba(255,255,255,.06);
+        border-radius:6px;
+        padding:20px;
+        display:flex; flex-direction:column; gap:16px;
+    }
+
+    .input-row{
+        display:flex; align-items:stretch;
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:6px;
+        background: rgba(0,0,0,.25);
+        transition: border-color .2s ease;
+        overflow:hidden;
+    }
+    .input-row:focus-within{
+        border-color: rgba(255,117,31,.45);
+        box-shadow: 0 0 0 2px rgba(255,117,31,.10);
+    }
+    .input-row .prefix{
+        display:grid; place-items:center;
+        padding:0 16px;
+        font-family:'Montserrat', sans-serif;
+        font-weight:800;
+        color:#ff751f;
+        background: rgba(255,117,31,.06);
+        border-right:1px solid rgba(255,255,255,.06);
+        font-size:18px;
+    }
+    .input-row input{
+        flex:1; min-width:0;
+        background:transparent; border:0; outline:none;
+        color:#fff;
+        padding:14px 16px;
+        font-family:'Montserrat', sans-serif;
+        font-size:24px; font-weight:700;
+        font-variant-numeric: tabular-nums;
+        letter-spacing:.5px;
+    }
+    .input-row input::placeholder{ color: rgba(255,255,255,.2); }
+    /* Hide number arrows */
+    .input-row input::-webkit-outer-spin-button,
+    .input-row input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+    .input-row input[type=number]{ -moz-appearance:textfield; }
+
+    .quick-amounts{
+        display:grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap:8px;
+    }
+    .chip{
+        padding:10px 12px;
+        background: rgba(255,255,255,.03);
+        border:1px solid rgba(255,255,255,.06);
+        color: rgba(255,255,255,.7);
+        border-radius:6px;
+        font-family:'Inter', sans-serif;
+        font-size:12px; font-weight:700;
+        letter-spacing:.4px; text-transform:uppercase;
+        cursor:pointer;
+        transition: all .15s ease;
+        font-variant-numeric: tabular-nums;
+    }
+    .chip:hover{
+        background: rgba(255,117,31,.06);
+        color:#fff;
+        border-color: rgba(255,117,31,.30);
+    }
+    .chip.active{
+        background: rgba(255,117,31,.12);
+        color:#ff751f;
+        border-color: rgba(255,117,31,.45);
+    }
+
+    .form-hint{
+        display:flex; align-items:center; gap:6px;
+        font-size:11px;
+        color: rgba(255,255,255,.4);
+    }
+    .form-hint i{ font-size:11px; color:#ff751f; }
+
+    .form-actions{
+        display:flex; align-items:center; justify-content:space-between; gap:10px;
+        padding-top:6px;
+    }
+
+    .btn{
+        display:inline-flex; align-items:center; justify-content:center;
+        gap:8px;
+        padding:11px 18px;
+        background: rgba(255,255,255,.04);
+        color: rgba(255,255,255,.75);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:4px;
+        cursor:pointer;
+        font-family:'Inter', sans-serif;
+        font-size:12px; font-weight:700;
+        text-transform:uppercase; letter-spacing:.5px;
+        transition: all .2s ease;
+    }
+    .btn:hover{
+        background: rgba(255,255,255,.08);
+        color:#fff;
+    }
+    .btn.primary{
+        background: linear-gradient(135deg, #ff751f, #e06010);
+        color:#fff;
+        border-color: rgba(255,117,31,.5);
+    }
+    .btn.primary:hover{
+        filter: brightness(1.08);
+        box-shadow: 0 8px 22px rgba(255,117,31,.25);
+    }
+    .btn:disabled{
+        opacity:.45; cursor:not-allowed; pointer-events:none;
+    }
+
+    /* ===== JOURNAL ============================================ */
+    .journal-list{
+        flex:1;
+        overflow-y:auto;
+        padding:10px 22px 18px;
+        display:flex; flex-direction:column; gap:6px;
+    }
+
+    .journal-empty{
+        display:flex; flex-direction:column;
+        align-items:center; justify-content:center;
+        height:240px;
+        color: rgba(255,255,255,.2);
+        font-size:13px; font-weight:600;
+        text-transform:uppercase; letter-spacing:1px;
+        gap:14px;
+    }
+    .journal-empty i{ font-size:38px; opacity:.3; }
+
+    .journal-loading{
+        display:flex; align-items:center; justify-content:center;
+        padding:40px;
+        color: rgba(255,255,255,.2);
+    }
+    .journal-loading i{
+        font-size:22px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin{
+        from{ transform: rotate(0deg); }
+        to{ transform: rotate(360deg); }
+    }
+
+    .journal-row{
+        display:grid;
+        grid-template-columns: auto 1fr auto auto;
+        align-items:center;
+        gap:14px;
+        padding:11px 14px;
+        background: rgba(255,255,255,.02);
+        border: 1px solid rgba(255,255,255,.04);
+        border-radius:6px;
+        transition: background .15s ease;
+    }
+    .journal-row:hover{ background: rgba(255,255,255,.035); }
+
+    .journal-icon{
+        width:32px; height:32px;
+        border-radius:50%;
+        display:grid; place-items:center;
+        font-size:13px;
+        flex-shrink:0;
+    }
+    .journal-row.deposit  .journal-icon{ background: rgba(76,175,80,.10); color:#4caf50; }
+    .journal-row.withdraw .journal-icon{ background: rgba(239,68,68,.10); color:#ef4444; }
+
+    .journal-meta{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+    .journal-type{
+        font-size:12px; font-weight:700;
+        color: rgba(255,255,255,.85);
+        letter-spacing:.4px; text-transform:uppercase;
+    }
+    .journal-balance{
+        font-size:11px;
+        color: rgba(255,255,255,.4);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .journal-amount{
+        font-family:'Montserrat', sans-serif;
+        font-size:14px; font-weight:700;
+        font-variant-numeric: tabular-nums;
+        text-align:right;
+        min-width:120px;
+    }
+    .journal-row.deposit  .journal-amount{ color:#4ade80; }
+    .journal-row.withdraw .journal-amount{ color:#ef4444; }
+
+    .journal-date{
+        font-size:11px;
+        color: rgba(255,255,255,.35);
+        text-align:right;
+        min-width:90px;
+        font-weight:600;
+    }
+
+    /* ===== Toasts ============================================ */
+    .toasts{
+        position:fixed; top:18px; right:18px;
+        display:flex; flex-direction:column; gap:8px;
+        z-index:99999;
+        pointer-events:none;
+    }
+    .toast{
+        min-width:240px; max-width:340px;
+        padding:12px 14px;
+        background: rgba(15,15,18,.98);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:6px;
+        color:#fff;
+        font-size:13px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.5);
+        animation: toastIn .22s ease;
+        display:flex; align-items:center; gap:10px;
+        pointer-events:auto;
+    }
+    .toast.success{ border-color: rgba(76,175,80,.45); }
+    .toast.success i{ color:#4caf50; }
+    .toast.error  { border-color: rgba(239,68,68,.45); }
+    .toast.error i{ color:#ef4444; }
+    .toast.warn   { border-color: rgba(255,117,31,.55); }
+    .toast.warn i{ color:#ff751f; }
+    .toast i{ font-size:14px; flex-shrink:0; }
+    @keyframes toastIn{
+        from{ opacity:0; transform: translateX(8px); }
+        to{ opacity:1; transform:none; }
+    }
+    </style>
+</head>
+<body>
+    <div id="bank-app">
+        <div class="bank-overlay"></div>
+        <div class="bank-container">
+
+            <!-- ============== SIDEBAR ============== -->
+            <div class="bank-sidebar">
+                <div class="bank-logo">
+                    <i class="fas fa-landmark"></i>
+                    <span>BANQUE</span>
+                </div>
+
+                <div class="bank-nav">
+                    <div class="nav-item active" data-tab="overview">
+                        <i class="fas fa-house"></i>
+                        <span>Vue d'ensemble</span>
+                    </div>
+                    <div class="nav-item" data-tab="deposit">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Déposer</span>
+                    </div>
+                    <div class="nav-item" data-tab="withdraw">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Retirer</span>
+                    </div>
+                    <div class="nav-item" data-tab="journal">
+                        <i class="fas fa-receipt"></i>
+                        <span>Journal</span>
+                    </div>
+                </div>
+
+                <div class="bank-sidebar-footer">
+                    <div class="balance-display">
+                        <div class="balance-label">SOLDE BANCAIRE</div>
+                        <div class="balance-value" id="balanceValue">$0</div>
+                    </div>
+                    <div class="player-display">
+                        Titulaire
+                        <div class="name" id="playerName">—</div>
+                    </div>
+                    <button class="btn-close" id="btnClose">
+                        <i class="fas fa-times"></i>
+                        <span>Fermer</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============== CONTENT ============== -->
+            <div class="bank-content">
+
+                <!-- ===== Tab : Vue d'ensemble ===== -->
+                <div class="tab-content active" id="tab-overview">
+                    <div class="tab-header">
+                        <h2>Vue d'ensemble</h2>
+                        <span class="tab-subtitle">Compte courant SunLife</span>
+                    </div>
+                    <div class="tab-body">
+
+                        <div class="hero-balance">
+                            <div class="left">
+                                <div class="l1">Solde disponible</div>
+                                <div class="l2" id="overviewBalance">$0</div>
+                                <div class="l3" id="overviewWelcome">Bienvenue dans votre espace bancaire.</div>
+                            </div>
+                            <div class="icon-box"><i class="fas fa-wallet"></i></div>
+                        </div>
+
+                        <div class="section-title">Actions rapides</div>
+                        <div class="quick-actions">
+                            <button class="qa-btn" data-go="deposit">
+                                <i class="fas fa-arrow-down"></i>
+                                <div class="qa-text">
+                                    <div class="qa-title">Déposer</div>
+                                    <div class="qa-desc">Mettre votre liquide en sécurité</div>
+                                </div>
+                            </button>
+                            <button class="qa-btn" data-go="withdraw">
+                                <i class="fas fa-arrow-up"></i>
+                                <div class="qa-text">
+                                    <div class="qa-title">Retirer</div>
+                                    <div class="qa-desc">Sortir de l'argent du compte</div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="section-title">Informations</div>
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <i class="fas fa-shield-halved"></i>
+                                <div class="info-text">
+                                    <div class="info-title">Tracé</div>
+                                    <div class="info-desc">Toutes les opérations sont enregistrées.</div>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <i class="fas fa-circle-exclamation"></i>
+                                <div class="info-text">
+                                    <div class="info-title">Limite haute</div>
+                                    <div class="info-desc">Plafond unique : 50 000 000 $.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ===== Tab : Déposer ===== -->
+                <div class="tab-content" id="tab-deposit">
+                    <div class="tab-header">
+                        <h2>Déposer</h2>
+                        <span class="tab-subtitle">De votre liquide vers votre compte</span>
+                    </div>
+                    <div class="tab-body">
+                        <div class="form-card">
+
+                            <div class="section-title">Montant</div>
+                            <div class="input-row">
+                                <div class="prefix">$</div>
+                                <input id="depositAmount" type="number" inputmode="numeric" min="1" step="1" placeholder="0" autocomplete="off" />
+                            </div>
+
+                            <div class="section-title">Montants rapides</div>
+                            <div class="quick-amounts" id="depositChips"></div>
+
+                            <div class="form-hint">
+                                <i class="fas fa-circle-info"></i>
+                                <span>Le montant doit être inférieur ou égal à votre liquide.</span>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn" data-go="overview">
+                                    <i class="fas fa-arrow-left"></i> Retour
+                                </button>
+                                <button class="btn primary" id="depositSubmit">
+                                    <i class="fas fa-check"></i> Valider le dépôt
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== Tab : Retirer ===== -->
+                <div class="tab-content" id="tab-withdraw">
+                    <div class="tab-header">
+                        <h2>Retirer</h2>
+                        <span class="tab-subtitle">De votre compte vers votre liquide</span>
+                    </div>
+                    <div class="tab-body">
+                        <div class="form-card">
+
+                            <div class="section-title">Montant</div>
+                            <div class="input-row">
+                                <div class="prefix">$</div>
+                                <input id="withdrawAmount" type="number" inputmode="numeric" min="1" step="1" placeholder="0" autocomplete="off" />
+                            </div>
+
+                            <div class="section-title">Montants rapides</div>
+                            <div class="quick-amounts" id="withdrawChips"></div>
+
+                            <div class="form-hint">
+                                <i class="fas fa-circle-info"></i>
+                                <span>Le montant doit être inférieur ou égal à votre solde bancaire.</span>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn" data-go="overview">
+                                    <i class="fas fa-arrow-left"></i> Retour
+                                </button>
+                                <button class="btn primary" id="withdrawSubmit">
+                                    <i class="fas fa-check"></i> Valider le retrait
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== Tab : Journal ===== -->
+                <div class="tab-content" id="tab-journal">
+                    <div class="tab-header">
+                        <h2>Journal</h2>
+                        <span class="tab-subtitle">50 dernières opérations</span>
+                    </div>
+                    <div class="journal-list" id="journalList">
+                        <div class="journal-loading"><i class="fas fa-circle-notch"></i></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Toasts -->
+        <div class="toasts" id="toasts"></div>
+    </div>
+
+    <script>
+    (() => {
+        // ===== Refs =========================================================
+        const app          = document.getElementById('bank-app');
+        const balanceValue = document.getElementById('balanceValue');
+        const overviewBalance = document.getElementById('overviewBalance');
+        const overviewWelcome = document.getElementById('overviewWelcome');
+        const playerNameEl = document.getElementById('playerName');
+        const btnClose     = document.getElementById('btnClose');
+
+        const depositInput = document.getElementById('depositAmount');
+        const withdrawInput= document.getElementById('withdrawAmount');
+        const depositChips = document.getElementById('depositChips');
+        const withdrawChips= document.getElementById('withdrawChips');
+        const depositSubmit  = document.getElementById('depositSubmit');
+        const withdrawSubmit = document.getElementById('withdrawSubmit');
+        const journalList  = document.getElementById('journalList');
+        const toastsEl     = document.getElementById('toasts');
+
+        // ===== State ========================================================
+        const RESOURCE = 'sunlife_ui/bank';
+        const isFiveM  = (typeof GetParentResourceName === 'function') || !!window.invokeNative || /Cfx/i.test(navigator.userAgent);
+        let bankBalance = 0;
+        let busy        = false;
+
+        // Montants rapides demandés par le user
+        const QUICK_AMOUNTS = [
+            { v:    10000, label: '10K$'  },
+            { v:    50000, label: '50K$'  },
+            { v:   100000, label: '100K$' },
+            { v:  1000000, label: '1M$'   },
+            { v:  5000000, label: '5M$'   },
+            { v: 10000000, label: '10M$'  },
+            { v: 25000000, label: '25M$'  },
+            { v: 50000000, label: '50M$'  },
+        ];
+
+        // ===== Utils ========================================================
+        function fmtUSD(n){
+            if (n == null || isNaN(Number(n))) return '$0';
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency', currency: 'USD', maximumFractionDigits: 0
+            }).format(Number(n));
+        }
+        // Format compact pour la sidebar : 1.8M$, 1.8G$, 850K$, 500$.
+        // Le user a explicitement demandé G (giga) plutôt que B pour les milliards.
+        function fmtCompact(n){
+            n = Number(n) || 0;
+            const neg = n < 0;
+            const abs = Math.abs(n);
+            let out;
+            if      (abs >= 1e9) out = (abs / 1e9).toFixed(1).replace(/\.0$/, '') + 'G';
+            else if (abs >= 1e6) out = (abs / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+            else if (abs >= 1e3) out = (abs / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+            else                 out = String(Math.floor(abs));
+            return (neg ? '-' : '') + out + '$';
+        }
+        // Format de date relatif pour le journal : "à l'instant", "5 min",
+        // "Aujourd'hui 14:32", "Hier 10:15", "02/05 14:32".
+        function fmtRelative(ts){
+            if (!ts) return '—';
+            const d = new Date(Number(ts) * 1000);
+            if (isNaN(d.getTime())) return '—';
+            const now = new Date();
+            const diffSec = (now - d) / 1000;
+            if (diffSec < 60) return "à l'instant";
+            if (diffSec < 3600) return Math.floor(diffSec/60) + " min";
+
+            const sameDay = d.toDateString() === now.toDateString();
+            const hm = d.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+            if (sameDay) return hm;
+
+            const yest = new Date(now); yest.setDate(yest.getDate()-1);
+            if (d.toDateString() === yest.toDateString()) return 'Hier ' + hm;
+
+            const dm = d.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' });
+            return dm + ' ' + hm;
+        }
+        function escapeHTML(s){
+            const map = { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' };
+            return String(s).replace(/[&<>"']/g, m => map[m]);
+        }
+        function post(endpoint, payload = {}){
+            if (!isFiveM){
+                console.debug('[NUI PREVIEW] POST', endpoint, payload);
+                return Promise.resolve({});
+            }
+            return fetch(`https://${RESOURCE}/${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(r => r.json().catch(() => ({})))
+            .catch(() => ({}));
+        }
+
+        // ===== Toasts =======================================================
+        const TOAST_ICONS = {
+            success: 'fa-circle-check',
+            error:   'fa-circle-xmark',
+            warn:    'fa-triangle-exclamation',
+        };
+        function toast(message, type = 'success', delay = 3500){
+            const t = document.createElement('div');
+            t.className = `toast ${type}`;
+            const icon = TOAST_ICONS[type] || TOAST_ICONS.success;
+            t.innerHTML = `<i class="fas ${icon}"></i><span>${escapeHTML(message)}</span>`;
+            toastsEl.appendChild(t);
+            setTimeout(() => {
+                t.style.transition = 'opacity .2s';
+                t.style.opacity = '0';
+                setTimeout(() => t.remove(), 220);
+            }, delay);
+        }
+
+        // ===== Tabs =========================================================
+        function switchTab(name){
+            document.querySelectorAll('.nav-item').forEach(n => {
+                n.classList.toggle('active', n.dataset.tab === name);
+            });
+            document.querySelectorAll('.tab-content').forEach(c => {
+                c.classList.toggle('active', c.id === `tab-${name}`);
+            });
+
+            if (name === 'deposit'){
+                setTimeout(() => depositInput.focus(), 60);
+                post('balance'); // re-sync le solde au cas où on vient juste d'effectuer une opération
+            }
+            if (name === 'withdraw'){
+                setTimeout(() => withdrawInput.focus(), 60);
+                post('balance');
+            }
+            if (name === 'journal') loadJournal();
+        }
+        document.querySelectorAll('.nav-item').forEach(n => {
+            n.addEventListener('click', () => switchTab(n.dataset.tab));
+        });
+        document.querySelectorAll('[data-go]').forEach(b => {
+            b.addEventListener('click', () => switchTab(b.dataset.go));
+        });
+
+        // ===== Render =======================================================
+        function renderBalance(){
+            // Sidebar en compact (1.8M$ / 1.8G$), vue d'ensemble en complet.
+            balanceValue.textContent = fmtCompact(bankBalance);
+            overviewBalance.textContent = fmtUSD(bankBalance);
+        }
+        function renderName(name){
+            playerNameEl.textContent = name && name.trim() ? name : '—';
+            overviewWelcome.textContent = name && name.trim()
+                ? `Bonjour ${name}, votre compte est synchronisé.`
+                : `Bienvenue dans votre espace bancaire.`;
+        }
+
+        // ===== Quick amounts ================================================
+        function buildChips(container, input){
+            container.innerHTML = '';
+            QUICK_AMOUNTS.forEach(a => {
+                const c = document.createElement('button');
+                c.type = 'button';
+                c.className = 'chip';
+                c.textContent = a.label;
+                c.dataset.value = a.v;
+                c.addEventListener('click', () => {
+                    [...container.children].forEach(x => x.classList.remove('active'));
+                    c.classList.add('active');
+                    input.value = String(a.v);
+                    input.focus();
+                });
+                container.appendChild(c);
+            });
+        }
+        buildChips(depositChips,  depositInput);
+        buildChips(withdrawChips, withdrawInput);
+
+        // Reset le chip "active" quand l'utilisateur tape un montant à la main
+        depositInput.addEventListener('input', () => {
+            [...depositChips.children].forEach(c => {
+                c.classList.toggle('active', String(depositInput.value) === c.dataset.value);
+            });
+        });
+        withdrawInput.addEventListener('input', () => {
+            [...withdrawChips.children].forEach(c => {
+                c.classList.toggle('active', String(withdrawInput.value) === c.dataset.value);
+            });
+        });
+
+        // ===== Actions ======================================================
+        // Fire-and-forget : on ne `await` plus le POST, ça évite que le flag
+        // `busy` reste bloqué si la callback Lua ne renvoie pas de réponse
+        // (ce qui rendait le retrait impossible juste après un dépôt).
+        // Le serveur reste source de vérité pour le solde — il rejette via
+        // esx:showNotification si le montant est invalide.
+        function lockSubmit(btn){
+            busy = true; btn.disabled = true;
+            setTimeout(() => { busy = false; btn.disabled = false; }, 600);
+        }
+        function doDeposit(){
+            if (busy) return;
+            const raw = depositInput.value;
+            const amount = Math.floor(Number(raw));
+            if (!raw || isNaN(amount) || amount <= 0){
+                toast("Montant invalide", 'error');
+                return;
+            }
+            lockSubmit(depositSubmit);
+
+            post('deposit', { amount });
+
+            depositInput.value = '';
+            [...depositChips.children].forEach(c => c.classList.remove('active'));
+            switchTab('overview');
+        }
+        function doWithdraw(){
+            if (busy) return;
+            const raw = withdrawInput.value;
+            const amount = Math.floor(Number(raw));
+            if (!raw || isNaN(amount) || amount <= 0){
+                toast("Montant invalide", 'error');
+                return;
+            }
+            // On ne bloque plus côté UI sur "amount > bankBalance" : le solde
+            // peut ne pas encore être rafraîchi (race condition post-dépôt).
+            // Le serveur valide et renvoie une notif ESX si montant invalide.
+            lockSubmit(withdrawSubmit);
+
+            post('withdrawl', { amountw: amount });
+
+            withdrawInput.value = '';
+            [...withdrawChips.children].forEach(c => c.classList.remove('active'));
+            switchTab('overview');
+        }
+        depositSubmit.addEventListener('click', doDeposit);
+        withdrawSubmit.addEventListener('click', doWithdraw);
+        depositInput.addEventListener('keydown',  e => { if (e.key === 'Enter') doDeposit(); });
+        withdrawInput.addEventListener('keydown', e => { if (e.key === 'Enter') doWithdraw(); });
+
+        // ===== Journal ======================================================
+        let journalLoading = false;
+        function renderJournalLoading(){
+            journalList.innerHTML = '<div class="journal-loading"><i class="fas fa-circle-notch"></i></div>';
+        }
+        function renderJournalEmpty(){
+            journalList.innerHTML = `
+                <div class="journal-empty">
+                    <i class="fas fa-receipt"></i>
+                    <span>Aucune opération enregistrée</span>
+                </div>`;
+        }
+        function renderJournal(rows){
+            journalLoading = false;
+            if (!Array.isArray(rows) || rows.length === 0){
+                renderJournalEmpty();
+                return;
+            }
+            const html = rows.map(r => {
+                const isDeposit = r.type === 'deposit';
+                const cls       = isDeposit ? 'deposit' : 'withdraw';
+                const icon      = isDeposit ? 'fa-arrow-down' : 'fa-arrow-up';
+                const label     = isDeposit ? 'Dépôt' : 'Retrait';
+                const sign      = isDeposit ? '+' : '−';
+                const amount    = Math.abs(Number(r.amount) || 0);
+                const balance   = Number(r.balance_after) || 0;
+                return `
+                    <div class="journal-row ${cls}">
+                        <div class="journal-icon"><i class="fas ${icon}"></i></div>
+                        <div class="journal-meta">
+                            <div class="journal-type">${label}</div>
+                            <div class="journal-balance">Solde après : ${escapeHTML(fmtUSD(balance))}</div>
+                        </div>
+                        <div class="journal-amount">${sign}${escapeHTML(fmtUSD(amount))}</div>
+                        <div class="journal-date">${escapeHTML(fmtRelative(r.ts))}</div>
+                    </div>
+                `;
+            }).join('');
+            journalList.innerHTML = html;
+        }
+        function loadJournal(){
+            if (journalLoading) return;
+            journalLoading = true;
+            renderJournalLoading();
+            // Le serveur renverra un message NUI 'journal' via NetEvent
+            // 'bank:journal:data' (cf. client.lua + server.lua).
+            post('getJournal');
+            // Garde-fou : si pas de réponse en 5s, on affiche "vide".
+            setTimeout(() => {
+                if (journalLoading){
+                    journalLoading = false;
+                    renderJournalEmpty();
+                }
+            }, 5000);
+        }
+
+        // ===== Lifecycle ====================================================
+        function showApp(){
+            app.style.display = 'block';
+            switchTab('overview');
+        }
+        function hideApp(){
+            app.style.display = 'none';
+            depositInput.value = '';
+            withdrawInput.value = '';
+            [...depositChips.children].forEach(c => c.classList.remove('active'));
+            [...withdrawChips.children].forEach(c => c.classList.remove('active'));
+            post('NUIFocusOff');
+        }
+        btnClose.addEventListener('click', hideApp);
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && app.style.display !== 'none') hideApp();
+        });
+
+        // ===== NUI bridge ===================================================
+        // Compatible avec client.lua existant :
+        //  - openGeneral
+        //  - balanceHUD { balance, player }
+        //  - close, closeAll
+        //  - balanceReturn { bal }   (legacy)
+        //  - result { m, t }         (legacy)
+        window.addEventListener('message', ev => {
+            const msg = ev.data || {};
+            if (!msg.type) return;
+
+            if (msg.type === 'openGeneral'){
+                showApp();
+            }
+            else if (msg.type === 'balanceHUD'){
+                bankBalance = Number(msg.balance) || 0;
+                renderName(msg.player);
+                renderBalance();
+            }
+            else if (msg.type === 'balanceReturn'){
+                bankBalance = Number(msg.bal) || 0;
+                renderBalance();
+            }
+            else if (msg.type === 'close' || msg.type === 'closeAll'){
+                app.style.display = 'none';
+            }
+            else if (msg.type === 'result'){
+                const t = (msg.t === 'success') ? 'success'
+                        : (msg.t === 'warn') ? 'warn'
+                        : 'error';
+                toast(String(msg.m || ''), t);
+            }
+            else if (msg.type === 'journal'){
+                renderJournal(msg.rows);
+            }
+        });
+    })();
+    </script>
+</body>
+</html>

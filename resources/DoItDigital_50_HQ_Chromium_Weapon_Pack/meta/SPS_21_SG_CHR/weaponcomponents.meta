@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<CWeaponComponentInfoBlob><Infos><Item type="CWeaponComponentSuppressorInfo">
+			<Name>did_sps_21_sg_chr_supp</Name>
+			<Model>did_sps_21_sg_chr_supp</Model>
+			<LocName>WCT_SUPP</LocName>
+			<LocDesc>WCD_AR_SUPP</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<WeaponAttachBone>WAPSupp</WeaponAttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000" />
+			</DamageModifier>
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="-5" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="-5" />
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+      		<Name>did_sps_21_sg_chr_camo1</Name>
+	  		<Model>did_sps_21_sg_chr_camo1</Model>
+      		<LocName>WCT_CAMO_1</LocName>
+      		<LocDesc>WCD_INVALID</LocDesc>
+      		<AttachBone>AAPCamo</AttachBone>
+      		<AccuracyModifier type="NULL" />
+      		<DamageModifier type="NULL" />
+      		<bShownOnWheel value="false" />
+      		<CreateObject value="true" />
+      		<HudDamage value="0" />
+      		<HudSpeed value="0" />
+      		<HudCapacity value="0" />
+      		<HudAccuracy value="0" />
+      		<HudRange value="0" />
+    	</Item>
+		<Item type="CWeaponComponentInfo">
+      		<Name>did_sps_21_sg_chr_camo2</Name>
+	  		<Model>did_sps_21_sg_chr_camo2</Model>
+      		<LocName>WCT_CAMO_1</LocName>
+      		<LocDesc>WCD_INVALID</LocDesc>
+      		<AttachBone>AAPCamo</AttachBone>
+      		<AccuracyModifier type="NULL" />
+      		<DamageModifier type="NULL" />
+      		<bShownOnWheel value="false" />
+      		<CreateObject value="true" />
+      		<HudDamage value="0" />
+      		<HudSpeed value="0" />
+      		<HudCapacity value="0" />
+      		<HudAccuracy value="0" />
+      		<HudRange value="0" />
+    	</Item>
+		<Item type="CWeaponComponentInfo">
+      		<Name>did_sps_21_sg_chr_camo3</Name>
+	  		<Model>did_sps_21_sg_chr_camo3</Model>
+      		<LocName>WCT_CAMO_1</LocName>
+      		<LocDesc>WCD_INVALID</LocDesc>
+      		<AttachBone>AAPCamo</AttachBone>
+      		<AccuracyModifier type="NULL" />
+      		<DamageModifier type="NULL" />
+      		<bShownOnWheel value="false" />
+      		<CreateObject value="true" />
+      		<HudDamage value="0" />
+      		<HudSpeed value="0" />
+      		<HudCapacity value="0" />
+      		<HudAccuracy value="0" />
+      		<HudRange value="0" />
+    	</Item>
+	</Infos><InfoBlobName /></CWeaponComponentInfoBlob>

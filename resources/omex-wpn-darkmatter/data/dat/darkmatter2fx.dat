@@ -1,0 +1,29 @@
+8.00
+
+ENTITYFX_START
+
+
+
+
+
+
+######################################################################################################################################################################################################################################################################################
+#																																																													                                 #
+#																										CREATION THRESHOLDS -------------------------------------------------->		EVOLUTION INFO --------------------------->						TRIGGERED AMBIENT EFFECTS -----> #	
+#																								IGNORE	ALWAYS	SUN			RAIN		WIND		TEMPERATURE		TIME OF DAY										 TEMP EVO		NIGHT_PROB						TIME             #
+# TAG							PTFX_ASSET					FX_NAME								ROT				THRESH		THRESH		THRESH		MIN		MAX		MIN		MAX		RAIN	WIND	MAX_WIND_EVO	MIN		MAX		MULT			IS_TRIG		MIN		MAX	         #
+#																																																													                                 #
+######################################################################################################################################################################################################################################################################################
+																												
+ENTITYFX_AMBIENT_PTFX_START																						
+																												
+AMB_TORCH_FIRE_DARKMATTER2     	fxdarkmatter2				ent_amb_torch_fire_darkmatter2     	0		1		-1.0		-1.0		-1.0		-100	100		0		0		0		0		10.0			0.0		0.0		1.0				0			0.0		0.0																										
+
+
+#COUNT=1
+
+
+ENTITYFX_AMBIENT_PTFX_END
+
+
+ENTITYFX_END

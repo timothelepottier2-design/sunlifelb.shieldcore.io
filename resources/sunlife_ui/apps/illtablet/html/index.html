@@ -1,0 +1,254 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Assets vendorises en local. AUCUN appel CDN ici : une <link>/<script>
+         externe est bloquante pour le parser, donc l'iframe reste en
+         readyState "loading" tant que le CDN n'a pas repondu. Le routeur
+         (nui/router.js) ne flushe qu'a "interactive"/"load" -> le message
+         "open" restait en file d'attente alors que SetNuiFocus(true) etait
+         deja applique : curseur affiche, jeu bloque, aucun panneau, et aucun
+         moyen de fermer -> deco/reco obligatoire. -->
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="margin:0;padding:0;background-color:transparent !important;background:transparent !important;">
+
+    <div id="tablet-app">
+        <div class="tablet-frame">
+
+            <!-- SIDEBAR -->
+            <div class="tablet-sidebar">
+                <div class="sidebar-brand">
+                    <div class="sidebar-brand-icon">
+                        <i class="fas fa-skull-crossbones"></i>
+                    </div>
+                    <div class="sidebar-brand-text">
+                        <div class="sidebar-brand-name">Black Market</div>
+                        <div class="sidebar-brand-sub">Tablette illégale</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-nav">
+                    <div class="nav-item active" data-tab="shop">
+                        <i class="fas fa-cart-shopping"></i>
+                        <span>Équipement</span>
+                    </div>
+                    <div class="nav-item" data-tab="ranking-xp">
+                        <i class="fas fa-trophy"></i>
+                        <span>Classement XP</span>
+                    </div>
+                    <div class="nav-item" data-tab="ranking-territories">
+                        <i class="fas fa-flag"></i>
+                        <span>Classement Territoires</span>
+                    </div>
+                    <div class="nav-item" data-tab="ranking-koth">
+                        <i class="fas fa-crown"></i>
+                        <span>Classement KOTH</span>
+                    </div>
+                    <div class="nav-item" data-tab="groups-online">
+                        <i class="fas fa-users"></i>
+                        <span>Groupes connectés</span>
+                    </div>
+                    <div class="nav-item" data-tab="activities">
+                        <i class="fas fa-mask"></i>
+                        <span>Activités illégales</span>
+                    </div>
+                    <div class="nav-item" data-tab="map">
+                        <i class="fas fa-map"></i>
+                        <span>Carte des territoires</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <div class="dirty-money-badge">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div>
+                            <div class="dm-label">Argent sale</div>
+                            <div class="dm-value" id="dirty-money-value">0$</div>
+                        </div>
+                    </div>
+                    <button class="btn-close-tablet" id="btn-close-tablet">
+                        <i class="fas fa-xmark"></i>
+                        <span>Fermer</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="tablet-content-area">
+
+                <!-- SHOP -->
+                <div class="tab-panel active" id="panel-shop">
+                    <div class="panel-header">
+                        <h2>Équipement</h2>
+                        <div class="shop-categories" id="shop-categories"></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="items-grid" id="items-grid"></div>
+                    </div>
+                </div>
+
+                <!-- RANKING XP -->
+                <div class="tab-panel" id="panel-ranking-xp">
+                    <div class="panel-header">
+                        <h2>Classement des groupes</h2>
+                        <span class="panel-subtitle">Par expérience</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="ranking-table" id="ranking-xp-list">
+                            <div class="ranking-header-row">
+                                <span class="rh-pos">#</span>
+                                <span class="rh-name">Groupe</span>
+                                <span class="rh-stat">Niveau</span>
+                                <span class="rh-stat">XP</span>
+                                <span class="rh-stat">Membres</span>
+                                <span class="rh-stat">Score</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RANKING TERRITORIES -->
+                <div class="tab-panel" id="panel-ranking-territories">
+                    <div class="panel-header">
+                        <h2>Classement des groupes</h2>
+                        <span class="panel-subtitle">Par territoires possédés</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="ranking-table" id="ranking-territories-list">
+                            <div class="ranking-header-row">
+                                <span class="rh-pos">#</span>
+                                <span class="rh-name">Groupe</span>
+                                <span class="rh-stat">Territoires</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RANKING KOTH -->
+                <div class="tab-panel" id="panel-ranking-koth">
+                    <div class="panel-header">
+                        <h2>Classement King of the Hill</h2>
+                        <span class="panel-subtitle">Top des groupes par victoires</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="koth-page" id="koth-ranking-page">
+                            <div class="koth-empty"><i class="fas fa-crown"></i><span>Chargement…</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GROUPS ONLINE -->
+                <div class="tab-panel" id="panel-groups-online">
+                    <div class="panel-header">
+                        <h2>Groupes connectés</h2>
+                        <span class="panel-subtitle">Membres en ligne</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="ranking-table" id="groups-online-list">
+                            <div class="ranking-header-row">
+                                <span class="rh-pos">#</span>
+                                <span class="rh-name">Groupe</span>
+                                <span class="rh-stat">Connectés</span>
+                                <span class="rh-stat">Membres</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTIVITIES -->
+                <div class="tab-panel" id="panel-activities">
+                    <div class="panel-header">
+                        <h2>Activités illégales</h2>
+                        <span class="panel-subtitle">Localiser une activité</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="items-grid" id="activities-grid"></div>
+                    </div>
+                </div>
+
+                <!-- MAP -->
+                <div class="tab-panel" id="panel-map">
+                    <div class="panel-header">
+                        <h2>Carte des territoires</h2>
+                        <span class="panel-subtitle">Vue satellite</span>
+                    </div>
+                    <div class="panel-body panel-body-map">
+                        <div id="territory-map"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- BUY MODAL -->
+    <div class="modal-overlay" id="modal-buy">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-cart-shopping"></i> Commander</h3>
+                <button class="modal-close" id="modal-buy-close"><i class="fas fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-item-preview">
+                    <div class="modal-item-icon">
+                        <i class="item-icon fas fa-box" id="modal-item-icon"></i>
+                    </div>
+                    <div class="modal-item-details">
+                        <div class="modal-item-name" id="modal-item-name">-</div>
+                        <div class="modal-item-price" id="modal-item-price">-</div>
+                    </div>
+                </div>
+                <div class="quantity-control">
+                    <label>Quantité</label>
+                    <div class="quantity-input-group">
+                        <button class="quantity-btn" id="qty-minus"><i class="fas fa-minus"></i></button>
+                        <input type="number" class="quantity-input" id="buy-quantity" value="1" min="1" max="999">
+                        <button class="quantity-btn" id="qty-plus"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="total-line">
+                    <span class="total-label">Total</span>
+                    <span class="total-value" id="buy-total">0$</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="modal-buy-cancel">Annuler</button>
+                <button class="btn-confirm-buy" id="modal-buy-confirm">
+                    <i class="fas fa-check"></i> Confirmer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTIVITY DETAIL MODAL -->
+    <div class="modal-overlay" id="modal-activity">
+        <div class="modal modal-activity">
+            <div class="modal-header">
+                <h3><i class="fas fa-mask"></i> <span id="modal-activity-title">Activité</span></h3>
+                <button type="button" class="modal-close" id="modal-activity-close"><i class="fas fa-xmark"></i></button>
+            </div>
+            <div class="modal-body modal-body-activity">
+                <div class="activity-modal-visual">
+                    <img id="modal-activity-img" class="activity-modal-img" src="" alt="">
+                    <div class="activity-modal-fallback" id="modal-activity-fallback">
+                        <i class="fas fa-mask"></i>
+                    </div>
+                </div>
+                <p class="activity-modal-desc" id="modal-activity-desc"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="modal-activity-cancel">Fermer</button>
+                <button type="button" class="btn-confirm-buy" id="modal-activity-locate">
+                    <i class="fas fa-location-dot"></i> Localiser
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

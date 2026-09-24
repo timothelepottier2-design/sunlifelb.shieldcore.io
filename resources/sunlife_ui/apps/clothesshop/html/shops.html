@@ -1,0 +1,3249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clotheshop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* =====================================================================
+           SunLife — Clotheshop UI
+           Refonte au style SNL_Boutique : dark + carré + Inter +
+           orange SunLife pur (rgb 255,117,31). Aucun ton jaune/vert,
+           tous les sélecteurs HTML/JS d'origine sont conservés.
+           ===================================================================== */
+        :root{
+            /* Palette dark (boutique) */
+            --bg-1:#0a0a0a;
+            --bg-2:#101010;
+            --bg-3:#181818;
+            --panel:#141414;
+            --panel-2:#1c1c1c;
+            --panel-3:#252525;
+
+            --line:rgba(255,255,255,.06);
+            --line-strong:rgba(255,255,255,.10);
+
+            --text:#f2f2f2;
+            --text-2:#d0d0d0;
+            --muted:#8a8a8a;
+
+            /* Orange SunLife pur — RGB 255,117,31 = #ff751f */
+            --accent:        #ff751f;
+            --accent-2:      #ff8a3c;
+            --accent-3:      #e6661a;
+            --accent-soft:   rgba(255,117,31,.16);
+            --accent-soft-2: rgba(255,117,31,.30);
+            --accent-ring:   rgba(255,117,31,.55);
+            --accent-shadow: rgba(255,117,31,.35);
+            --accent-glow:   rgba(255,117,31,.45);
+
+            /* Aliases compat (anciens noms réutilisés par l'HTML/JS) */
+            --gold:  var(--accent);
+            --gold2: var(--accent-2);
+            --ring:  var(--accent-ring);
+            --ghost: var(--accent-soft);
+            --ghost2: var(--accent-soft-2);
+            --bg:    transparent;
+            --panel2: rgba(255,255,255,.06);
+
+            --danger:#ff5c7a;
+
+            --shadow-sm: 0 4px 12px rgba(0,0,0,.30);
+            --shadow-md: 0 10px 28px rgba(0,0,0,.45);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,.55);
+            --shadow:    0 10px 30px rgba(255,117,31,.20);
+
+            /* Coins carrés partout (boutique) */
+            --r: 0;
+
+            --font: "Inter", ui-sans-serif, system-ui, -apple-system,
+                    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --ease-smooth: cubic-bezier(.22,.61,.36,1);
+            --ring-fill: rgba(255,117,31,.55);
+        }
+
+        :root{
+            --fw-title: 800;
+            --fw-strong: 700;
+            --fw-text: 500;
+        }
+
+        *{ box-sizing:border-box; }
+
+        html, body, button, input, textarea, select{
+            font-family: var(--font) !important;
+        }
+
+        html, body{
+            width:100%; height:100%; margin:0; padding:0;
+            overflow:hidden;
+            background:transparent;
+            color: var(--text);
+            font-family: var(--font);
+        }
+        body{
+            display:flex; align-items:center; justify-content:flex-start;
+            font-feature-settings: "ss01","cv11";
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* =====================================================================
+           Layout principal
+           ===================================================================== */
+        .wrap{
+            /* Réduit (~ -6% = ~3cm sur écran 1080p) pour ne plus empiéter sur
+               le rendu du perso qui est au centre de l'écran. */
+            width: 36%;
+            height: 84%;
+            margin-left: 2%;
+            display:grid;
+            /* Sidebar bien plus fine (~10% au lieu de 26%) pour ne plus avoir
+               de vide horizontal autour des boutons en colonne. Le panneau
+               principal récupère la largeur. */
+            grid-template-columns: 10% 90%;
+            gap: 1.4%;
+            padding: 1.2%;
+            border-radius: 0;
+            position: relative;
+        }
+
+        .sidebar{
+            height: 100%;
+            border-radius: 0;
+            background: linear-gradient(180deg, rgba(20,20,20,.96), rgba(20,20,20,.92));
+            border: 1px solid var(--line-strong);
+            box-shadow: var(--shadow-md);
+            display:flex;
+            flex-direction:column;
+            justify-content: flex-start;
+            padding: .55rem .55rem .7rem;
+            gap: .45rem;
+            overflow:hidden;
+            position: relative;
+        }
+
+        /* Liseré orange à gauche du sidebar */
+        .sidebar::before{
+            content:"";
+            position:absolute; left:0; top:0; bottom:0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent) 0%, transparent 100%);
+            box-shadow: 0 0 14px var(--accent-glow);
+        }
+
+        /* Brand minimal : pas de titre "Clotheshop", on garde juste le
+           pill genre (M/F) en haut à droite pour rester compact. */
+        .brand{
+            width:100%;
+            display:flex;
+            align-items:center;
+            justify-content:flex-end;
+            gap: .4rem;
+            padding: 0;
+            margin: 0;
+            border-radius: 0;
+            background: transparent;
+            border: 0;
+            position: relative;
+            min-height: 0;
+        }
+        .brand::before{ display: none; }
+
+        /* On masque tout le bloc gauche (icône + "Clotheshop" + sous-titre) */
+        .brandLeft{ display: none !important; }
+
+        .brandIcon{
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 0;
+            display:grid;
+            place-items:center;
+            background: rgba(255,117,31,.12);
+            border: 1px solid rgba(255,117,31,.30);
+            flex: 0 0 auto;
+            color: var(--accent);
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,.20);
+        }
+        .brandIcon svg{
+            width: 1.25rem; height: 1.25rem;
+            fill:none; stroke: currentColor; stroke-width:2;
+            stroke-linecap:round; stroke-linejoin:round;
+        }
+
+        .brand .t{ min-width:0; display:flex; flex-direction:column; gap:.05rem; }
+        .brand .a{
+            font-size: .92rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            color: var(--text);
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        .brand .b{
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+
+        .pill{
+            min-width: 1.5rem;
+            height: 1.5rem;
+            padding: 0 .4rem;
+            display:grid;
+            place-items:center;
+            border-radius: 0;
+            background: var(--accent);
+            color: #1a0d05;
+            font-weight: 900;
+            letter-spacing: .04em;
+            font-size: .72rem;
+            border: 1px solid var(--accent-3);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* =====================================================================
+           Menu (icônes catégories)
+           - 1 SEULE colonne : toutes les icônes empilées sur la meme ligne
+             verticale. Le sidebar fait 26% de la largeur de l'app, donc chaque
+             cellule occupe toute la largeur dispo du sidebar.
+           - flex: 1 1 auto + overflow-y: auto pour que la liste scroll si
+             jamais elle dépasse la hauteur (15 catégories ~55rem total).
+           - align-content: start pour packer les rangées en haut, sans gap
+             vertical étiré.
+           ===================================================================== */
+        .menu, .menuGrid{
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: grid;
+            /* 1 colonne pleine largeur de la sidebar (qui est elle-même
+               réduite à ~10% de la wrap, cf. .wrap). Plus aucun vide
+               horizontal autour des boutons. */
+            grid-template-columns: 1fr;
+            grid-auto-rows: 2.8rem;
+            align-content: start;
+            justify-items: stretch;
+            gap: .3rem;
+            padding-right: .15rem;
+        }
+
+        .mitem{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--line-strong);
+            background: linear-gradient(180deg, var(--panel-2), var(--panel));
+            color: var(--text-2);
+            cursor: pointer;
+            border-radius: 0;
+            transition: transform .15s var(--ease-smooth),
+                        background .15s ease,
+                        border-color .15s ease,
+                        color .15s ease;
+        }
+        .mitem:hover{
+            background: linear-gradient(180deg, var(--panel-3), var(--panel-2));
+            color: var(--text);
+            border-color: rgba(255,117,31,.35);
+        }
+        .mitem.active{
+            color: var(--accent);
+            border-color: var(--accent-ring);
+            background: linear-gradient(180deg, rgba(255,117,31,.10), rgba(255,117,31,.04));
+            box-shadow: inset 0 0 0 1px var(--accent-soft),
+                        0 0 14px var(--accent-soft);
+        }
+        .mitem.active::after{
+            content:"";
+            position:absolute; left:0; top:0; bottom:0;
+            width: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .mitem .ico{
+            width: 1.35rem;
+            height: 1.35rem;
+            display:grid; place-items:center;
+            color: currentColor;
+        }
+        .mitem .ico svg{
+            width: 100%; height: 100%;
+            fill: currentColor; stroke: none;
+        }
+
+        /* Tooltip catégorie */
+        .catTip{
+            position: fixed;
+            left: 0; top: 0;
+            transform: translate3d(-9999px,-9999px,0);
+            z-index: 9999;
+            padding: .45rem .7rem;
+            border-radius: 0;
+            background: var(--panel);
+            border: 1px solid var(--accent-ring);
+            box-shadow: 0 12px 30px rgba(0,0,0,.55), 0 0 12px var(--accent-soft);
+            color: var(--text);
+            font-weight: 700;
+            font-size: .80rem;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .10s ease;
+        }
+        .catTip.show{ opacity: 1; }
+
+        /* =====================================================================
+           Panel principal
+           ===================================================================== */
+        .panel{
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, rgba(20,20,20,.96), rgba(20,20,20,.92));
+            border: 1px solid var(--line-strong);
+            box-shadow: var(--shadow-md);
+            border-radius: 0;
+            padding: 1rem;
+            gap: .85rem;
+            overflow: hidden;
+        }
+        .panel::before{
+            content:"";
+            position:absolute; left:0; top:0; right:0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: .55;
+        }
+
+        .top{
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: .85rem;
+            padding-bottom: .65rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .title{ display:flex; flex-direction:column; gap:.15rem; min-width:0; position: relative; padding-left: .75rem; }
+        .title::before{
+            content:"";
+            position:absolute; left:0; top:.15rem; bottom:.15rem;
+            width: 4px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .title .h{
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            color: var(--text);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .title .p{
+            font-size: .76rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .12em;
+        }
+
+        .actions{
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .btn{
+            height: 2.4rem;
+            padding: 0 .9rem;
+            border: 1px solid var(--line-strong);
+            background: var(--panel-2);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .10em;
+            font-size: .76rem;
+            border-radius: 0;
+            transition: background .15s ease, border-color .15s ease, color .15s ease, transform .15s var(--ease-smooth);
+        }
+        .btn:hover{
+            background: var(--panel-3);
+            border-color: var(--accent-ring);
+            color: var(--accent);
+        }
+        .btn:active{ transform: translateY(1px); }
+        .btn.primary{
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #0b0b0b;
+        }
+        .btn.primary:hover{
+            background: var(--accent);
+            border-color: var(--accent-ring);
+            color: #0b0b0b;
+            filter: brightness(1.08);
+        }
+
+        .body{
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card{
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: .75rem;
+            background: transparent;
+        }
+
+        /* Ligne avec en-tête et search */
+        .row{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .65rem;
+        }
+        .rowHead{
+            padding-bottom: .35rem;
+            border-bottom: 1px dashed var(--line);
+            margin-bottom: .25rem;
+        }
+
+        .khead{
+            display: flex;
+            align-items: center;
+            gap: .55rem;
+            min-width: 0;
+        }
+        .kicon{
+            width: 2.05rem;
+            height: 2.05rem;
+            display:grid; place-items:center;
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-ring);
+            color: var(--accent);
+            border-radius: 0;
+        }
+        .kicon svg{
+            width: 1.1rem; height: 1.1rem;
+            fill: currentColor;
+        }
+
+        .row .k{ display:flex; flex-direction:column; gap:.05rem; min-width:0; }
+        .row .k .a{
+            font-size: .82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--text);
+        }
+        .row .k .b{
+            font-size: .72rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .10em;
+        }
+
+        /* Search */
+        .searchWrap{
+            flex: 0 0 auto;
+            min-width: 12rem;
+            max-width: 16rem;
+        }
+        .searchBox{
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--bg-3);
+            border: 1px solid var(--line-strong);
+            border-radius: 0;
+            padding: 0 .65rem 0 2rem;
+            height: 2.35rem;
+            transition: border-color .15s ease, background .15s ease;
+        }
+        .searchBox:focus-within{
+            border-color: var(--accent-ring);
+            background: var(--bg-2);
+            box-shadow: inset 0 0 0 1px var(--accent-soft);
+        }
+        .searchIcon{
+            position: absolute;
+            left: .55rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: .9rem; height: .9rem;
+            display: grid; place-items: center;
+            color: var(--muted);
+        }
+        .searchIcon svg{ width: 100%; height: 100%; fill: currentColor; }
+        .searchBox:focus-within .searchIcon{ color: var(--accent); }
+
+        .search{
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: 0;
+            outline: 0;
+            color: var(--text);
+            font-weight: 600;
+            font-size: .85rem;
+            padding: 0;
+        }
+        .search::placeholder{
+            color: var(--muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .10em;
+            font-size: .72rem;
+        }
+
+        /* Liste de modèles */
+        .modelList{
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: auto;
+            padding: .15rem .35rem .25rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: .4rem;
+        }
+        .modelList::-webkit-scrollbar{ width: 8px; }
+        .modelList::-webkit-scrollbar-track{ background: rgba(255,255,255,.04); }
+        .modelList::-webkit-scrollbar-thumb{
+            background: linear-gradient(180deg, var(--accent), var(--accent-3));
+            border: 2px solid var(--panel);
+        }
+
+        .modelBtn{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .5rem;
+            padding: .65rem .85rem;
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            color: var(--text-2);
+            cursor: pointer;
+            border-radius: 0;
+            font-weight: 700;
+            font-size: .85rem;
+            letter-spacing: .04em;
+            transition: background .15s ease, border-color .15s ease, color .15s ease, transform .12s var(--ease-smooth);
+        }
+        .modelBtn:hover{
+            background: var(--panel-3);
+            color: var(--text);
+            border-color: rgba(255,117,31,.30);
+        }
+        .modelBtn.active{
+            background: linear-gradient(180deg, rgba(255,117,31,.10), rgba(255,117,31,.04));
+            border-color: var(--accent-ring);
+            color: var(--accent);
+            box-shadow: inset 0 0 0 1px var(--accent-soft);
+        }
+        .modelBtn:active{ transform: translateY(1px); }
+
+        .modelPrice{
+            font-weight: 800;
+            font-size: .78rem;
+            color: var(--muted);
+            background: var(--bg-3);
+            border: 1px solid var(--line-strong);
+            padding: .25rem .55rem;
+            border-radius: 0;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            white-space: nowrap;
+        }
+        .modelBtn.active .modelPrice{
+            color: var(--accent);
+            border-color: var(--accent-ring);
+            background: var(--accent-soft);
+        }
+
+        /* Variant footer (arrows + slider + payment) */
+        .variantFooter{
+            margin-top: .35rem;
+            padding-top: .65rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            gap: .55rem;
+        }
+
+        .ctrl{
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+        }
+
+        .arrow{
+            width: 2.25rem;
+            height: 2.25rem;
+            display: grid;
+            place-items: center;
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            color: var(--text-2);
+            cursor: pointer;
+            border-radius: 0;
+            transition: background .15s ease, border-color .15s ease, color .15s ease;
+        }
+        .arrow:hover{
+            background: var(--panel-3);
+            color: var(--accent);
+            border-color: var(--accent-ring);
+        }
+        .arrow:disabled{ opacity:.4; cursor:not-allowed; color: var(--muted); }
+        .arrow svg{ width: 1rem; height: 1rem; }
+
+        .val{
+            min-width: 2.5rem;
+            height: 2.25rem;
+            padding: 0 .55rem;
+            display: grid;
+            place-items: center;
+            background: var(--bg-3);
+            border: 1px solid var(--line-strong);
+            color: var(--text);
+            font-weight: 800;
+            font-size: .85rem;
+            border-radius: 0;
+            text-align: center;
+        }
+
+        .range{
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(255,117,31,.15) 0%, var(--bg-3) 0%);
+            border: 1px solid var(--line-strong);
+            border-radius: 0;
+            outline: none;
+            cursor: pointer;
+        }
+        .range::-webkit-slider-runnable-track{
+            height: 6px;
+            background: transparent;
+            border-radius: 0;
+        }
+        .range::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            margin-top: -6px;
+            background: var(--accent);
+            border: 1px solid var(--accent-3);
+            border-radius: 0;
+            box-shadow: 0 0 12px var(--accent-glow);
+            cursor: pointer;
+        }
+        .range::-moz-range-thumb{
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border: 1px solid var(--accent-3);
+            border-radius: 0;
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* Pay zone (total + methods + buttons) */
+        .payWrap{
+            margin-top: .35rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .55rem;
+        }
+        .totalBox{
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: .55rem;
+            padding: .5rem .7rem;
+            background: var(--bg-3);
+            border: 1px solid var(--accent-ring);
+            border-radius: 0;
+            position: relative;
+        }
+        .totalBox::before{
+            content:"";
+            position:absolute; left:0; top:0; bottom:0;
+            width: 3px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .totalLabel{
+            color: var(--muted);
+            font-weight: 800;
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+        }
+        .totalVal{
+            font-weight: 900;
+            font-size: 1.0rem;
+            color: var(--accent);
+            letter-spacing: .03em;
+            white-space: nowrap;
+        }
+
+        .payMethods{
+            display: flex;
+            gap: .35rem;
+            flex: 0 0 auto;
+        }
+        .payMethod{
+            width: 2.35rem;
+            height: 2.35rem;
+            display: grid;
+            place-items: center;
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            color: var(--text-2);
+            cursor: pointer;
+            border-radius: 0;
+            transition: background .15s ease, border-color .15s ease, color .15s ease, transform .12s var(--ease-smooth);
+        }
+        .payMethod:hover{
+            background: var(--panel-3);
+            color: var(--accent);
+            border-color: var(--accent-ring);
+        }
+        .payMethod.active{
+            background: var(--accent-soft);
+            border-color: var(--accent-ring);
+            color: var(--accent);
+            box-shadow: inset 0 0 0 1px var(--accent-soft-2);
+        }
+        .payMethod svg{
+            width: 1.1rem; height: 1.1rem;
+            fill: none; stroke: currentColor; stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .payBtn{
+            width: 100%;
+            height: 2.85rem;
+            padding: 0 1rem;
+            background: var(--accent);
+            color: #1a0d05;
+            border: 1px solid var(--accent-3);
+            cursor: pointer;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            font-size: .82rem;
+            border-radius: 0;
+            box-shadow: 0 0 18px var(--accent-soft), 0 6px 20px rgba(0,0,0,.45);
+            transition: background .15s ease, transform .12s var(--ease-smooth), box-shadow .15s ease;
+        }
+        .payBtn:hover{
+            background: var(--accent-2);
+            box-shadow: 0 0 22px var(--accent-soft-2), 0 8px 26px rgba(0,0,0,.55);
+        }
+        .payBtn:active{ transform: translateY(1px); }
+        .payBtn:disabled{
+            opacity: .45;
+            cursor: not-allowed;
+            transform: none;
+            background: var(--panel-3);
+            color: var(--muted);
+            border-color: var(--line-strong);
+            box-shadow: none;
+        }
+
+        .payRow{
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .55rem;
+        }
+        .payBtnHalf{
+            height: 2.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0 .65rem;
+        }
+        .payMain{
+            font-weight: 900;
+            letter-spacing: .14em;
+            font-size: .85rem;
+        }
+        .paySub{
+            margin-top: .18rem;
+            font-weight: 700;
+            font-size: .68rem;
+            opacity: .80;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        /* =====================================================================
+           Boutons flottants au-dessus du panel : Tenues / Vestiaire / VIP
+           Conteneur flex pour garantir un espacement visuel constant entre
+           les 3 boutons quelle que soit la largeur de leur libellé.
+           ===================================================================== */
+        .outfitBar{
+            position: absolute;
+            left: calc(12% + .9%);
+            top: 0;
+            transform: translateY(-120%);
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            z-index: 999;
+        }
+        .outfitBtn{
+            position: relative;
+            width: auto;
+            min-width: 3.25rem;
+            height: 3rem;
+            padding: 0 1rem;
+            background: linear-gradient(180deg, var(--panel-2), var(--panel));
+            color: var(--text);
+            border: 1px solid var(--line-strong);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            white-space: nowrap;
+            border-radius: 0;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            font-size: .78rem;
+            box-shadow: var(--shadow-sm);
+            transition: background .15s ease, border-color .15s ease, color .15s ease;
+        }
+        .outfitBtn:hover{
+            background: linear-gradient(180deg, var(--panel-3), var(--panel-2));
+            border-color: var(--accent-ring);
+            color: var(--accent);
+        }
+        .outfitBtn[aria-expanded="true"]{
+            background: linear-gradient(180deg, rgba(255,117,31,.10), rgba(255,117,31,.04));
+            border-color: var(--accent-ring);
+            color: var(--accent);
+            box-shadow: inset 0 0 0 1px var(--accent-soft), 0 0 12px var(--accent-soft);
+        }
+        .outfitBtn.disabled{
+            pointer-events: none;
+            opacity: .45;
+            color: var(--muted);
+        }
+
+        .outfitIco{
+            width: 1.15rem;
+            height: 1.15rem;
+            display: grid;
+            place-items: center;
+        }
+        .outfitIco svg{
+            width: 100%; height: 100%;
+            color: currentColor;
+            fill: none; stroke: currentColor; stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+        .outfitIco svg.fillIcon{ fill: currentColor; stroke: none; }
+
+        .outfitTxt{
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* =====================================================================
+           Outfit panel (sidebar overlay quand on ouvre les tenues)
+           ===================================================================== */
+        .outfitPanel{
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: translateX(-110%);
+            width: 19rem;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(20,20,20,.97), rgba(20,20,20,.93));
+            border: 1px solid var(--line-strong);
+            box-shadow: var(--shadow-lg);
+            border-radius: 0;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: .75rem;
+            z-index: 30;
+            transition: transform .18s var(--ease-smooth);
+        }
+        .outfitPanel.show{
+            transform: translateX(-102%);
+        }
+        .outfitPanel::before{
+            content:"";
+            position:absolute; left:0; top:0; bottom:0;
+            width: 3px;
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .outfitHead{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: .75rem;
+            padding-bottom: .55rem;
+            border-bottom: 1px solid var(--line);
+        }
+        .outfitH{
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            font-size: .92rem;
+            color: var(--text);
+        }
+        .outfitP{
+            color: var(--muted);
+            font-size: .72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            margin-top: .18rem;
+        }
+
+        .outfitClose{
+            width: 2.25rem;
+            height: 2.25rem;
+            display: grid;
+            place-items: center;
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            color: var(--text-2);
+            cursor: pointer;
+            border-radius: 0;
+            transition: background .15s ease, border-color .15s ease, color .15s ease;
+        }
+        .outfitClose:hover{
+            background: rgba(255,92,122,.14);
+            border-color: rgba(255,92,122,.55);
+            color: var(--danger);
+        }
+        .outfitClose svg{
+            width: 1.05rem; height: 1.05rem;
+            fill: none; stroke: currentColor; stroke-width: 2.4;
+            stroke-linecap: round;
+        }
+
+        .outfitSave{
+            width: 100%;
+            height: 2.85rem;
+            background: var(--accent);
+            color: #1a0d05;
+            border: 1px solid var(--accent-3);
+            cursor: pointer;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            font-size: .80rem;
+            border-radius: 0;
+            box-shadow: 0 0 14px var(--accent-soft), 0 6px 20px rgba(0,0,0,.40);
+            transition: background .15s ease, transform .12s var(--ease-smooth);
+        }
+        .outfitSave:hover{
+            background: var(--accent-2);
+        }
+        .outfitSave:active{ transform: translateY(1px); }
+
+        .outfitList{
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: auto;
+            padding-right: .35rem;
+        }
+        .outfitList::-webkit-scrollbar{ width: 8px; }
+        .outfitList::-webkit-scrollbar-track{ background: rgba(255,255,255,.04); }
+        .outfitList::-webkit-scrollbar-thumb{
+            background: linear-gradient(180deg, var(--accent), var(--accent-3));
+            border: 2px solid var(--panel);
+        }
+
+        .outfitItem{
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            border-radius: 0;
+            padding: .65rem .75rem;
+            margin-bottom: .55rem;
+            display: flex;
+            flex-direction: column;
+            gap: .55rem;
+            position: relative;
+            transition: border-color .15s ease, background .15s ease;
+        }
+        .outfitItem:hover{
+            background: var(--panel-3);
+            border-color: rgba(255,117,31,.25);
+        }
+
+        .outfitRow{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .65rem;
+        }
+        .outfitName{
+            font-weight: 800;
+            font-size: .88rem;
+            letter-spacing: .03em;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+        .outfitMeta{
+            color: var(--muted);
+            font-size: .70rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            white-space: nowrap;
+        }
+
+        .outfitActions{
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: .4rem;
+        }
+        .outfitAct{
+            width: 100%;
+            min-width: 0;
+            height: 2.3rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .35rem;
+            padding: 0 .5rem;
+            background: var(--bg-3);
+            border: 1px solid var(--line-strong);
+            color: var(--text-2);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .10em;
+            overflow: hidden;
+            border-radius: 0;
+            transition: background .15s ease, border-color .15s ease, color .15s ease;
+        }
+        .outfitAct:hover{
+            background: var(--panel-3);
+            color: var(--accent);
+            border-color: var(--accent-ring);
+        }
+        .outfitAct svg{
+            width: .95rem; height: .95rem;
+            flex: 0 0 auto;
+            fill: none; stroke: currentColor; stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+            opacity: .92;
+        }
+        .outfitAct span{
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .outfitAct.danger{
+            border-color: rgba(255,92,122,.45);
+            background: rgba(255,92,122,.10);
+            color: var(--danger);
+        }
+        .outfitAct.danger:hover{
+            background: rgba(255,92,122,.18);
+            border-color: rgba(255,92,122,.65);
+            color: #ff8aa1;
+        }
+
+        .outfitFooter{
+            margin-top: auto;
+        }
+
+        .modelBtn span:first-child{
+            white-space: nowrap !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+            font-size: clamp(.75rem, 1.2vw, .92rem);
+        }
+
+        /* =====================================================================
+           Cam HUD (haut centre)
+           ===================================================================== */
+        .cam-hud{
+            position: fixed;
+            top: 4%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            gap: .45rem;
+            padding: .45rem;
+            background: rgba(20,20,20,.92);
+            border: 1px solid var(--line-strong);
+            box-shadow: var(--shadow-md);
+            z-index: 60;
+            border-radius: 0;
+        }
+        .cam-hud.show{ display: flex; }
+
+        .cam-btn{
+            width: 2.6rem;
+            height: 2.6rem;
+            display: grid;
+            place-items: center;
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            color: var(--text-2);
+            cursor: pointer;
+            border-radius: 0;
+            transition: background .15s ease, color .15s ease, border-color .15s ease;
+        }
+        .cam-btn:hover{
+            background: var(--panel-3);
+            color: var(--accent);
+            border-color: var(--accent-ring);
+        }
+        .cam-btn.selected{
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-color: var(--accent-ring);
+            box-shadow: inset 0 0 0 1px var(--accent-soft-2);
+        }
+        .cam-btn svg{
+            width: 1.2rem; height: 1.2rem;
+            fill: none; stroke: currentColor; stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        /* =====================================================================
+           Bouton fermer global
+           ===================================================================== */
+        .xclose{
+            position: fixed;
+            top: 4%;
+            right: 2%;
+            width: 3rem;
+            height: 3rem;
+            display: none;
+            place-items: center;
+            background: rgba(255,92,122,.14);
+            border: 1px solid rgba(255,92,122,.55);
+            color: #fff;
+            cursor: pointer;
+            border-radius: 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,.45);
+            transition: background .15s ease, transform .12s var(--ease-smooth), border-color .15s ease;
+            z-index: 50;
+        }
+        .xclose.show{ display: grid; }
+        .xclose:hover{
+            background: rgba(255,92,122,.24);
+            border-color: var(--danger);
+        }
+        .xclose:active{ transform: translateY(1px); }
+        .xclose svg{
+            width: 1.15rem; height: 1.15rem;
+            fill: none; stroke: currentColor; stroke-width: 2.4;
+            stroke-linecap: round;
+        }
+
+        /* =====================================================================
+           Rename modal
+           ===================================================================== */
+        .renameModal{
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.62);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(2px);
+        }
+        .renameModal.show{ display: flex; }
+
+        .renameBox{
+            width: min(28rem, 92vw);
+            background: var(--panel);
+            border: 1px solid var(--accent-ring);
+            box-shadow: var(--shadow-lg), 0 0 24px var(--accent-soft);
+            border-radius: 0;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: .85rem;
+            position: relative;
+        }
+        .renameBox::before{
+            content:"";
+            position:absolute; left:0; top:0; bottom:0;
+            width: 3px;
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .renameHead{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: .75rem;
+            padding-bottom: .55rem;
+            border-bottom: 1px solid var(--line);
+        }
+        .renameH{
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            color: var(--text);
+        }
+        .renameP{
+            color: var(--muted);
+            font-size: .72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            margin-top: .18rem;
+        }
+
+        .renameClose{
+            width: 2.25rem;
+            height: 2.25rem;
+            display: grid;
+            place-items: center;
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            color: var(--text-2);
+            cursor: pointer;
+            border-radius: 0;
+            transition: background .15s ease, border-color .15s ease, color .15s ease;
+        }
+        .renameClose:hover{
+            background: rgba(255,92,122,.14);
+            border-color: rgba(255,92,122,.55);
+            color: var(--danger);
+        }
+        .renameClose svg{
+            width: 1.05rem; height: 1.05rem;
+            fill: none; stroke: currentColor; stroke-width: 2.4;
+            stroke-linecap: round;
+        }
+
+        .renameInput{
+            width: 100%;
+            height: 2.7rem;
+            background: var(--bg-3);
+            border: 1px solid var(--line-strong);
+            color: var(--text);
+            padding: 0 .85rem;
+            font-weight: 700;
+            font-size: .9rem;
+            outline: none;
+            border-radius: 0;
+            transition: border-color .15s ease, background .15s ease;
+        }
+        .renameInput::placeholder{
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .10em;
+            font-size: .78rem;
+        }
+        .renameInput:focus{
+            border-color: var(--accent-ring);
+            background: var(--bg-2);
+            box-shadow: inset 0 0 0 1px var(--accent-soft);
+        }
+
+        .renameActions{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .55rem;
+        }
+        .renameBtn{
+            height: 2.7rem;
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            font-size: .78rem;
+            border-radius: 0;
+            transition: background .15s ease, border-color .15s ease, color .15s ease, transform .12s var(--ease-smooth);
+        }
+        .renameBtn:hover{
+            background: var(--panel-3);
+            border-color: var(--accent-ring);
+            color: var(--accent);
+        }
+        .renameBtn:active{ transform: translateY(1px); }
+        .renameBtn.primary{
+            background: var(--accent);
+            color: #1a0d05;
+            border-color: var(--accent-3);
+            box-shadow: 0 0 14px var(--accent-soft), 0 6px 20px rgba(0,0,0,.40);
+        }
+        .renameBtn.primary:hover{
+            background: var(--accent-2);
+            color: #1a0d05;
+        }
+
+        /* =====================================================================
+           Key HUD (raccourcis clavier en bas droite)
+           ===================================================================== */
+        .keyHud{
+            position: fixed;
+            right: 2%;
+            bottom: 2%;
+            z-index: 60;
+            display: none;
+            flex-direction: column;
+            gap: .45rem;
+            padding: .65rem .8rem;
+            border: 1px solid var(--line-strong);
+            background: rgba(20,20,20,.85);
+            box-shadow: var(--shadow-md);
+            border-radius: 0;
+        }
+        .keyHud.show{ display: flex; }
+
+        .keyRow{
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            white-space: nowrap;
+        }
+        .keyPill{
+            min-width: 1.95rem;
+            height: 1.7rem;
+            padding: 0 .35rem;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            letter-spacing: .04em;
+            color: var(--text);
+            font-size: .78rem;
+            background: var(--panel-2);
+            border: 1px solid var(--line-strong);
+            border-radius: 0;
+        }
+        .keyTxt{
+            font-weight: 700;
+            color: var(--muted);
+            font-size: .72rem;
+            margin-left: .25rem;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+        }
+
+        /* Désactiver la sélection de texte */
+        body, #app, #camHud, .wrap, .sidebar, .panel, .card,
+        .menu, .menuGrid, .mitem, .top, .body, .brand, .xclose{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        input{
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        /* Masquage util */
+        .hidden{ display: none !important; }
+
+        /* Scrollbar globale homogène */
+        ::-webkit-scrollbar{ width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track{ background: rgba(255,255,255,.04); }
+        ::-webkit-scrollbar-thumb{
+            background: linear-gradient(180deg, var(--accent), var(--accent-3));
+            border: 2px solid var(--panel);
+        }
+
+        /* Réduction d'animation */
+        @media (prefers-reduced-motion: reduce){
+            *{ transition: none !important; animation: none !important; }
+        }
+
+        /* Petits écrans */
+        @media (max-width: 1280px){
+            .wrap{ width: 56%; }
+        }
+        @media (max-width: 1024px){
+            /* Légèrement plus large sur petit écran (les icônes ont besoin
+               de respirer), mais on reste loin du 32% d'origine. */
+            .wrap{ width: 78%; grid-template-columns: 13% 87%; }
+        }
+        @media (max-width: 760px){
+            .wrap{
+                width: 96%;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+                height: 90%;
+            }
+            .sidebar{ height: auto; }
+            .cam-hud{ top: auto; bottom: 3%; left: 50%; transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cam-hud" id="camHud" role="toolbar" aria-label="Caméras">
+        <button class="cam-btn selected" type="button" data-cam="head" aria-pressed="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z"/>
+                <path d="M4 20a7 7 0 0 1 16 0"/>
+            </svg>
+        </button>
+        <button class="cam-btn" type="button" data-cam="body" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3a3 3 0 1 1-3 3 3 3 0 0 1 3-3Z"/>
+                <path d="M6 21v-5a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v5"/>
+            </svg>
+        </button>
+        <button class="cam-btn" type="button" data-cam="shoes" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 16c4 0 6-2 7-4l4 2c3 1 5 2 5 5H4a2 2 0 0 1-1-3Z"/>
+                <path d="M10 12l-2-2"/>
+            </svg>
+        </button>
+    </div>
+
+    <button class="xclose" id="xClose" type="button" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12"/>
+            <path d="M18 6L6 18"/>
+        </svg>
+    </button>
+
+    <div class="wrap" id="app" style="display:none;">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brandLeft">
+                    <div class="brandIcon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 7l6-4 6 4"/>
+                            <path d="M8 21V9h8v12"/>
+                            <path d="M10 13h4"/>
+                            <path d="M10 16h4"/>
+                        </svg>
+                    </div>
+                    <div class="t">
+                        <div class="a">Clotheshop</div>
+                        <div class="b" id="subTitle"></div>
+                    </div>
+                </div>
+                <div class="pill" id="sexPill">M</div>
+            </div>
+
+            <div class="menuGrid" id="menu"></div>
+        </aside>
+
+        <div class="outfitBar" id="outfitBar">
+            <button class="outfitBtn" id="outfitBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                <span class="outfitIco" aria-hidden="true">
+                    <svg class="fillIcon" viewBox="0 0 16 16">
+                        <path d="M3 1H6L8 3L10 1H13H16V5L13 6V16H3V6L0 5V1H3Z"/>
+                    </svg>
+                </span>
+                <span class="outfitTxt">Tenues</span>
+            </button>
+
+            <button class="outfitBtn" id="lockerBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                <span class="outfitIco" aria-hidden="true">
+                    <svg class="fillIcon" viewBox="0 0 24 24">
+                        <path d="M4 3h16v18H4V3Zm3 3v2m0 3v2m0 3v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M12 12h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span class="outfitTxt">Vestiaire</span>
+            </button>
+
+            <button class="outfitBtn" id="vipBtn" type="button" aria-haspopup="dialog" aria-expanded="false" style="display:none;">
+                <span class="outfitIco" aria-hidden="true">⭐</span>
+                <span class="outfitTxt">Peds VIP</span>
+            </button>
+        </div>
+
+        <section class="panel">
+            <div class="outfitPanel" id="outfitPanel" role="dialog" aria-label="Tenues sauvegardées" aria-modal="false">
+                <div class="outfitHead">
+                    <div class="outfitTitle">
+                        <div class="outfitH">Tenues sauvegardées</div>
+                        <div class="outfitP">Garde, charge et gère tes styles</div>
+                    </div>
+                    <button class="outfitClose" id="outfitClose" type="button" aria-label="Fermer">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 6l12 12"/>
+                            <path d="M18 6L6 18"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <button class="outfitSave" id="outfitSave" type="button">
+                    Sauvegarder la tenue actuelle
+                </button>
+
+                <div class="outfitList" id="outfitList"></div>
+            </div>
+
+            <div class="top">
+                <div class="title">
+                    <div class="h" id="panelTitle">T-Shirt</div>
+                    <div class="p" id="panelDesc">Change le modèle et la variante</div>
+                </div>
+                <div class="actions">
+                </div>
+            </div>
+
+          <div class="body">
+              <div class="card">
+                  <div class="row rowHead">
+                      <div class="khead">
+                          <span class="kicon" aria-hidden="true">
+                              <svg viewBox="0 0 24 24">
+                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355C4.92893 22 7.28595 22 12 22C16.714 22 19.0711 22 20.5355 20.5355C22 19.0711 22 16.714 22 12C22 7.28595 22 4.92893 20.5355 3.46447C19.0711 2 16.714 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447ZM12.3975 14.0385L14.859 16.4999C15.1138 16.7548 15.2413 16.8822 15.3834 16.9411C15.573 17.0196 15.7859 17.0196 15.9755 16.9411C16.1176 16.8822 16.2451 16.7548 16.4999 16.4999C16.7548 16.2451 16.8822 16.1176 16.9411 15.9755C17.0196 15.7859 17.0196 15.573 16.9411 15.3834C16.8822 15.2413 16.7548 15.1138 16.4999 14.859L14.0385 12.3975L14.7902 11.6459C15.5597 10.8764 15.9444 10.4916 15.8536 10.0781C15.7628 9.66451 15.2522 9.47641 14.231 9.10019L10.8253 7.84544C8.78816 7.09492 7.7696 6.71966 7.24463 7.24463C6.71966 7.7696 7.09492 8.78816 7.84544 10.8253L9.10019 14.231C9.47641 15.2522 9.66452 15.7628 10.0781 15.8536C10.4916 15.9444 10.8764 15.5597 11.6459 14.7902L12.3975 14.0385Z"/>
+                              </svg>
+                          </span>
+
+                          <div class="k">
+                              <div class="a">Modèle</div>
+                              <div class="b">Choisis un article</div>
+                          </div>
+                      </div>
+
+                    <div class="searchWrap">
+                        <div class="searchBox">
+                            <span class="searchIcon" aria-hidden="true">
+                                <svg viewBox="0 0 512 512">
+                                    <path d="M497.938,430.063l-126.914-126.91C389.287,272.988,400,237.762,400,200C400,89.719,310.281,0,200,0 C89.719,0,0,89.719,0,200c0,110.281,89.719,200,200,200c37.762,0,72.984-10.711,103.148-28.973l126.914,126.91 C439.438,507.313,451.719,512,464,512c12.281,0,24.563-4.688,33.938-14.063C516.688,479.195,516.688,448.805,497.938,430.063z M64,200c0-74.992,61.016-136,136-136s136,61.008,136,136s-61.016,136-136,136S64,274.992,64,200z"></path>
+                                </svg>
+                            </span>
+
+                            <input id="searchInput" class="search" type="text" placeholder="Rechercher..." autocomplete="off" />
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="modelList" id="modelList"></div>
+
+                <div class="outfitFooter" id="outfitFooter" style="display:none;">
+                    <button class="payBtn" id="outfitSaveBottom" type="button">SAUVEGARDER MA TENUE</button>
+                </div>
+
+                  <div class="variantFooter">
+                      <div class="row" style="margin-top: 2.0%;">
+                          <div class="k">
+                              <div class="a">Variante</div>
+                              <div class="b">Texture</div>
+                          </div>
+                          <div class="ctrl">
+                            <button class="arrow" id="tPrev" type="button" aria-label="Variante précédente">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 12H20M4 12L8 8M4 12L8 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </button>
+
+                            <div class="val" id="tVal">0</div>
+
+                            <button class="arrow" id="tNext" type="button" aria-label="Variante suivante">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </button>
+                          </div>
+                      </div>
+
+                      <input class="range" id="tRange" type="range" min="0" max="50" step="1" value="0" />
+
+                    <div class="payWrap">
+                        <div class="totalBox">
+                            <div class="totalLabel">Total</div>
+                            <div class="totalVal" id="payTotal">0$</div>
+                        </div>
+
+                        <div class="payMethods" role="group" aria-label="Moyen de paiement">
+                            <button class="payMethod active" id="payCash" type="button" data-method="cash" aria-pressed="true" aria-label="Payer en cash">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 7h18v10H3z"/>
+                                    <path d="M7 10h0"/>
+                                    <path d="M17 14h0"/>
+                                    <path d="M12 10a2 2 0 1 0 0 4a2 2 0 0 0 0-4z"/>
+                                </svg>
+                            </button>
+
+                            <button class="payMethod" id="payBank" type="button" data-method="bank" aria-pressed="false" aria-label="Payer en banque">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 10h18v10H3z"/>
+                                    <path d="M7 10V7h10v3"/>
+                                    <path d="M7 14h4"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="payRow">
+                        <button class="payBtn payBtnHalf" id="payOutfitBtn" type="button">
+                            <span class="payMain">PAYER</span>
+                            <span class="paySub">Tenue</span>
+                        </button>
+
+                        <button class="payBtn payBtnHalf" id="payItemBtn" type="button">
+                            <span class="payMain">PAYER</span>
+                            <span class="paySub">Items</span>
+                        </button>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </section>        
+    </div>
+
+    <div class="catTip" id="catTip" aria-hidden="true"></div>
+
+    <div class="renameModal" id="renameModal" aria-hidden="true">
+        <div class="renameBox" role="dialog" aria-modal="true" aria-label="Renommer la tenue">
+            <div class="renameHead">
+                <div class="renameTitle">
+                    <div class="renameH">Renommer la tenue</div>
+                    <div class="renameP">Choisis un nouveau nom</div>
+                </div>
+                <button class="renameClose" id="renameClose" type="button" aria-label="Fermer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 6l12 12"></path>
+                        <path d="M18 6L6 18"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <input class="renameInput" id="renameInput" type="text" placeholder="Nom de la tenue..." autocomplete="off" maxlength="32" />
+
+            <div class="renameActions">
+                <button class="renameBtn" id="renameCancel" type="button">Annuler</button>
+                <button class="renameBtn primary" id="renameConfirm" type="button">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="keyHud" id="keyHud" aria-hidden="true">
+        <div class="keyRow">
+            <span class="keyPill">↑</span>
+            <span class="keyPill">↓</span>
+            <span class="keyTxt">Modèle</span>
+        </div>
+        <div class="keyRow">
+            <span class="keyPill">←</span>
+            <span class="keyPill">→</span>
+            <span class="keyTxt">Variante</span>
+        </div>
+        <div class="keyRow">
+            <span class="keyPill">A</span>
+            <span class="keyPill">E</span>
+            <span class="keyTxt">Rotation</span>
+        </div>
+    </div>
+
+    <script>
+        const ResourceName = "sunlife_ui/clothesshop"
+        let vipEnabled = false
+        let vipNpcs = []
+
+        const post = async (name, data = {}) => {
+            // Garde-fou : un callback Lua qui n'appelle jamais son cb (ex: RPC
+            // serveur sans reponse) laisserait ce fetch en attente indefinie et
+            // pourrait figer l'UI. On abort au bout de 10s et on renvoie null,
+            // que les appelants gerent deja (ils testent res && res.ok).
+            const controller = new AbortController()
+            const timer = setTimeout(() => controller.abort(), 10000)
+            try {
+                const res = await fetch(`https://${ResourceName}/${name}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json; charset=UTF-8" },
+                    body: JSON.stringify(data),
+                    signal: controller.signal
+                })
+                const txt = await res.text()
+                let json = null
+                try { json = JSON.parse(txt) } catch {}
+                console.log("[NUI]", name, "->", data, "RESP:", json || txt)
+                return json || txt
+            } catch (e) {
+                console.error("[NUI ERROR]", name, e)
+                return null
+            } finally {
+                clearTimeout(timer)
+            }
+        }
+
+        console.log("[NUI] ResourceName =", ResourceName)
+
+        const ICONS = {
+            tshirt: `<svg class="fillIcon" viewBox="0 0 16 16"><path d="M3 1H6L8 3L10 1H13H16V5L13 6V16H3V6L0 5V1H3Z"/></svg>`,
+
+            torso: `<svg class="fillIcon" viewBox="0 0 512 512"><path d="M509.865 305.512C476.232 247.261 505.473 297.917 386.81 92.34c-19.073-33-51.507-29.193-72.517-29.193-4.426 0-8.65 1.841-11.664 5.082l-42.732 45.96c-2.116 2.273-5.691 2.259-7.788.005l-42.737-45.965c-3.013-3.241-7.238-5.082-11.664-5.082-20.493 0-53.344-3.957-72.511 29.199C7.31 296.557 33.209 251.696 2.135 305.512c-4.397 7.615-1.786 17.36 5.83 21.758l69.42 40.072c7.619 4.397 17.357 1.786 21.755-5.83l36.185-62.672v84.629c0 8.082 6.026 14.743 13.827 15.773v33.832c0 8.796 7.131 15.927 15.927 15.927h181.839c8.796 0 15.927-7.131 15.927-15.927v-33.83c7.806-1.026 13.837-7.688 13.837-15.774v-84.61l36.174 62.652c4.398 7.616 14.137 10.227 21.755 5.83l69.42-40.072c7.619-4.398 10.233-14.142 5.835-21.759z"/></svg>`,
+
+            arms: `<svg class="fillIcon" viewBox="0 0 512 512"><path d="M470.92 53.162c21.738 76.755-126.736 189.16-213.57 251.49 4.21 19.66 2.796 37.915 0 55.825 20.223 32.576.83 44.814 2.76 82.5-1.05 13.887-23.797 12.58-28.066-8.576 4.852-31.07-2.95-57.924-15.472-54.243l-31.933 43.23-47.61 67.04c-5.897 5.975-27.768 1.664-22.4-12.69l39.123-71.307-3.784-2.538-74.42 79c-6.056 6.26-26.28-7.956-19.953-16.503l69.72-74.202-3.783-1.925-66.576 44.227c-7.596 5.33-22.805-10.34-12.628-17.663l63.976-50.98-43.874 22.025c-6.156 2.1-12.68-10.355-5.976-13.335l50.997-32.6c26.468-21.393 58.785-57.834 94.072-65.2 55.417-83.656 104.97-167.018 175.057-253.61 26.274-13.577 86.7 8.58 94.34 30.035z"/></svg>`,
+
+            pants: `<svg class="fillIcon" viewBox="0 0 16 16"><path d="M2 16L3 0H13L14 16H9L8.375 6H7.625L7 16H2Z"/></svg>`,
+
+            shoes: `<svg class="fillIcon" viewBox="0 0 512 512"><path d="M264.141 416.896L14.646 205.121 0 222.387l249.53 211.791c28.359 23.865 64.362 37 101.444 37.008h159.915v-22.639H351.01c-31.713 0-62.608-11.252-86.869-31.651z"/><path d="M351.01 425.948h120.309c56.587 0 48.101-56.591 11.318-65.074-24.818-5.728-56.682-18.895-56.682-18.895-12.577-4.194-22.875-13.389-28.442-25.4l-46.194 13.966c-5.048 1.528-10.381-1.322-11.908-6.369-1.519-5.048 1.326-10.382 6.374-11.901l43.528-13.167-12.656-27.021-43.171 13.064c-5.049 1.528-10.382-1.345-11.909-6.377-1.531-5.049 1.338-10.382 6.373-11.908l40.529-12.257-12.574-27.046-40.255 12.185c-5.049 1.52-10.382-1.33-11.912-6.377-1.515-5.049 1.329-10.382 6.378-11.901l37.708-11.41c-5.405-11.766-9.326-20.486-10.37-23.192-4.538-11.798-14.504-44.525-37.245-26.334-37.391 29.934-105.602 21.158-123.212-11.56-13.202-24.522-5.654-50.926 0-71.674-18.868-42.443-35.837-19.805-35.837-19.805L24.296 185.458 278.72 399.575c20.241 17.036 45.839 26.373 72.29 26.373z"/></svg>`,
+
+            mask: `<svg class="fillIcon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.581 5.84a.802.802 0 0 0-.92-.73C16.919 5.388 12.835 7 10 7S3.081 5.388 1.339 5.11a.801.801 0 0 0-.92.729C.277 7.371 0 11.45 0 12.068c0 .83 3.472 2.732 6 2.732 2.452 0 2.95-2.732 4-2.732s1.548 2.732 4 2.732c2.528 0 6-1.902 6-2.732 0-.618-.277-4.697-.419-6.228zM7.66 10.72c-.353.318-1.335 1.07-2.531.835S3.21 10.232 2.963 9.797a.259.259 0 0 1 .044-.317c.353-.318 1.335-1.07 2.532-.835 1.196.235 1.919 1.323 2.166 1.758a.26.26 0 0 1-.045.317zm9.377-.923c-.246.436-.969 1.523-2.166 1.758-1.196.235-2.179-.517-2.531-.835a.26.26 0 0 1-.045-.317c.246-.436.969-1.523 2.166-1.758 1.196-.235 2.179.517 2.531.835a.258.258 0 0 1 .045.317z"/>
+            </svg>`,
+
+            chain: `<svg class="fillIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 9c0 3.19-2.9 5.819-7 6.691V20l-3 2-3-2V15.691C4.9 14.819 2 12.19 2 9S4.984 2.882 9.1 2.021a1 1 0 1 1 .41 1.958C6.367 4.636 4 6.8 4 9c0 2.71 3.664 5 8 5s8-2.29 8-5c0-2.2-2.367-4.364-5.505-5.021a1 1 0 1 1 .41-1.958C19.016 2.882 22 5.817 22 9Z"/>
+            </svg>`,
+
+            bags: `<svg class="fillIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25013 6.01489C8.25003 6.00994 8.24998 6.00498 8.24998 6V5C8.24998 2.92893 9.92892 1.25 12 1.25C14.0711 1.25 15.75 2.92893 15.75 5V6C15.75 6.00498 15.7499 6.00994 15.7498 6.01489C17.0371 6.05353 17.8248 6.1924 18.4261 6.69147C19.2593 7.38295 19.4787 8.55339 19.9177 10.8943L20.6677 14.8943C21.2849 18.186 21.5934 19.8318 20.6937 20.9159C19.794 22 18.1195 22 14.7704 22H9.22954C5.88048 22 4.20595 22 3.30624 20.9159C2.40652 19.8318 2.71512 18.186 3.33231 14.8943L4.08231 10.8943C4.52122 8.55339 4.74068 7.38295 5.57386 6.69147C6.17521 6.1924 6.96287 6.05353 8.25013 6.01489ZM9.74998 5C9.74998 3.75736 10.7573 2.75 12 2.75C13.2426 2.75 14.25 3.75736 14.25 5V6C14.1747 5.99998 14.0982 6 14.0204 6H9.97954C9.90176 6 9.82525 6 9.74998 6.00002V5Z"/>
+            </svg>`,
+
+            bproof: `<svg class="fillIcon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M350.29 21.113l-36.925 85.782 39.828 17.144 36.926-85.782-39.83-17.145zm-188.362.342l-40.115 16.46 35.453 86.4 40.115-16.46-35.452-86.4zm30.898 6.35l-8.133 3.402 28.77 70.133 6.6 16.094-16.08 6.556-40.112 16.46-16.093 6.6-6.6-16.09-28.564-69.59-11.1 4.644a112.952 112.952 0 0 1-18.093 154.4v36.47h93.51v78.048H83.42v14.265h93.51v78.158H83.42v38.338c16.8 16.8 94.695 25.194 172.592 25.194 77.896 0 155.792-8.394 172.592-25.194v-38.338h-93.512V349.21h93.512V334.93h-93.542v-78.147h93.508v-36.46a112.952 112.952 0 0 1-18.093-154.4l-11.34-4.75-30 69.686-6.883 15.986-15.984-6.883-39.774-17.06-15.984-6.883 6.883-15.985 29.683-68.97-7.892-3.26a72.275 72.275 0 0 1-126.36 0zM66 274.182v43.363h93.543v-43.363H66zm286.457 0v43.363H446v-43.363h-93.543zM66 366.605v43.364h93.543v-43.365H66zm286.457 0v43.364H446v-43.365h-93.543z"/>
+            </svg>`,
+
+            decals: `<svg class="fillIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.3138 4.01233C16.167 4.00078 15.9833 4 15.5 4H11.05C9.60949 4 8.59025 4.00081 7.79391 4.06694C7.00955 4.13208 6.53142 4.25539 6.1561 4.45035C5.42553 4.82985 4.82985 5.42553 4.45035 6.15611C4.25538 6.53142 4.13207 7.00955 4.06694 7.79392C4.0008 8.59026 4 9.60949 4 11.05V16.5C4 18.433 5.567 20 7.5 20H10.0556C10.5772 20 11 19.5772 11 19.0556V18.5C11 15.4624 13.4624 13 16.5 13C18.433 13 20 11.433 20 9.5V8.5C20 8.01668 19.9992 7.83297 19.9877 7.68617C19.8333 5.72466 18.2753 4.16671 16.3138 4.01233ZM22 11.6404C22 12.2412 22 12.599 21.9734 12.9447C21.805 15.1287 20.846 17.1763 19.276 18.7037C19.0275 18.9455 18.7526 19.1746 18.291 19.5592L18.2292 19.6107C17.8691 19.9108 17.6545 20.0896 17.433 20.2524C16.0389 21.2769 14.3791 21.8778 12.6524 21.9833C12.378 22 12.0986 22 11.63 22H7.5C4.46243 22 2 19.5376 2 16.5L2 11.0055C1.99999 9.61949 1.99999 8.51721 2.0738 7.6284C2.14939 6.71812 2.30755 5.94253 2.67552 5.23416C3.24477 4.1383 4.13829 3.24478 5.23415 2.67552C5.94253 2.30755 6.71811 2.1494 7.62839 2.0738C8.51721 1.99999 9.61949 2 11.0055 2L15.5498 2C15.9665 1.99997 16.2351 1.99996 16.4708 2.0185C19.413 2.25006 21.7499 4.58699 21.9815 7.52925C22 7.76488 22 8.03357 22 8.45022L22 11.6404ZM12.8588 19.9592C14.0832 19.8263 15.2531 19.3724 16.2487 18.6408C16.4151 18.5185 16.5809 18.3809 16.9757 18.0519C17.4824 17.6296 17.6947 17.4518 17.8814 17.2702C18.8329 16.3445 19.4959 15.1731 19.8042 13.8973C18.8842 14.5896 17.74 15 16.5 15C14.567 15 13 16.567 13 18.5V19.0556C13 19.3708 12.9505 19.6744 12.8588 19.9592Z"/>
+            </svg>`,
+
+            helmet: `<svg class="fillIcon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 2c-4.418 0-8 3.582-8 8v6h16v-6c0-4.418-3.582-8-8-8zm-6 9h8.225c.9 0 1.534.826 1.25 1.68l-.44 1.32H4v-3z"/>
+            </svg>`,
+
+            glasses: `<svg class="fillIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 13v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2v-1h-2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5a1 1 0 0 1 .083-.406l4-8A1 1 0 0 1 7 4h2a1 1 0 0 1 0 2H7.65L4.094 13H10a1 1 0 0 1 1 1v1h2v-1a1 1 0 0 1 1-1h5.906L16.35 6H15a1 1 0 0 1 0-2h2a1 1 0 0 1 .914.594l4 8A1 1 0 0 1 22 13Z"/>
+            </svg>`,
+
+            watches: `<svg class="fillIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18.9767C15.866 18.9767 19 15.8531 19 12C19 8.14685 15.866 5.02326 12 5.02326C8.13401 5.02326 5 8.14685 5 12C5 15.8531 8.13401 18.9767 12 18.9767ZM12 8.44007C12.3866 8.44007 12.7 8.75243 12.7 9.13775V11.703L14.3518 13.286C14.6305 13.5531 14.6392 13.9947 14.3713 14.2725C14.1033 14.5502 13.6602 14.5589 13.3815 14.2918L11.5148 12.5029C11.3776 12.3714 11.3 12.1898 11.3 12V9.13775C11.3 8.75243 11.6134 8.44007 12 8.44007Z"/>
+                <path d="M9.85849 2.07434C10.4136 1.99995 11.1129 1.99997 11.9515 2H12.0485C12.8871 1.99997 13.5864 1.99995 14.1415 2.07434C14.7275 2.15285 15.2565 2.32557 15.6816 2.74926C16.1067 3.17296 16.28 3.70021 16.3587 4.28421C16.3832 4.46531 16.3996 4.66181 16.4107 4.87353C15.1287 4.08373 13.6178 3.62791 12 3.62791C10.3822 3.62791 8.87125 4.08373 7.58934 4.87353C7.60039 4.66181 7.61682 4.46531 7.64125 4.28421C7.72003 3.70021 7.89332 3.17296 8.31843 2.74926C8.74353 2.32557 9.27254 2.15285 9.85849 2.07434Z"/>
+                <path d="M15.6816 21.2507C16.1067 20.827 16.28 20.2998 16.3587 19.7158C16.3832 19.5347 16.3996 19.3382 16.4107 19.1265C15.1287 19.9163 13.6178 20.3721 12 20.3721C10.3822 20.3721 8.87125 19.9163 7.58934 19.1265C7.60039 19.3382 7.61682 19.5347 7.64125 19.7158C7.72003 20.2998 7.89332 20.827 8.31843 21.2507C8.74353 21.6744 9.27254 21.8471 9.85849 21.9257C10.4136 22 11.1129 22 11.9515 22H12.0485C12.8871 22 13.5864 22 14.1415 21.9257C14.7275 21.8471 15.2565 21.6744 15.6816 21.2507Z"/>
+            </svg>`,
+
+            bracelets: `<svg class="fillIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10Zm0-5a1 1 0 0 1 1 1v2.06a7.01 7.01 0 0 1 4.94 4.94H20a1 1 0 1 1 0 2h-2.06A7.01 7.01 0 0 1 13 17.94V20a1 1 0 1 1-2 0v-2.06A7.01 7.01 0 0 1 6.06 13H4a1 1 0 1 1 0-2h2.06A7.01 7.01 0 0 1 11 5.06V3a1 1 0 0 1 1-1Z"/>
+            </svg>`,
+
+            ears: `<svg class="fillIcon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M149.299 181.001c-2.202-3.311-5.163-5.931-8.499-7.868V74.445c14.865-5.299 25.6-19.379 25.6-36.045C166.4 17.229 149.171 0 128 0S89.6 17.229 89.6 38.4c0 16.666 10.735 30.737 25.6 36.045v98.697c-3.337 1.937-6.298 4.557-8.499 7.868C97.084 195.413 12.8 323.951 12.8 396.8 12.8 460.322 64.478 512 128 512s115.2-51.678 115.2-115.2c0-72.849-84.284-201.387-93.901-215.799zM405.299 181.001c-2.21-3.311-5.163-5.931-8.499-7.868V74.445c14.865-5.299 25.6-19.379 25.6-36.045C422.4 17.229 405.171 0 384 0c-21.171 0-38.4 17.229-38.4 38.4 0 16.666 10.735 30.737 25.6 36.045v98.697c-3.336 1.937-6.298 4.557-8.499 7.868C353.084 195.413 268.8 323.951 268.8 396.8c0 63.522 51.678 115.2 115.2 115.2S499.2 460.322 499.2 396.8c0-72.849-84.284-201.387-93.901-215.799z"/>
+            </svg>`            
+        }
+
+        const CATS = [
+            { id: "tshirt",    label: "T-Shirt",          cam: "body",  drawable: "tshirt_1",    texture: "tshirt_2",    rangeD: 250, rangeT: 50 },
+            { id: "torso",     label: "Veste / Haut",     cam: "body",  drawable: "torso_1",     texture: "torso_2",     rangeD: 350, rangeT: 80 },
+            { id: "arms",      label: "Bras",             cam: "body",  drawable: "arms",        texture: "arms_2",      rangeD: 50,  rangeT: 50 },
+            { id: "pants",     label: "Pantalon",         cam: "body",  drawable: "pants_1",     texture: "pants_2",     rangeD: 200, rangeT: 50 },
+            { id: "shoes",     label: "Chaussures",       cam: "shoes", drawable: "shoes_1",     texture: "shoes_2",     rangeD: 150, rangeT: 50 },
+            { id: "mask",      label: "Masque",           cam: "head",  drawable: "mask_1",      texture: "mask_2",      rangeD: 200, rangeT: 50 },
+            { id: "chain",     label: "Chaîne",           cam: "body",  drawable: "chain_1",     texture: "chain_2",     rangeD: 200, rangeT: 50 },
+            { id: "bags",      label: "Sac",              cam: "body",  drawable: "bags_1",      texture: "bags_2",      rangeD: 200, rangeT: 50 },
+            { id: "bproof",    label: "Gilet",            cam: "body",  drawable: "bproof_1",    texture: "bproof_2",    rangeD: 200, rangeT: 50 },
+            { id: "decals",    label: "Décals",           cam: "body",  drawable: "decals_1",    texture: "decals_2",    rangeD: 200, rangeT: 50 },
+            { id: "helmet",    label: "Casque",           cam: "head",  drawable: "helmet_1",    texture: "helmet_2",    rangeD: 200, rangeT: 50 },
+            { id: "glasses",   label: "Lunettes",         cam: "head",  drawable: "glasses_1",   texture: "glasses_2",   rangeD: 200, rangeT: 50 },
+            { id: "watches",   label: "Montre",           cam: "body",  drawable: "watches_1",   texture: "watches_2",   rangeD: 200, rangeT: 50 },
+            { id: "bracelets", label: "Bracelet",         cam: "body",  drawable: "bracelets_1", texture: "bracelets_2", rangeD: 200, rangeT: 50 },
+            { id: "ears",      label: "Access. oreille",  cam: "head",  drawable: "ears_1",      texture: "ears_2",      rangeD: 200, rangeT: 50 }
+        ]
+
+        const applyLimits = async () => {
+            const res = await post("getLimits", {})
+            if (!res || !res.ok || !res.limits) return
+
+            for (const c of CATS) {
+                const lim = res.limits[c.id]
+                if (!lim) continue
+                c.rangeD = Number(lim.rangeD || c.rangeD || 0)
+                c.rangeT = Number(lim.rangeT || c.rangeT || 0)
+            }
+        }
+
+        const elOutfitBtn = document.getElementById("outfitBtn")
+        const elOutfitPanel = document.getElementById("outfitPanel")
+        const elOutfitClose = document.getElementById("outfitClose")
+        const elOutfitSave = document.getElementById("outfitSave")
+        const elOutfitList = document.getElementById("outfitList")
+
+        const elActions = document.querySelector(".actions")
+        const elVariantFooter = document.querySelector(".variantFooter")
+        const elRowHead = document.querySelector(".rowHead")
+
+        const elOutfitFooter = document.getElementById("outfitFooter")
+        const elOutfitSaveBottom = document.getElementById("outfitSaveBottom")
+
+        const elRenameModal = document.getElementById("renameModal")
+        const elRenameClose = document.getElementById("renameClose")
+        const elRenameCancel = document.getElementById("renameCancel")
+        const elRenameConfirm = document.getElementById("renameConfirm")
+        const elRenameInput = document.getElementById("renameInput")
+
+        const elApp = document.getElementById("app")
+        const elMenu = document.getElementById("menu")
+        const elSubTitle = document.getElementById("subTitle")
+        const elSex = document.getElementById("sexPill")
+        const elPanelTitle = document.getElementById("panelTitle")
+        const elPanelDesc = document.getElementById("panelDesc")
+
+        const elTVal = document.getElementById("tVal")
+        const elTRange = document.getElementById("tRange")
+
+        const elTPrev = document.getElementById("tPrev")
+        const elTNext = document.getElementById("tNext")
+
+        const elXClose = document.getElementById("xClose")
+        const elCamHud = document.getElementById("camHud")
+
+        const elModelList = document.getElementById("modelList")
+
+        const elSearch = document.getElementById("searchInput")
+
+        const elCatTip = document.getElementById("catTip")
+
+        const elPayTotal = document.getElementById("payTotal")
+        const elPayBtn = document.getElementById("payBtn")
+        const elPayCash = document.getElementById("payCash")
+        const elPayBank = document.getElementById("payBank")
+
+        const elPayOutfitBtn = document.getElementById("payOutfitBtn")
+        const elPayItemBtn = document.getElementById("payItemBtn")
+        const elKeyHud = document.getElementById("keyHud")
+        const elLockerBtn = document.getElementById("lockerBtn")
+
+        // L'espacement entre les 3 boutons flottants est maintenant géré par
+        // le conteneur flex .outfitBar (gap: .6rem). Les constantes ci-dessous
+        // sont conservées vides pour ne pas casser les call-sites
+        // setLockerBtnLeft(...) / setVipBtnLeft(...) (qui sont eux-mêmes des
+        // no-ops désormais).
+        const LOCKER_LEFT_NORMAL    = ""
+        const LOCKER_LEFT_VESTIAIRE = ""
+        const VIP_LEFT              = ""
+        const VIP_LEFT_VESTIAIRE    = ""
+
+        const elVipBtn = document.getElementById("vipBtn")
+
+        // Flag qui distingue :
+        //   - vestiaire "standalone" (ouvert via openVestiaire / marker dédié)
+        //     -> on ne peut PAS revenir vers Tenues / Shop / VIP shop
+        //   - vestiaire "in-shop" (cliqué sur le bouton Vestiaire dans le shop)
+        //     -> on peut revenir librement via les boutons ou un Retour
+        let standaloneLocker = false
+
+        const setVipBtnVisible = (v) => {
+            if (!elVipBtn) return
+            elVipBtn.style.display = v ? "" : "none"
+        }
+
+        // Ces deux fonctions sont devenues no-ops depuis le passage en flex
+        // pour .outfitBar : la position est calculée par le navigateur.
+        // On les garde pour ne pas casser tous les call-sites.
+        const setVipBtnLeft    = (_left) => { /* no-op (flex layout) */ }
+        const setLockerBtnLeft = (_left) => { /* no-op (flex layout) */ }
+
+        const setLockerBtnDisabled = (v) => {
+            if (!elLockerBtn) return
+            elLockerBtn.classList.toggle("disabled", !!v)
+            elLockerBtn.setAttribute("aria-disabled", v ? "true" : "false")
+        }
+
+        let lockerItems = []
+        let previewActive = false
+
+        let visibleModelDs = []
+
+        const syncLockerFromServer = async () => {
+            const res = await post("lockerGet", {})
+            if (res && res.ok) {
+                lockerItems = (res.items || []).map(o => ({
+                    id: Number(o.id),
+                    label: String(o.label || "Tenue"),
+                    tenue: o.tenue
+                }))
+                if (panelMode === "locker") renderLocker()
+                updatePanel()
+            }
+        }
+
+        const renderLocker = () => {
+            if (!elModelList) return
+            elModelList.innerHTML = ""
+
+            const frag = document.createDocumentFragment()
+
+            if (!lockerItems.length) {
+                const empty = document.createElement("div")
+                empty.className = "outfitItem"
+                empty.innerHTML = `<div class="outfitName">Aucune tenue dans votre vestiaire</div>`
+                frag.appendChild(empty)
+                elModelList.appendChild(frag)
+                return
+            }
+
+            for (const o of lockerItems) {
+                const item = document.createElement("div")
+                item.className = "outfitItem"
+                item.innerHTML = `
+                    <div class="outfitRow">
+                        <div class="outfitName">${o.label}</div>
+                        <div class="outfitMeta">Vestiaire</div>
+                    </div>
+                    <div class="outfitActions">
+                        <button class="outfitAct" type="button" data-act="preview" data-id="${o.id}">
+                            <svg viewBox="0 0 24 24"><path d="M12 5c5.5 0 9.5 7 9.5 7S17.5 19 12 19 2.5 12 2.5 12 6.5 5 12 5Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 9a3 3 0 1 0 0 6a3 3 0 0 0 0-6Z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                            <span>Prévisualiser</span>
+                        </button>
+
+                        <button class="outfitAct" type="button" data-act="buy" data-id="${o.id}">
+                            <svg viewBox="0 0 24 24"><path d="M6 7h15l-1.5 12H7.5L6 7Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                            <span>Acheter</span>
+                        </button>
+
+                        <button class="outfitAct" type="button" data-act="rename" data-id="${o.id}">
+                            <svg viewBox="0 0 24 24"><path d="M4 20h4l10.5-10.5a2 2 0 0 0 0-2.8l-.2-.2a2 2 0 0 0-2.8 0L5.9 16.1 4 20Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13.5 6.5l4 4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                            <span>Renommer</span>
+                        </button>
+
+                        <button class="outfitAct danger" type="button" data-act="del" data-id="${o.id}">
+                            <svg viewBox="0 0 24 24"><path d="M4 7h16" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 11v7M14 11v7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 7l1 14h10l1-14" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                            <span>Supprimer</span>
+                        </button>
+                    </div>
+                `
+                frag.appendChild(item)
+            }
+
+            elModelList.appendChild(frag)
+        }
+
+        const toggleLocker = async (state) => {
+            const show = typeof state === "boolean" ? state : (panelMode !== "locker")
+            panelMode = show ? "locker" : "shop"
+            elLockerBtn.setAttribute("aria-expanded", show ? "true" : "false")
+            updatePanel()
+            if (show) {
+                await syncLockerFromServer()
+            } else {
+                await post("lockerStopPreview", {})
+            }
+            await pushCam(show ? "body" : current.cam)
+            updatePayUI()
+        }
+
+        if (elLockerBtn) {
+            elLockerBtn.addEventListener("click", () => {
+                // En standalone, le bouton est censé être désactivé via .disabled
+                // (cf. setLockerBtnDisabled), mais on garde ce garde-fou.
+                if (panelMode === "locker" && standaloneLocker) return
+                if (panelMode === "locker") {
+                    // Dans le shop : 2e clic = retour boutique.
+                    toggleLocker(false)
+                } else {
+                    toggleLocker()
+                }
+            })
+        }
+
+        if (elOutfitSaveBottom) {
+            elOutfitSaveBottom.addEventListener("click", () => {
+                const now = new Date()
+                const dd = String(now.getDate()).padStart(2, "0")
+                const mm = String(now.getMonth() + 1).padStart(2, "0")
+                const yyyy = String(now.getFullYear())
+                openRename({ id: "__new__", name: `Tenue ${dd}/${mm}/${yyyy}` })
+            })
+        }
+
+        const getState = (id) => {
+            if (!values[id]) values[id] = { d: 0, t: 0 }
+            return values[id]
+        }
+
+        let renameTargetId = null
+
+        const openRename = (o) => {
+            if (!elRenameModal || !elRenameInput) return
+            renameTargetId = o ? o.id : null
+            elRenameInput.value = o ? (o.name || "") : ""
+            elRenameModal.classList.add("show")
+            elRenameModal.setAttribute("aria-hidden", "false")
+            setTimeout(() => elRenameInput.focus(), 0)
+        }
+
+        const closeRename = () => {
+            if (!elRenameModal) return
+            elRenameModal.classList.remove("show")
+            elRenameModal.setAttribute("aria-hidden", "true")
+            renameTargetId = null
+        }
+
+        elRenameClose.addEventListener("click", closeRename)
+        elRenameCancel.addEventListener("click", closeRename)
+
+        elRenameModal.addEventListener("click", (e) => {
+            if (e.target === elRenameModal) closeRename()
+        })
+
+        elRenameInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") confirmRename()
+            if (e.key === "Escape") closeRename()
+        })
+
+        let panelMode = "shop"
+        let payRenameMode = null
+        let pendingPayMethod = "cash"
+
+        const toggleOutfits = async (state) => {
+            const show = typeof state === "boolean" ? state : (panelMode !== "outfits")
+            panelMode = show ? "outfits" : "shop"
+            elOutfitBtn.setAttribute("aria-expanded", show ? "true" : "false")
+            updatePanel()
+            if (show) renderOutfits()
+            await pushCam(show ? "body" : current.cam)
+            updatePayUI()
+        }
+
+        let outfits = []
+
+        const fmtDate = (d) => {
+            if (!d) return ""
+            const dt = new Date(d)
+            if (Number.isNaN(dt.getTime())) return String(d)
+            const dd = String(dt.getDate()).padStart(2, "0")
+            const mm = String(dt.getMonth() + 1).padStart(2, "0")
+            const yy = String(dt.getFullYear())
+            return `${dd}/${mm}/${yy}`
+        }
+
+        const syncOutfitsFromServer = async () => {
+            const res = await post("outfitsGet", {})
+            if (res && res.ok) {
+                outfits = (res.outfits || []).map(o => ({
+                    id: Number(o.id),
+                    name: String(o.name || "Tenue"),
+                    date: fmtDate(o.created_at || o.updated_at),
+                }))
+                if (panelMode === "outfits") renderOutfits()
+                updatePanel()
+            }
+        }
+
+        const renderOutfits = () => {
+            if (!elModelList) return
+            elModelList.innerHTML = ""
+
+            const frag = document.createDocumentFragment()
+
+            for (const o of outfits) {
+                const item = document.createElement("div")
+                item.className = "outfitItem"
+                item.innerHTML = `
+                    <div class="outfitRow">
+                        <div class="outfitName">${o.name}</div>
+                        <div class="outfitMeta">${o.date}</div>
+                    </div>
+                    <div class="outfitActions">
+                        <button class="outfitAct" type="button" data-act="load" data-id="${o.id}">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>Charger</span>
+                        </button>
+
+                        <button class="outfitAct" type="button" data-act="rename" data-id="${o.id}">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 20h4l10.5-10.5a2 2 0 0 0 0-2.8l-.2-.2a2 2 0 0 0-2.8 0L5.9 16.1 4 20Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M13.5 6.5l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>Renommer</span>
+                        </button>
+
+                        <button class="outfitAct danger" type="button" data-act="del" data-id="${o.id}">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 7h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M10 11v7M14 11v7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M6 7l1 14h10l1-14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Supprimer</span>
+                        </button>
+                    </div>
+                `
+                frag.appendChild(item)
+            }
+
+            elModelList.appendChild(frag)
+        }
+
+        const doSaveOutfit = async (name) => {
+            const n = String(name || "").trim().slice(0, 64)
+            if (!n) return
+
+            const res = await post("outfitsSave", { name: n })
+            if (res && res.ok) {
+                await syncOutfitsFromServer()
+            }
+        }
+
+        const doRenameOutfit = async (id, name) => {
+            const n = String(name || "").trim().slice(0, 64)
+            if (!id || !n) return
+
+            const res = await post("outfitsRename", { id, name: n })
+            if (res && res.ok) {
+                await syncOutfitsFromServer()
+            }
+        }
+
+        const doDeleteOutfit = async (id) => {
+            if (!id) return
+            const res = await post("outfitsDelete", { id })
+            if (res && res.ok) {
+                await syncOutfitsFromServer()
+            }
+        }
+
+        const doLoadOutfit = async (id) => {
+            if (!id) return
+            const res = await post("outfitsLoad", { id })
+            if (res && res.ok) {
+                ensureState()
+                panelMode = "shop"
+                updatePanel()
+                await pushCam(current.cam)
+                await pushChange()
+                updatePayUI()
+            }
+        }
+
+        elRenameConfirm.addEventListener("click", () => confirmRename())
+
+        async function confirmRename() {
+            const id = renameTargetId
+            const next = String(elRenameInput.value || "").trim()
+
+            if (!id) {
+                closeRename()
+                return
+            }
+
+            if (id === "__pay_outfit__") {
+                closeRename()
+                if (!next) return
+                post("payClotheshop", {
+                    method: pendingPayMethod,
+                    total: calcTotal(),
+                    values: buildPayValues("outfit"),
+                    outfitName: next
+                })
+                return
+            }
+
+            if (id === "__new__") {
+                closeRename()
+                doSaveOutfit(next)
+                return
+            }
+
+            if (id === "__locker_new__") {
+                closeRename()
+                if (!next) return
+                await post("lockerSave", { name: next })
+                await syncLockerFromServer()
+                return
+            }
+
+            if (String(id).startsWith("__locker_rename__")) {
+                const realId = Number(String(id).replace("__locker_rename__", ""))
+                closeRename()
+                if (!realId || !next) return
+                await post("lockerRename", { id: realId, name: next })
+                await syncLockerFromServer()
+                return
+            }
+
+            closeRename()
+            doRenameOutfit(Number(id), next)
+        }
+
+        elModelList.addEventListener("click", async (e) => {
+            if (panelMode === "locker") {
+                const btn = e.target.closest("button")
+                if (!btn) return
+
+                const act = btn.dataset.act
+                const id = Number(btn.dataset.id)
+                const o = lockerItems.find(x => x.id === id)
+                if (!o) return
+
+                if (act === "del") {
+                    await post("lockerDelete", { id })
+                    await syncLockerFromServer()
+                    return
+                }
+
+                if (act === "rename") {
+                    openRename({ id: `__locker_rename__${id}`, name: o.label })
+                    return
+                }
+
+                if (act === "preview") {
+                    await post("lockerPreview", { id })
+                    return
+                }
+
+                if (act === "buy") {
+                    await post("lockerBuy", { id })
+                    await syncLockerFromServer()
+                    return
+                }
+
+                return
+            }
+        })
+
+        elModelList.addEventListener("click", async (e) => {
+            if (panelMode !== "shop") return
+            const model = e.target.closest(".modelBtn")
+            if (!model) return
+            await setDrawable(model.dataset.d)
+        })
+
+        elModelList.addEventListener("click", async (e) => {
+            if (panelMode !== "outfits") return
+
+            const btn = e.target.closest("button")
+            if (!btn) return
+
+            const act = btn.dataset.act
+            const id = Number(btn.dataset.id)
+
+            if (act === "del") {
+                await doDeleteOutfit(id)
+                return
+            }
+
+            if (act === "rename") {
+                const o = outfits.find(x => x.id === id)
+                if (o) openRename({ id: String(id), name: o.name })
+                return
+            }
+
+            if (act === "load") {
+                await doLoadOutfit(id)
+                return
+            }
+        })
+
+        elOutfitBtn.addEventListener("click", () => {
+            if (panelMode === "locker" && standaloneLocker) return
+            // Si on vient du locker (mode shop), on bascule directement sur Tenues
+            // (toggleOutfits gère le panelMode et l'UI).
+            if (panelMode === "locker") {
+                panelMode = "shop"
+                elLockerBtn.setAttribute("aria-expanded", "false")
+            }
+            toggleOutfits()
+        })
+        
+        elOutfitClose.addEventListener("click", () => toggleOutfits(false))
+
+        elOutfitSave.addEventListener("click", () => {
+            const now = new Date()
+            const dd = String(now.getDate()).padStart(2, "0")
+            const mm = String(now.getMonth() + 1).padStart(2, "0")
+            const yyyy = String(now.getFullYear())
+            const stamp = `${dd}/${mm}/${yyyy}`
+
+            const name = `Tenue ${outfits.length + 1}`
+            outfits.unshift({
+                id: Date.now(),
+                name,
+                date: stamp,
+                values: deepCopy(values)
+            })
+
+            renderOutfits()
+        })
+
+        elModelList.addEventListener("click", async (e) => {
+            if (panelMode === "outfits") {
+                const btn = e.target.closest("button")
+                if (!btn) return
+
+                const act = btn.dataset.act
+                const id = Number(btn.dataset.id)
+                const o = outfits.find(x => x.id === id)
+                if (!o) return
+
+                if (act === "del") {
+                    outfits = outfits.filter(x => x.id !== id)
+                    renderOutfits()
+                    updatePanel()
+                    return
+                }
+
+                if (act === "rename") {
+                    openRename(o)
+                    return
+                }
+
+                if (act === "load") {
+                    if (o.values) {
+                        values = deepCopy(o.values)
+                        ensureState()
+                        panelMode = "shop"
+                        updatePanel()
+                        await pushCam(current.cam)
+                        await pushChange()
+                        updatePayUI()
+                    } else {
+                        toggleOutfits(false)
+                    }
+                }
+
+                return
+            }
+
+            const model = e.target.closest(".modelBtn")
+            if (!model) return
+            await setDrawable(model.dataset.d)
+        })
+
+        const ITEM_LABELS = {}
+
+        // Articles interdits a la vente au magasin. Les numeros correspondent a
+        // ceux AFFICHES dans le menu (ex: "Veste #179"), donc N == "#N".
+        const BLACKLIST = {
+            torso: [179], // Veste
+            pants: [78],  // Pantalon
+            shoes: [56],  // Chaussures
+        }
+
+        const isBlacklisted = (catId, drawableIndex) => {
+            const list = BLACKLIST[catId]
+            if (!list) return false
+            // drawableIndex est 0-based, l'affichage montre drawableIndex + 1.
+            return list.includes(drawableIndex + 1)
+        }
+
+        const getItemLabel = (catId, drawableIndex, fallback) => {
+            const cat = ITEM_LABELS[catId]
+            if (!cat) return fallback
+            const label = cat[drawableIndex]
+            return (typeof label === "string" && label.length > 0) ? label : fallback
+        }
+
+        let baseValues = {}
+        let payMethod = "cash"
+
+        const deepCopy = (obj) => JSON.parse(JSON.stringify(obj || {}))
+
+        const snapshotBase = () => {
+            baseValues = deepCopy(values)
+        }
+
+        const calcItemTotal = () => {
+            const c = current
+            const cur = values[c.id] || { d: 0, t: 0 }
+            const base = baseValues[c.id] || { d: 0, t: 0 }
+
+            let total = 0
+            if (cur.d !== base.d) total += 250
+            if (c.texture && cur.t !== base.t) total += 50
+            return total
+        }
+
+        const buildPayValues = (mode) => {
+            if (mode === "item") {
+                const out = {}
+                out[current.id] = deepCopy(values[current.id] || { d: 0, t: 0 })
+                return out
+            }
+            return values
+        }
+
+        const calcTotal = () => {
+            let total = 0
+
+            for (const c of CATS) {
+                const cur = values[c.id] || { d: 0, t: 0 }
+                const base = baseValues[c.id] || { d: 0, t: 0 }
+
+                if (cur.d !== base.d) total += 250
+                if (c.texture && cur.t !== base.t) total += 50
+            }
+
+            return total
+        }
+
+        const updatePayUI = () => {
+            const totalOutfit = calcTotal()
+            const totalItem = calcItemTotal()
+
+            if (elPayTotal) elPayTotal.textContent = `${totalOutfit}$`
+
+            if (elPayOutfitBtn) elPayOutfitBtn.disabled = totalOutfit <= 0
+            if (elPayItemBtn) elPayItemBtn.disabled = totalItem <= 0
+        }
+
+        const setPayMethod = (m) => {
+            payMethod = m === "bank" ? "bank" : "cash"
+            elPayCash.classList.toggle("active", payMethod === "cash")
+            elPayBank.classList.toggle("active", payMethod === "bank")
+            elPayCash.setAttribute("aria-pressed", payMethod === "cash" ? "true" : "false")
+            elPayBank.setAttribute("aria-pressed", payMethod === "bank" ? "true" : "false")
+        }
+
+        elPayCash.addEventListener("click", () => setPayMethod("cash"))
+        elPayBank.addEventListener("click", () => setPayMethod("bank"))
+
+        // elPayBtn.addEventListener("click", async () => {
+        //     const total = calcTotal()
+        //     if (total <= 0) return
+        //     await post("payClotheshop", {
+        //         method: payMethod,
+        //         total,
+        //         values
+        //     })
+        // })
+
+        elPayOutfitBtn.addEventListener("click", async () => {
+            const total = calcTotal()
+            if (total <= 0) return
+
+            pendingPayMethod = payMethod
+
+            const now = new Date()
+            const dd = String(now.getDate()).padStart(2, "0")
+            const mm = String(now.getMonth() + 1).padStart(2, "0")
+            const yyyy = String(now.getFullYear())
+            const def = `Tenue ${dd}/${mm}/${yyyy}`
+
+            openRename({ id: "__pay_outfit__", name: def })
+        })
+
+        elPayItemBtn.addEventListener("click", async () => {
+            console.log("CLICK payItemBtn", { current: current.id })
+            const total = calcItemTotal()
+            console.log("TOTAL item =", total)
+            if (total <= 0) return
+
+            await post("payClotheshop", {
+                method: payMethod,
+                total,
+                values: buildPayValues("item"),
+                itemOnly: true,
+                itemCat: current.id
+            })
+        })
+
+        const showCatTip = (text, rect) => {
+            if (!elCatTip) return
+            elCatTip.textContent = text
+            const x = rect.right + 12
+            const y = rect.top + (rect.height / 2)
+            elCatTip.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0) translateY(-50%)`
+            elCatTip.classList.add("show")
+        }
+
+        const hideCatTip = () => {
+            if (!elCatTip) return
+            elCatTip.classList.remove("show")
+            elCatTip.style.transform = "translate3d(-9999px,-9999px,0)"
+        }
+
+        let searchQuery = ""
+
+        let open = false
+        let current = CATS[0]
+        let values = {}
+        let sex = "male"
+
+        const pushPreview = async (drawable, texture) => {
+            const st = getState(current.id)
+            await post("skinPreview", {
+                drawableKey: current.drawable,
+                textureKey: current.texture,
+                drawable: drawable,
+                texture: (current.texture ? texture : 0)
+            })
+        }
+
+        const renderModels = () => {
+            const st = getState(current.id)
+            const count = Number(current.rangeD) + 1
+
+            elModelList.innerHTML = ""
+
+            const frag = document.createDocumentFragment()
+            const baseLabel = current.id === "torso" ? "Veste" : current.label
+
+            const q = (searchQuery || "").toLowerCase()
+            visibleModelDs = []
+
+            for (let i = 0; i < count; i++) {
+                if (isBlacklisted(current.id, i)) continue
+
+                const b = document.createElement("button")
+                b.type = "button"
+                b.className = "modelBtn" + (i === st.d ? " active" : "")
+                b.dataset.d = String(i)
+
+                const fallbackName = `${baseLabel} #${i + 1}`
+                const displayName = getItemLabel(current.id, i, fallbackName)
+
+                const text = String(displayName).toLowerCase()
+                const text2 = `${baseLabel} #${i + 1}`.toLowerCase()
+                if (q && !text.includes(q) && !text2.includes(q)) {
+                    continue
+                }
+
+                visibleModelDs.push(i)
+
+                b.innerHTML = `
+                    <span>${displayName}</span>
+                    <span class="modelPrice">250$</span>
+                `
+
+                b.addEventListener("mouseenter", async () => {
+                    const cur = getState(current.id)
+                    await pushPreview(i, cur.t)
+                })
+
+                b.addEventListener("mouseleave", async () => {
+                    const cur = getState(current.id)
+                    await pushPreview(cur.d, cur.t)
+                })
+
+                frag.appendChild(b)
+            }
+
+            elModelList.appendChild(frag)
+        }
+
+        const clampi = (v, a, b) => {
+            v = Number(v)
+            if (Number.isNaN(v)) v = a
+            if (v < a) v = a
+            if (v > b) v = b
+            return Math.round(v)
+        }
+
+        const ensureState = () => {
+            for (const c of CATS) {
+                if (!values[c.id]) values[c.id] = { d: 0, t: 0 }
+            }
+        }
+
+        const renderMenu = () => {
+            elMenu.innerHTML = ""
+            for (const c of CATS) {
+                const b = document.createElement("button")
+                b.className = "mitem" + (c.id === current.id ? " active" : "")
+                b.type = "button"
+                b.dataset.id = c.id
+
+                b.innerHTML = `<span class="ico">${ICONS[c.id] || ICONS.tshirt}</span>`
+
+                b.addEventListener("mouseenter", () => showCatTip(c.label, b.getBoundingClientRect()))
+                b.addEventListener("mousemove", () => showCatTip(c.label, b.getBoundingClientRect()))
+                b.addEventListener("mouseleave", hideCatTip)
+
+                b.addEventListener("click", () => {
+                    hideCatTip()
+                    selectCat(c.id)
+                })
+
+                elMenu.appendChild(b)
+            }
+        }
+
+        const toggleVipPeds = async (state) => {
+            if (!vipEnabled) return
+            const show = typeof state === "boolean" ? state : (panelMode !== "vipPeds")
+            panelMode = show ? "vipPeds" : "shop"
+            updatePanel()
+        }
+
+        elVipBtn.addEventListener("click", () => {
+            // Bloqué uniquement en vestiaire standalone (sinon on doit pouvoir
+            // basculer vers Peds VIP depuis n'importe quel sous-panel).
+            if (panelMode === "locker" && standaloneLocker) return
+            if (panelMode === "locker") {
+                panelMode = "shop"
+                elLockerBtn.setAttribute("aria-expanded", "false")
+            }
+            if (panelMode === "outfits") {
+                panelMode = "shop"
+                elOutfitBtn.setAttribute("aria-expanded", "false")
+            }
+            toggleVipPeds()
+        })
+
+        const updatePanel = () => {
+            if (panelMode === "vipPeds") {
+                elPanelTitle.textContent = "Peds VIP"
+                elPanelDesc.textContent = `${vipNpcs.length} ped(s) • Cliquez un ped puis Valider`
+
+                if (elRowHead) elRowHead.style.display = ""
+                if (elVariantFooter) elVariantFooter.style.display = "none"
+
+                if (elActions) {
+                    elActions.innerHTML = `<button class="btn" id="vipBack" type="button">Retour</button><button class="btn primary" id="vipConfirm" type="button">Valider</button>`
+                    document.getElementById("vipBack").addEventListener("click", () => {
+                        panelMode = "shop"
+                        updatePanel()
+                    })
+                    document.getElementById("vipConfirm").addEventListener("click", async () => {
+                        // Ferme le menu en conservant le ped VIP applique.
+                        await post("vipPedConfirm", {})
+                    })
+                }
+
+                renderVipPeds()
+                return
+            }
+
+            if (panelMode === "outfits") {
+                elPanelTitle.textContent = "Tenues sauvegardées"
+                elPanelDesc.textContent = `${outfits.length} tenue(s) • Charger / Supprimer`
+
+                if (elRowHead) elRowHead.style.display = "none"
+                if (elVariantFooter) elVariantFooter.style.display = "none"
+                if (elOutfitFooter) elOutfitFooter.style.display = ""
+
+                if (elActions) {
+                    elActions.innerHTML = `<button class="btn" id="outfitBack" type="button">Retour</button>`
+                    document.getElementById("outfitBack").addEventListener("click", () => toggleOutfits(false))
+                }
+
+                renderOutfits()
+                return
+            }
+
+            if (panelMode === "locker") {
+                elPanelTitle.textContent = "Vestiaire"
+                elPanelDesc.textContent = `${lockerItems.length} tenue(s) • Prévisualiser / Acheter / Renommer / Supprimer`
+
+                if (elRowHead) elRowHead.style.display = "none"
+                if (elVariantFooter) elVariantFooter.style.display = "none"
+                if (elOutfitFooter) elOutfitFooter.style.display = ""
+
+                if (elActions) {
+                    if (standaloneLocker) {
+                        // Vestiaire standalone : pas de retour vers le shop.
+                        elActions.innerHTML = ""
+                    } else {
+                        // Vestiaire dans le shop : on peut revenir à la boutique.
+                        elActions.innerHTML = `<button class="btn" id="lockerBack" type="button">Retour</button>`
+                        document.getElementById("lockerBack").addEventListener("click", () => toggleLocker(false))
+                    }
+                }
+
+                if (elOutfitSaveBottom) {
+                    elOutfitSaveBottom.textContent = "ENREGISTRER UNE TENUE"
+                    elOutfitSaveBottom.onclick = () => {
+                        const now = new Date()
+                        const dd = String(now.getDate()).padStart(2, "0")
+                        const mm = String(now.getMonth() + 1).padStart(2, "0")
+                        const yyyy = String(now.getFullYear())
+                        openRename({ id: "__locker_new__", name: `Tenue ${dd}/${mm}/${yyyy}` })
+                    }
+                }
+
+                renderLocker()
+                return
+            }
+
+            if (elOutfitFooter) elOutfitFooter.style.display = "none"
+            if (elRowHead) elRowHead.style.display = ""
+            if (elVariantFooter) elVariantFooter.style.display = ""
+            if (elActions) elActions.innerHTML = ""
+
+            const st = getState(current.id)
+
+            elPanelTitle.textContent = current.label
+            const count = (Number(current.rangeD) + 1)
+            elPanelDesc.textContent = `${count} articles • Modèle / Variante`
+
+            renderModels()
+
+            if (current.texture) {
+                elTRange.disabled = false
+                elTPrev.disabled = false
+                elTNext.disabled = false
+                elTRange.max = String(current.rangeT)
+                elTRange.value = String(st.t)
+                elTVal.textContent = String(st.t)
+                elTRange.style.opacity = "1"
+            } else {
+                elTRange.disabled = true
+                elTPrev.disabled = true
+                elTNext.disabled = true
+                elTRange.value = "0"
+                elTVal.textContent = "—"
+                elTRange.style.opacity = ".45"
+            }
+        }
+
+        const pushChange = async () => {
+            const st = getState(current.id)
+            await post("skinChange", {
+                drawableKey: current.drawable,
+                textureKey: current.texture,
+                drawable: st.d,
+                texture: st.t
+            })
+        }
+
+        const pushCam = async (mode) => {
+            document.querySelectorAll(".cam-btn").forEach(x => {
+                const on = x.dataset.cam === mode
+                x.classList.toggle("selected", on)
+                x.setAttribute("aria-pressed", on ? "true" : "false")
+            })
+            await post("setCamera", { mode })
+        }
+
+        const selectCat = async (id) => {
+            current = CATS.find(x => x.id === id) || CATS[0]
+            searchQuery = ""
+            if (elSearch) elSearch.value = ""
+            renderMenu()
+            updatePanel()
+            await pushCam(current.cam)
+            await pushChange()
+            updatePayUI()
+        }
+
+        const setDrawable = async (v) => {
+            const st = getState(current.id)
+            st.d = clampi(v, 0, Number(current.rangeD))
+
+            if (current.texture) {
+                const r = await post("getTextureMax", { catId: current.id, drawable: st.d })
+                const maxT = (r && r.ok) ? Number(r.max || 0) : Number(current.rangeT || 0)
+                current.rangeT = maxT
+                elTRange.max = String(maxT)
+                if (st.t > maxT) st.t = maxT
+                elTRange.value = String(st.t)
+                elTVal.textContent = String(st.t)
+            }
+
+            updatePayUI()
+
+            elModelList.querySelectorAll(".modelBtn.active").forEach(x => x.classList.remove("active"))
+            const sel = elModelList.querySelector(`.modelBtn[data-d="${st.d}"]`)
+            if (sel) sel.classList.add("active")
+
+            await pushChange()
+        }
+
+        const setTexture = async (v) => {
+            if (!current.texture) return
+            const st = getState(current.id)
+            st.t = clampi(v, 0, Number(current.rangeT))
+
+            updatePayUI()
+
+            elTRange.value = String(st.t)
+            elTVal.textContent = String(st.t)
+            await pushChange()
+        }
+
+        const isTypingTarget = (t) => {
+            const tag = (t && t.tagName) ? t.tagName.toLowerCase() : ""
+            return tag === "input" || tag === "textarea" || (t && t.isContentEditable)
+        }
+
+        const stepDrawableVisible = async (dir) => {
+            if (panelMode !== "shop") return
+            if (!visibleModelDs.length) return
+
+            const st = getState(current.id)
+            let pos = visibleModelDs.indexOf(st.d)
+            if (pos === -1) pos = 0
+
+            pos += dir
+            if (pos < 0) pos = visibleModelDs.length - 1
+            if (pos >= visibleModelDs.length) pos = 0
+
+            await setDrawable(visibleModelDs[pos])
+
+            const sel = elModelList.querySelector(`.modelBtn[data-d="${visibleModelDs[pos]}"]`)
+            if (sel) sel.scrollIntoView({ block: "nearest" })
+        }
+
+        elTRange.addEventListener("input", async (e) => setTexture(e.target.value))
+
+        elTPrev.addEventListener("click", async () => setTexture(getState(current.id).t - 1))
+        elTNext.addEventListener("click", async () => setTexture(getState(current.id).t + 1))
+        elXClose.addEventListener("click", async () => post("closeUI", {}))
+
+        elModelList.addEventListener("click", async (e) => {
+            if (panelMode !== "outfits") return
+
+            const btn = e.target.closest("button")
+            if (!btn) return
+
+            const act = btn.dataset.act
+            const id = Number(btn.dataset.id)
+            const o = outfits.find(x => x.id === id)
+            if (!o) return
+
+            if (act === "del") {
+                outfits = outfits.filter(x => x.id !== id)
+                renderOutfits()
+                updatePanel()
+                return
+            }
+
+            if (act === "load") {
+                if (o.values) {
+                    values = deepCopy(o.values)
+                    ensureState()
+                    panelMode = "shop"
+                    updatePanel()
+                    await pushCam(current.cam)
+                    await pushChange()
+                    updatePayUI()
+                } else {
+                    toggleOutfits(false)
+                }
+            }
+        })
+
+        elSearch.addEventListener("input", () => {
+            searchQuery = (elSearch.value || "").trim().toLowerCase()
+            renderModels()
+        })
+
+        document.getElementById("camHud").addEventListener("click", async (e) => {
+            const btn = e.target.closest(".cam-btn")
+            if (!btn) return
+            await pushCam(btn.dataset.cam)
+        })
+
+        window.addEventListener("keydown", async (e) => {
+            if (!open) return
+
+            if (isTypingTarget(e.target)) {
+                if (e.key === "Escape") {
+                    await post("closeUI", {})
+                }
+                return
+            }
+
+            if (e.key === "a" || e.key === "A") {
+                e.preventDefault()
+                await post("rotateHeading", { dir: -1, step: 4.0 })
+                return
+            }
+
+            if (e.key === "e" || e.key === "E") {
+                e.preventDefault()
+                await post("rotateHeading", { dir: 1, step: 4.0 })
+                return
+            }
+
+            if (e.key === "Escape") {
+                await post("closeUI", {})
+                return
+            }
+
+            if (e.key === "Backspace") {
+                await post("closeUI", {})
+                return
+            }
+
+            if (panelMode !== "shop") return
+
+            if (e.key === "ArrowUp") {
+                e.preventDefault()
+                await stepDrawableVisible(-1)
+                return
+            }
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault()
+                await stepDrawableVisible(1)
+                return
+            }
+
+            if (e.key === "ArrowLeft") {
+                if (!current.texture) return
+                e.preventDefault()
+                await setTexture(getState(current.id).t - 1)
+                return
+            }
+
+            if (e.key === "ArrowRight") {
+                if (!current.texture) return
+                e.preventDefault()
+                await setTexture(getState(current.id).t + 1)
+                return
+            }
+        })
+
+        const renderVipPeds = () => {
+            if (!elModelList) return
+            elModelList.innerHTML = ""
+
+            const frag = document.createDocumentFragment()
+            const q = (searchQuery || "").toLowerCase()
+
+            for (const npc of vipNpcs) {
+                const name = String(npc.name || "Ped")
+                const model = String(npc.model || "")
+                if (!model) continue
+                if (q && !name.toLowerCase().includes(q) && !model.toLowerCase().includes(q)) continue
+
+                const b = document.createElement("button")
+                b.className = "modelBtn"
+                b.type = "button"
+
+                const left = document.createElement("span")
+                left.textContent = name
+
+                const right = document.createElement("span")
+                right.className = "modelPrice"
+                right.textContent = model
+
+                b.appendChild(left)
+                b.appendChild(right)
+
+                b.addEventListener("click", async () => {
+                    await post("vipPedSelect", { model })
+                })
+
+                frag.appendChild(b)
+            }
+
+            elModelList.appendChild(frag)
+        }
+
+        window.addEventListener("message", async (event) => {
+            const data = event.data || {}
+            // NE PAS awaiter un sync serveur ici : ce handler traite l'ouverture
+            // ET la fermeture du menu. Si un RPC outfits:get ne repond pas (lag /
+            // reply perdu apres des heures), l'await bloquait tout -> le focus NUI
+            // etait deja pris cote Lua (curseur visible) mais le panneau ne
+            // s'affichait jamais et la fermeture etait bloquee -> deco/reco.
+            // Les tenues arrivent de toute facon via le message "outfits:set"
+            // pousse par le Lua, et chaque action fait son propre sync si besoin.
+
+            if (data.action === "outfits:set") {
+                outfits = (data.outfits || []).map(o => ({
+                    id: Number(o.id),
+                    name: String(o.name || "Tenue"),
+                    date: fmtDate(o.created_at || o.updated_at),
+                }))
+                if (panelMode === "outfits") renderOutfits()
+                updatePanel()
+            }
+
+            if (data.action === "openVestiaire") {
+                open = true
+                panelMode = "locker"
+                standaloneLocker = true
+                sex = data.sex || "male"
+                elSex.textContent = sex === "female" ? "F" : "M"
+
+                values = (data.values && typeof data.values === "object") ? data.values : {}
+                ensureState()
+
+                elOutfitBtn.style.display = "none"
+                elOutfitBtn.setAttribute("aria-expanded", "false")
+                setLockerBtnLeft(LOCKER_LEFT_VESTIAIRE)
+                setLockerBtnDisabled(true)
+
+                if (data.hideOutfits) {
+                    document.querySelector("#btn-outfits")?.classList.add("hidden")
+                    document.querySelector("#tab-outfits")?.classList.add("hidden")
+                } else {
+                    document.querySelector("#btn-outfits")?.classList.remove("hidden")
+                    document.querySelector("#tab-outfits")?.classList.remove("hidden")
+                }
+
+                elApp.style.display = "grid"
+                elCamHud.classList.add("show")
+                elXClose.classList.add("show")
+                if (elKeyHud) elKeyHud.classList.remove("show")
+
+                renderMenu()
+                await syncLockerFromServer()
+
+                updatePanel()
+                await pushCam("body")
+
+                const payWrap = document.querySelector(".payWrap")
+                const payRow = document.querySelector(".payRow")
+                if (payWrap) payWrap.style.display = "none"
+                if (payRow) payRow.style.display = "none"
+
+                const menu = document.getElementById("menu")
+                if (menu) menu.style.display = "none"
+
+                vipEnabled = !!data.isVip
+                vipNpcs = Array.isArray(data.vipNpcs) ? data.vipNpcs : []
+                setVipBtnVisible(vipEnabled)
+                // En vestiaire standalone, VIP doit être collé au Vestiaire
+                // (Tenues est masqué) et non à 20rem.
+                setVipBtnLeft(VIP_LEFT_VESTIAIRE)
+            }
+
+            if (data.action === "openWardrobe") {
+                open = true
+                panelMode = "outfits"
+                standaloneLocker = false
+
+                sex = data.sex || "male"
+                elSex.textContent = sex === "female" ? "F" : "M"
+
+                current = CATS.find(x => x.id === (data.defaultCat || "tshirt")) || CATS[0]
+
+                values = (data.values && typeof data.values === "object") ? data.values : {}
+                ensureState()
+
+                elOutfitBtn.style.display = ""
+                setLockerBtnLeft(LOCKER_LEFT_NORMAL)
+                setLockerBtnDisabled(false)
+
+                elApp.style.display = "grid"
+                elCamHud.classList.add("show")
+                elXClose.classList.add("show")
+                if (elKeyHud) elKeyHud.classList.remove("show")
+
+                renderMenu()
+                await syncOutfitsFromServer()
+
+                elOutfitBtn.setAttribute("aria-expanded", "true")
+                updatePanel()
+                await pushCam("body")
+
+                updatePayUI()
+
+                const payWrap = document.querySelector(".payWrap")
+                const payRow = document.querySelector(".payRow")
+                if (payWrap) payWrap.style.display = "none"
+                if (payRow) payRow.style.display = "none"
+
+                const menu = document.getElementById("menu")
+                if (menu) menu.style.display = "none"
+
+                vipEnabled = !!data.isVip
+                vipNpcs = Array.isArray(data.vipNpcs) ? data.vipNpcs : []
+                setVipBtnVisible(vipEnabled)
+                setVipBtnLeft(VIP_LEFT)
+            }
+
+            if (data.action === "openClotheshop") {
+                open = true
+                panelMode = "shop"
+                standaloneLocker = false
+
+                sex = data.sex || "male"
+                elSex.textContent = sex === "female" ? "F" : "M"
+
+                current = CATS.find(x => x.id === (data.defaultCat || "tshirt")) || CATS[0]
+
+                values = (data.values && typeof data.values === "object") ? data.values : {}
+                ensureState()
+
+                elOutfitBtn.style.display = ""
+                elLockerBtn.style.display = ""
+                setLockerBtnLeft(LOCKER_LEFT_NORMAL)
+                setLockerBtnDisabled(false)
+
+                elApp.style.display = "grid"
+                elCamHud.classList.add("show")
+                elXClose.classList.add("show")
+                if (elKeyHud) elKeyHud.classList.add("show")
+
+                snapshotBase()
+                setPayMethod("cash")
+                updatePayUI()
+
+                await applyLimits()
+                renderMenu()
+                updatePanel()
+                await pushCam(current.cam)
+                await pushChange()
+
+                const payWrap = document.querySelector(".payWrap")
+                const payRow = document.querySelector(".payRow")
+                if (payWrap) payWrap.style.display = ""
+                if (payRow) payRow.style.display = ""
+
+                const menu = document.getElementById("menu")
+                if (menu) menu.style.display = ""
+
+                vipEnabled = !!data.isVip
+                vipNpcs = Array.isArray(data.vipNpcs) ? data.vipNpcs : []
+                setVipBtnVisible(vipEnabled)
+                setVipBtnLeft(VIP_LEFT)
+            }
+
+            if (data.action === "closeClotheshop") {
+                open = false
+                elApp.style.display = "none"
+                if (elLockerBtn) elLockerBtn.style.display = ""
+
+                setLockerBtnDisabled(false)
+                setLockerBtnLeft(LOCKER_LEFT_NORMAL)
+
+                elXClose.classList.remove("show")
+                elCamHud.classList.remove("show")
+                if (elKeyHud) elKeyHud.classList.remove("show")
+
+                vipEnabled = false
+                vipNpcs = []
+                setVipBtnVisible(false)
+            }
+        })
+    </script>
+
+    <!-- ============================================================
+         Click sound (identique à SNL_Boutique).
+         Web Audio synthétisé : 3 couches (snap + pop + sub) pour un
+         click "tactile/punchy". Aucun asset audio requis.
+         Throttle 35ms anti-spam, opt-out via [data-no-click-sound].
+         Ne joue que quand l'app est visible (#app non display:none).
+         ============================================================ -->
+    <script>
+    (() => {
+        let _audioCtx = null;
+        function getAudioCtx(){
+            try {
+                if (!_audioCtx) {
+                    const Ctx = window.AudioContext || window.webkitAudioContext;
+                    if (!Ctx) return null;
+                    _audioCtx = new Ctx();
+                }
+                if (_audioCtx.state === 'suspended') { try { _audioCtx.resume(); } catch(_){} }
+                return _audioCtx;
+            } catch(_) { return null; }
+        }
+
+        const CLICK_VOL = 0.1;
+        let _lastClickAt = 0;
+
+        function playClickSound(opts){
+            const ctx = getAudioCtx();
+            if (!ctx) return;
+            const now = performance.now();
+            if (now - _lastClickAt < 35) return;
+            _lastClickAt = now;
+
+            const t0 = ctx.currentTime;
+            const soft = !!(opts && opts.soft);
+            const masterVol = soft ? CLICK_VOL * 0.55 : CLICK_VOL;
+
+            // Layer 1 — snap (haut, court, percussif)
+            try {
+                const o1 = ctx.createOscillator();
+                const g1 = ctx.createGain();
+                const f1 = ctx.createBiquadFilter();
+                f1.type = 'highpass'; f1.frequency.value = 1400; f1.Q.value = 0.7;
+                o1.type = 'square';
+                o1.frequency.setValueAtTime(2400, t0);
+                o1.frequency.exponentialRampToValueAtTime(900, t0 + 0.040);
+                g1.gain.setValueAtTime(0.0001, t0);
+                g1.gain.exponentialRampToValueAtTime(0.42 * masterVol, t0 + 0.004);
+                g1.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.060);
+                o1.connect(f1); f1.connect(g1); g1.connect(ctx.destination);
+                o1.start(t0); o1.stop(t0 + 0.075);
+            } catch(_){}
+
+            // Layer 2 — pop (corps mid)
+            try {
+                const o2 = ctx.createOscillator();
+                const g2 = ctx.createGain();
+                o2.type = 'triangle';
+                o2.frequency.setValueAtTime(1200, t0);
+                o2.frequency.exponentialRampToValueAtTime(420, t0 + 0.060);
+                g2.gain.setValueAtTime(0.0001, t0);
+                g2.gain.exponentialRampToValueAtTime(0.32 * masterVol, t0 + 0.006);
+                g2.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.090);
+                o2.connect(g2); g2.connect(ctx.destination);
+                o2.start(t0); o2.stop(t0 + 0.110);
+            } catch(_){}
+
+            // Layer 3 — sub (basse pour le punch)
+            try {
+                const o3 = ctx.createOscillator();
+                const g3 = ctx.createGain();
+                o3.type = 'sine';
+                o3.frequency.setValueAtTime(180, t0);
+                o3.frequency.exponentialRampToValueAtTime(90, t0 + 0.080);
+                g3.gain.setValueAtTime(0.0001, t0);
+                g3.gain.exponentialRampToValueAtTime(0.20 * masterVol, t0 + 0.006);
+                g3.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.110);
+                o3.connect(g3); g3.connect(ctx.destination);
+                o3.start(t0); o3.stop(t0 + 0.140);
+            } catch(_){}
+        }
+
+        document.addEventListener('click', (e) => {
+            const app = document.getElementById('app');
+            // Ne joue que si l'UI clotheshop est visible
+            if (!app || app.style.display === 'none') return;
+            const t = e.target;
+            if (!(t instanceof Element)) return;
+            if (t.closest('input, textarea, select')) return;
+            if (t.closest('[data-no-click-sound]')) return;
+            const isInteractive = !!t.closest(
+                'button, a, [role="button"], .btn, .mitem, .modelBtn, .arrow, ' +
+                '.cam-btn, .payBtn, .payMethod, .outfitBtn, .outfitAct, ' +
+                '.outfitClose, .outfitSave, .renameBtn, .renameClose, .xclose, ' +
+                '[tabindex]'
+            );
+            playClickSound({ soft: !isInteractive });
+        }, true);
+    })();
+    </script>
+</body>
+</html>

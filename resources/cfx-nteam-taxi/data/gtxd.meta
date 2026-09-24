@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CMapParentTxds>
+ <txdRelationships>
+  <Item>
+   <parent>nteam_taxi1</parent>
+   <child>nteam_taxi</child>
+  </Item>
+  <Item>
+   <parent>nteam_taxi2</parent>
+   <child>nteam_taxi1</child>
+  </Item>
+  <Item>
+   <parent>nteam_taxi3</parent>
+   <child>nteam_taxi2</child>
+  </Item>
+ </txdRelationships>
+</CMapParentTxds>

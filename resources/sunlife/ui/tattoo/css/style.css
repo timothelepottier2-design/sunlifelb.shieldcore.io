@@ -1,0 +1,737 @@
+:root {
+    --primary-text-color: #e7e7e7;
+    --secondary-text-color: #94a1b2;
+
+    --back-btn-color: #d1d1d130;
+    --back-btn-color-hover: #92929269;
+
+    --main-color: rgb(60, 250, 98);
+    --main-color-hover: rgb(46, 199, 66);
+    --main-color-active: rgb(26, 156, 21);
+
+    --ok-color: #4cdb28b3;
+    --ok-color-hover: #32b623b3;
+    --ok-color-active: #2a7116b3;
+    
+    --close-color: #db2828b3;
+    --close-color-hover: #a0101073;
+    --close-color-active: #64121273;
+
+    --green: #28a745;
+    --green-hover: #1e7b34;
+    --green-active: #175f28;
+    
+    --orange: #fd7e14;
+    --orange-hover: #ce6713;
+    --orange-active: #b05a13;
+    
+    --red: #dc3545;
+    --red-hover: #a82835;
+    --red-active: #801e27;
+    
+    --grey: #6c757d;
+    --grey-hover: #474d53;
+    --grey-active: #3a3e42;
+
+    --scrollbar-color: #3cfa7e;
+    --scrollbar-color-hover: #2ec74a;
+    --scrollbar-background: #07070cfa;
+
+    --menu-shadow-before-color: radial-gradient(circle, rgba(60, 250, 88, 0.65) 0%, rgba(255, 255, 255, 0.0) 70%);
+    --menu-shadow-after-color: radial-gradient(circle, rgba(46, 199, 79, 0.7) 0%, rgba(255, 255, 255, 0.0) 70%);
+
+    --menu-background: #07070cfa;
+    --submenu-background: #4d51850f;
+    --submenu-background-selected: rgb(36 37 42 / 37%);
+    --border-radius: 0.4em;
+}
+
+*,
+:focus,
+:hover {
+    outline: none;
+}
+
+* {
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-background);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--scrollbar-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-color-hover);
+}
+
+body {
+    overflow: hidden;
+    position: absolute;
+    font-family: 'Titillium Web', sans-serif;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+}
+
+#tattooshop {
+    display: none;
+
+    position: absolute;
+    align-items: center;
+    left: 0;
+    top: 0;
+    height: 100%;
+    left: 4em;
+    animation: show 0.2s ease-in-out;
+}
+
+#tattooshop.hide {
+    animation: hide 0.2s ease-in-out forwards;
+}
+
+#tattooshop .header {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    width: 100%;
+    padding-inline: 1em;
+    margin-top: 0.8em;
+    z-index: 100;
+}
+
+#tattooshop .header > p {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--primary-text-color);
+    margin: 0;
+    margin-right: auto;
+}
+
+#tattooshop .header > #basket {
+    height: 1.8em;
+    padding-inline: 0.4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--back-btn-color);
+    border-radius: 0.3em;
+    font-weight: 600;
+    font-size: 1em;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+#tattooshop .header > #basket:hover {
+    background: var(--back-btn-color-hover);
+}
+
+#tattooshop .header>#basket>i {
+    color: var(--primary-text-color);
+}
+
+#tattooshop .header>#basket>span {
+    color: var(--primary-text-color);
+    margin-left: 0.4em;
+}
+
+#tattooshop .header > #hide {
+    height: 1.8em;
+    width: 1.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--close-color);
+    border-radius: 0.3em;
+    font-weight: 600;
+    font-size: 1em;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+#tattooshop .header > #hide:hover {
+    background: var(--close-color-hover);
+}
+
+#tattooshop .header > #hide:active {
+    background: var(--close-color-active);
+}
+
+#tattooshop .header>#hide>i {
+    color: var(--primary-text-color);
+}
+
+#tattooshop .panel {
+    position: absolute;
+    width: 27.5em;
+    height: 45em;
+    background: var(--menu-background);
+    z-index: 200;
+    /* margin-left: 20px; */
+    /* top: 3em; */
+    border-radius: 12px;
+}
+
+#tattooshop .optionsCircle {
+    position: absolute;
+    margin-top: 3.5em;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em 2em;
+    gap: 0.37em;
+    padding-inline: 1em;
+}
+
+#tattooshop #panelInside {
+    margin-top: 8.5em;
+    padding-inline: 0.5em;
+    height: 36.5em;
+    border-radius: 0.4em;
+    overflow-x: auto;
+    scrollbar-gutter: stable both-edges;
+    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgb(53 53 53)), to(rgb(0 0 0 / 84%)));
+}
+
+#tattooshop .tattoos-list-bg {
+    padding: 0.8em;
+    background: var(--submenu-background);
+    border-radius: 0.4em;
+    height: 35.8em;
+    overflow: overlay;
+}
+
+#tattooshop .tattoos-list {
+    display: inline-flex;
+    width: 100%;
+}
+
+#tattooshop .tattoos-list > div {
+    width: 100%;
+}
+
+#tattooshop .tattoo {
+    width: 100%;
+    height: 2.5em;
+}
+
+#tattooshop .tattoo>.label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#tattooshop .tattoo>.label>p {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: bold;
+    color: var(--primary-text-color);
+    width: inherit;
+    margin: 0;
+}
+
+#tattooshop .tattoo> .label .options {
+    display: flex;
+    align-items: center;
+}
+
+#tattooshop .tattoo> .label .options>.price {
+    color: var(--secondary-text-color);
+    font-weight: 600;
+    text-align: center;
+    height: 1.5em;
+    padding-inline: 0.5em;
+    border-radius: 0.3em;
+}
+
+#tattooshop .tattoo> .label .options>.price>p {
+    font-family: 'Titillium Web', sans-serif;
+    color: white;
+    margin: 0;
+}
+
+#tattooshop #remove-from-cart,
+#tattooshop #remove {
+    height: 1.8em;
+    width: 1.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--red);
+    border-radius: 0.3em;
+    text-align: center;
+    margin-inline: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#tattooshop #remove-from-cart:not(.hasTattoo):hover, #tattooshop #remove:hover {
+    background: var(--red-hover);
+}
+
+#tattooshop #remove-from-cart:not(.hasTattoo):active, #tattooshop #remove:active {
+    background: var(--red-active);
+}
+
+/* #tattooshop #remove-from-cart.hasTattoo {
+    background: var(--grey);
+}
+
+#tattooshop #remove-from-cart.hasTattoo:hover {
+    background: var(--grey-hover);
+}
+
+#tattooshop #remove-from-cart.hasTattoo:active {
+    background: var(--grey-active);
+} */
+
+#tattooshop #add-to-cart,
+#tattooshop #buy {
+    height: 1.8em;
+    width: 1.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--green);
+    /* background: var(--ok-color); */
+    border-radius: 0.3em;
+    text-align: center;
+    margin-inline: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#tattooshop #add-to-cart:not(.hasTattoo):hover, #tattooshop #buy:hover {
+    background: var(--green-hover);
+}
+
+#tattooshop #add-to-cart:not(.hasTattoo):active, #tattooshop #buy:active {
+    background: var(--green-active);
+}
+
+#tattooshop #add-to-cart.hasTattoo {
+    background: var(--orange);
+}
+#tattooshop #add-to-cart.hasTattoo:hover {
+    background: var(--orange-hover);
+}
+#tattooshop #add-to-cart.hasTattoo:active {
+    background: var(--orange-active);
+}
+
+
+#tattooshop #show {
+    height: 1.8em;
+    width: 1.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--back-btn-color);
+    border-radius: 0.3em;
+    text-align: center;
+    margin-inline: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#tattooshop #show:hover {background: var(--back-btn-color-hover);}
+
+#tattooshop #remove-from-cart > i,
+#tattooshop #add-to-cart > i,
+#tattooshop #remove > i,
+#tattooshop #buy > i,
+#tattooshop #show > i {
+    color: var(--primary-text-color);
+}
+
+#tattooshop #show:active {
+    background: var(--main-color-active) !important;
+}
+
+#tattooshop .tattoo-selected {
+    transition: 0.25s;
+    background: var(--main-color-hover) !important;
+}
+
+#tattooshop .category-selected {
+    background: var(--main-color-active) !important;
+}
+
+#tattooshop .category-selected>p {
+    filter: invert(2%) !important;
+}
+
+#tattooshop .itemCircle {
+    width: 1.8em;
+    height: 1.8em;
+    border-radius: 0.4em;
+    transition: 0.2s;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--submenu-background-selected);
+}
+
+#tattooshop .itemCircle:hover {
+    background: var(--main-color-hover);
+}
+
+#tattooshop .itemCircle:active {
+    background: var(--main-color-active);
+}
+
+#tattooshop .itemCircle:active>.itemIcon {
+    filter: invert(100%);
+}
+
+#tattooshop .itemCircle>p {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.808);
+    filter: invert(50%);
+    font-size: 1.2em;
+    margin: 0;
+}
+
+#tattooshop .itemCircle:hover>p {
+    filter: invert(17%);
+}
+
+#tattooshop .itemLabel {
+    color: #e9e9e9cc;
+    display: table-row;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 15px
+}
+
+#tattooshop .itemIcon {
+    display: block;
+    filter: invert(50%);
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    transition: 0.45s;
+}
+
+#tattooshop .itemCircle:hover>.itemIcon {
+    filter: invert(87%);
+}
+
+#tattooshop .tattoosCategories {
+    display: table;
+    margin-bottom: 10px;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+
+#tattooshop #basket > .bottom-infos {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    padding-inline: 1em;
+    bottom: 1em;
+}
+#tattooshop #basket > .items {
+    height: 32.5em;
+    overflow: overlay;
+}
+
+#tattooshop #total {
+    left: 0;
+    height: 2.2em;
+    font-size: 1em;
+    font-family: 'Titillium Web', sans-serif;
+    letter-spacing: 1px;
+    width: 25.5em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--submenu-background);
+    border-radius: 0.4em;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#tattooshop #total:hover {
+    background: var(--submenu-background-selected);
+}
+
+#tattooshop #total > p {
+    margin: 0;
+    opacity: 0.7;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+#tattooshop #total:hover > p {
+    opacity: 1;
+}
+
+
+#tattooshop #payment {
+    /* position: absolute;
+    bottom: 0.2em;
+    left: 0;
+    width: 26em; */
+}
+
+#tattooshop #payment > div {
+    display: flex;
+    gap: 1em;
+}
+
+#tattooshop #payment > div > div {
+    background: var(--submenu-background);
+    border-radius: 0.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 2.2em;
+    transition: 0.2s;
+}
+
+#tattooshop #payment > div > div:hover {
+    background: var(--submenu-background-selected);
+}
+
+#tattooshop #payment > div > div > i,
+#tattooshop #payment > div > div > p {
+    transition: 0.2s;
+}
+
+#tattooshop #payment > div > div:hover > i,
+#tattooshop #payment > div > div:hover > p {
+    opacity: 1.0;
+}
+
+
+#tattooshop #payment > div > div[data-type="back"] {
+    width: 2.2em;
+    min-width: 2.2em;
+    max-width: 2.2em;
+}
+
+#tattooshop #payment > div > div[data-type="receipt"] {
+    gap: 0.5em;
+    width: 100%;
+}
+
+#tattooshop #payment > div > div > i {
+    color: var(--primary-text-color);
+    opacity: 0.8;
+}
+
+#tattooshop #payment > div > div > p {
+    font-weight: 600;
+    color: var(--primary-text-color);
+    margin: 0;
+    opacity: 0.8;
+}
+
+
+#tattooshop #panelInside #basket {
+    height: 2.5em !important;
+    gap: 0.8em !important;
+}
+
+#tattooshop #panelInside #basket > .items > {
+    height: 32.5em;
+    overflow: overlay;
+}
+
+#tattooshop #panelInside #basket > .items > div {
+    display: flex;
+    align-items: center;
+    padding-right: 0.5em;
+    padding-left: 1em;
+    height: 2.5em;
+}
+
+#tattooshop #panelInside #basket > .items > div > .label {
+    font-weight: 600;
+    color: var(--primary-text-color);
+}
+
+#tattooshop #panelInside #basket > .items > div > .price {
+    font-weight: 500;
+    color: var(--secondary-text-color);
+    margin-left: 0.5em;
+}
+
+#tattooshop #panelInside #basket > .items > div > .remove-from-basket {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8em;
+    height: 1.8em;
+    border-radius: 0.4em;
+    background: var(--close-color);
+    margin-left: auto;
+    padding: 0 !important;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#tattooshop #panelInside #basket > .items > div > .remove-from-basket:hover {
+    background: var(--close-color-hover);
+}
+
+#tattooshop #panelInside #basket > .items > div > .remove-from-basket:active {
+    background: var(--close-color-active);
+}
+
+#tattooshop #panelInside #basket > .items > div > .remove-from-basket > i {
+    color: white;
+}
+
+/* Receipt */
+
+.receipt {
+    display: none;
+    font-family: 'Fake Receipt', sans-serif !important;
+    position: absolute;
+    /* right: 5em;
+    top: 12em; */
+    right: 5em;
+    bottom: -1em;
+    z-index: 5000;
+    animation: print-receipt 1.5s ease-in-out;
+}
+
+.receipt-texts {
+    position: absolute;
+    width: 100%;
+    margin-top: 1em;
+    padding: 1em;
+}
+
+.receipt-texts > .header-label {
+    font-size: 1.5em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.receipt-texts > .header-tuning {
+    font-size: 1.2em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.receipt-texts > .legend {
+    display: flex;
+    justify-content: space-between;
+}
+
+.receipt-texts > .list {
+    max-height: 25em;
+    overflow: auto;
+}
+
+.receipt-texts > .list .product {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7em;
+}
+
+.receipt-texts .receipt-discounted {
+    text-decoration: line-through;
+    color:rgba(0, 0, 0, 0.65) !important;
+    margin-left: 0.25em;
+}
+
+.receipt-texts > .total {
+    display: flex;
+    justify-content: space-between;
+}
+
+.receipt-texts > .total .total-discounted {
+    text-decoration: line-through;
+    color:rgba(0, 0, 0, 0.65) !important;
+}
+
+.receipt-texts > .buttons {
+    display: flex;
+    margin-inline: auto;
+}
+
+.receipt-texts > .buttons > .pay_cash,
+.receipt-texts > .buttons > .pay_bank {
+    padding-block: 0.5em;
+    padding-inline: 1.5em;
+    margin-left: auto;
+    margin-right: 1em;
+    color: white;
+    border: 2px solid transparent;
+    background: rgb(82 112 255 / 77%);
+    border-radius: 0.5em;
+    transition: 0.2s;
+}
+
+.receipt-texts > .buttons > .pay_cash:hover,
+.receipt-texts > .buttons > .pay_bank:hover {
+    scale: 1.05;
+    background: rgb(82 112 255 / 100%);
+}
+
+.receipt-texts > .buttons > .cancel {
+    padding-block: 0.5em;
+    padding-inline: 1.5em;
+    margin-right: auto;
+    margin-left: 1em;
+    color: rgb(82 112 255 / 77%);
+    border: 2px solid rgb(82 112 255 / 77%);
+    background: transparent;
+    border-radius: 0.5em;
+    transition: 0.2s;
+}
+
+.receipt-texts > .buttons > .cancel:hover {
+    scale: 1.05;
+    color: rgb(82 112 255 / 100%);
+    border: 2px solid rgb(82 112 255 / 100%);
+}
+
+
+.receipt .receipt-img {
+    width: 25em;
+}
+
+@keyframes print-receipt {
+    0% {
+        bottom: -45em;
+    }
+    100% {
+        bottom: -1em;
+    }
+}
+
+@keyframes show {
+    0% {
+        left: -20em;
+    }
+    100% {
+        left: 4em;
+    }
+}
+
+@keyframes hide {
+    0% {
+        left: 4em;
+    }
+    100% {
+        left: -20em;
+    }
+}

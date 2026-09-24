@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Classement</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #f6e05e;
+            --accent-soft: rgba(246, 224, 94, 0.22);
+            --text-main: #f7fafc;
+            --text-soft: #a0aec0;
+            --shadow-soft: 0 0.45vh 1.4vh rgba(0, 0, 0, 0.65);
+            --bg-panel: rgba(7, 11, 20, 0.96);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Montserrat", sans-serif;
+            background: transparent;
+        }
+
+        #app {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .shell {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 10vh;
+            pointer-events: none;
+        }
+
+        .shell-inner {
+            pointer-events: auto;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 0.9vw;
+            transform: translateY(2.6vh);
+            opacity: 0;
+            transition: transform 0.14s ease-out, opacity 0.14s ease-out;
+        }
+
+        .visible .container {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .key-circle {
+            width: 3.4vh;
+            height: 3.4vh;
+            border-radius: 0.4rem;
+            border: 0.12rem solid rgba(0, 0, 0, 0.35);
+            background: #fdfdfd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0.4vh 1.2vh rgba(0, 0, 0, 0.65);
+            animation: keyFloat 1.4s ease-in-out infinite alternate;
+            transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+        }
+
+        .key-circle span {
+            font-size: 1.6vh;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: 0;
+            color: #111827;
+        }
+
+        @keyframes keyFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-0.3vh); }
+        }
+
+        .key-circle.pressed {
+            transform: translateY(0.15vh) scale(0.96);
+            box-shadow: 0 0.15vh 0.5vh rgba(0, 0, 0, 0.7);
+            animation: none;
+        }
+
+        .right-block {
+            min-width: 14rem;
+            width: 22vw;
+            max-width: 26rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35vh;
+        }
+
+        .top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transform: translateY(0.1vh);
+        }
+
+        .percent {
+            font-size: 1.2vh;
+            font-weight: 600;
+            color: var(--text-main);
+            text-shadow: 0 0.15vh 0.35vh rgba(0, 0, 0, 0.65);
+        }
+
+        .timer-pill {
+            padding: 0.15vh 0.7vw;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25vw;
+            font-size: 1.05vh;
+            color: rgba(252, 255, 240, 0.96);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .timer-pill span:first-child {
+            font-size: 1.2vh;
+        }
+
+        .step-label {
+            font-size: 1vh;
+            font-weight: 600;
+            color: rgba(252, 255, 240, 0.9);
+        }
+
+        .progress-outer {
+            width: 100%;
+            height: 1.2vh;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.9);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0.4vh 1.2vh rgba(0, 0, 0, 0.7);
+        }
+
+        .progress-inner {
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background-color: #f6e05e;
+            background-image:
+                repeating-linear-gradient(
+                    135deg,
+                    rgba(246, 224, 94, 1) 0,
+                    rgba(246, 224, 94, 1) 8px,
+                    #c8a93c 8px,
+                    #c8a93c 16px
+                );
+            box-shadow: 0 0.35vh 0.9vh rgba(246, 224, 94, 0.9);
+            transform-origin: left center;
+            transition: width 0.08s linear, transform 0.06s ease-out;
+        }
+
+        .progress-inner.pulse {
+            animation: pulseBar 0.18s ease-out;
+        }
+
+        @keyframes pulseBar {
+            0% { transform: scaleX(1); }
+            50% { transform: scaleX(1.03); }
+            100% { transform: scaleX(1); }
+        }
+
+        .progress-gloss {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(
+                120deg,
+                rgba(255, 255, 255, 0.18),
+                transparent 40%,
+                transparent 60%,
+                rgba(255, 255, 255, 0.18)
+            );
+            background-size: 38% 100%;
+            mix-blend-mode: soft-light;
+            pointer-events: none;
+        }
+
+        /* Overlay classement */
+
+        .leaderboard-shell {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .leaderboard-shell.visible {
+            pointer-events: auto;
+        }
+
+        .leaderboard-panel {
+            min-width: 46rem;
+            max-width: 72rem;
+            width: 70vw;
+            max-height: 80vh;
+            background: var(--bg-panel);
+            border-radius: 1.4rem;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 1.6vh 3.6vh rgba(0, 0, 0, 0.9);
+            padding: 2.4vh 3vw;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8vh;
+            opacity: 0;
+            transform: translateY(2vh) scale(0.97);
+            transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+        }
+
+        .leaderboard-shell.visible .leaderboard-panel {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .lb-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .lb-title-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4vh;
+        }
+
+        .lb-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6vw;
+            font-size: 1.1vh;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .lb-eyebrow svg {
+            flex-shrink: 0;
+        }
+
+        .lb-title {
+            font-size: 2.1vh;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .lb-sub {
+            font-size: 1.25vh;
+            color: var(--text-soft);
+        }
+
+        .lb-tabs {
+            display: flex;
+            gap: 0.5vw;
+            margin-top: 0.6vh;
+        }
+
+        .lb-tab-label {
+            font-size: 1.05vh;
+            color: var(--text-soft);
+        }
+
+        /* Onglets d'activités */
+
+        .lb-activities {
+            display: inline-flex;
+            gap: 0.4vw;
+            margin-top: 1.4vh;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 0.25vh 0.3vw;
+        }
+
+        .lb-activity-tab {
+            border: none;
+            outline: none;
+            padding: 0.45vh 1vw;
+            border-radius: 999px;
+            font-size: 1.1vh;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            background: transparent;
+            color: var(--text-soft);
+            cursor: pointer;
+            transition: background 0.12s ease-out, color 0.12s ease-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35vw;
+        }
+
+        .lb-activity-icon {
+            width: 1.4vh;
+            height: 1.4vh;
+            flex-shrink: 0;
+        }
+
+        .lb-activity-label {
+            display: inline-block;
+        }
+
+        .lb-activity-tab.active {
+            background: var(--accent-soft);
+            color: var(--text-main);
+        }
+
+        .lb-activity-tab:hover {
+            background: rgba(148, 163, 184, 0.18);
+        }
+
+        .lb-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.6vw;
+            margin-top: 1vh;
+        }
+
+        .lb-column {
+            background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+            border-radius: 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.33);
+            padding: 1.6vh 1.6vw;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9vh;
+        }
+
+        .lb-col-title {
+            font-size: 1.15vh;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            font-weight: 600;
+        }
+
+        .lb-col-sub {
+            font-size: 1.1vh;
+            color: var(--text-soft);
+        }
+
+        .lb-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35vh;
+            margin-top: 0.4vh;
+        }
+
+        .lb-row {
+            display: grid;
+            grid-template-columns: 2.2rem 1fr auto;
+            align-items: center;
+            font-size: 1.05vh;
+            padding: 0.3vh 0.5vw;
+            border-radius: 0.5rem;
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .lb-row:nth-child(1) {
+            background: linear-gradient(90deg, rgba(246, 224, 94, 0.2), rgba(15, 23, 42, 0.85));
+        }
+
+        .lb-rank {
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 0.14em;
+        }
+
+        .lb-name {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .lb-value {
+            color: var(--text-soft);
+            font-weight: 500;
+            font-size: 1.0vh;
+        }
+
+        .lb-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.8vh;
+        }
+
+        .lb-close-hint {
+            font-size: 1.0vh;
+            color: var(--text-soft);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .lb-close-key {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.06rem 0.4rem;
+            margin-left: 0.4rem;
+            border-radius: 0.3rem;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            font-size: 0.9vh;
+            color: var(--text-main);
+        }
+
+        @media (max-width: 900px) {
+            .right-block {
+                width: 46vw;
+            }
+            .leaderboard-panel {
+                width: 86vw;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .shell {
+                padding-bottom: 8vh;
+            }
+            .right-block {
+                width: 70vw;
+            }
+            .lb-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .zone-hud {
+            position: fixed;
+            top: 50%;
+            right: 2.4vw;
+            transform: translateY(-50%) translateX(2vw) scale(1.12);
+            transform-origin: top right;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55vh;
+            color: var(--text-main);
+            font-size: 1.1vh;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+        }
+
+        .zone-hud.visible {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0) scale(1.12);
+        }
+
+        .zh-row {
+            display: flex;
+            align-items: center;
+            gap: 0.55vw;
+        }
+
+        .zh-main {
+            margin-bottom: 0.6vh;
+        }
+
+        .zh-icon {
+            width: 3.2vh;
+            height: 3.2vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* plus de background ni d'ombre */
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .zh-icon.small {
+            width: 2.4vh;
+            height: 2.4vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .zh-icon svg {
+            width: 100%;
+            height: 100%;
+            color: var(--accent);
+        }
+
+        .zh-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25vh;
+        }
+
+        .zh-zone-name {
+            font-size: 1.25vh;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .zh-tags {
+            display: inline-flex;
+            gap: 0.35vw;
+        }
+
+        .zh-tag {
+            padding: 0.15vh 0.6vw;
+            border-radius: 999px;
+            font-size: 0.95vh;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            border: 1px solid rgba(148, 163, 184, 0.55);
+            background: rgba(15, 23, 42, 0.7);
+            color: var(--text-soft);
+        }
+
+        .zh-tag-legal {
+            border-color: rgba(52, 211, 153, 0.7);
+            color: #bbf7d0;
+        }
+
+        .zh-tag-illegal {
+            border-color: rgba(248, 113, 113, 0.8);
+            color: #fecaca;
+        }
+
+        .zh-tag-req {
+            border-style: dashed;
+        }
+
+        .zh-line {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.05vh;
+        }
+
+        .zh-label {
+            font-size: 0.95vh;
+            color: var(--text-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+        }
+
+        .zh-value {
+            font-size: 1.15vh;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .zone-hud {
+                right: 3vw;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .zone-hud {
+                top: 56%;
+                right: 4vw;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="shell">
+        <div class="shell-inner" id="shell">
+            <div class="container" id="container">
+                <div class="key-circle" id="keyCircle" title="Appuie une fois">
+                    <span id="keyCircleLabel">E</span>
+                </div>
+                <div class="right-block">
+                    <div class="top-row">
+                        <div class="percent" id="percentText">0%</div>
+                        <div class="step-label" id="stepLabel">1/5</div>
+                        <div class="timer-pill">
+                            <span>⏱</span>
+                            <span id="timeLeft">7.0s</span>
+                        </div>
+                    </div>
+                    <div class="progress-outer">
+                        <div class="progress-inner" id="progressInner"></div>
+                        <div class="progress-gloss"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLASSEMENT GLOBAL -->
+    <div class="leaderboard-shell" id="lbShell">
+        <div class="leaderboard-panel" id="lbPanel">
+            <div class="lb-header">
+                <div class="lb-title-block">
+                    <div class="lb-eyebrow">
+                        <!-- Couronne SVG custom -->
+                        <svg width="16" height="16" viewBox="0 0 512 512" aria-hidden="true">
+                            <path fill="#f6e05e" d="M512,152.469c0-21.469-17.422-38.875-38.891-38.875c-21.484,0-38.906,17.406-38.906,38.875
+                                c0,10.5,4.172,20.016,10.938,27c-26.453,54.781-77.016,73.906-116.203,56.594c-34.906-15.438-47.781-59.563-52.141-93.75
+                                c14.234-7.484,23.938-22.391,23.938-39.594C300.734,78.016,280.719,58,256,58c-24.703,0-44.734,20.016-44.734,44.719
+                                c0,17.203,9.703,32.109,23.938,39.594c-4.359,34.188-17.234,78.313-52.141,93.75c-39.188,17.313-89.75-1.813-116.203-56.594
+                                c6.766-6.984,10.938-16.5,10.938-27c0-21.469-17.422-38.875-38.891-38.875C17.422,113.594,0,131,0,152.469
+                                c0,19.781,14.781,36.078,33.875,38.547l44.828,164.078h354.594l44.828-164.078C497.234,188.547,512,172.25,512,152.469z"/>
+                            <path fill="#f6e05e" d="M455.016,425.063c0,15.984-12.953,28.938-28.953,28.938H85.938C69.953,454,57,441.047,57,425.063v-2.406
+                                c0-16,12.953-28.953,28.938-28.953h340.125c16,0,28.953,12.953,28.953,28.953V425.063z"/>
+                        </svg>
+                        CLASSEMENT GLOBAL
+                    </div>
+                    <div class="lb-title">Hall of fame</div>
+                    <div class="lb-sub">Les meilleurs joueurs par activité sur l'île.</div>
+                </div>
+            </div>
+
+            <div class="lb-tabs">
+                <span class="lb-tab-label">Rafraîchi toutes les 5 minutes.</span>
+            </div>
+
+            <!-- Onglets d'activités -->
+            <div class="lb-activities" id="lbActivities"></div>
+
+            <!-- Colonnes dynamiques de la catégorie sélectionnée -->
+            <div class="lb-grid" id="lbGrid"></div>
+
+            <div class="lb-footer">
+                <div class="lb-close-hint">
+                    APPUIE SUR LA TOUCHE CLASSEMENT POUR FERMER
+                    <span class="lb-close-key">E</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="zone-hud" id="zoneHud">
+        <div class="zh-row zh-main">
+            <div class="zh-icon">
+                <svg viewBox="0 0 512 512" aria-hidden="true">
+                    <path fill="currentColor" d="M256 16C167.6 16 96 87.6 96 176c0 112 144 320 160 320s160-208 160-320C416 87.6 344.4 16 256 16zm0 224c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/>
+                </svg>
+            </div>
+            <div class="zh-text">
+                <div class="zh-zone-name" id="zhZoneName">Zone de pêche</div>
+                <div class="zh-tags">
+                    <span class="zh-tag zh-tag-legal" id="zhZoneTag">LÉGALE</span>
+                    <span class="zh-tag zh-tag-req" id="zhZoneReq">NIV. 1+</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="zh-row">
+            <div class="zh-icon small">
+                <svg viewBox="0 0 512 512" aria-hidden="true">
+                    <path fill="currentColor" d="M256 32a96 96 0 1 0 0 192 96 96 0 1 0 0-192zm0 224c-88.4 0-160 57.3-160 128 0 17.7 14.3 32 32 32h256c17.7 0 32-14.3 32-32 0-70.7-71.6-128-160-128z"/>
+                </svg>
+            </div>
+            <div class="zh-line">
+                <span class="zh-label">Niveau</span>
+                <span class="zh-value" id="zhLevel">1</span>
+            </div>
+        </div>
+
+        <div class="zh-row">
+            <div class="zh-icon small">
+                <svg viewBox="0 0 512 512" aria-hidden="true">
+                    <path fill="currentColor" d="M32 96h448v64H32zm64 128h320v64H96zm96 128h128v64H192z"/>
+                </svg>
+            </div>
+            <div class="zh-line">
+                <span class="zh-label">XP</span>
+                <span class="zh-value" id="zhXPText">0 XP</span>
+            </div>
+        </div>
+
+        <div class="zh-row">
+            <div class="zh-icon small">
+                <svg viewBox="0 0 512 512" aria-hidden="true">
+                    <path fill="currentColor" d="M256 32l64 128 144 16-104 96 28 144-132-72-132 72 28-144L48 176l144-16z"/>
+                </svg>
+            </div>
+            <div class="zh-line">
+                <span class="zh-label">Pêcheur</span>
+                <span class="zh-value" id="zhFishersRank">Non classé</span>
+            </div>
+        </div>
+
+        <div class="zh-row">
+            <div class="zh-icon small">
+                <svg viewBox="0 0 512 512" aria-hidden="true">
+                    <path fill="currentColor" d="M128 32h256v64H128zM96 128h320l-32 320H128z"/>
+                </svg>
+            </div>
+            <div class="zh-line">
+                <span class="zh-label">Vendeur</span>
+                <span class="zh-value" id="zhSellersRank">Non classé</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const shell = document.getElementById("shell")
+    const progressInner = document.getElementById("progressInner")
+    const percentText = document.getElementById("percentText")
+    const timeLeftEl = document.getElementById("timeLeft")
+    const stepLabelEl = document.getElementById("stepLabel")
+    const keyCircle = document.getElementById("keyCircle")
+    const keyCircleLabel = document.getElementById("keyCircleLabel")
+
+    const lbShell = document.getElementById("lbShell")
+    const lbPanel = document.getElementById("lbPanel")
+    const lbActivities = document.getElementById("lbActivities")
+    const lbGrid = document.getElementById("lbGrid")
+
+    const zoneHud = document.getElementById("zoneHud")
+    const zhZoneName = document.getElementById("zhZoneName")
+    const zhZoneTag = document.getElementById("zhZoneTag")
+    const zhZoneReq = document.getElementById("zhZoneReq")
+    const zhLevel = document.getElementById("zhLevel")
+    const zhXPText = document.getElementById("zhXPText")
+    const zhFishersRank = document.getElementById("zhFishersRank")
+    const zhSellersRank = document.getElementById("zhSellersRank")
+
+    let visible = false
+    let currentProgress = 0.0
+    let remainingMs = 8000
+    let leaderboardVisible = false
+    let currentActivity = "fishing"
+
+    const leaderboardData = {
+        fishing: {
+            label: "PÊCHE",
+            icon: `
+                <svg class="lb-activity-icon" viewBox="0 0 512 512" aria-hidden="true">
+                    <path fill="currentColor" d="M429.844,20.875C417.031,8.031,399.031,0,379.438,0c-19.609,0-37.594,8.031-50.422,20.875
+                        c-12.859,12.813-20.891,30.813-20.875,50.406c-0.016,19.625,8.016,37.594,20.875,50.406c5.672,5.688,12.406,10.375,19.781,13.906
+                        v202.016c-0.016,30.172-11.781,58.578-33.141,79.984c-21.391,21.344-49.813,33.125-79.984,33.125
+                        c-30.188,0-58.594-11.781-79.984-33.125c-21.359-21.406-33.125-49.813-33.141-79.984c0.016-16.953,3.781-33.297,10.891-48.297
+                        c9.813,6.75,21.5,14.531,25.859,16.344c4.141,1.75,14.594-0.078,10.609-18.25c-5.313-24.156-0.594-53.75,8.422-90.156
+                        c3.047-12.281-0.609-15.719-6.813-14.375c-32,3.641-67.016,36.781-72.906,46.797l-2.828,3.766
+                        c-22.594,30.281-34.516,66.297-34.5,104.172c-0.016,46.609,18.125,90.406,51.063,123.313C145.25,493.859,189.031,512,235.672,512
+                        h0.047c46.594,0,90.375-18.141,123.281-51.078c32.953-32.906,51.078-76.703,51.063-123.313V135.563
+                        c7.391-3.5,14.109-8.188,19.781-13.875c12.859-12.813,20.891-30.781,20.875-50.406C450.734,51.688,442.703,33.688,429.844,20.875z
+                        M393.188,85.031c-3.609,3.563-8.297,5.688-13.75,5.719c-5.453-0.031-10.156-2.156-13.75-5.719
+                        c-3.563-3.594-5.688-8.281-5.703-13.75c0.016-5.438,2.141-10.141,5.703-13.75c3.594-3.547,8.297-5.656,13.75-5.688
+                        c5.453,0.031,10.141,2.141,13.75,5.688c3.547,3.609,5.672,8.313,5.688,13.75C398.859,76.75,396.734,81.438,393.188,85.031z" />
+                </svg>
+            `,
+            sections: [
+                {
+                    id: "fishers",
+                    title: "MEILLEURS PÊCHEURS",
+                    subtitle: "Nombre total de poissons pêchés.",
+                    entries: [
+                        { rank: 1, name: "Liam Hayes", value: "327 poissons" },
+                        { rank: 2, name: "Noah Santos", value: "298 poissons" },
+                        { rank: 3, name: "Ethan Dupont", value: "254 poissons" },
+                        { rank: 4, name: "Maya Rossi", value: "221 poissons" },
+                        { rank: 5, name: "Zoé Lambert", value: "207 poissons" },
+                        { rank: 6, name: "Leo Marchand", value: "196 poissons" },
+                        { rank: 7, name: "Jules Fontaine", value: "184 poissons" },
+                        { rank: 8, name: "Inès Moreau", value: "173 poissons" },
+                        { rank: 9, name: "Adam Leroy", value: "162 poissons" },
+                        { rank: 10, name: "Nina Costa", value: "149 poissons" }
+                    ]
+                },
+                {
+                    id: "sellers",
+                    title: "MEILLEURS VENDEURS",
+                    subtitle: "Revenus générés par la vente de poissons.",
+                    entries: [
+                        { rank: 1, name: "Ava Moretti", value: "$ 84 230" },
+                        { rank: 2, name: "Lucas Martin", value: "$ 79 410" },
+                        { rank: 3, name: "Hugo Bernard", value: "$ 71 980" },
+                        { rank: 4, name: "Chloé Garcia", value: "$ 63 550" },
+                        { rank: 5, name: "Nolan Perez", value: "$ 59 120" },
+                        { rank: 6, name: "Emma Leroy", value: "$ 54 890" },
+                        { rank: 7, name: "Tom Richard", value: "$ 51 240" },
+                        { rank: 8, name: "Sarah Colin", value: "$ 47 610" },
+                        { rank: 9, name: "Yanis Dubois", value: "$ 44 380" },
+                        { rank: 10, name: "Lena Caruso", value: "$ 41 950" }
+                    ]
+                }
+            ]
+        }
+    }
+
+    function setVisible(state) {
+        visible = state
+        if (visible) {
+            shell.classList.add("visible")
+        } else {
+            shell.classList.remove("visible")
+        }
+    }
+
+    function clamp(val, min, max) {
+        return val < min ? min : (val > max ? max : val)
+    }
+
+    function playKeyPress() {
+        keyCircle.classList.remove("pressed")
+        void keyCircle.offsetWidth
+        keyCircle.classList.add("pressed")
+        setTimeout(() => {
+            keyCircle.classList.remove("pressed")
+        }, 90)
+    }
+
+    function updateProgress(pct, pulse) {
+        currentProgress = clamp(pct, 0, 100)
+        progressInner.style.width = currentProgress.toFixed(1) + "%"
+        percentText.textContent = currentProgress.toFixed(0) + "%"
+
+        if (pulse) {
+            progressInner.classList.remove("pulse")
+            void progressInner.offsetWidth
+            progressInner.classList.add("pulse")
+            playKeyPress()
+        }
+    }
+
+    function updateTimeLeft(ms) {
+        remainingMs = ms
+        if (ms < 0) ms = 0
+        const s = ms / 1000
+        timeLeftEl.textContent = s.toFixed(1) + "s"
+    }
+
+    function renderActivityTabs() {
+        lbActivities.innerHTML = ""
+        Object.keys(leaderboardData).forEach(key => {
+            const activity = leaderboardData[key]
+            const btn = document.createElement("button")
+            const isActive = key === currentActivity
+            btn.className = "lb-activity-tab" + (isActive ? " active" : "")
+            btn.dataset.activity = key
+
+            const iconHtml = activity.icon || ""
+            btn.innerHTML = iconHtml + '<span class="lb-activity-label">' + activity.label + "</span>"
+
+            btn.addEventListener("click", () => {
+                if (currentActivity === key) return
+                currentActivity = key
+                renderActivityTabs()
+                renderLeaderboard()
+            })
+            lbActivities.appendChild(btn)
+        })
+    }
+
+    function requestCloseLeaderboard() {
+        if (!leaderboardVisible) return
+
+        fetch(`https://sunlife_ui/fishing/closeLeaderboard`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8"
+            },
+            body: "{}"
+        }).catch(() => {})
+    }
+
+    function renderLeaderboard() {
+        lbGrid.innerHTML = ""
+        const activity = leaderboardData[currentActivity]
+        if (!activity) return
+
+        activity.sections.forEach(section => {
+            const col = document.createElement("div")
+            col.className = "lb-column"
+            col.innerHTML = `
+                <div class="lb-col-title">${section.title}</div>
+                <div class="lb-col-sub">${section.subtitle}</div>
+                <div class="lb-list"></div>
+            `
+            const list = col.querySelector(".lb-list")
+
+            section.entries.forEach(entry => {
+                const row = document.createElement("div")
+                row.className = "lb-row"
+                row.innerHTML = `
+                    <div class="lb-rank">#${entry.rank}</div>
+                    <div class="lb-name">${entry.name}</div>
+                    <div class="lb-value">${entry.value}</div>
+                `
+                list.appendChild(row)
+            })
+
+            lbGrid.appendChild(col)
+        })
+    }
+
+    function setLeaderboardVisible(state) {
+        leaderboardVisible = state
+        if (leaderboardVisible) {
+            renderActivityTabs()
+            renderLeaderboard()
+            lbShell.classList.add("visible")
+        } else {
+            lbShell.classList.remove("visible")
+        }
+    }
+
+        function formatRank(val) {
+        if (typeof val !== "number") {
+            return "Non classé"
+        }
+        return "#" + val
+    }
+
+    function formatXP(profile) {
+        if (!profile) return "0 XP"
+        const xp = profile.xp || 0
+        if (profile.nextLevelXP && typeof profile.nextLevelXP === "number") {
+            return xp.toLocaleString("fr-FR") + " / " + profile.nextLevelXP.toLocaleString("fr-FR") + " XP"
+        }
+        return xp.toLocaleString("fr-FR") + " XP"
+    }
+
+    function updateZoneHud(payload) {
+        if (!payload || !payload.visible) {
+            zoneHud.classList.remove("visible")
+            return
+        }
+
+        const zone = payload.zone || {}
+        const profile = payload.profile || null
+        const ranking = payload.ranking || null
+
+        zhZoneName.textContent = zone.name || "Zone de pêche"
+
+        const illegal = !!zone.illegal
+        zhZoneTag.textContent = illegal ? "ILLÉGALE" : "LÉGALE"
+        zhZoneTag.classList.remove("zh-tag-legal", "zh-tag-illegal")
+        zhZoneTag.classList.add(illegal ? "zh-tag-illegal" : "zh-tag-legal")
+
+        const minLevel = zone.minLevel || 1
+        zhZoneReq.textContent = "NIV. " + minLevel + "+"
+
+        if (profile && typeof profile.level === "number") {
+            zhLevel.textContent = profile.level
+        } else {
+            zhLevel.textContent = "1"
+        }
+
+        zhXPText.textContent = formatXP(profile)
+
+        if (ranking) {
+            zhFishersRank.textContent = formatRank(ranking.fishersRank)
+            zhSellersRank.textContent = formatRank(ranking.sellersRank)
+        } else {
+            zhFishersRank.textContent = "Non classé"
+            zhSellersRank.textContent = "Non classé"
+        }
+
+        zoneHud.classList.add("visible")
+    }
+
+    window.addEventListener("message", function (event) {
+        const data = event.data
+        if (!data || !data.action) return
+
+        if (data.action === "show") {
+            setVisible(true)
+            updateProgress(0, false)
+            if (data.totalDuration) {
+                updateTimeLeft(data.totalDuration)
+            }
+        } else if (data.action === "show_auto") {
+            setVisible(true)
+            keyCircleLabel.textContent = "VIP"
+            stepLabelEl.textContent = data.label || "Pêche auto (VIP Legendary ou Platinium)"
+            updateProgress(100, false)
+            if (typeof data.remainingMs === "number") {
+                updateTimeLeft(data.remainingMs)
+            }
+        } else if (data.action === "show_sequence") {
+            setVisible(true)
+            const total = data.totalSteps || 1
+            const step = data.currentStep ?? 0
+            keyCircleLabel.textContent = data.keyLabel || "E"
+            stepLabelEl.textContent = (step + 1) + "/" + total
+            updateProgress((step / total) * 100, false)
+        } else if (data.action === "sequence_step") {
+            const total = data.totalSteps || 1
+            const step = data.currentStep ?? 0
+            keyCircleLabel.textContent = data.keyLabel || "?"
+            stepLabelEl.textContent = (step + 1) + "/" + total
+            updateProgress((step / total) * 100, false)
+            playKeyPress()
+        } else if (data.action === "sequence_complete") {
+            keyCircleLabel.textContent = "OK"
+            stepLabelEl.textContent = "Attends..."
+        } else if (data.action === "hide") {
+            setVisible(false)
+        } else if (data.action === "progress") {
+            if (typeof data.value === "number") {
+                updateProgress(data.value, !!data.pulse)
+            }
+            if (typeof data.remainingMs === "number") {
+                updateTimeLeft(data.remainingMs)
+            }
+        } else if (data.action === "leaderboard_set") {
+            setLeaderboardVisible(!!data.state)
+        } else if (data.action === "leaderboard_data") {
+            const payload = data.data || {}
+            const fishing = leaderboardData.fishing
+            if (fishing) {
+                fishing.sections.forEach(section => {
+                    if (section.id === "fishers") {
+                        const list = payload.fishers || []
+                        section.entries = list.map((row, idx) => {
+                            const n = row.name || "Inconnu"
+                            const c = row.count || 0
+                            return {
+                                rank: idx + 1,
+                                name: n,
+                                value: c + " poissons"
+                            }
+                        })
+                    } else if (section.id === "sellers") {
+                        const list = payload.sellers || []
+                        section.entries = list.map((row, idx) => {
+                            const n = row.name || "Inconnu"
+                            const t = row.total || 0
+                            return {
+                                rank: idx + 1,
+                                name: n,
+                                value: t.toLocaleString("fr-FR") + " $"
+                            }
+                        })
+                    }
+                })
+            }
+            currentActivity = "fishing"
+            setLeaderboardVisible(true)
+        } else if (data.action === "zone_hud") {
+            updateZoneHud(data)
+        }
+    })
+
+    document.addEventListener("keydown", function (e) {
+        if (!leaderboardVisible) return
+
+        const key = e.key
+        if (key === "Escape" || key === "Esc" || key === "Enter" || key === "e" || key === "E") {
+            e.preventDefault()
+            requestCloseLeaderboard()
+        }
+    })
+
+    lbShell.addEventListener("mousedown", function (e) {
+        if (!leaderboardVisible) return
+        if (!lbPanel.contains(e.target)) {
+            requestCloseLeaderboard()
+        }
+    })
+</script>
+</body>
+</html>

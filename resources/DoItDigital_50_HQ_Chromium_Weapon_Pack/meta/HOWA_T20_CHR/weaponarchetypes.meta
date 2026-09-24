@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_at_howat20_chr_mod_supp</modelName>
+			<txdName>w_ar_howat20_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_howat20_chr_mod_scope_small</modelName>
+			<txdName>w_ar_howat20_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_howat20_chr_iron_sight</modelName>
+			<txdName>w_ar_howat20_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_howat20_chr_afgrip</modelName>
+			<txdName>w_ar_howat20_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_howat20_chr_mag2</modelName>
+			<txdName>w_ar_howat20_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_howat20_chr_mag1</modelName>
+			<txdName>w_ar_howat20_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_howat20_chr_camo3</modelName>
+			<txdName>w_ar_howat20_chr_camo3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_howat20_chr_camo2</modelName>
+			<txdName>w_ar_howat20_chr_camo2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_howat20_chr_camo1</modelName>
+			<txdName>w_ar_howat20_chr_camo1</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_howat20_chr</modelName>
+			<txdName>w_ar_howat20_chr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
+

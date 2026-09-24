@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponComponentInfoBlob>
+	<Infos>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_SCAR17_STOCK</Name>
+			<Model>w_ar_scar17_stock</Model>
+			<LocName>"STOCK"</LocName>
+			<LocDesc>"STOCK"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_SCAR17_STOCK2</Name>
+			<Model>w_ar_scar17_stock2</Model>
+			<LocName>"STOCK2"</LocName>
+			<LocDesc>"STOCK2"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_SCAR17_STOCK3</Name>
+			<Model>w_ar_scar17_stock3</Model>
+			<LocName>"STOCK3"</LocName>
+			<LocDesc>"STOCK3"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_SCAR17_STOCK4</Name>
+			<Model>w_ar_scar17_stock4</Model>
+			<LocName>"STOCK4</LocName>
+			<LocDesc>"STOCK4"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_SCAR17_STOCK5</Name>
+			<Model>w_ar_scar17_stock5</Model>
+			<LocName>"STOCK5"</LocName>
+			<LocDesc>"STOCK5"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_SCAR17_V4_STOCK5</Name>
+			<Model>w_ar_scar17_v4_stock5</Model>
+			<LocName>"STOCK45"</LocName>
+			<LocDesc>"STOCK45"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_SCAR17_V2_STOCK3</Name>
+			<Model>w_ar_scar17_v2_stock3</Model>
+			<LocName>"STOCK6"</LocName>
+			<LocDesc>"STOCK6"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentInfo">
+			<Name>COMPONENT_SCAR17_V3_STOCK</Name>
+			<Model>w_ar_scar17_v3_stock</Model>
+			<LocName>"STOCK7"</LocName>
+			<LocDesc>"STOCK7"</LocDesc>
+			<AttachBone>AAPStock</AttachBone>
+			<WeaponAttachBone>NM_Butt_Marker</WeaponAttachBone>
+			<AccuracyModifier type="NULL"/>
+			<DamageModifier type="NULL"/>
+			<bShownOnWheel value="false"/>
+			<CreateObject value="true"/>
+			<HudDamage value="0"/>
+			<HudSpeed value="0"/>
+			<HudCapacity value="0"/>
+			<HudAccuracy value="5"/>
+			<HudRange value="0"/>
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_SCAR17_CLIP_01</Name>
+			<Model>w_ar_scar17_mag1</Model>
+			<LocName>WCT_CLIP1</LocName>
+			<LocDesc>WCD_SCRB_CLIP1</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="30" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_SCAR17_CLIP_02</Name>
+			<Model>w_ar_scar17_mag2</Model>
+			<LocName>WCT_CLIP2</LocName>
+			<LocDesc>WCD_SCRB_CLIP2</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="100" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="60" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_SCAR17_CLIP_03</Name>
+			<Model>w_ar_scar17_mag3</Model>
+			<LocName>WCT_CLIP3</LocName>
+			<LocDesc>WCD_SCRB_CLIP3</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="100" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="120" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_SCAR17_V2_CLIP_02</Name>
+			<Model>w_ar_scar17_v2_mag2</Model>
+			<LocName>WCT_CLIP4</LocName>
+			<LocDesc>WCD_SCRB_CLIP4</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="100" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="60" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_SCAR17_V2_CLIP_03</Name>
+			<Model>w_ar_scar17_v2_mag3</Model>
+			<LocName>WCT_CLIP5</LocName>
+			<LocDesc>WCD_SCRB_CLIP5</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="100" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="120" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_SCAR17_V3_CLIP_02</Name>
+			<Model>w_ar_scar17_v3_mag2</Model>
+			<LocName>WCT_CLIPV32</LocName>
+			<LocDesc>WCD_SCRB_CLIPV32</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="100" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="60" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_SCAR17_V3_CLIP_03</Name>
+			<Model>w_ar_scar17_v3_mag3</Model>
+			<LocName>WCT_CLIPV33</LocName>
+			<LocDesc>WCD_SCRB_CLIPV33</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="100" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="120" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentClipInfo">
+			<Name>COMPONENT_SCAR17_V4_CLIP_03</Name>
+			<Model>w_ar_scar17_v4_mag3</Model>
+			<LocName>WCT_CLIP43</LocName>
+			<LocDesc>WCD_SCRB_CLIP43</LocDesc>
+			<AttachBone>AAPClip</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="100" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<ClipSize value="120" />
+			<ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+		<Item type="CWeaponComponentSuppressorInfo">
+			<Name>COMPONENT_AT_AR_SCAR17_SUPP_02</Name>
+			<Model>w_at_ar_scar17_supp_02</Model>
+			<LocName>WCT_SUPP</LocName>
+			<LocDesc>WCD_AR_SUPP2</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000" />
+			</DamageModifier>
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="-5" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="-5" />
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+		<Item type="CWeaponComponentSuppressorInfo">
+			<Name>COMPONENT_AT_AR_SCAR17_SUPP_03</Name>
+			<Model>w_at_ar_scar17_supp_03</Model>
+			<LocName>WCT_SUPP3</LocName>
+			<LocDesc>WCD_AR_SUPP3</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000" />
+			</DamageModifier>
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="-5" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="-5" />
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+		<Item type="CWeaponComponentSuppressorInfo">
+			<Name>COMPONENT_AT_AR_SCAR17_SUPP_04</Name>
+			<Model>w_at_ar_scar17_supp_04</Model>
+			<LocName>WCT_SUPP4</LocName>
+			<LocDesc>WCD_AR_SUPP4</LocDesc>
+			<AttachBone>AAPSupp</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="CWeaponDamageModifier">
+				<DamageModifier value="1.000000" />
+			</DamageModifier>
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="-5" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="-5" />
+			<MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+			<FlashFx>muz_pistol_silencer</FlashFx>
+		</Item>
+		
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_AT_SCAR17_MEDIUM</Name>
+			<Model>w_at_scar17_medium</Model>
+			<LocName>WCT_SCOPE_MED</LocName>
+			<LocDesc>WCD_SCOPE_MED</LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="5" />
+			<HudRange value="0" />
+			<CameraHash />
+			<RecoilShakeAmplitude value="0.280000" />
+			<ExtraZoomFactorForAccurateMode value="1.200000" />
+			<Reticule value="0" />
+			<ReticuleHash />
+		</Item>
+		<Item type="CWeaponComponentScopeInfo">
+			<Name>COMPONENT_AT_SCAR17_V3_MEDIUM</Name>
+			<Model>w_at_scar17_v3_medium</Model>
+			<LocName>WCT_SCOPE_MED</LocName>
+			<LocDesc>WCD_SCOPE_MED</LocDesc>
+			<AttachBone>AAPScop</AttachBone>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="true" />
+			<CreateObject value="true" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="5" />
+			<HudRange value="0" />
+			<CameraHash />
+			<RecoilShakeAmplitude value="0.280000" />
+			<ExtraZoomFactorForAccurateMode value="1.200000" />
+			<Reticule value="0" />
+			<ReticuleHash />
+		</Item>
+		
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_SCAR17_VARMOD_V2</Name>
+			<Model>w_ar_scar17lshop2</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<FallOffModifier type="CWeaponFallOffModifier">
+        	<RangeModifier value="2.10000" />
+      		</FallOffModifier>
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+				<Item>
+				<ComponentName>COMPONENT_SCAR17_V2_STOCK3</ComponentName>
+				<ComponentModel>w_ar_scar17_v2_stock3</ComponentModel>
+				</Item>
+				<Item>
+				<ComponentName>COMPONENT_SCAR17_V2_CLIP_02</ComponentName>
+				<ComponentModel>w_ar_scar17_v2_mag2</ComponentModel>
+				</Item>
+				<Item>
+				<ComponentName>COMPONENT_SCAR17_V2_CLIP_03</ComponentName>
+				<ComponentModel>w_ar_scar17_v2_mag3</ComponentModel>
+				</Item>
+			</ExtraComponents>
+		</Item>
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_SCAR17_VARMOD_SMALL</Name>
+			<Model>w_ar_scar17smalllshop</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<FallOffModifier type="CWeaponFallOffModifier">
+       		 <RangeModifier value="1.10000" />
+      		</FallOffModifier>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+			</ExtraComponents>
+		</Item>
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_SCAR17_VARMOD_V3</Name>
+			<Model>w_ar_scar17lshop3</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<FallOffModifier type="CWeaponFallOffModifier">
+       		 <RangeModifier value="1.10000" />
+      		</FallOffModifier>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+			</ExtraComponents>
+		</Item>
+		<Item type="CWeaponComponentVariantModelInfo">
+			<Name>COMPONENT_SCAR17_VARMOD_V4</Name>
+			<Model>w_ar_scar17lshopv4</Model>
+			<LocName>WCT_INVALID</LocName>
+			<LocDesc>WCD_INVALID</LocDesc>
+			<AttachBone />
+			<FallOffModifier type="CWeaponFallOffModifier">
+       		 <RangeModifier value="1.10000" />
+      		</FallOffModifier>
+			<AccuracyModifier type="NULL" />
+			<DamageModifier type="NULL" />
+			<bShownOnWheel value="false" />
+			<CreateObject value="false" />
+			<HudDamage value="0" />
+			<HudSpeed value="0" />
+			<HudCapacity value="0" />
+			<HudAccuracy value="0" />
+			<HudRange value="0" />
+			<TintIndexOverride value="0" />
+			<ExtraComponents>
+			</ExtraComponents>
+		</Item>
+
+	
+	</Infos>
+	<InfoBlobName/>
+</CWeaponComponentInfoBlob>
+

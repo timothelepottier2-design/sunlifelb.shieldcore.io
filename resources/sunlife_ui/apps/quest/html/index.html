@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="nui://game/ui/jquery.js"></script>
+</head>
+<body>
+    <div id="quest-app" style="display: none;">
+        <div class="quest-overlay"></div>
+        <div class="quest-container">
+            <div class="quest-sidebar">
+                <div class="quest-logo">
+                    <i class="fas fa-scroll"></i>
+                    <span>QUÊTES</span>
+                </div>
+                <div class="quest-nav">
+                    <div class="nav-item active" data-tab="quests">
+                        <i class="fas fa-list-check"></i>
+                        <span>Mes Quêtes</span>
+                    </div>
+                    <div class="nav-item" data-tab="leaderboard">
+                        <i class="fas fa-trophy"></i>
+                        <span>Classement XP</span>
+                    </div>
+                </div>
+                <div class="quest-sidebar-footer">
+                    <div class="xp-display">
+                        <div class="xp-label">MON XP</div>
+                        <div class="xp-value" id="my-xp">0</div>
+                    </div>
+                    <div class="progress-display">
+                        <div class="progress-label"><span id="completed-count">0</span> / <span id="total-count">0</span> quêtes</div>
+                        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+                    </div>
+                    <button class="btn-close" id="btn-close">
+                        <i class="fas fa-times"></i>
+                        <span>Fermer</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="quest-content">
+                <div class="tab-content active" id="tab-quests">
+                    <div class="tab-header">
+                        <h2>Mes Quêtes</h2>
+                        <span class="tab-subtitle">Complétez des quêtes pour gagner de l'XP et de l'argent</span>
+                    </div>
+                    <div class="quest-list" id="quest-list"></div>
+                </div>
+
+                <div class="tab-content" id="tab-leaderboard">
+                    <div class="tab-header">
+                        <h2>Classement XP</h2>
+                        <span class="tab-subtitle">Top 50 - Par expérience totale</span>
+                    </div>
+                    <div class="ranking-list" id="ranking-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

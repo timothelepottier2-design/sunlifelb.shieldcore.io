@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pause Menu</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <style>
+    :root{
+      /* Palette greyscale + gold (alignée sur SNL_Boutique) */
+      --bg-1:#0a0a0a;
+      --bg-2:#101010;
+      --panel:#141414;
+      --panel-2:#1c1c1c;
+      --panel-3:#252525;
+      --line:rgba(255,255,255,.06);
+      --line-strong:rgba(255,255,255,.12);
+      --text:#f2f2f2;
+      --text-2:#d0d0d0;
+      --muted:#8a8a8a;
+
+      --brand:#ffd54f;
+      --brand-2:#ffb300;
+      --gold:#FFC107;
+      --gold-dark:#b87400;
+      --gold-ghost:rgba(255,193,7,.16);
+      --gold-ghost-hover:rgba(255,193,7,.28);
+      --gold-ring:rgba(255,193,7,.55);
+      --gold-shadow:rgba(255,193,7,.30);
+
+      --danger:#ef4444;
+      --danger-2:#dc2626;
+      --danger-soft:rgba(239,68,68,.16);
+      --danger-ring:rgba(239,68,68,.55);
+
+      --shadow-sm: 0 4px 12px rgba(0,0,0,.30);
+      --shadow-md: 0 10px 28px rgba(0,0,0,.45);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.55);
+
+      --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --ease-smooth: cubic-bezier(.22,.61,.36,1);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:transparent;
+      color:var(--text);
+      font: 500 15px/1.5 var(--font-sans);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      letter-spacing:.005em;
+      overflow:hidden;
+    }
+
+    .app{
+      position:fixed; inset:0;
+      display:grid; place-items:center;
+      pointer-events:auto;
+    }
+
+    /* ====== PANEL PRINCIPAL (square, palette boutique) ====================== */
+    .panel{
+      width:min(880px, 92vw);
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:0;
+
+      background:var(--panel);
+      border:1px solid var(--line-strong);
+      box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.03);
+      position:relative;
+
+      /* Bandeau supérieur or doré (rappel boutique) */
+      animation: pop .22s var(--ease-smooth) both;
+    }
+    .panel::before{
+      content:"";
+      position:absolute; left:0; right:0; top:0; height:2px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--brand), var(--gold), var(--gold-dark));
+    }
+    @keyframes pop{
+      from{opacity:0; transform:translateY(8px) scale(.98)}
+      to{opacity:1; transform:none}
+    }
+
+    /* ====== BRAND (carte gauche) =========================================== */
+    .brand{
+      padding:28px 24px;
+      display:grid; place-items:center; gap:14px;
+
+      background:
+        radial-gradient(120% 120% at 0% 0%, rgba(255,193,7,.05), transparent 50%),
+        var(--panel-2);
+      border-right:1px solid var(--line);
+      position:relative;
+      overflow:hidden;
+    }
+    .brand .logo{
+      width:min(240px, 80%);
+      height:auto;
+      filter: drop-shadow(0 8px 30px rgba(255,193,7,.18));
+    }
+    .brand .label{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:11px;
+      font-weight:700;
+      color:var(--gold);
+    }
+    .brand .muted{
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+      font-weight:500;
+    }
+    .brand .divider{
+      width:40px; height:2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity:.6;
+    }
+
+    /* ====== NAV MENU ======================================================= */
+    nav.menu{
+      display:flex; flex-direction:column; gap:8px;
+      padding:24px 22px;
+      background: var(--panel);
+    }
+
+    .menu-title{
+      text-transform:uppercase;
+      letter-spacing:.20em;
+      font-size:10px;
+      font-weight:700;
+      color:var(--muted);
+      padding: 0 4px 12px 4px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:6px;
+    }
+
+    /* ====== BOUTON DE MENU ================================================= */
+    .menuItem{
+      --h:14px;
+      position:relative;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:14px;
+
+      padding:14px 16px;
+      cursor:pointer;
+      color:var(--text);
+      font:600 15px/1.2 var(--font-sans);
+      letter-spacing:.01em;
+
+      background: var(--panel-2);
+      border:1px solid var(--line-strong);
+
+      transform: translateX(-12px) translateZ(0);
+      opacity:0;
+      transition:
+        transform .20s var(--ease-smooth),
+        background .15s ease,
+        border-color .15s ease,
+        box-shadow .22s ease,
+        opacity .18s ease,
+        color .15s ease;
+      will-change: transform, box-shadow;
+      overflow:hidden;
+    }
+    .menuItem.reveal{ opacity:1; transform:none }
+
+    /* Liseré doré gauche au hover */
+    .menuItem::before{
+      content:"";
+      position:absolute;
+      left:0; top:0; bottom:0;
+      width:3px;
+      background: linear-gradient(180deg, var(--gold), var(--brand-2));
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform .22s var(--ease-smooth);
+    }
+
+    .menuItem:hover{
+      background: var(--panel-3);
+      border-color: var(--gold-ring);
+      color:#fff;
+      box-shadow: var(--shadow-md), 0 0 0 1px var(--gold-ghost) inset;
+    }
+    .menuItem:hover::before{ transform: scaleY(1) }
+
+    /* Icône gauche carrée */
+    .ico{
+      width:36px; height:36px;
+      display:grid; place-items:center;
+      overflow:hidden;
+      border:1px solid var(--line-strong);
+      background: rgba(255,255,255,.04);
+      transition: transform .22s var(--ease-smooth), background .15s ease, border-color .15s ease, color .15s ease;
+      color: var(--text-2);
+    }
+    .ico svg{
+      width:18px; height:18px;
+      display:block;
+      transition: transform .3s ease;
+    }
+    .menuItem:hover .ico{
+      background: var(--gold-ghost);
+      border-color: var(--gold-ring);
+      color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    /* Chevron droite carré */
+    .chev{
+      width:32px; height:32px;
+      display:grid; place-items:center;
+      border:1px solid var(--line-strong);
+      background: rgba(255,255,255,.04);
+      transition: transform .22s var(--ease-smooth), background .15s ease, border-color .15s ease, color .15s ease;
+      color: var(--muted);
+    }
+    .chev svg{
+      width:14px; height:14px;
+      display:block;
+      transform: translateX(-2px);
+      transition: transform .22s ease;
+    }
+    .menuItem:hover .chev{
+      background: var(--gold-ghost);
+      border-color: var(--gold-ring);
+      color: var(--gold);
+    }
+    .menuItem:hover .chev svg{ transform: translateX(2px) }
+
+    /* Ripple au clic */
+    .menuItem .ripple{
+      position:absolute;
+      pointer-events:none;
+      width:10px; height:10px;
+      background: radial-gradient(circle at center, rgba(255,193,7,.55), rgba(255,193,7,0) 70%);
+      transform: translate(-50%,-50%) scale(0);
+      opacity:.9;
+      animation: rip .55s ease-out forwards;
+    }
+    @keyframes rip{
+      to{ transform:translate(-50%,-50%) scale(12); opacity:0 }
+    }
+
+    /* Variantes / états spéciaux */
+    #boutique{
+      background: linear-gradient(135deg, rgba(255,193,7,.10), rgba(255,193,7,.04));
+      border-color: var(--gold-ghost-hover);
+    }
+    #boutique .ico{
+      background: var(--gold-ghost);
+      border-color: var(--gold-ring);
+      color: var(--gold);
+    }
+
+    #quit{
+      background: rgba(239,68,68,.06);
+      border-color: var(--danger-soft);
+    }
+    #quit:hover{
+      background: rgba(239,68,68,.14);
+      border-color: var(--danger-ring);
+      box-shadow: var(--shadow-md), 0 0 0 1px rgba(239,68,68,.20) inset;
+      color:#fff;
+    }
+    #quit:hover::before{
+      background: linear-gradient(180deg, var(--danger), var(--danger-2));
+    }
+    #quit:hover .ico{
+      background: rgba(239,68,68,.18);
+      border-color: var(--danger-ring);
+      color: var(--danger);
+    }
+    #quit:hover .chev{
+      background: rgba(239,68,68,.18);
+      border-color: var(--danger-ring);
+      color: var(--danger);
+    }
+
+    /* Cascade d'apparition */
+    .menuItem:nth-child(1){ transition-delay:.04s }
+    .menuItem:nth-child(2){ transition-delay:.08s }
+    .menuItem:nth-child(3){ transition-delay:.12s }
+    .menuItem:nth-child(4){ transition-delay:.16s }
+    .menuItem:nth-child(5){ transition-delay:.20s }
+    .menuItem:nth-child(6){ transition-delay:.24s }
+    .menuItem:nth-child(7){ transition-delay:.28s }
+
+    /* Footer hint */
+    .footer-hint{
+      position: absolute;
+      bottom: -32px;
+      left: 0; right: 0;
+      text-align:center;
+      font-size:11px;
+      color: var(--muted);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-weight:600;
+    }
+    .footer-hint kbd{
+      display:inline-block;
+      padding:2px 8px;
+      background: var(--panel-2);
+      border:1px solid var(--line-strong);
+      color: var(--text-2);
+      font-family: var(--font-sans);
+      font-size:10px;
+      font-weight:700;
+      margin: 0 4px;
+    }
+
+    @media (max-width:900px){
+      .panel{ grid-template-columns:1fr }
+      .brand{ order:-1; border-right:0; border-bottom:1px solid var(--line) }
+    }
+    /* Bouton fermer (X) */
+    .panel-close{
+      position:absolute;
+      top:14px;
+      right:14px;
+      z-index:2;
+
+      width:36px;
+      height:36px;
+      display:grid;
+      place-items:center;
+
+      padding:0;
+      cursor:pointer;
+      color:var(--muted);
+      background:var(--panel-2);
+      border:1px solid var(--line-strong);
+
+      transition:
+        color .15s ease,
+        background .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease;
+    }
+    .panel-close svg{
+      width:16px;
+      height:16px;
+      display:block;
+    }
+    .panel-close:hover{
+      color:#fff;
+      background:var(--panel-3);
+      border-color:var(--gold-ring);
+      box-shadow:var(--shadow-sm), 0 0 0 1px var(--gold-ghost) inset;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .panel,.menuItem,.ico,.chev,*{
+        transition:none !important;
+        transform:none !important;
+        animation:none !important;
+        opacity:1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="appRoot">
+    <section class="panel" role="dialog" aria-modal="true" aria-label="Menu principal">
+      <button class="panel-close" id="closeMenu" type="button" aria-label="Fermer le menu">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="brand">
+        <div class="label">Bienvenue</div>
+        <div class="divider"></div>
+        <img src="./assets/img/logo.png" alt="Sun Life RP" class="logo" />
+        <div class="divider"></div>
+        <div class="muted">Naviguez avec la souris<br/>ou les touches ↑↓</div>
+      </div>
+
+      <nav class="menu" aria-label="Options">
+        <div class="menu-title">Menu Principal</div>
+
+        <!-- ZONE AFK -->
+        <button class="menuItem" id="zoneafk">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </span>
+          <span>Zone AFK</span>
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+        </button>
+
+        <!-- MAP -->
+        <button class="menuItem" id="mappa">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M9 4v14M15 6v14" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </span>
+          <span>Carte</span>
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+        </button>
+
+        <!-- PARAMÈTRES -->
+        <button class="menuItem" id="impostazioni">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a2 2 0 0 1-1.4 3.4h-.2a1 1 0 0 0-1 .6l-.2.4a2 2 0 0 1-3.6 0l-.2-.4a1 1 0 0 0-1-.6h-.4a1 1 0 0 0-1 .6l-.2.4a2 2 0 0 1-3.6 0l-.2-.4a1 1 0 0 0-1-.6H5.7A2 2 0 0 1 4.3 16a2 2 0 0 1 .6-1.4l.2-.1a1 1 0 0 0 .2-1.1l-.2-.3a2 2 0 0 1 0-3.6l.2-.3a1 1 0 0 0-.2-1.1l-.2-.1A2 2 0 0 1 5.7 4h.2a1 1 0 0 0 1-.6l.2-.4a2 2 0 0 1 3.6 0l.2.4a1 1 0 0 0 1 .6h.4a1 1 0 0 0 1-.6l.2-.4a2 2 0 0 1 3.6 0l.2.4a1 1 0 0 0 1 .6h.2A2 2 0 0 1 20 5.7a2 2 0 0 1-.6 1.4l-.2.1a1 1 0 0 0-.2 1.1l.2.3a2 2 0 0 1 0 3.6l-.2.3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span>Paramètres</span>
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+        </button>
+
+        <!-- DISCORD -->
+        <button class="menuItem" id="discord">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7.8 17.2c1.7 1 3.6 1.3 4.2 1.3.6 0 2.5-.3 4.2-1.3M15 9.5c.8 0 1.5.7 1.5 1.5S15.8 12.5 15 12.5 13.5 11.8 13.5 11 14.2 9.5 15 9.5Zm-6 0c.8 0 1.5.7 1.5 1.5S9.8 12.5 9 12.5 7.5 11.8 7.5 11 8.2 9.5 9 9.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M18 17c1.1-1.3 1.7-2.9 1.7-4.6 0-2.4-1.2-4.5-3-5.8-1.5-.4-3-.6-4.7-.6s-3.2.2-4.7.6A7.2 7.2 0 0 0 3.3 12.4c0 1.7.6 3.3 1.7 4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span>Discord</span>
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+        </button>
+
+        <!-- BOUTIQUE -->
+        <button class="menuItem" id="boutique">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M6 8h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="2" />
+            </svg>
+          </span>
+          <span>Boutique</span>
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+        </button>
+
+        <!-- QUITTER -->
+        <button class="menuItem" id="quit">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M6.8 6.8a7.5 7.5 0 1 0 10.4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span>Quitter le serveur</span>
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+        </button>
+      </nav>
+
+      <div class="footer-hint">
+        Appuyez sur <kbd>ECHAP</kbd> pour fermer
+      </div>
+    </section>
+  </div>
+
+  <script>
+    /* ====== Click sound (Web Audio - punchy, identique au style boutique) === */
+    const CLICK_VOL = 0.09;
+    let _audioCtx = null;
+    let _lastClickAt = 0;
+
+    function playClickSound(opts){
+      const now = Date.now();
+      if (now - _lastClickAt < 40) return;
+      _lastClickAt = now;
+
+      try{
+        if (!_audioCtx){
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          _audioCtx = new Ctx();
+        }
+        const ctx = _audioCtx;
+        const t = ctx.currentTime;
+        const intensity = (opts && opts.soft) ? 0.6 : 1;
+
+        const master = ctx.createGain();
+        master.gain.setValueAtTime(0.95 * CLICK_VOL * intensity, t);
+        master.connect(ctx.destination);
+
+        // Mid pop (oscillator)
+        const osc = ctx.createOscillator();
+        const oscGain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1800, t);
+        osc.frequency.exponentialRampToValueAtTime(420, t + 0.07);
+        oscGain.gain.setValueAtTime(0.0001, t);
+        oscGain.gain.exponentialRampToValueAtTime(0.55, t + 0.005);
+        oscGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+        osc.connect(oscGain).connect(master);
+        osc.start(t); osc.stop(t + 0.12);
+
+        // Sub thump
+        const sub = ctx.createOscillator();
+        const subGain = ctx.createGain();
+        sub.type = 'sine';
+        sub.frequency.setValueAtTime(160, t);
+        sub.frequency.exponentialRampToValueAtTime(70, t + 0.08);
+        subGain.gain.setValueAtTime(0.0001, t);
+        subGain.gain.exponentialRampToValueAtTime(0.50, t + 0.006);
+        subGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.10);
+        sub.connect(subGain).connect(master);
+        sub.start(t); sub.stop(t + 0.12);
+
+        // Noise burst
+        const dur = 0.05;
+        const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < data.length; i++){
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 2);
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buf;
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.35, t);
+        noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        const hp = ctx.createBiquadFilter();
+        hp.type = 'highpass';
+        hp.frequency.value = 1200;
+        noise.connect(hp).connect(noiseGain).connect(master);
+        noise.start(t); noise.stop(t + dur);
+      } catch(_){}
+    }
+
+    /* ====== Apparition en cascade ========================================= */
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.menuItem').forEach(el => {
+        requestAnimationFrame(() => el.classList.add('reveal'));
+      });
+    });
+
+    /* ====== Ripple visuel au clic ========================================= */
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.menuItem');
+      if(!btn) return;
+      const r = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.left = (e.clientX - r.left) + 'px';
+      ripple.style.top  = (e.clientY - r.top)  + 'px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    }, {capture:true});
+
+    /* ====== NUI bridge ==================================================== */
+    $('body').hide();
+
+    window.addEventListener('message', (event) => {
+      if (event.data.type === "ui") {
+        if (event.data.status) {
+          $('body').fadeIn(180);
+        } else {
+          $('body').fadeOut(140);
+        }
+      }
+    });
+
+    document.onkeydown = e => {
+      if (e.keyCode === 27) {
+        playClickSound({soft:true});
+        $.post('http://pausemenu/close', JSON.stringify({}));
+      }
+    }
+
+    function fire(endpoint, payload){
+      $.post(`http://pausemenu/${endpoint}`, JSON.stringify(payload || {}));
+    }
+
+    function handleAction(id){
+      playClickSound();
+      switch (id) {
+        case "zoneafk":     fire('zoneafk'); break;
+        case "scoreboard":  fire('scoreboard'); break;
+        case "mappa":       fire('map'); break;
+        case "impostazioni":fire('settings'); break;
+        case "discord":
+          if (window.invokeNative) window.invokeNative('openUrl', 'https://discord.gg/sunliferpfa');
+          fire('close'); break;
+        case "wiki":
+          if (window.invokeNative) window.invokeNative('openUrl', 'https://sunlife-gtarp.gitbook.io/sunlife-wiki/');
+          fire('close'); break;
+        case "boutique":
+          if (window.invokeNative) window.invokeNative('openUrl', 'https://sunliferp.com');
+          fire('close'); break;
+        case "quit":        fire('quit'); break;
+      }
+    }
+
+    document.getElementById('closeMenu').addEventListener('click', () => {
+      playClickSound({soft:true});
+      fire('close');
+    });
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.menuItem');
+      if (!btn) return;
+      handleAction(btn.id);
+    });
+
+    /* Petit hover sound discret */
+    document.addEventListener('mouseenter', (e) => {
+      if (!(e.target instanceof Element)) return;
+      const btn = e.target.closest && e.target.closest('.menuItem');
+      if (!btn) return;
+      playClickSound({soft:true});
+    }, true);
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.key === 'Enter' || e.key === ' ') && document.activeElement?.classList.contains('menuItem')){
+        e.preventDefault();
+        handleAction(document.activeElement.id);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_at_scar17_medium</modelName>
+			<txdName>w_at_scar17_medium</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_scar17_v3_medium</modelName>
+			<txdName>w_at_scar17_v3_medium</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_ar_scar17_supp_02</modelName>
+			<txdName>w_at_ar_scar17_supp_02</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_ar_scar17_supp_03</modelName>
+			<txdName>w_at_ar_scar17_supp_02</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_at_ar_scar17_supp_04</modelName>
+			<txdName>w_at_ar_scar17_supp_02</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_stock</modelName>
+			<txdName>w_ar_scar17_stock</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_stock2</modelName>
+			<txdName>w_ar_scar17_stock2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_stock3</modelName>
+			<txdName>w_ar_scar17_stock3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_stock4</modelName>
+			<txdName>w_ar_scar17_stock4</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_stock5</modelName>
+			<txdName>w_ar_scar17_stock5</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_v4_stock5</modelName>
+			<txdName>w_ar_scar17_v4_stock5</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_v2_stock3</modelName>
+			<txdName>w_ar_scar17_v2_stock3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_v3_stock</modelName>
+			<txdName>w_ar_scar17_v3_stock</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_v4_mag3</modelName>
+			<txdName>w_ar_scar17_v4_mag3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_mag3</modelName>
+			<txdName>w_ar_scar17_mag3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_mag2</modelName>
+			<txdName>w_ar_scar17_mag2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_mag1</modelName>
+			<txdName>w_ar_scar17_mag1</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+
+		<Item>
+			<modelName>w_ar_scar17_v2_mag2</modelName>
+			<txdName>w_ar_scar17_v2_mag2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_v2_mag3</modelName>
+			<txdName>w_ar_scar17_v2_mag3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+
+		<Item>
+			<modelName>w_ar_scar17_v3_mag2</modelName>
+			<txdName>w_ar_scar17_v3_mag2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17_v3_mag3</modelName>
+			<txdName>w_ar_scar17_v3_mag3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+		
+		
+		<Item>
+			<modelName>w_ar_scar17lshop</modelName>
+			<txdName>scar17leoshop</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17lshop2</modelName>
+			<txdName>scar17leoshop2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17smalllshop</modelName>
+			<txdName>scar17smallleoshop</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17lshop3</modelName>
+			<txdName>scar17leoshop3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_ar_scar17lshopv4</modelName>
+			<txdName>scar17leoshop4</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
+

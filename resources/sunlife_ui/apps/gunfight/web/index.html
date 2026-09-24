@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="nui://game/ui/jquery.js"></script>
+</head>
+<body>
+    <div id="lobby-app" style="display: none;">
+        <div class="lobby-overlay"></div>
+        <div class="lobby-container">
+            <div class="lobby-sidebar">
+                <div class="lobby-logo">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>GUNFIGHT</span>
+                </div>
+                <div class="lobby-nav">
+                    <div class="nav-item active" data-tab="lobbies">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Lobbies</span>
+                    </div>
+                    <div class="nav-item" data-tab="ranking-kills">
+                        <i class="fas fa-trophy"></i>
+                        <span>Classement Global</span>
+                    </div>
+                    <div class="nav-item" data-tab="ranking-kd">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Classement K/D</span>
+                    </div>
+                </div>
+                <div class="lobby-sidebar-footer">
+                    <button class="btn-leave" id="btn-leave-lobby" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Quitter le lobby</span>
+                    </button>
+                    <button class="btn-close" id="btn-close">
+                        <i class="fas fa-times"></i>
+                        <span>Fermer</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="lobby-content">
+                <!-- LOBBIES TAB -->
+                <div class="tab-content active" id="tab-lobbies">
+                    <div class="tab-header">
+                        <h2>Lobbies disponibles</h2>
+                        <button class="btn-create" id="btn-create-lobby">
+                            <i class="fas fa-plus"></i>
+                            <span>Créer un lobby</span>
+                        </button>
+                    </div>
+                    <div class="lobby-list" id="lobby-list">
+                    </div>
+                </div>
+
+                <!-- RANKING KILLS TAB -->
+                <div class="tab-content" id="tab-ranking-kills">
+                    <div class="tab-header">
+                        <h2>Classement Global</h2>
+                        <span class="tab-subtitle">Top 50 - Par nombre de kills</span>
+                    </div>
+                    <div class="ranking-list" id="ranking-kills-list">
+                    </div>
+                </div>
+
+                <!-- RANKING KD TAB -->
+                <div class="tab-content" id="tab-ranking-kd">
+                    <div class="tab-header">
+                        <h2>Classement K/D</h2>
+                        <span class="tab-subtitle">Top 50 - Par ratio Kill/Death</span>
+                    </div>
+                    <div class="ranking-list" id="ranking-kd-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CREATE LOBBY MODAL -->
+        <div class="modal-overlay" id="modal-create" style="display: none;">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus-circle"></i> Créer un lobby</h3>
+                    <button class="modal-close" id="modal-create-close"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Joueurs maximum</label>
+                        <input type="number" id="create-max-players" min="2" max="50" value="10" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Description / Règles</label>
+                        <textarea id="create-description" class="form-textarea" placeholder="Décrivez les règles de votre lobby..." maxlength="200"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Mot de passe (optionnel)</label>
+                        <input type="text" id="create-password" class="form-input" placeholder="Laisser vide pour un lobby public" maxlength="20">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" id="modal-create-cancel">Annuler</button>
+                    <button class="btn-confirm" id="modal-create-confirm">
+                        <i class="fas fa-check"></i> Créer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PASSWORD MODAL -->
+        <div class="modal-overlay" id="modal-password" style="display: none;">
+            <div class="modal modal-small">
+                <div class="modal-header">
+                    <h3><i class="fas fa-lock"></i> Mot de passe requis</h3>
+                    <button class="modal-close" id="modal-password-close"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Entrez le mot de passe du lobby</label>
+                        <input type="password" id="password-input" class="form-input" placeholder="Mot de passe...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" id="modal-password-cancel">Annuler</button>
+                    <button class="btn-confirm" id="modal-password-confirm">
+                        <i class="fas fa-sign-in-alt"></i> Rejoindre
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

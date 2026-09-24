@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+/* Meme gabarit que badge_bobcat.html (positions synchronisees avec
+   BADGE_LAYOUT dans permis.lua), palette pompiers. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    width: 914px;
+    height: 544px;
+    background: transparent;
+    overflow: hidden;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+.card {
+    position: relative;
+    width: 914px;
+    height: 544px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1b1013 0%, #2c1a20 48%, #150d10 100%);
+    box-shadow: inset 0 0 0 5px #c6342a;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        118deg,
+        rgba(198, 52, 42, 0.06) 0 2px,
+        transparent 2px 14px
+    );
+}
+
+.photo {
+    position: absolute;
+    left: 4px;
+    top: 0;
+    width: 250px;
+    height: 330px;
+    background: rgba(0, 0, 0, 0.35);
+    border-right: 3px solid rgba(198, 52, 42, 0.85);
+    border-bottom: 3px solid rgba(198, 52, 42, 0.85);
+    border-bottom-right-radius: 14px;
+}
+
+.header {
+    position: absolute;
+    left: 274px;
+    top: 0;
+    right: 0;
+    height: 109px;
+    padding: 0 26px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient(90deg, #c6342a 0%, #97251d 65%, #6d1a14 100%);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.4);
+}
+
+.crest {
+    flex: 0 0 auto;
+    width: 58px;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #150d10;
+    clip-path: polygon(50% 0%, 100% 16%, 100% 62%, 50% 100%, 0% 62%, 0% 16%);
+}
+
+.crest span {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffb4a3;
+}
+
+.titles { line-height: 1.15; }
+
+.titles .main {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.titles .sub {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 2px;
+}
+
+.label {
+    position: absolute;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #e0685c;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.label::after {
+    content: "";
+    display: block;
+    margin-top: 5px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(198, 52, 42, 0.7), rgba(198, 52, 42, 0));
+}
+
+.l-name   { left: 288px; top: 128px; }
+.l-name::after   { width: 300px; }
+.l-birth  { left: 288px; top: 248px; }
+.l-birth::after  { width: 130px; }
+.l-sex    { left: 512px; top: 248px; }
+.l-sex::after    { width: 60px; }
+.l-height { left: 640px; top: 248px; }
+.l-height::after { width: 60px; }
+
+.watermark {
+    position: absolute;
+    right: 24px;
+    top: 332px;
+    font-size: 120px;
+    font-weight: 800;
+    letter-spacing: -6px;
+    color: rgba(198, 52, 42, 0.11);
+    line-height: 1;
+}
+
+.footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 424px;
+    height: 120px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.45);
+    border-top: 2px solid rgba(198, 52, 42, 0.65);
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.footer .right { color: rgba(224, 104, 92, 0.95); font-weight: 700; }
+</style>
+</head>
+<body>
+    <div class="card">
+        <div class="photo"></div>
+
+        <div class="header">
+            <div class="crest"><span>FD</span></div>
+            <div class="titles">
+                <div class="main">LOS SANTOS FIRE DEPT.</div>
+                <div class="sub">SAPEUR-POMPIER</div>
+            </div>
+        </div>
+
+        <div class="label l-name">Nom &amp; Prenom</div>
+        <div class="label l-birth">Naissance</div>
+        <div class="label l-sex">Sexe</div>
+        <div class="label l-height">Taille</div>
+
+        <div class="watermark">FD</div>
+
+        <div class="footer">
+            <span>Matricule</span>
+            <span class="right">San Andreas &middot; Services d'urgence</span>
+        </div>
+    </div>
+</body>
+</html>

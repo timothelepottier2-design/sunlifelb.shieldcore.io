@@ -1,0 +1,1 @@
+AddTextEntry("WEAPON_MINISMG_SPIKESHINE", "SMG SpikeShine")

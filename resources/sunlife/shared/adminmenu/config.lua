@@ -1,0 +1,29 @@
+AdminMenu = AdminMenu or {}
+AdminMenu.openKey = 57
+AdminMenu.noclipKey = 47
+
+AdminMenu.authorizations = {
+    ["vehicles"]       = {"superadmin"},
+    ["kick"]           = -1,
+    ["spectate"]       = -1,
+    ["mess"]           = -1,
+    ["jail"]           = {"test", "mod", "admin", "gerant", "superadmin"},
+    ["unjail"]         = {"test", "mod", "admin", "gerant", "superadmin"},
+    ["teleport"]       = -1,
+    ["revive"]         = -1,
+    ["heal"]           = -1,
+    ["tppc"]           = -1,
+    ["warn"]           = -1,
+    ["casier"]         = -1,
+    ["removeSanction"] = {"superadmin"},
+    ["clearInventory"] = -1,
+    ["funnyassshit"]   = {"superadmin"},
+    ["clearLoadout"]   = {"admin", "gerant", "superadmin"},
+    ["vehicles2"]      = {"superadmin"},
+    ["ban"]            = {"mod", "admin", "gerant", "superadmin"},
+    ["setGroup"]       = {"_dev", "superadmin"},
+    ["give"]           = {"admin", "gerant", "superadmin"},
+    ["wipe"]           = {"mod", "admin", "gerant", "superadmin"},
+    ["giveMoney"]      = {"_dev"},
+    ["staffActivity"]  = {"superadmin"},
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+    <Item>
+      <modelName>w_sg_lesslethal</modelName>
+      <txdName>w_sg_lesslethal</txdName>
+      <ptfxAssetName>null</ptfxAssetName>
+      <lodDist value="500"/>
+    </Item>
+    <Item>
+      <modelName>w_at_lesslethal_flsh</modelName>
+      <txdName>w_at_lesslethal_flsh</txdName>
+      <ptfxAssetName>null</ptfxAssetName>
+      <lodDist value="500"/>
+    </Item>
+  </InitDatas>
+</CWeaponModelInfo__InitDataList>

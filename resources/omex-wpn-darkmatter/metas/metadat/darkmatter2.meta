@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<CDataFileMgr__ContentsOfDataFileXml>
+  <disabledFiles/>
+  <includedXmlFiles/>
+  <includedDataFiles/>
+  <dataFiles>
+	<Item>
+	  <filename>resources:/omex-wpn-darkmatter/data/dat/darkmatter2fx.dat</filename>
+	  <fileType>ENTITYFX_FILE</fileType>
+	</Item>
+  </dataFiles>
+</CDataFileMgr__ContentsOfDataFileXml>

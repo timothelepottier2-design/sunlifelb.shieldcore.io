@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="nui://game/ui/jquery.js"></script>
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+    <script src="assets/js/onscreenmenucheck.js"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/hud.css?v=2" />
+    <link rel="stylesheet" href="assets/css/menu.css?v=2" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="nui://sunlife_ui/apps/gunfight/web/assets/css/style.css?v=3" />
+  </head>
+
+  <body>
+    <div class="menuContainer">
+      <!--<img id="cursorPointer" src="nui://sunlife_ui/apps/gunfight/hud/assets/images/cursor.png">
+        <a class="crosshair" href="#"></a>-->
+      <ul class="menu menu-user"></ul>
+      <ul class="menu menu-car"></ul>
+    </div>
+
+    <div id="hud">
+      <div class="element-1">
+        <div class="e1-hud-top"></div>
+
+        <div class="e1-hud-bottom">
+          <div class="e1-hud-bottom-b1">
+            <div class="e1-hud-bottom-b1-c1">
+              <div class="e1-hud-bottom-b1-c1-top" style="display: block">
+                
+              </div>
+
+              
+            </div>
+            <div class="e1-hud-bottom-b1-c2"></div>
+          </div>
+          <div class="e1-hud-bottom-b2">
+            <div class="e1-hud-bottom-b2-c1"></div>
+            <div class="e1-hud-bottom-b2-c2">
+              <div class="e1-hud-bottom-b1-c2-top">
+                
+              </div>
+
+              <div class="e1-hud-bottom-b1-c2-bottom">
+                <div id="container">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="element-1m">
+        <div class="e2-hud-top"></div>
+        <div class="e2-hud-middle">
+          
+        </div>
+        <div class="e2-hud-bottom">
+          <div class="e2-hud-bottom-center">
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="element-2">
+        <div class="e3-hud-top">
+          <div class="e3-hud-top-b1">
+            <div class="e3-hud-top-b1-c1"></div>
+            <div class="e3-hud-top-b1-c2">
+              <div class="wrapper">
+                
+              </div>
+            </div>
+          </div>
+          <div class="e3-hud-top-b2"></div>
+        </div>
+        <div class="e3-hud-middle">
+
+          <div class="gf-hud-cod" style="display: none">
+            <div class="gf-cod-top">
+              <div class="gf-cod-mode" id="gf-lobby-name">LOBBY GLOBAL</div>
+              <div class="gf-cod-players">
+                <i class="fas fa-users"></i>
+                <span id="gf-player-count">0</span>
+              </div>
+            </div>
+            <div class="gf-cod-stats">
+              <div class="gf-cod-stat">
+                <div class="gf-cod-stat-value" id="gf-kills">0</div>
+                <div class="gf-cod-stat-label">KILLS</div>
+              </div>
+              <div class="gf-cod-stat-sep"></div>
+              <div class="gf-cod-stat">
+                <div class="gf-cod-stat-value" id="gf-deaths">0</div>
+                <div class="gf-cod-stat-label">DEATHS</div>
+              </div>
+              <div class="gf-cod-stat-sep"></div>
+              <div class="gf-cod-stat gf-cod-stat-kd">
+                <div class="gf-cod-stat-value gf-cod-kd-val" id="gf-kd">0.00</div>
+                <div class="gf-cod-stat-label">K/D RATIO</div>
+              </div>
+            </div>
+            <div class="gf-cod-bar"></div>
+          </div>
+        </div>
+        <div class="e3-hud-bottom">
+          <div class="e3-hud-bottom-c1"></div>
+          <div class="e3-hud-bottom-c2"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="purge" style="display: none;" class="alyniashadow">
+      <img src="assets/images/red_flare.png" alt="" class="redflare" />
+      <img src="assets/images/blood_effect.png" alt="" class="blood" />
+      <img src="assets/images/head.png" alt="" class="head" />
+      <img src="assets/images/prime_en_cours.png" alt="" class="bigtitle" />
+      <div id="purgeReward">
+        <p id="rewardPurge">15,000</p>
+        <img src="assets/images/coin.png" class="coin" alt="" />
+      </div>
+      <img src="assets/images/eliminez.png" alt="" class="eliminate" />
+      <div id="distance">(1000m)</div>
+      <div class="distanceHolder">
+        <div class="helper"></div>
+        <div class="helper"></div>
+        <div class="helper"></div>
+      </div>
+    </div>
+    
+    <div id="coma" style="display: none">
+      <div class="flare"></div>
+
+      <p id="comaFirst">07:14</p>
+      <p id="comaSecond">EN ATTENTE D'AIDE</p>
+      <p id="comaThird">AVANT DE MOURIR</p>
+
+      <p id="coming"></p>
+
+      <div class="callAmbulance disabled">
+        <div class="icon">
+          <img
+            src="nui://sunlife_ui/apps/gunfight/hud/assets/images/ambulance.png"
+            onerror="this.onerror = null; this.src=this.src.replace('nui://sunlife_ui/apps/gunfight/hud/', '');"
+          />
+        </div>
+        <div class="text">APPELER UNE AMBULANCE</div>
+      </div>
+      <div class="remainingTime">
+        <div class="icon">
+          <img
+            src="nui://sunlife_ui/apps/gunfight/hud/assets/images/hourglass.png"
+            onerror="this.onerror = null; this.src=this.src.replace('nui://sunlife_ui/apps/gunfight/hud/', '');"
+          />
+        </div>
+        <div class="wrapping">
+          <div id="timePercentage"></div>
+        </div>
+      </div>
+      <div class="returnToHospital" style="display: none">
+        <div class="icon">
+          <img
+            src="nui://sunlife_ui/apps/gunfight/hud/assets/images/hospital.png"
+            onerror="this.onerror = null; this.src=this.src.replace('nui://sunlife_ui/apps/gunfight/hud/', '');"
+          />
+        </div>
+        <div class="text">ALLER À L'HOPITAL</div>
+      </div>
+    </div>
+
+    <!-- LOBBY UI -->
+    <div id="lobby-app" style="display: none;">
+        <div class="lobby-overlay"></div>
+        <div class="lobby-container">
+            <div class="lobby-sidebar">
+                <div class="lobby-logo">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>GUNFIGHT</span>
+                </div>
+                <div class="lobby-nav">
+                    <div class="nav-item active" data-tab="lobbies">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Lobbies</span>
+                    </div>
+                    <div class="nav-item" data-tab="ranking-kills">
+                        <i class="fas fa-trophy"></i>
+                        <span>Classement Global</span>
+                    </div>
+                    <div class="nav-item" data-tab="ranking-kd">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Classement K/D</span>
+                    </div>
+                </div>
+                <div class="lobby-sidebar-footer">
+                    <button class="btn-leave" id="btn-leave-lobby" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Quitter le lobby</span>
+                    </button>
+                    <button class="btn-close" id="btn-close">
+                        <i class="fas fa-times"></i>
+                        <span>Fermer</span>
+                    </button>
+                </div>
+            </div>
+            <div class="lobby-content">
+                <div class="tab-content active" id="tab-lobbies">
+                    <div class="tab-header">
+                        <h2>Lobbies disponibles</h2>
+                        <button class="btn-create" id="btn-create-lobby">
+                            <i class="fas fa-plus"></i>
+                            <span>Créer un lobby</span>
+                        </button>
+                    </div>
+                    <div class="lobby-list" id="lobby-list"></div>
+                </div>
+                <div class="tab-content" id="tab-ranking-kills">
+                    <div class="tab-header">
+                        <h2>Classement Global</h2>
+                        <span class="tab-subtitle">Top 50 - Par nombre de kills</span>
+                    </div>
+                    <div class="ranking-list" id="ranking-kills-list"></div>
+                </div>
+                <div class="tab-content" id="tab-ranking-kd">
+                    <div class="tab-header">
+                        <h2>Classement K/D</h2>
+                        <span class="tab-subtitle">Top 50 - Par ratio Kill/Death</span>
+                    </div>
+                    <div class="ranking-list" id="ranking-kd-list"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" id="modal-create" style="display: none;">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus-circle"></i> Créer un lobby</h3>
+                    <button class="modal-close" id="modal-create-close"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Joueurs maximum</label>
+                        <input type="number" id="create-max-players" min="2" max="50" value="10" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Description / Règles</label>
+                        <textarea id="create-description" class="form-textarea" placeholder="Décrivez les règles de votre lobby..." maxlength="200"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Mot de passe (optionnel)</label>
+                        <input type="text" id="create-password" class="form-input" placeholder="Laisser vide pour un lobby public" maxlength="20">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" id="modal-create-cancel">Annuler</button>
+                    <button class="btn-confirm" id="modal-create-confirm"><i class="fas fa-check"></i> Créer</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" id="modal-password" style="display: none;">
+            <div class="modal modal-small">
+                <div class="modal-header">
+                    <h3><i class="fas fa-lock"></i> Mot de passe requis</h3>
+                    <button class="modal-close" id="modal-password-close"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Entrez le mot de passe du lobby</label>
+                        <input type="password" id="password-input" class="form-input" placeholder="Mot de passe...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" id="modal-password-cancel">Annuler</button>
+                    <button class="btn-confirm" id="modal-password-confirm"><i class="fas fa-sign-in-alt"></i> Rejoindre</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/hud.js?v=2" type="text/javascript"></script>
+    <script src="assets/js/menu.js?v=2" type="text/javascript"></script>
+    <script src="nui://sunlife_ui/apps/gunfight/web/assets/js/app.js?v=3" type="text/javascript"></script>
+  </body>
+</html>

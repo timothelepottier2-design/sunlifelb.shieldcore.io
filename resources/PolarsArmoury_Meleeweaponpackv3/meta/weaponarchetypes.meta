@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_me_95sign</modelName>
+			<txdName>w_me_95sign</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_pi_assasingun</modelName>
+			<txdName>w_pi_assasingun</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+		<Item>
+			<modelName>w_pi_revolver</modelName>
+			<txdName>w_pi_revolver</txdName>
+			<ptfxAssetName>weap_revolver</ptfxAssetName>
+			<lodDist value="50" />
+		</Item>
+		<Item>
+			<modelName>w_pi_revolver_mag1</modelName>
+			<txdName>w_pi_revolver_mag1</txdName>
+			<ptfxAssetName>weap_revolver</ptfxAssetName>
+			<lodDist value="50" />
+		</Item>
+		<Item>
+			<modelName>w_pi_revolver_g</modelName>
+			<txdName>w_pi_revolver_g</txdName>
+			<ptfxAssetName>weap_revolver</ptfxAssetName>
+			<lodDist value="50" />
+		</Item>
+		<Item>
+			<modelName>w_pi_revolver_b</modelName>
+			<txdName>w_pi_revolver_b</txdName>
+			<ptfxAssetName>weap_revolver</ptfxAssetName>
+			<lodDist value="50" />
+		</Item>
+	<Item>
+			<modelName>w_me_baguette</modelName>
+			<txdName>w_me_baguette</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_banana</modelName>
+			<txdName>w_me_banana</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_bentfork_01</modelName>
+			<txdName>w_me_bentfork_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_bigspoon</modelName>
+			<txdName>w_me_bigspoon</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_bike</modelName>
+			<txdName>w_me_bike</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_blackbackpack</modelName>
+			<txdName>w_me_blackbackpack</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_bone</modelName>
+			<txdName>w_me_bone</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_bonesword_01</modelName>
+			<txdName>w_me_bonesword_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_brchicken</modelName>
+			<txdName>w_me_brchicken</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_buttplug</modelName>
+			<txdName>w_me_buttplug</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_cactus</modelName>
+			<txdName>w_me_cactus</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_camshaft</modelName>
+			<txdName>w_me_camshaft</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_carjack</modelName>
+			<txdName>w_me_carjack</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_cone</modelName>
+			<txdName>w_me_cone</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_crossspanner</modelName>
+			<txdName>w_me_crossspanner</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_crutchknife_01</modelName>
+			<txdName>w_me_crutchknife_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_cucumber</modelName>
+			<txdName>w_me_cucumber</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_dirtysyringe_01</modelName>
+			<txdName>w_me_dirtysyringe_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_disabledsign</modelName>
+			<txdName>w_me_disabledsign</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_donotentersign</modelName>
+			<txdName>w_me_donotentersign</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_doorbars</modelName>
+			<txdName>w_me_doorbars</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_earbudblade_lr</modelName>
+			<txdName>w_me_earbudblade_lr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_elderswand_01</modelName>
+			<txdName>w_me_elderswand_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_mfireextinguisher</modelName>
+			<txdName>w_me_mfireextinguisher</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_fishingrod</modelName>
+			<txdName>w_me_fishingrod</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_gascylinder</modelName>
+			<txdName>w_me_gascylinder</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_handdrill_01</modelName>
+			<txdName>w_me_handdrill_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_hockeyfieldstick</modelName>
+			<txdName>w_me_hockeyfieldstick</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_honeydipper</modelName>
+			<txdName>w_me_honeydipper</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_horn_01</modelName>
+			<txdName>w_me_horn_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_jabsaw_01</modelName>
+			<txdName>w_me_jabsaw_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_jdbottle</modelName>
+			<txdName>w_me_jdbottle</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_kettle</modelName>
+			<txdName>w_me_kettle</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_keyboard</modelName>
+			<txdName>w_me_keyboard</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_kitchenfork</modelName>
+			<txdName>w_me_kitchenfork</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_lacrossestick</modelName>
+			<txdName>w_me_lacrossestick</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_ladder</modelName>
+			<txdName>w_me_ladder</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_leatherbriefcase</modelName>
+			<txdName>w_me_leatherbriefcase</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_lobster</modelName>
+			<txdName>w_me_lobster</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_mailbox</modelName>
+			<txdName>w_me_mailbox</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_makeshiftknife_01</modelName>
+			<txdName>w_me_makeshiftknife_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_measuringcup</modelName>
+			<txdName>w_me_measuringcup</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_meatskewer</modelName>
+			<txdName>w_me_meatskewer</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_mic</modelName>
+			<txdName>w_me_mic</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_moddednightstick</modelName>
+			<txdName>w_me_moddednightstick</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_noparkingsign</modelName>
+			<txdName>w_me_noparkingsign</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_peeler_01</modelName>
+			<txdName>w_me_peeler_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_pen_01</modelName>
+			<txdName>w_me_pen_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_pencil_01</modelName>
+			<txdName>w_me_pencil_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_pliers</modelName>
+			<txdName>w_me_pliers</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_poker_01</modelName>
+			<txdName>w_me_poker_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_prisonkey_01</modelName>
+			<txdName>w_me_prisonkey_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_prisontoilete</modelName>
+			<txdName>w_me_prisontoilete</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_prosleg</modelName>
+			<txdName>w_me_prosleg</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_redbackpack</modelName>
+			<txdName>w_me_redbackpack</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_rollingpin</modelName>
+			<txdName>w_me_rollingpin</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_ronabottle</modelName>
+			<txdName>w_me_ronabottle</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_route66sign</modelName>
+			<txdName>w_me_route66sign</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_ruler</modelName>
+			<txdName>w_me_ruler</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_scooter</modelName>
+			<txdName>w_me_scooter</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_sharparrow_01</modelName>
+			<txdName>w_me_sharparrow_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_shiv_01</modelName>
+			<txdName>w_me_shiv_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_shockabsorber</modelName>
+			<txdName>w_me_shockabsorber</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_skullbat</modelName>
+			<txdName>w_me_skullbat</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_snakeknife_01</modelName>
+			<txdName>w_me_snakeknife_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_solidoor</modelName>
+			<txdName>w_me_solidoor</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_spartansword_01</modelName>
+			<txdName>w_me_spartansword_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_spatula</modelName>
+			<txdName>w_me_spatula</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_stepladder</modelName>
+			<txdName>w_me_stepladder</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_streetlight</modelName>
+			<txdName>w_me_streetlight</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_swordfish_01</modelName>
+			<txdName>w_me_swordfish_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_teapot</modelName>
+			<txdName>w_me_teapot</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_telescope</modelName>
+			<txdName>w_me_telescope</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_toaster</modelName>
+			<txdName>w_me_toaster</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_twistedspear_01</modelName>
+			<txdName>w_me_twistedspear_01</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_vacuum</modelName>
+			<txdName>w_me_vacuum</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_viobackpack</modelName>
+			<txdName>w_me_viobackpack</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_wrongwaysign</modelName>
+			<txdName>w_me_wrongwaysign</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	<Item>
+			<modelName>w_me_yari_lr</modelName>
+			<txdName>w_me_yari_lr</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>

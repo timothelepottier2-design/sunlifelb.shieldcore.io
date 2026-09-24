@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+	
+		<Item>
+			<modelName>w_sb_extendedsmg</modelName>
+			<txdName>w_sb_extendedsmg</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_stock1</modelName>
+			<txdName>w_sb_extendedsmg_stock1</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_stock2</modelName>
+			<txdName>w_sb_extendedsmg_stock1</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_stock3</modelName>
+			<txdName>w_sb_extendedsmg_stock1</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_barrel</modelName>
+			<txdName>w_sb_extendedsmg_barrel</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_supp</modelName>
+			<txdName>w_sb_extendedsmg_supp</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		
+		<!--Luxe-->
+		
+		<Item>
+			<modelName>w_sb_goldsmg</modelName>
+			<txdName>w_sb_goldsmg</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_stock1_luxe</modelName>
+			<txdName>w_sb_extendedsmg_stock1_luxe</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_stock2_luxe</modelName>
+			<txdName>w_sb_extendedsmg_stock1_luxe</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_stock3_luxe</modelName>
+			<txdName>w_sb_extendedsmg_stock1_luxe</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_barrel_luxe</modelName>
+			<txdName>w_sb_extendedsmg_barrel_luxe</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+		<Item>
+			<modelName>w_sb_extendedsmg_supp_luxe</modelName>
+			<txdName>w_sb_extendedsmg_supp_luxe</txdName>
+			<ptfxAssetName>null</ptfxAssetName>
+			<lodDist value="30"/>
+		</Item>
+
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>

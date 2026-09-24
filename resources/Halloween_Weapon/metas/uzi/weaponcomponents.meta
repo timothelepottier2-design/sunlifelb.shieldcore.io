@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponComponentInfoBlob>
+  <Data>
+  </Data>
+  <Infos>
+    <Item type="CWeaponComponentClipInfo">
+      <Name>COMPONENT_EXTENDEDSMG_CLIP_01</Name>
+      <Model>w_sb_microsmg_mag1</Model>
+      <LocName>WCT_CLIP1</LocName>
+      <LocDesc>WCDMSMG_CLIP1</LocDesc>
+      <AttachBone>AAPClip</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="false" />
+      <CreateObject value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+      <ClipSize value="16" />
+      <ReloadData ref="RELOAD_DEFAULT" />
+    </Item>
+    <Item type="CWeaponComponentClipInfo">
+      <Name>COMPONENT_EXTENDEDSMG_CLIP_02</Name>
+      <Model>w_sb_microsmg_mag2</Model>
+      <LocName>WCT_CLIP2</LocName>
+      <LocDesc>WCDMSMG_CLIP2</LocDesc>
+      <AttachBone>AAPClip</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="true" />
+      <CreateObject value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="87" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+      <ClipSize value="30" />
+      <ReloadData ref="RELOAD_LARGE" />
+    </Item>
+    <Item type="CWeaponComponentClipInfo">
+      <Name>COMPONENT_GOLDSMG_CLIP_01</Name>
+      <Model>w_sb_microsmg_mag1</Model>
+      <LocName>WCT_CLIP1</LocName>
+      <LocDesc>WCDMSMG_CLIP1</LocDesc>
+      <AttachBone>AAPClip</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="false" />
+      <CreateObject value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+      <ClipSize value="30" />
+      <ReloadData ref="RELOAD_DEFAULT" />
+    </Item>
+    <Item type="CWeaponComponentClipInfo">
+      <Name>COMPONENT_GOLDSMG_CLIP_02</Name>
+      <Model>w_sb_microsmg_mag2</Model>
+      <LocName>WCT_CLIP2</LocName>
+      <LocDesc>WCDMSMG_CLIP2</LocDesc>
+      <AttachBone>AAPClip</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="true" />
+      <CreateObject value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="87" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+      <ClipSize value="50" />
+      <ReloadData ref="RELOAD_LARGE" />
+    </Item>
+	<Item type="CWeaponComponentInfo">
+      <Name>COMPONENT_EXTENDEDSMG_STOCK1</Name>
+      <Model>w_sb_extendedsmg_stock1</Model>
+      <LocName>AT_SMG_EXTND_STOCK1</LocName>
+      <LocDesc>INVALID</LocDesc>
+      <AttachBone>AAPBarrel</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="true" />
+      <CreateObject value="true" />
+	  <ApplyWeaponTint value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+    </Item>
+	<Item type="CWeaponComponentInfo">
+      <Name>COMPONENT_EXTENDEDSMG_STOCK2</Name>
+      <Model>w_sb_extendedsmg_stock2</Model>
+      <LocName>AT_SMG_EXTND_STOCK2</LocName>
+      <LocDesc>INVALID</LocDesc>
+      <AttachBone>AAPBarrel</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="true" />
+      <CreateObject value="true" />
+	  <ApplyWeaponTint value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+    </Item>
+	<Item type="CWeaponComponentInfo">
+      <Name>COMPONENT_EXTENDEDSMG_STOCK3</Name>
+      <Model>w_sb_extendedsmg_stock3</Model>
+      <LocName>AT_SMG_EXTND_STOCK3</LocName>
+      <LocDesc>INVALID</LocDesc>
+      <AttachBone>AAPBarrel</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="true" />
+      <CreateObject value="true" />
+	  <ApplyWeaponTint value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+    </Item>
+    <Item type="CWeaponComponentSuppressorInfo">
+      <Name>COMPONENT_EXTENDEDSMG_BARREL</Name>
+      <Model>w_sb_extendedsmg_barrel</Model>
+      <LocName>AT_SMG_EXTND_BARREL1</LocName>
+      <LocDesc>WCD_MUZZ</LocDesc>
+      <AttachBone>AAPSupp</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="true" />
+      <CreateObject value="true" />
+      <ApplyWeaponTint value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="5" />
+      <HudRange value="0" />
+      <MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+      <FlashFX />
+      <ShouldSilence value="false" />
+    </Item>
+    <Item type="CWeaponComponentSuppressorInfo">
+      <Name>COMPONENT_EXTENDEDSMG_SUPPRESSOR</Name>
+      <Model>w_sb_extendedsmg_supp</Model>
+      <LocName>AT_SMG_EXTND_BARREL2</LocName>
+      <LocDesc>WCD_MUZZ</LocDesc>
+      <AttachBone>AAPSupp</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="true" />
+      <CreateObject value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="5" />
+      <HudRange value="0" />
+      <MuzzleBone>Gun_SuMuzzle</MuzzleBone>
+      <FlashFX />
+    </Item>
+    <Item type="CWeaponComponentVariantModelInfo">
+      <Name>COMPONENT_GOLDSMG_VARMOD_GOLD</Name>
+      <Model>w_sb_goldsmg</Model>
+      <LocName>WCT_INVALID</LocName>
+      <LocDesc>WCD_INVALID</LocDesc>
+      <AttachBone />
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="false" />
+      <CreateObject value="false" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+	  <TintIndexOverride value="0"/>
+	  <ExtraComponents>
+		<Item>
+		  <ComponentName>COMPONENT_AT_AR_SUPP_02</ComponentName>
+		  <ComponentModel>W_AT_AR_Supp_Luxe_02</ComponentModel>
+		</Item>
+		<Item>
+		  <ComponentName>COMPONENT_EXTENDEDSMG_STOCK1</ComponentName>
+		  <ComponentModel>w_sb_extendedsmg_stock1_luxe</ComponentModel>
+		</Item>
+		<Item>
+		  <ComponentName>COMPONENT_EXTENDEDSMG_STOCK2</ComponentName>
+		  <ComponentModel>w_sb_extendedsmg_stock2_luxe</ComponentModel>
+		</Item>
+		<Item>
+		  <ComponentName>COMPONENT_EXTENDEDSMG_STOCK3</ComponentName>
+		  <ComponentModel>w_sb_extendedsmg_stock3_luxe</ComponentModel>
+		</Item>
+		<Item>
+		  <ComponentName>COMPONENT_EXTENDEDSMG_BARREL</ComponentName>
+		  <ComponentModel>w_sb_extendedsmg_barrel_luxe</ComponentModel>
+		</Item>
+		<Item>
+		  <ComponentName>COMPONENT_EXTENDEDSMG_SUPPRESSOR</ComponentName>
+		  <ComponentModel>w_sb_extendedsmg_supp_luxe</ComponentModel>
+		</Item>
+	  </ExtraComponents>	
+    </Item>
+  </Infos>
+  <InfoBlobName>DLC - Extended SMG</InfoBlobName>
+</CWeaponComponentInfoBlob>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PedDecorationCollection>
+  <bRequiredForSync value="true" />
+  <presets>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_000</nameHash>
+      <txdHash>mp_vms_tat_m_000</txdHash>
+      <txtHash>mp_vms_tat_m_000</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_001</nameHash>
+      <txdHash>mp_vms_tat_m_001</txdHash>
+      <txtHash>mp_vms_tat_m_001</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_002</nameHash>
+      <txdHash>mp_vms_tat_m_002</txdHash>
+      <txtHash>mp_vms_tat_m_002</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_003</nameHash>
+      <txdHash>mp_vms_tat_m_003</txdHash>
+      <txtHash>mp_vms_tat_m_003</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_004</nameHash>
+      <txdHash>mp_vms_tat_m_004</txdHash>
+      <txtHash>mp_vms_tat_m_004</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_005</nameHash>
+      <txdHash>mp_vms_tat_m_005</txdHash>
+      <txtHash>mp_vms_tat_m_005</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_006</nameHash>
+      <txdHash>mp_vms_tat_m_006</txdHash>
+      <txtHash>mp_vms_tat_m_006</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_007</nameHash>
+      <txdHash>mp_vms_tat_m_007</txdHash>
+      <txtHash>mp_vms_tat_m_007</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_008</nameHash>
+      <txdHash>mp_vms_tat_m_008</txdHash>
+      <txtHash>mp_vms_tat_m_008</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_009</nameHash>
+      <txdHash>mp_vms_tat_m_009</txdHash>
+      <txtHash>mp_vms_tat_m_009</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_010</nameHash>
+      <txdHash>mp_vms_tat_m_010</txdHash>
+      <txtHash>mp_vms_tat_m_010</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_011</nameHash>
+      <txdHash>mp_vms_tat_m_011</txdHash>
+      <txtHash>mp_vms_tat_m_011</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_012</nameHash>
+      <txdHash>mp_vms_tat_m_012</txdHash>
+      <txtHash>mp_vms_tat_m_012</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_013</nameHash>
+      <txdHash>mp_vms_tat_m_013</txdHash>
+      <txtHash>mp_vms_tat_m_013</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_014</nameHash>
+      <txdHash>mp_vms_tat_m_014</txdHash>
+      <txtHash>mp_vms_tat_m_014</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_015</nameHash>
+      <txdHash>mp_vms_tat_m_015</txdHash>
+      <txtHash>mp_vms_tat_m_015</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_016</nameHash>
+      <txdHash>mp_vms_tat_m_016</txdHash>
+      <txtHash>mp_vms_tat_m_016</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.000000" y="0.450000" />
+      <scale x="0.150000" y="0.150000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_NECK_001</nameHash>
+      <txdHash>mp_vms_tat_m_017</txdHash>
+      <txtHash>mp_vms_tat_m_017</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_017</nameHash>
+      <txdHash>mp_vms_tat_m_018</txdHash>
+      <txtHash>mp_vms_tat_m_018</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_018</nameHash>
+      <txdHash>mp_vms_tat_m_019</txdHash>
+      <txtHash>mp_vms_tat_m_019</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+    <Item>
+      <uvPos x="0.500000" y="0.680000" />
+      <scale x="0.350000" y="0.220000" />
+      <rotation value="0.000000" />
+      <nameHash>MP_VMS_FACE_019</nameHash>
+      <txdHash>mp_vms_tat_m_020</txdHash>
+      <txtHash>mp_vms_tat_m_020</txtHash>
+      <zone>ZONE_HEAD</zone>
+      <type>TYPE_TATTOO</type>
+      <faction>FM</faction>
+      <garment>All</garment>
+      <gender>GENDER_MALE</gender>
+      <award />
+      <awardLevel />
+    </Item>
+  </presets>
+  <nameHash>vms_overlays</nameHash>
+  <medalLocations content="vector2_array">
+    0.140000	0.070000	
+    0.370000	0.070000	
+    0.600000	0.070000	
+    0.835000	0.070000	
+    0.140000	0.150000	
+    0.370000	0.150000	
+    0.600000	0.150000	
+    0.835000	0.150000	
+    0.140000	0.230000	
+    0.370000	0.230000	
+    0.600000	0.230000	
+    0.835000	0.230000	
+    0.100000	0.700000	
+    0.300000	0.700000	
+    0.500000	0.700000	
+    0.700000	0.700000	
+  </medalLocations>
+  <medalScale x="0.240000" y="0.100000" />
+</PedDecorationCollection>

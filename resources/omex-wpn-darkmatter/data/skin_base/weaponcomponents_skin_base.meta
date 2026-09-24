@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponComponentInfoBlob>
+  <Data />
+  <Infos>
+
+
+    <Item type="CWeaponComponentInfo">
+      <Name>WEAPON_SKIN_IRONDUST_BASE</Name>
+      <Model>skin_omex_base_anim</Model>
+      <LocName>WCT_CAMO_1</LocName>
+      <LocDesc>WCD_INVALID</LocDesc>
+      <AttachBone>AAPCamo</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="false" />
+      <CreateObject value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+    </Item>
+
+    <Item type="CWeaponComponentInfo">
+      <Name>WEAPON_SKIN_OMEX_BASE</Name>
+      <Model>skin_omex_base_anim</Model>
+      <LocName>WCT_CAMO_1</LocName>
+      <LocDesc>WCD_INVALID</LocDesc>
+      <AttachBone>AAPCamo</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="false" />
+      <CreateObject value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+    </Item>
+
+    <Item type="CWeaponComponentInfo">
+      <Name>WEAPON_SKIN_OMEX_BASE_SLIDE</Name>
+      <Model>skin_omex_base_anim</Model>
+      <LocName>WCT_CAMO_1</LocName>
+      <LocDesc>WCD_INVALID</LocDesc>
+      <AttachBone>AAPCamo</AttachBone>
+      <AccuracyModifier type="NULL" />
+      <DamageModifier type="NULL" />
+      <bShownOnWheel value="false" />
+      <CreateObject value="true" />
+      <HudDamage value="0" />
+      <HudSpeed value="0" />
+      <HudCapacity value="0" />
+      <HudAccuracy value="0" />
+      <HudRange value="0" />
+    </Item>
+
+  </Infos>
+  <InfoBlobName>Siri</InfoBlobName>
+</CWeaponComponentInfoBlob>

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Pickup Tags</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+    --bg: rgba(16,16,11,.0);
+    --card: rgba(17,17,14,.92);
+    --border: rgba(255,255,255,.14);
+    --text: #f4f4f6;
+    --muted:#a7aab6;
+    --accent:#ffbe5c;
+    --accent-2:#ffa33b;
+    --shadow: 0 10px 26px rgba(255, 193, 92, 0.18);
+    --radius: 12px;
+    --font: "Montserrat",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    margin:0; background:transparent; color:var(--text); font:700 14px/1 var(--font);
+    overflow:hidden; pointer-events:none; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+#hud{position:fixed; inset:0; pointer-events:none}
+.tag{
+    position:absolute; left:0; top:0; transform:translate(-50%,-110%) scale(1); transform-origin:center bottom;
+    background:linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(20, 18, 16, 0.88));
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06), var(--shadow);
+    padding:8px 10px; display:flex; align-items:center; gap:10px; color:var(--text);
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,.45));
+    opacity:0; transition:transform .18s ease, opacity .18s ease, filter .18s ease;
+    will-change: transform, opacity;
+}
+.tag.show{opacity:1}
+.tag.near{box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 0 0 2px rgba(255, 176, 92, 0.28), var(--shadow)}
+.tag .ico{
+    display:grid; place-items:center; width:22px; height:22px; border-radius:8px;
+    background:linear-gradient(135deg, rgba(255, 176, 92,.22), rgba(255, 176, 92,.05));
+    border:1px solid rgba(255,255,255,.14); color:#fff; flex-shrink:0;
+}
+.tag .txt{
+    display:flex; align-items:baseline; gap:8px; white-space:nowrap; text-shadow:0 0 10px rgba(255, 176, 92,.12);
+}
+.tag .name{font:800 13px/1 var(--font)}
+.tag .count{
+    display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16);
+    font:800 12px/1 var(--font); color:#fff;
+}
+.tag .hint{margin-left:6px; opacity:.9}
+.tag .halo{
+    position:absolute; inset:-8px; border-radius:14px; pointer-events:none;
+    box-shadow:0 0 0 0 rgba(255, 176, 92,.0);
+    animation:halo 2.4s ease-out infinite;
+}
+@keyframes halo{
+    0%{box-shadow:0 0 0 0 rgba(255, 176, 92,.22)}
+    70%{box-shadow:0 0 0 14px rgba(255, 176, 92,0)}
+    100%{box-shadow:0 0 0 0 rgba(255, 176, 92,0)}
+}
+.icon{
+    width:16px; height:16px;
+    stroke:currentColor; fill:none;
+    stroke-linecap:round; stroke-linejoin:round; stroke-width:2px;
+}
+</style>
+</head>
+<body>
+<div id="hud" aria-live="polite"></div>
+<script>
+(() => {
+    const L = (...a) => console.log('[pickup_ui]', ...a)
+    const hud = document.getElementById('hud')
+    const nodes = new Map()
+    const pool = []
+    let visible = false
+
+    L('NUI loaded')
+
+    function ensureNode(id){
+        if(nodes.has(id)){
+            L('ensureNode reuse', id)
+            return nodes.get(id)
+        }
+        let el = pool.pop()
+        if(!el){
+            L('ensureNode create', id)
+            el = document.createElement('div')
+            el.className = 'tag'
+            el.innerHTML = `
+                <div class="halo"></div>
+                <div class="ico" aria-hidden="true"></div>
+                <div class="txt">
+                    <span class="name"></span>
+                    <span class="count"></span>
+                    <span class="hint"></span>
+                </div>
+            `
+            hud.appendChild(el)
+        } else {
+            L('ensureNode take from pool', id)
+        }
+        nodes.set(id, el)
+        return el
+    }
+
+    // ✅ Toujours la même icône "boîte"
+    function iconSvg(){
+        L('iconSvg (box)')
+        return `
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2.5l9 5-9 5-9-5 9-5z"></path>
+            <path d="M3 7.5v9l9 5 9-5v-9"></path>
+            <path d="M12 12.5v9"></path>
+        </svg>`
+    }
+
+    function setVisible(v){
+        L('setVisible', v)
+        visible = v
+        hud.style.display = v ? 'block' : 'none'
+    }
+
+    function updateBatch(items){
+        L('updateBatch count=', items?.length || 0)
+        if(!visible){
+            L('updateBatch skipped (not visible)')
+            return
+        }
+        const seen = new Set()
+        for(const it of items){
+            L('update item', {id: it.id, x: it.x, y: it.y, near: !!it.near, scale: it.scale, label: it.label, count: it.count})
+            const el = ensureNode(it.id)
+            el.style.left = (it.x * 100).toFixed(3) + 'vw'
+            el.style.top = (it.y * 100).toFixed(3) + 'vh'
+            el.style.transform = `translate(-50%,-110%) scale(${(it.scale||1).toFixed(3)})`
+            el.querySelector('.ico').innerHTML = iconSvg()  // ← icône fixe
+            el.querySelector('.name').textContent = it.label || ''
+            el.querySelector('.count').textContent = 'x' + String(it.count || 1)
+            el.querySelector('.hint').textContent = it.near ? 'E pour ramasser' : ''
+            el.classList.add('show')
+            el.classList.toggle('near', !!it.near)
+            seen.add(it.id)
+        }
+        for(const [id, el] of nodes){
+            if(!seen.has(id)){
+                if(el.classList.contains('show')){
+                    L('hide node', id)
+                }
+                el.classList.remove('show')
+                el.classList.remove('near')
+            }
+        }
+    }
+
+    function removeOne(id){
+        L('removeOne', id)
+        const el = nodes.get(id)
+        if(!el) return
+        el.classList.remove('show')
+        el.classList.remove('near')
+        // (on pourrait remettre au pool si besoin)
+    }
+
+    window.addEventListener('message', (e) => {
+        const d = e.data || {}
+        L('message', d.action, d)
+        if(d.action === 'pickup:show') setVisible(true)
+        if(d.action === 'pickup:hide') setVisible(false)
+        if(d.action === 'pickup:batch') updateBatch(d.items || [])
+        if(d.action === 'pickup:remove') removeOne(String(d.id))
+    })
+
+    // Envoi des touches au Lua pour la barre Rechercher de l'inventaire.
+    // Backspace n'est PAS envoye : le Lua le gere deja via la touche native
+    // 194 (HandleBackspaceInput de chaque page). L'envoyer en plus comme
+    // caractere "\b" le faisait traiter deux fois : ajoute au texte de
+    // recherche comme une lettre (plus aucun item ne matchait) et, dans la
+    // saisie ID / renommage, deux caracteres effaces par appui.
+    window.addEventListener('keydown', function(event) {
+        if (event.repeat) return
+        if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab'].includes(event.key)) return
+        let caractere = event.key
+        if (event.key === 'Enter') {
+            caractere = '\r'
+        } else if (event.key.length > 1) {
+            return
+        }
+        const res = typeof GetParentResourceName === 'function' ? GetParentResourceName() : 'inventaire'
+        fetch('https://' + res + '/keyInfo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            body: JSON.stringify({ message: caractere })
+        }).then(r => r.json()).catch(() => {})
+    })
+})()
+</script>
+</body>
+</html>

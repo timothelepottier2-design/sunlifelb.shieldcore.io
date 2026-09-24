@@ -1,0 +1,93 @@
+<html>
+    	<head>
+        	<meta charset="utf-8"/>
+        	<link rel="stylesheet" href="cahier.css" />
+        	<link rel="stylesheet" href="lvc.css" />
+    	</head>
+	<body>
+	<div style="visibility:hidden" id="player"></div>
+
+        <div id="cahier-root" class="cahier-hidden" aria-hidden="true">
+            <div class="cahier-backdrop"></div>
+
+            <div class="cahier-book" role="dialog" aria-modal="true" aria-label="Cahier de notes">
+                <div class="cahier-binding"></div>
+
+                <header class="cahier-header">
+                    <input
+                        id="cahier-title"
+                        class="cahier-title"
+                        type="text"
+                        maxlength="60"
+                        placeholder="Titre du cahier..."
+                        autocomplete="off"
+                        spellcheck="false"
+                    />
+                    <div class="cahier-meta">
+                        <span id="cahier-saved-at" class="cahier-saved-at"></span>
+                    </div>
+                </header>
+
+                <div class="cahier-page">
+                    <textarea
+                        id="cahier-content"
+                        class="cahier-content"
+                        maxlength="5000"
+                        placeholder="Écris tes notes ici...&#10;&#10;Brouillon, RP, indices, no-go list, recettes... tout est sauvegardé dans le cahier (metadata inventaire)."
+                        spellcheck="false"
+                    ></textarea>
+                </div>
+
+                <footer class="cahier-footer">
+                    <div class="cahier-counter">
+                        <span id="cahier-count">0</span> / 5000
+                    </div>
+
+                    <div class="cahier-actions">
+                        <button id="cahier-save" class="cahier-btn cahier-btn-primary" type="button">
+                            <span class="cahier-btn-label">Sauvegarder</span>
+                        </button>
+                        <button id="cahier-close" class="cahier-btn cahier-btn-ghost" type="button">
+                            Fermer (Échap)
+                        </button>
+                    </div>
+                </footer>
+
+                <div id="cahier-toast" class="cahier-toast" aria-live="polite"></div>
+            </div>
+        </div>
+
+        <!-- LVC : panneau de contrôle sirènes (industrial dark) -->
+        <div id="lvcPanel" class="hidden">
+            <!-- Colonne gauche : systeme de sirenes -->
+            <div class="lvc-sirens">
+                <div class="lvc-led-bar" id="lvc-switch" data-label="LIGHTBAR"></div>
+                <div class="lvc-buttons">
+                    <div class="lvc-btn" id="lvc-siren" data-label="SIREN"></div>
+                    <div class="lvc-btn" id="lvc-horn"  data-label="HORN"></div>
+                    <div class="lvc-btn" id="lvc-lock"  data-label="LOCK"></div>
+                </div>
+            </div>
+            <!-- Colonne droite : radars avant / arriere (toujours affiches) -->
+            <div class="lvc-radars" id="lvc-radars">
+                <div class="lvc-radar idle" id="lvc-radar-front" data-label="RADAR AVANT">
+                    <div class="lvc-radar-box lvc-radar-speed">
+                        <span class="lvc-radar-digits" id="lvc-radar-front-speed"></span>
+                        <span class="lvc-radar-unit">KM/H</span>
+                    </div>
+                    <div class="lvc-radar-box lvc-radar-plate" id="lvc-radar-front-plate">PLAQUE</div>
+                </div>
+                <div class="lvc-radar idle" id="lvc-radar-rear" data-label="RADAR ARRIÈRE">
+                    <div class="lvc-radar-box lvc-radar-speed">
+                        <span class="lvc-radar-digits" id="lvc-radar-rear-speed"></span>
+                        <span class="lvc-radar-unit">KM/H</span>
+                    </div>
+                    <div class="lvc-radar-box lvc-radar-plate" id="lvc-radar-rear-plate">PLAQUE</div>
+                </div>
+            </div>
+        </div>
+	</body>
+    	<script src="app.js"></script>
+    	<script src="cahier.js"></script>
+    	<script src="lvc.js"></script>
+</html>

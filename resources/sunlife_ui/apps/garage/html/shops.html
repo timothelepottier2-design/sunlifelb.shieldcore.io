@@ -1,0 +1,2151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Garage</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ══════════════════════════════════════════════════════
+       GARAGE UI — Zone Gunfight style
+       ══════════════════════════════════════════════════════ */
+
+    :root{
+      --bg:#0a0a0c;
+      --panel:linear-gradient(180deg, rgba(15,15,18,.98) 0%, rgba(10,10,12,.98) 100%);
+      --panel-flat:rgba(15,15,18,.98);
+      --panel-solid:rgba(10,10,12,.98);
+      --accent:#ff5a32;
+      --accent-hover:#ff6a45;
+      --accent-glow:rgba(255,90,50,.15);
+      --accent-glow-strong:rgba(255,90,50,.3);
+      --border:rgba(255,255,255,.05);
+      --border-accent:rgba(255,90,50,.15);
+      --border-accent-hover:rgba(255,90,50,.3);
+      --border-hover:rgba(255,255,255,.1);
+      --text:#fff;
+      --text-secondary:rgba(255,255,255,.85);
+      --muted-color:rgba(255,255,255,.45);
+      --muted-dim:rgba(255,255,255,.3);
+      --success:#2ed47a;
+      --danger:#ff4444;
+      --danger-bg:rgba(220,50,50,.2);
+      --danger-border:rgba(220,50,50,.3);
+      --info:#6aa8ff;
+      --radius:6px;
+      --pill:999px;
+      --shadow:0 4px 15px rgba(0,0,0,.4);
+      --shadow-lg:0 20px 60px rgba(0,0,0,.8), 0 0 40px rgba(255,90,50,.05);
+      --font:"Montserrat",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      --font-display:"Montserrat",var(--font);
+      --font-sans:var(--font);
+      --fw-body:500;
+      --fw-strong:600;
+      --fw-title:700;
+      --tray-offset:285px;
+      --car-ring:2px;
+      --photo-brightness:1.4;
+      --photo-contrast:1.15;
+      --photo-saturate:1.05;
+      --qo-ring:rgba(255,90,50,.42);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background:transparent; color:var(--text-secondary);
+      font:var(--fw-body) 14px/1.5 var(--font);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      text-rendering:optimizeLegibility; overflow:hidden; letter-spacing:.01em;
+      user-select:none;
+    }
+    html,body,button,input,select,textarea{font-family:var(--font)}
+
+    ::-webkit-scrollbar{width:4px;height:4px}
+    ::-webkit-scrollbar-track{background:rgba(0,0,0,.3)}
+    ::-webkit-scrollbar-thumb{background:rgba(255,90,50,.5);border-radius:2px}
+    ::-webkit-scrollbar-thumb:hover{background:rgba(255,90,50,.8)}
+
+    /* ── Anti-selection ── */
+    html,body,.garage,.garage *:not(input):not(textarea):not([contenteditable="true"]){
+      -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+      -webkit-touch-callout:none;
+    }
+    input,textarea,[contenteditable="true"]{
+      -webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;
+      -webkit-touch-callout:default;
+    }
+    img,svg,picture,a,button{-webkit-user-drag:none;user-drag:none}
+
+    /* ── Garage root ── */
+    .garage{
+      position:fixed; inset:0; pointer-events:none;
+      display:grid; grid-template-rows:1fr auto;
+      transition:opacity .3s ease;
+    }
+    .garage[aria-hidden="true"]{opacity:0;visibility:hidden;pointer-events:none}
+    .garage[aria-hidden="false"]{opacity:1;visibility:visible;pointer-events:auto}
+
+    @keyframes fadeIn{
+      from{opacity:0;transform:scale(.98)}
+      to{opacity:1;transform:scale(1)}
+    }
+
+    /* ── GPU hints ── */
+    .side-panel,.tray{
+      will-change:transform,opacity; transform:translateZ(0); backface-visibility:hidden;
+    }
+
+    /* ── Z-index stack ── */
+    .side-panel{z-index:60}
+    .tray{z-index:70}
+
+    /* ══ SIDE PANEL (left) ══ */
+    .side-panel{
+      position:fixed; left:18px; top:18px; bottom:18px;
+      width:clamp(300px,26vw,360px);
+      display:flex; flex-direction:column;
+      background:var(--panel);
+      border:1px solid var(--border-accent);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-lg);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      pointer-events:auto; overflow:hidden;
+    }
+    .panel-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:14px 16px; border-bottom:1px solid var(--border); flex:none;
+    }
+    .panel-head .panel-title{
+      display:flex; align-items:center; gap:10px;
+      font:var(--fw-title) 14px/1 var(--font-display);
+      letter-spacing:2px; text-transform:uppercase; color:#fff;
+    }
+    .panel-head .panel-title .ico{
+      width:22px; height:22px; display:grid; place-items:center; color:var(--accent);
+    }
+    .panel-head .panel-title .ico svg{width:100%;height:100%;display:block}
+
+    /* ══ NAV CATEGORIES (tabs, top of panel) ══ */
+    .cats{
+      display:flex; flex-direction:row; gap:4px;
+      padding:10px 10px 0; flex:none;
+    }
+    .cat{
+      flex:1; min-width:0;
+      display:flex; flex-direction:column; align-items:center; gap:5px;
+      padding:9px 6px; cursor:pointer;
+      border:none; border-bottom:2px solid transparent;
+      background:transparent; border-radius:4px 4px 0 0;
+      color:rgba(255,255,255,.45); font:var(--fw-strong) 9px/1.1 var(--font);
+      text-transform:uppercase; letter-spacing:.4px; text-align:center;
+      transition:all .2s ease;
+    }
+    .cat .ico{display:grid;place-items:center;width:18px;height:18px;color:inherit}
+    .cat .ico svg{width:100%;height:100%;display:block}
+    .cat svg path{fill:currentColor}
+    .cat:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.03)}
+    .cat.active{
+      color:var(--accent);
+      background:rgba(255,90,50,.08);
+      border-bottom-color:var(--accent);
+    }
+    .cat.active .ico{color:var(--accent)}
+
+    /* ══ HEADING ══ */
+    .heading{
+      position:fixed; left:18px; top:18px;
+      display:flex; align-items:center; gap:10px;
+      background:var(--panel);
+      border:1px solid var(--border-accent);
+      border-radius:var(--radius); padding:10px 16px; pointer-events:auto;
+      box-shadow:var(--shadow-lg);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      font:var(--fw-title) 14px/1 var(--font-display); letter-spacing:2px;
+      text-transform:uppercase;
+    }
+    .heading .ico{
+      width:26px; height:26px; display:grid; place-items:center;
+      color:var(--accent); font-size:14px;
+    }
+
+    /* ══ VEHICLE LIST ══ */
+    .rail{
+      flex:1; min-height:0;
+      display:flex; flex-direction:column; gap:6px;
+      overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain;
+      padding:10px; scrollbar-width:thin;
+    }
+    .rail::-webkit-scrollbar{width:4px}
+    .rail::-webkit-scrollbar-track{background:transparent;border-radius:2px}
+    .rail::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+    .rail::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.25)}
+
+    /* ══ VEHICLE ROW ══ */
+    .car{
+      width:100%;
+      background:linear-gradient(180deg, rgba(18,18,22,.92) 0%, rgba(12,12,15,.92) 100%);
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:var(--radius); padding:10px 12px;
+      display:flex; align-items:center; gap:10px;
+      box-shadow:0 2px 10px rgba(0,0,0,.4);
+      transition:all .18s ease; position:relative; cursor:pointer;
+      opacity:0; transform:translateY(6px);
+    }
+    .car.reveal{opacity:1;transform:none}
+    .car:hover{
+      border-color:rgba(255,255,255,.1);
+      background:linear-gradient(180deg, rgba(24,24,28,.94) 0%, rgba(16,16,20,.94) 100%);
+    }
+    .car.selected{
+      border-color:rgba(255,90,50,.35);
+      background:rgba(255,90,50,.06);
+      box-shadow:0 2px 12px rgba(0,0,0,.5), inset 3px 0 0 var(--accent);
+    }
+
+    .meta{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:1;min-width:0}
+    .meta .info{display:flex;flex-direction:column;gap:3px;min-width:0}
+    .car .name{
+      font:var(--fw-strong) 13px/1.2 var(--font-display);
+      display:flex;align-items:center;gap:8px;color:#fff;letter-spacing:.3px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .tag{
+      font:var(--fw-strong) 10px/1 var(--font); padding:3px 8px; border-radius:4px;
+      border:1px solid var(--border); background:rgba(255,255,255,.04);
+      letter-spacing:.03em;
+    }
+    .muted{color:var(--muted-color);font-size:11px;letter-spacing:.02em;margin-top:-2px}
+
+    /* ── Shop card glow ── */
+    .car.shop{
+      border-color:rgba(255,184,0,.12);
+      box-shadow:0 4px 20px rgba(0,0,0,.5);
+    }
+    .car.shop:hover{
+      border-color:rgba(255,184,0,.2);
+      box-shadow:0 8px 30px rgba(0,0,0,.6);
+    }
+    .car.shop.selected{
+      border-color:rgba(255,184,0,.25);
+      box-shadow:0 8px 30px rgba(0,0,0,.6), 0 0 0 1px rgba(255,184,0,.1);
+    }
+
+    /* ── Shop badge ── */
+    .tag.shop{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:3px 6px;border-radius:4px;
+      background:rgba(255,193,7,.06);border-color:rgba(255,193,7,.3);
+    }
+    .tag.shop svg{width:16px;height:16px;display:block}
+    @keyframes glowPulse{
+      0%,100%{filter:drop-shadow(0 0 0 rgba(255,184,0,0))}
+      50%{filter:drop-shadow(0 0 6px rgba(255,184,0,.4))}
+    }
+    .tag.shop svg{animation:glowPulse 2.4s ease-in-out infinite}
+
+    /* ══ TRAY (right panel) ══ */
+    .tray{
+      position:fixed; right:18px; bottom:18px;
+      width:clamp(240px,24vw,300px);
+      background:var(--panel);
+      border:1px solid var(--border-accent);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-lg);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      pointer-events:auto;
+      transform:translateY(10px); opacity:0; visibility:hidden;
+      transition:opacity .2s ease, transform .2s ease;
+      padding:0; overflow:hidden;
+    }
+    .tray.show{
+      transform:none;
+      opacity:1; visibility:visible;
+    }
+
+    .tray .top{
+      display:grid; grid-template-columns:1fr auto;
+      align-items:center; gap:10px;
+      padding:12px 14px; min-width:0;
+      border-bottom:1px solid var(--border);
+    }
+    .tray .title{
+      display:grid; grid-template-columns:1fr auto;
+      align-items:center; gap:8px; min-width:0;
+      font:var(--fw-strong) 13px/1.2 var(--font-display); letter-spacing:.5px;
+    }
+    .tray .title .name-line{
+      min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+      color:#fff;
+    }
+    .tray .title .plate-mini{
+      font:var(--fw-strong) 11px/1 var(--font); padding:5px 8px; border-radius:4px;
+      border:1px solid var(--border); background:rgba(255,255,255,.04); color:rgba(255,255,255,.8);
+      letter-spacing:.04em;
+    }
+
+    .tray .body{
+      display:flex; flex-direction:column; gap:6px;
+      padding:10px; max-height:46vh; overflow:auto;
+    }
+
+    /* ── Action buttons ── */
+    .act{
+      width:100%; display:flex; align-items:center; gap:10px; justify-content:flex-start;
+      text-align:left; padding:10px 14px; border-radius:4px; cursor:pointer;
+      font:var(--fw-strong) 12px/1 var(--font); color:rgba(255,255,255,.85);
+      letter-spacing:.5px; text-transform:uppercase;
+      border:1px solid var(--border); background:rgba(255,255,255,.02);
+      transition:all .2s ease;
+    }
+    .act:hover{
+      transform:translateY(-1px); background:rgba(255,255,255,.04);
+      border-color:var(--border-accent);
+    }
+    .act svg{width:18px;height:18px;flex-shrink:0;opacity:.7}
+    .act:hover svg{opacity:.9}
+    .act[disabled]{opacity:.4;pointer-events:none;cursor:not-allowed}
+
+    .act[title]{position:relative}
+    .act[title]:hover::after{
+      content:attr(title);position:absolute;bottom:calc(100%+8px);left:50%;transform:translateX(-50%);
+      white-space:nowrap;padding:6px 10px;border-radius:4px;
+      background:var(--panel-solid);color:rgba(255,255,255,.85);border:1px solid var(--border);
+      font:var(--fw-strong) 11px/1.2 var(--font);box-shadow:var(--shadow);
+    }
+
+    /* Specific action styles */
+    #actOut{
+      background:rgba(255,90,50,.15);border-color:rgba(255,90,50,.3);
+      color:var(--accent);transition:all .2s ease;
+    }
+    #actOut:hover{background:rgba(255,90,50,.3);border-color:rgba(255,90,50,.5)}
+    #actOut svg{fill:currentColor !important;margin-right:4px}
+
+    #actAbandon{
+      background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger);
+    }
+    #actAbandon:hover{background:rgba(220,50,50,.35);border-color:rgba(220,50,50,.5)}
+    #actAbandon svg{margin-right:4px;stroke:currentColor;fill:none}
+
+    #actRename{color:rgba(255,255,255,.85)}
+    #actRename svg{margin-right:4px}
+    #actRename:hover{color:#fff}
+    #actRename:hover svg .g-stroke{stroke:url(#renameGrad)}
+
+    #actRepair{color:rgba(255,255,255,.85)}
+    #actRepair svg{margin-right:4px}
+    #actRepair:hover{color:#fff}
+    #actRepair:hover svg .g-fill{fill:url(#repairGrad)}
+
+    #actKeys{color:rgba(255,255,255,.85)}
+    #actKeys svg{margin-right:4px}
+    #actKeys:hover{color:#fff}
+    #actKeys:hover svg .g-fill{fill:url(#keysGrad)}
+
+    /* ── Tray close button ── */
+    #trayClose.close-x{
+      display:grid; place-items:center;
+      width:32px; height:32px; flex:none;
+      border-radius:4px; cursor:pointer;
+      background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.3); transition:all .2s ease;
+    }
+    #trayClose.close-x:hover{
+      transform:translateY(-1px);
+      background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.15);
+      color:rgba(255,255,255,.7);
+    }
+    #trayClose.close-x svg{width:16px;height:16px}
+
+    /* ══ SEARCH (inside panel) ══ */
+    .search-dock{
+      display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:8px;
+      margin:10px 10px 0; padding:9px 12px; border-radius:4px; flex:none;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+    }
+    .search-dock .ico{width:18px;height:18px;color:var(--muted-color);opacity:.6}
+    .search-dock input{
+      width:100%;border:0;outline:none;background:transparent;
+      color:rgba(255,255,255,.88);font:var(--fw-strong) 13px/1.2 var(--font);
+      letter-spacing:.02em;
+    }
+    .search-dock input::placeholder{color:var(--muted-color)}
+    .search-dock .clear{
+      display:grid;place-items:center;width:28px;height:28px;
+      border-radius:4px;cursor:pointer;border:1px solid var(--border);
+      background:rgba(255,255,255,.04);color:rgba(255,255,255,.6);transition:all .2s ease;
+    }
+    .search-dock .clear:hover{background:rgba(255,255,255,.08);color:#fff}
+    .search-dock .clear svg{width:14px;height:14px}
+    .search-dock:not(.has-value) .clear{visibility:hidden;opacity:0;width:0;padding:0;margin:0;border:0}
+
+    /* ══ CLOSE BUTTON (in panel head) ══ */
+    .ui-close{
+      width:32px; height:32px; border-radius:4px; flex:none;
+      display:grid; place-items:center; cursor:pointer;
+      background:var(--danger-bg); border:1px solid var(--danger-border);
+      color:var(--danger);
+      transition:all .2s ease;
+    }
+    .ui-close:hover{
+      transform:translateY(-1px);
+      background:rgba(220,50,50,.35); border-color:rgba(220,50,50,.5);
+      color:#ff6666;
+    }
+    .ui-close svg{width:16px;height:16px}
+
+    /* ══ SCREENSHOT BUTTON ══ */
+    .ui-shot{
+      position:fixed; top:18px; left:50%; transform:translateX(-50%);
+      width:36px; height:36px; border-radius:4px;
+      display:grid; place-items:center; cursor:pointer; z-index:90;
+      background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.5);
+      box-shadow:var(--shadow);
+      transition:all .2s ease;
+    }
+    .ui-shot:hover{
+      transform:translateX(-50%) translateY(-1px);
+      background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.15);
+      color:rgba(255,255,255,.8);
+    }
+    .ui-shot svg{width:16px;height:16px;display:block}
+    .ui-shot svg path{fill:currentColor}
+    .ui-shot::after{
+      content:attr(data-tip);
+      position:absolute;left:50%;top:100%;
+      transform:translate(-50%,8px);
+      background:var(--panel-solid);color:rgba(255,255,255,.85);
+      border:1px solid var(--border-accent);
+      padding:6px 10px;border-radius:4px;
+      font:var(--fw-strong) 11px/1.2 var(--font);
+      white-space:nowrap;pointer-events:none;
+      opacity:0;transition:opacity .15s ease,transform .15s ease;
+      box-shadow:var(--shadow);
+    }
+    .ui-shot:hover::after{opacity:1;transform:translate(-50%,12px)}
+
+    /* ══ TOAST ══ */
+    .shot-toast{
+      position:fixed; left:50%; top:18px;
+      transform:translateX(-50%) translateY(8px);
+      opacity:0; visibility:hidden; pointer-events:none;
+      background:var(--panel-solid);
+      color:rgba(255,255,255,.88);
+      border:1px solid var(--border-accent);
+      border-radius:4px; padding:8px 14px;
+      font:var(--fw-strong) 12px/1.2 var(--font);
+      box-shadow:var(--shadow-lg); z-index:95;
+      transition:opacity .18s ease,transform .18s ease;
+    }
+    .shot-toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(12px)}
+
+    /* ══ RENAME / GIVE / WEBHOOK / CONFIRM DOCKS ══ */
+    .rename-dock{
+      position:fixed; z-index:80; pointer-events:auto;
+      width:max-content; min-width:260px; max-width:360px;
+      left:auto;right:auto;top:auto;bottom:auto;
+      padding:10px 12px;
+      background:var(--panel);
+      border:1px solid var(--border-accent);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-lg);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      opacity:0;visibility:hidden;transform:translateY(8px);
+      transition:.22s ease;
+    }
+    .rename-dock.show{opacity:1;visibility:visible;transform:none}
+
+    .rename{
+      display:grid; grid-template-columns:1fr; grid-template-rows:auto auto;
+      gap:10px;
+    }
+    .rename .row{display:flex;align-items:center}
+    .rename input{
+      width:100%; padding:10px 14px; border-radius:4px;
+      border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04);
+      color:#fff; font:var(--fw-body) 14px/1.2 var(--font);
+      letter-spacing:.02em; transition:border-color .2s ease;
+    }
+    .rename input:focus{border-color:rgba(255,90,50,.4);outline:none}
+    .rename input::placeholder{color:rgba(255,255,255,.2)}
+    .rename .footer{display:flex;justify-content:flex-end;align-items:center;gap:8px}
+    .rename .btn{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:8px 14px;border-radius:4px;cursor:pointer;
+      border:1px solid var(--border);background:rgba(255,255,255,.05);
+      color:rgba(255,255,255,.5);font:var(--fw-strong) 13px/1 var(--font);
+      letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;transition:all .2s ease;
+    }
+    .rename .btn:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+    .rename .btn.success{
+      background:linear-gradient(135deg,var(--accent),#e04020);
+      border:none;color:#fff;min-width:72px;
+      box-shadow:0 4px 15px var(--accent-glow-strong);
+    }
+    .rename .btn.success:hover{
+      background:linear-gradient(135deg,var(--accent-hover),#f05030);
+      transform:translateY(-1px);
+      box-shadow:0 6px 20px rgba(255,90,50,.4);
+    }
+    .rename .btn.danger{
+      background:var(--danger-bg);border-color:var(--danger-border);
+      color:var(--danger);padding:8px 12px;
+    }
+    .rename .btn.danger:hover{
+      background:rgba(220,50,50,.35);
+    }
+
+    /* ══ QUICK-OUT BUTTON ══ */
+    .quick-out{
+      position:relative; right:auto; bottom:auto;
+      width:36px; height:36px; border-radius:4px;
+      display:grid; place-items:center; cursor:pointer;
+      color:rgba(255,255,255,.5);
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:none;
+      transition:all .2s ease; z-index:2;
+    }
+    .quick-out svg{width:16px;height:16px;fill:currentColor}
+    .quick-out:hover{
+      transform:translateY(-2px); color:var(--accent);
+      background:rgba(255,90,50,.12); border-color:rgba(255,90,50,.25);
+      box-shadow:0 4px 12px rgba(255,90,50,.15);
+    }
+    .quick-out:active{transform:translateY(0) scale(.97)}
+    .quick-out::after{
+      content:"";position:absolute;inset:0;border-radius:inherit;
+      box-shadow:0 0 0 0 var(--qo-ring);opacity:0;pointer-events:none;
+    }
+    .quick-out.sent::after{animation:qoPulse .7s ease-out}
+    @keyframes qoPulse{
+      0%{box-shadow:0 0 0 0 var(--qo-ring);opacity:.6}
+      100%{box-shadow:0 0 0 14px rgba(255,90,50,0);opacity:0}
+    }
+
+    /* ══ MINI-FAV ══ */
+    .mini-fav{
+      width:28px; height:28px; border-radius:4px; padding:0;
+      display:grid; place-items:center; cursor:pointer;
+      border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.04);
+      color:rgba(255,255,255,.35);
+      transition:all .2s ease;
+    }
+    .mini-fav svg{width:14px;height:14px;fill:currentColor;transition:transform .18s ease}
+    .mini-fav:hover{transform:translateY(-1px);color:rgba(255,255,255,.6);background:rgba(255,255,255,.06)}
+    .mini-fav.active{
+      background:rgba(255,90,50,.08); border-color:rgba(255,90,50,.2);
+      color:var(--accent); box-shadow:none;
+    }
+    @keyframes favPop{0%{transform:scale(.85)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+    .mini-fav.pop{animation:favPop .28s ease-out}
+
+    .actions{display:flex;align-items:center;gap:6px}
+
+    /* ══ LOOKPAD ══ */
+    #lookpad{
+      position:fixed; left:50%; top:48%; transform:translate(-50%,-50%);
+      width:clamp(500px,60vw,1000px); height:clamp(340px,56vh,700px);
+      border-radius:var(--radius); pointer-events:auto; cursor:grab;
+      background:transparent; border:0; opacity:0; z-index:25;
+    }
+    #lookpad.active{cursor:grabbing}
+
+    /* ══ INSURANCE ROW ══ */
+    .tray .body .act-row{
+      width:100%; display:flex; align-items:center; gap:8px; justify-content:flex-start;
+    }
+    .tray .body .act-row .act{width:auto !important;flex:0 0 auto}
+    .price-chip{
+      display:inline-flex;align-items:center;
+      padding:7px 12px;border-radius:4px;
+      border:1px solid var(--border);background:rgba(255,255,255,.04);
+      color:rgba(255,255,255,.85);font:var(--fw-strong) 12px/1.2 var(--font);
+      letter-spacing:.02em;white-space:nowrap;
+    }
+    .price-chip.loading{opacity:.5}
+
+    /* ══ EMPTY STATE ══ */
+    .rail.empty{justify-content:center;align-items:center}
+    .empty-card{
+      width:100%; min-width:0; max-width:none;
+      padding:20px 24px; border-radius:var(--radius); text-align:center;
+      background:rgba(255,255,255,.02);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow-lg);
+      display:flex; flex-direction:column; align-items:center; gap:10px;
+    }
+    .empty-card .ico{
+      width:40px;height:40px;border-radius:4px;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.06);border:1px solid var(--border);
+      color:rgba(255,255,255,.3);
+    }
+    .empty-card .ico svg{width:18px;height:18px}
+    .empty-card h3{margin:0;font:var(--fw-strong) 14px/1.3 var(--font-display);color:#fff;letter-spacing:1px;text-transform:uppercase}
+    .empty-card p{margin:0;color:var(--muted-color);font-size:12px}
+
+    /* ══ ERROR FEEDBACK ══ */
+    @keyframes uiShake{
+      0%,100%{transform:translateX(0)}20%{transform:translateX(-4px)}
+      40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}
+    }
+    .shake{animation:uiShake .36s ease-in-out}
+    .error-ring{box-shadow:0 0 0 1px rgba(220,50,50,.5),0 4px 16px rgba(220,50,50,.2) !important}
+
+    .hidden{display:none !important}
+
+    /* ══ REDUCED MOTION ══ */
+    @media(prefers-reduced-motion:reduce){
+      .car,.car.reveal,.tray,.quick-out,.quick-out::after{
+        transition:none !important;transform:none !important;opacity:1 !important;animation:none !important;
+      }
+    }
+
+    /* ══ CEF NO-BLUR FALLBACK ══ */
+    .no-blur .side-panel,
+    .no-blur .tray,
+    .no-blur .rename-dock{
+      -webkit-backdrop-filter:none !important;
+      backdrop-filter:none !important;
+    }
+    .no-blur .side-panel{background:var(--panel-solid) !important}
+    .no-blur .tray{background:var(--panel-solid) !important}
+    .no-blur .rename-dock{background:var(--panel-solid) !important}
+  </style>
+</head>
+<body>
+  <div class="garage" id="garageRoot" aria-hidden="true">
+    <button class="ui-shot" id="uiShot" aria-label="Prendre en photo" data-tip="Prendre en photo">
+      <svg viewBox="0 0 512 512" aria-hidden="true">
+        <path d="M475.4,121.8H359.6l-12.2-36.6c0-20.2-16.4-36.6-36.6-36.6H201.1c-20.2,0-36.6,16.4-36.6,36.6l-12.2,36.6H36.6
+        C16.4,121.8,0,138.2,0,158.4v219.4c0,20.2,16.4,36.6,36.6,36.6h438.9c20.2,0,36.6-16.4,36.6-36.6V158.4
+        C512,138.2,495.6,121.8,475.4,121.8z M256,377.8c-60.6,0-109.7-49.1-109.7-109.7c0-60.6,49.1-109.7,109.7-109.7
+        c60.6,0,109.7,49.1,109.7,109.7C365.7,328.6,316.6,377.8,256,377.8z M475.4,194.9c0,10.1-8.2,18.3-18.3,18.3h-18.3
+        c-10.1,0-18.3-8.2-18.3-18.3v-18.3c0-10.1,8.2-18.3,18.3-18.3h18.3c10.1,0,18.3,8.2,18.3,18.3V194.9z M256,194.9
+        c-40.4,0-73.1,32.7-73.1,73.1s32.7,73.1,73.1,73.1s73.1-32.7,73.1-73.1S296.4,194.9,256,194.9z"></path>
+      </svg>
+    </button>
+    <div id="shotToast" class="shot-toast" aria-hidden="true" role="status" aria-live="polite"></div>
+
+    <!-- Panneau latéral droit -->
+    <aside class="side-panel" id="sidePanel">
+    <div class="panel-head">
+      <div class="panel-title">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="-4 0 32 32">
+            <path d="M19.938 7.188l3.563 7.156c0.063 0.094 0.094 0.219 0.125 0.313 0.219 0.563 0.375 1.344 0.375 1.844v3.406c0 1.063-0.719 1.938-1.719 2.188v2c0 0.969-0.781 1.719-1.719 1.719-0.969 0-1.719-0.75-1.719-1.719v-1.938h-13.688v1.938c0 0.969-0.75 1.719-1.719 1.719-0.938 0-1.719-0.75-1.719-1.719v-2c-1-0.25-1.719-1.125-1.719-2.188v-3.406c0-0.5 0.156-1.281 0.375-1.844 0.031-0.094 0.063-0.219 0.125-0.313l3.563-7.156c0.281-0.531 1.031-1.031 1.656-1.031h12.563c0.625 0 1.375 0.5 1.656 1.031zM5.531 9.344l-1.906 4.344c-0.094 0.156-0.094 0.344-0.094 0.469h16.938c0-0.125 0-0.313-0.094-0.469l-1.906-4.344c-0.25-0.563-1-1.063-1.594-1.063h-9.75c-0.594 0-1.344 0.5-1.594 1.063zM4.688 19.906c1 0 1.781-0.813 1.781-1.844 0-1-0.781-1.781-1.781-1.781s-1.844 0.781-1.844 1.781c0 1.031 0.844 1.844 1.844 1.844zM19.313 19.906c1 0 1.844-0.813 1.844-1.844 0-1-0.844-1.781-1.844-1.781s-1.781 0.781-1.781 1.781c0 1.031 0.781 1.844 1.781 1.844z" fill="currentColor"/>
+          </svg>
+        </span>
+        Garage
+      </div>
+      <button class="ui-close" id="uiClose" aria-label="Fermer le garage">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Catégories -->
+    <nav class="cats" id="cats" role="tablist" aria-label="Filtres de véhicules">
+      <button class="cat active" data-cat="all" role="tab" aria-selected="true">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="-4 0 32 32">
+            <path d="M19.938 7.188l3.563 7.156c0.063 0.094 0.094 0.219 0.125 0.313 0.219 0.563 0.375 1.344 0.375 1.844v3.406c0 1.063-0.719 1.938-1.719 2.188v2c0 0.969-0.781 1.719-1.719 1.719-0.969 0-1.719-0.75-1.719-1.719v-1.938h-13.688v1.938c0 0.969-0.75 1.719-1.719 1.719-0.938 0-1.719-0.75-1.719-1.719v-2c-1-0.25-1.719-1.125-1.719-2.188v-3.406c0-0.5 0.156-1.281 0.375-1.844 0.031-0.094 0.063-0.219 0.125-0.313l3.563-7.156c0.281-0.531 1.031-1.031 1.656-1.031h12.563c0.625 0 1.375 0.5 1.656 1.031zM5.531 9.344l-1.906 4.344c-0.094 0.156-0.094 0.344-0.094 0.469h16.938c0-0.125 0-0.313-0.094-0.469l-1.906-4.344c-0.25-0.563-1-1.063-1.594-1.063h-9.75c-0.594 0-1.344 0.5-1.594 1.063zM4.688 19.906c1 0 1.781-0.813 1.781-1.844 0-1-0.781-1.781-1.781-1.781s-1.844 0.781-1.844 1.781c0 1.031 0.844 1.844 1.844 1.844zM19.313 19.906c1 0 1.844-0.813 1.844-1.844 0-1-0.844-1.781-1.844-1.781s-1.781 0.781-1.781 1.781c0 1.031 0.781 1.844 1.781 1.844z" fill="currentColor"/>
+          </svg>
+        </span>
+        Concess
+      </button>
+
+      <button class="cat" data-cat="shop" role="tab" aria-selected="false">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M11.25 7.84748C10.3141 8.10339 9.75 8.82154 9.75 9.5C9.75 10.1785 10.3141 10.8966 11.25 11.1525V7.84748Z" fill="currentColor"/>
+            <path d="M12.75 12.8475V16.1525C13.6859 15.8966 14.25 15.1785 14.25 14.5C14.25 13.8215 13.6859 13.1034 12.75 12.8475Z" fill="currentColor"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 5.25C12.4142 5.25 12.75 5.58579 12.75 6V6.31673C14.3804 6.60867 15.75 7.83361 15.75 9.5C15.75 9.91421 15.4142 10.25 15 10.25C14.5858 10.25 14.25 9.91421 14.25 9.5C14.25 8.82154 13.6859 8.10339 12.75 7.84748V11.3167C14.3804 11.6087 15.75 12.8336 15.75 14.5C15.75 16.1664 14.3804 17.3913 12.75 17.6833V18C12.75 18.4142 12.4142 18.75 12 18.75C11.5858 18.75 11.25 18.4142 11.25 18V17.6833C9.61957 17.3913 8.25 16.1664 8.25 14.5C8.25 14.0858 8.58579 13.75 9 13.75C9.41421 13.75 9.75 14.0858 9.75 14.5C9.75 15.1785 10.3141 15.8966 11.25 16.1525V12.6833C9.61957 12.3913 8.25 11.1664 8.25 9.5C8.25 7.83361 9.61957 6.60867 11.25 6.31673V6C11.25 5.58579 11.5858 5.25 12 5.25Z" fill="currentColor"/>
+          </svg>
+        </span>
+        Boutique
+      </button>
+
+      <button class="cat" data-cat="fav" role="tab" aria-selected="false">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="-1 0 19 19">
+            <path
+              d="m12.673 10.779.798 4.02c.221 1.11-.407 1.566-1.395 1.013L8.5 13.81l-3.576 2.002c-.988.553-1.616.097-1.395-1.013l.397-2.001.401-2.02-1.51-1.397-1.498-1.385c-.832-.769-.592-1.507.532-1.64l2.026-.24 2.044-.242 1.717-3.722c.474-1.028 1.25-1.028 1.724 0l1.717 3.722 2.044.242 2.026.24c1.124.133 1.364.871.533 1.64L14.184 9.38z"
+              fill="currentColor" />
+          </svg>
+        </span>
+        Favoris
+      </button>
+
+      <button class="cat" data-cat="impound" role="tab" aria-selected="false">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 17a3 3 0 1 0 6 0H3zm12 0a3 3 0 1 0 6 0h-6zM2 7h4l4 5h4l3-4 2 1-3 5h-6l-4-5H2V7z" fill="currentColor"/>
+          </svg>
+        </span>
+        Fourrière
+      </button>
+    </nav>
+
+    <form class="search-dock" id="searchDock" role="search" aria-label="Rechercher un véhicule">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input id="searchInput" type="text" placeholder="Rechercher (modèle, plaque…)" autocomplete="off" />
+      <button type="button" id="searchClear" class="clear" aria-label="Effacer">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+      <!-- Liste des véhicules -->
+      <div class="rail" id="rail" aria-label="Vos véhicules"></div>
+    </aside>
+
+    <!-- Dock de renommage (gauche) -->
+    <aside class="rename-dock" id="renameDock" aria-hidden="true"></aside>
+    <aside class="rename-dock" id="giveDock" aria-hidden="true"></aside>
+    <aside class="rename-dock" id="webhookDock" aria-hidden="true"></aside>
+    <aside class="rename-dock" id="confirmDock" aria-hidden="true"></aside>
+
+    <aside class="tray" id="tray" aria-live="polite" aria-hidden="true">
+      <div class="top">
+        <div class="title" id="trayTitle">—</div>
+        <button id="trayClose" class="close-x" aria-label="Fermer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="body">
+        <button class="act" id="actOut">
+          <svg viewBox="0 0 512 512" aria-hidden="true">
+            <path d="M437.02,74.981C388.668,26.628,324.38,0,256,0S123.333,26.628,74.98,74.981C26.628,123.333,0,187.62,0,256 s26.628,132.667,74.98,181.019C123.333,485.372,187.62,512,256,512s132.667-26.628,181.02-74.981 C485.372,388.668,512,324.38,512,256S485.372,123.333,437.02,74.981z M256,57.263c100.782,0,184.276,75.409,197.04,172.765 L329.849,218.03c-13.813-26.755-41.72-45.102-73.849-45.102s-60.036,18.347-73.849,45.102L58.96,230.028 C71.724,132.672,155.218,57.263,256,57.263z M58.889,281.375l121.731,9.484c7.69,16.55,20.669,30.166,36.76,38.655l7.978,122.859 C138.513,438.875,70.099,368.943,58.889,281.375z M256,281.809c-14.232,0-25.809-11.578-25.809-25.809S241.77,230.191,256,230.191 S281.809,241.77,281.809,256S270.232,281.809,256,281.809z M286.644,452.373l7.978-122.859 c16.091-8.488,29.069-22.105,36.76-38.655l121.731-9.484C441.901,368.943,373.487,438.875,286.644,452.373z"></path>
+          </svg>
+          Sortir
+        </button>
+
+        <div class="act-row hidden" id="insureRow">
+          <button class="act" id="actInsure">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l7 3v6c0 5-3.5 9.3-7 11-3.5-1.7-7-6-7-11V5l7-3z" fill="currentColor"></path>
+            </svg>
+            Assurer
+          </button>
+          <span class="price-chip" id="insurePriceChip" aria-live="polite">—</span>
+        </div>
+
+        <div class="act-row hidden" id="webhookRow">
+          <button class="act" id="actSetWebhook">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 12a9 9 0 0 1 9-9h4a1.5 1.5 0 1 1 0 3h-4a6 6 0 1 0 0 12h4a1.5 1.5 0 1 1 0 3h-4A9 9 0 0 1 3 12Zm9 1.5h4a1.5 1.5 0 1 0 0-3h-4a1.5 1.5 0 1 0 0 3Z" fill="currentColor"/>
+            </svg>
+            Définir webhook coffre
+          </button>
+        </div>
+
+        <button class="act" id="actRename">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <defs>
+              <linearGradient id="renameGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%"  stop-color="#FFE684"/>
+                <stop offset="100%" stop-color="#FF9800"/>
+              </linearGradient>
+            </defs>
+            <path class="g-stroke"
+              d="M7 14H17M6 10H6.01M10 10H10.01M14 10H14.01M18 10H18.01M5.2 18H18.8C19.9201 18 20.4802 18 20.908 17.782C21.2843 17.5903 21.5903 17.2843 21.782 16.908C22 16.4802 22 15.9201 22 14.8V9.2C22 8.0799 22 7.51984 21.782 7.09202C21.5903 6.71569 21.2843 6.40973 20.908 6.21799C20.4802 6 19.9201 6 18.8 6H5.2C4.07989 6 3.51984 6 3.09202 6.21799C2.71569 6.40973 2.40973 6.71569 2.21799 7.09202C2 7.51984 2 8.07989 2 9.2V14.8C2 15.9201 2 16.4802 2.21799 16.908C2.40973 17.2843 2.71569 17.5903 3.09202 17.782C3.51984 18 4.0799 18 5.2 18Z"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          Renommer
+        </button>
+        <button class="act" id="actGive">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v3m0 12v3M3 12h3m12 0h3M7.5 7.5l2 2M14.5 14.5l2 2M7.5 16.5l2-2m3-3l2-2"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Donner
+        </button>
+        <button class="act" id="actKeys">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <defs>
+              <linearGradient id="keysGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%"  stop-color="#FFE684"/>
+                <stop offset="100%" stop-color="#FF9800"/>
+              </linearGradient>
+            </defs>
+            <path class="g-fill" fill-rule="evenodd" clip-rule="evenodd"
+              d="M22 8.29344C22 11.7692 19.1708 14.5869 15.6807 14.5869C15.0439 14.5869 13.5939 14.4405 12.8885 13.8551L12.0067 14.7333C11.4883 15.2496 11.6283 15.4016 11.8589 15.652C11.9551 15.7565 12.0672 15.8781 12.1537 16.0505C12.1537 16.0505 12.8885 17.075 12.1537 18.0995C11.7128 18.6849 10.4783 19.5045 9.06754 18.0995L8.77362 18.3922C8.77362 18.3922 9.65538 19.4167 8.92058 20.4412C8.4797 21.0267 7.30403 21.6121 6.27531 20.5876L5.2466 21.6121C4.54119 22.3146 3.67905 21.9048 3.33616 21.6121L2.45441 20.7339C1.63143 19.9143 2.1115 19.0264 2.45441 18.6849L10.0963 11.0743C10.0963 11.0743 9.3615 9.90338 9.3615 8.29344C9.3615 4.81767 12.1907 2 15.6807 2C19.1708 2 22 4.81767 22 8.29344ZM15.681 10.4889C16.8984 10.4889 17.8853 9.50601 17.8853 8.29353C17.8853 7.08105 16.8984 6.09814 15.681 6.09814C14.4635 6.09814 13.4766 7.08105 13.4766 8.29353C13.4766 9.50601 14.4635 10.4889 15.681 10.4889Z"
+              fill="currentColor"></path>
+          </svg>
+          Double de clés
+        </button>
+        <button class="act" id="actAbandon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6L17.1991 18.0129C17.129 19.065 17.0939 19.5911 16.8667 19.99C16.6666 20.3412 16.3648 20.6235 16.0011 20.7998C15.588 21 15.0607 21 14.0062 21H9.99377C8.93927 21 8.41202 21 7.99889 20.7998C7.63517 20.6235 7.33339 20.3412 7.13332 19.99C6.90607 19.5911 6.871 19.065 6.80086 18.0129L6 6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M14 10V17M10 10V17"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+          </svg>
+          Abandonner
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+  (() => {
+    const root      = document.getElementById('garageRoot');
+    const rail      = document.getElementById('rail');
+    const cats      = document.getElementById('cats');
+    const tray      = document.getElementById('tray');
+    const trayTitle = document.getElementById('trayTitle');
+    const trayClose = document.getElementById('trayClose');
+    const renameDock = document.getElementById('renameDock');
+    const giveDock = document.getElementById('giveDock');
+    const insureRow       = document.getElementById('insureRow');
+    const insurePriceChip = document.getElementById('insurePriceChip');
+    const webhookRow  = document.getElementById('webhookRow');
+    const webhookDock = document.getElementById('webhookDock');
+    const confirmDock = document.getElementById('confirmDock');
+
+    function flagOn(v){
+      if (v === true) return true;
+      if (v === 1) return true;
+      if (typeof v === 'string'){
+        const s = v.trim().toLowerCase();
+        if (s === 'true') return true;
+        if (s === '1') return true;
+      }
+      return false;
+    }
+
+    document.getElementById('actAbandon')
+    .addEventListener('click', (e)=> action('abandon', e.currentTarget));
+
+    let mosleyMode = false;
+
+    document.getElementById('actGive')
+      ?.addEventListener('click', (e)=> action('give', e.currentTarget));
+
+    document.getElementById('actSetWebhook')
+      ?.addEventListener('click', (e)=> action('setWebhook', e.currentTarget));
+
+    const searchDock  = document.getElementById('searchDock');
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    let searchTerm = '';
+
+    const uiShot = document.getElementById('uiShot');
+    uiShot?.addEventListener('click', () => {
+      const v = filtered[selected];
+      const payload = v ? { plate: v.plate, model: v.model, label: v.label } : {};
+      post('takescreenshot', payload);
+    });
+    uiShot?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); uiShot.click(); }
+    });
+
+    const actInsureBtn = document.getElementById('actInsure');
+    function setInsureUILoading(on=true){
+      if (!actInsureBtn) return;
+      actInsureBtn.disabled = !!on;
+      if (on) setInsuranceLoading();
+    }
+
+    function setInsureButtonMode(plate){
+      if (!actInsureBtn) return;
+      const key = normPlate(plate || (filtered[selected] && filtered[selected].plate));
+      const insured = !!(insuranceState[key] && insuranceState[key].insured);
+      const chip = insurePriceChip;
+
+      if (insured){
+        actInsureBtn.dataset.mode = 'webhook';
+        actInsureBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 12a9 9 0 0 1 9-9h4a1.5 1.5 0 1 1 0 3h-4a6 6 0 1 0 0 12h4a1.5 1.5 0 1 1 0 3h-4A9 9 0 0 1 3 12Zm9 1.5h4a1.5 1.5 0 1 0 0-3h-4a1.5 1.5 0 1 0 0 3Z" fill="currentColor"/>
+          </svg>
+          Définir webhook
+        `;
+        chip?.classList.add('hidden');
+      }else{
+        actInsureBtn.dataset.mode = 'insure';
+        actInsureBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2l7 3v6c0 5-3.5 9.3-7 11-3.5-1.7-7-6-7-11V5l7-3z" fill="currentColor"></path>
+          </svg>
+          Assurer
+        `;
+        chip?.classList.remove('hidden');
+      }
+    }
+
+    function updateInsuranceRowsForPlate(plate){
+      const st = insuranceState[normPlate(plate)];
+      const insured = !!(st && st.insured);
+      if (insuranceMode){
+        insureRow?.classList.toggle('hidden', insured);
+        webhookRow?.classList.toggle('hidden', !insured);
+      }else{
+        insureRow?.classList.add('hidden');
+        webhookRow?.classList.add('hidden');
+      }
+    }
+
+    function updateInsuranceRowsForSelected(){
+      const v = filtered[selected];
+      if(!v) return;
+      updateInsuranceRowsForPlate(v.plate);
+    }
+
+    const lookpad = document.createElement('div');
+    lookpad.id = 'lookpad';
+    root.appendChild(lookpad);
+
+    let lookActive = false;
+    let accumDX = 0, accumDY = 0;
+    let prevX = 0, prevY = 0;
+    let sendTimer = null;
+    let insuranceMode = false;
+    const insuranceState = Object.create(null);
+
+    function configureTrayForMode(){
+        const show = id => document.getElementById(id)?.classList.remove('hidden');
+        const hide = id => document.getElementById(id)?.classList.add('hidden');
+
+        const basics = ['actOut','actRename','actGive','actKeys','actRepair','actAbandon'];
+
+        if (mosleyMode) {
+            basics.forEach(hide);
+            show('actOut');
+            show('actGive');
+            insureRow?.classList.add('hidden');
+            webhookRow?.classList.add('hidden');
+            return;
+        }
+
+        if (insuranceMode){
+            basics.forEach(hide);
+            updateInsuranceRowsForSelected();
+            hide('actGive');
+            return;
+        }
+
+        basics.forEach(hide);
+        show('actOut');
+        show('actRename');
+        show('actGive');
+        show('actKeys');
+        show('actRepair');
+        show('actAbandon');
+        insureRow?.classList.add('hidden');
+        webhookRow?.classList.add('hidden');
+    }
+
+    const SENS_X = 0.18;
+    const SENS_Y = 0.18;
+
+    function positionShotToast(){
+      const btn = document.getElementById('uiShot');
+      const toast = document.getElementById('shotToast');
+      if (!btn || !toast) return;
+      const r = btn.getBoundingClientRect();
+      toast.style.left = (r.left + r.width/2) + 'px';
+      toast.style.top  = (r.bottom + 8) + 'px';
+    }
+    function showShotToast(text){
+      const toast = document.getElementById('shotToast');
+      if (!toast) return;
+      toast.textContent = text;
+      positionShotToast();
+      toast.classList.add('show');
+      toast.setAttribute('aria-hidden','false');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=>{
+        toast.classList.remove('show');
+        toast.setAttribute('aria-hidden','true');
+      }, 2600);
+    }
+    async function copyToClipboard(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        return true;
+      }catch(e){
+        try{
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus(); ta.select();
+          const ok = document.execCommand('copy');
+          ta.remove();
+          return ok;
+        }catch{ return false; }
+      }
+    }
+    window.addEventListener('resize', positionShotToast);
+
+    function startSendLoop(){
+      if (sendTimer) return;
+      sendTimer = setInterval(() => {
+        if (accumDX === 0 && accumDY === 0) return;
+        const yawDelta   =  accumDX * SENS_X;
+        const pitchDelta = -accumDY * SENS_Y;
+        accumDX = 0; accumDY = 0;
+        post('cameraLook', { yawDelta, pitchDelta });
+      }, 30);
+    }
+    function stopSendLoop(){
+      if (!sendTimer) return;
+      clearInterval(sendTimer); sendTimer = null;
+    }
+
+    function onPointerMove(e){
+      if (!lookActive) return;
+      let dx = 0, dy = 0;
+
+      if (document.pointerLockElement === lookpad){
+        dx = e.movementX || 0;
+        dy = e.movementY || 0;
+      } else {
+        dx = (e.clientX - prevX);
+        dy = (e.clientY - prevY);
+        prevX = e.clientX; prevY = e.clientY;
+      }
+      accumDX += dx;
+      accumDY += dy;
+      e.preventDefault();
+    }
+
+    lookpad.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      lookActive = true;
+      prevX = e.clientX; prevY = e.clientY;
+      accumDX = 0; accumDY = 0;
+      lookpad.classList.add('active');
+      try { lookpad.setPointerCapture(e.pointerId); } catch {}
+
+      if (lookpad.requestPointerLock) {
+        try { lookpad.requestPointerLock({ unadjustedMovement: true }); } catch {}
+      }
+
+      window.addEventListener('pointermove', onPointerMove, { passive:false });
+      startSendLoop();
+    });
+
+    function formatMoney(val, currency = ''){
+      if (typeof val === 'number' && isFinite(val)){
+        try{
+          return new Intl.NumberFormat('fr-FR', { style:'currency', currency }).format(val);
+        }catch{
+          return new Intl.NumberFormat('fr-FR').format(val) + '$';
+        }
+      }
+      return String(val);
+    }
+
+    function parsePriceTextToNumber(text){
+      if (!text) return null;
+      const s = String(text).replace(/\s/g,'').replace(/[^\d.,-]/g,'');
+      const lastComma = s.lastIndexOf(',');
+      const lastDot   = s.lastIndexOf('.');
+      let norm = s;
+      if (lastComma > lastDot){
+        norm = s.replace(/\./g,'').replace(',', '.');
+      }else{
+        norm = s.replace(/,/g,'');
+      }
+      const val = parseFloat(norm);
+      return Number.isFinite(val) ? val : null;
+    }
+    function guessCurrencyFromText(text){
+      if (!text) return null;
+      if (/[€]/.test(text)) return '';
+      if (/\$/.test(text))  return '';
+      if (/[£]/.test(text)) return '';
+      return null;
+    }
+
+    function setInsuranceLoading(){
+      if (!insurePriceChip) return;
+      insurePriceChip.textContent = '...';
+      insurePriceChip.classList.add('loading');
+    }
+
+    function setInsurancePrice(price, currency, plate){
+      if (!insurePriceChip) return;
+
+      let textValue = '—';
+      let numeric   = null;
+      let cur       = currency || '';
+
+      if (typeof price === 'number' && isFinite(price)){
+        numeric   = price;
+        textValue = formatMoney(price, currency || '');
+      } else if (price != null){
+        textValue = String(price);
+        numeric   = parsePriceTextToNumber(textValue);
+        cur       = currency || guessCurrencyFromText(textValue) || '';
+      }
+
+      insurePriceChip.textContent = textValue;
+      insurePriceChip.classList.remove('loading');
+
+      const p = plate || (filtered[selected] && filtered[selected].plate);
+      const key = p ? normPlate(p) : null;
+      if (key){
+        insuranceState[key] = {
+          ...(insuranceState[key] || {}),
+          price: numeric,
+          currency: cur,
+          raw: textValue,
+          updatedAt: Date.now()
+        };
+      }
+    }
+
+    function endLook(e){
+      if (!lookActive) return;
+      lookActive = false;
+      try { lookpad.releasePointerCapture?.(e.pointerId); } catch {}
+      document.exitPointerLock?.();
+      lookpad.classList.remove('active');
+      window.removeEventListener('pointermove', onPointerMove);
+      stopSendLoop();
+      if (accumDX || accumDY){
+        const yawDelta   =  accumDX * SENS_X;
+        const pitchDelta = -accumDY * SENS_Y;
+        accumDX = 0; accumDY = 0;
+        post('cameraLook', { yawDelta, pitchDelta });
+      }
+    }
+    lookpad.addEventListener('pointerup', endLook);
+    lookpad.addEventListener('pointercancel', endLook);
+
+    const __openUI = openUI;
+    openUI = function(list){ __openUI(list); lookpad.style.display = ''; };
+    const __closeUI = closeUI;
+    closeUI = function(){ lookpad.style.display = 'none'; __closeUI(); };
+
+    let vehiclesRaw = [];
+    let filtered = [];
+    let filter   = 'all';
+    let selected = -1;
+
+    function positionSearchDock(){ /* la recherche est intégrée dans le panneau latéral */ }
+
+    function openUI(list){
+      vehiclesRaw = Array.isArray(list) ? list : [];
+      root.style.pointerEvents = 'auto';
+      root.setAttribute('aria-hidden', 'false');
+      selected = -1;
+
+      // Reset du filtre de recherche AVANT le render, sinon la liste est
+      // rendue avec l'ancien terme de recherche de la session précédente.
+      searchTerm = '';
+      if (searchInput) searchInput.value = '';
+      searchDock?.classList.remove('has-value');
+
+      render();
+      requestAnimationFrame(() => {
+        [...rail.children].forEach((el, i) => {
+          setTimeout(() => el.classList.add('reveal'), i * 50);
+        });
+      });
+
+      positionSearchDock();
+    }
+    function closeUI(){
+      console.log ('Closing UI');
+      root.style.pointerEvents = 'none';
+      root.setAttribute('aria-hidden', 'true');
+      rail.innerHTML = '';
+      hideTray();
+      if (isFiveM) post('close');
+    }
+
+    const isFiveM = (typeof GetParentResourceName === 'function') || !!window.invokeNative || /Cfx/i.test(navigator.userAgent);
+    if (isFiveM) {
+      document.body.classList.add('no-blur');
+    }
+    let resource = 'sunlife_ui/garage';
+
+    function post(endpoint, payload = {}){
+      if (!isFiveM) {
+        console.debug('[NUI PREVIEW] POST', endpoint, payload);
+        return Promise.resolve(null);
+      }
+      return fetch(`https://${resource}/${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        return res && res.ok ? res.json().catch(() => null) : null;
+      })
+      .catch(err => {
+        console.debug('[NUI] POST failed:', endpoint, err);
+        return null;
+      });
+    }
+    function applyFilter(){
+      let list = vehiclesRaw.slice();
+
+      const isBoutique = (v) => ((v.category || '').toString().trim().toLowerCase() === 'boutique');
+
+      if (filter === 'shop') {
+        list = list.filter(v => isBoutique(v) && !isImpounded(v));
+      } else if (filter === 'fav') {
+        list = list.filter(v => !!v.favorite && !isImpounded(v));
+      } else if (filter === 'impound') {
+        list = list.filter(isImpounded);
+      } else if (filter === 'all') {
+        list = list.filter(v => !isBoutique(v) && !isImpounded(v));
+      }
+
+      if (searchTerm){
+        const has = (s) => (s || '').toString().toLowerCase().includes(searchTerm);
+        list = list.filter(v => has(v.model) || has(v.label) || has(v.plate) || has(v.category));
+      }
+
+      filtered = list;
+    }
+
+    function render(){
+      applyFilter();
+      rail.innerHTML = '';
+      if(!filtered.length){
+        rail.classList.add('empty');
+        rail.innerHTML = `
+          <div class="empty-card reveal" role="status" aria-live="polite">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <h3>Aucun véhicule trouvé</h3>
+            <p>Change de catégorie ou efface ta recherche.</p>
+          </div>`;
+        return;
+      }
+      rail.classList.remove('empty');
+
+      filtered.forEach((v, i) => {
+        const el = document.createElement('article');
+        const isShop = ((v.category || '').toLowerCase() === 'boutique');
+        const impounded = isImpounded(v);
+
+        el.className = 'car' + (isShop ? ' shop' : '') + (impounded ? ' impounded' : '');
+        el.setAttribute('role','button');
+        el.setAttribute('tabindex', '0');
+
+        const actionsHTML = (impounded || insuranceMode) ? '' : `
+          <div class="actions">
+            <button class="mini-fav ${v.favorite ? 'active' : ''}" title="${v.favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}" aria-pressed="${v.favorite ? 'true':'false'}" aria-label="Mettre en favori">
+              <svg viewBox="-1 0 19 19" aria-hidden="true" focusable="false">
+                <path d="m12.673 10.779.798 4.02c.221 1.11-.407 1.566-1.395 1.013L8.5 13.81l-3.576 2.002c-.988.553-1.616.097-1.395-1.013l.397-2.001.401-2.02-1.51-1.397-1.498-1.385c-.832-.769-.592-1.507.532-1.64l2.026-.24 2.044-.242 1.717-3.722c.474-1.028 1.25-1.028 1.724 0l1.717 3.722 2.044.242 2.026.24c1.124.133 1.364.871.533 1.64L14.184 9.38z" fill="currentColor" />
+              </svg>
+            </button>
+            <button class="quick-out" title="Sortir le véhicule" aria-label="Sortir rapidement">
+              <svg viewBox="0 0 512 512" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M437.02,74.981C388.668,26.628,324.38,0,256,0S123.333,26.628,74.98,74.981C26.628,123.333,0,187.62,0,256 s26.628,132.667,74.98,181.019C123.333,485.372,187.62,512,256,512s132.667-26.628,181.02-74.981 C485.372,388.668,512,324.38,512,256S485.372,123.333,437.02,74.981z M256,57.263c100.782,0,184.276,75.409,197.04,172.765 L329.849,218.03c-13.813-26.755-41.72-45.102-73.849-45.102s-60.036,18.347-73.849,45.102L58.96,230.028 C71.724,132.672,155.218,57.263,256,57.263z M58.889,281.375l121.731,9.484c7.69,16.55,20.669,30.166,36.76,38.655l7.978,122.859 C138.513,438.875,70.099,368.943,58.889,281.375z M256,281.809c-14.232,0-25.809-11.578-25.809-25.809S241.77,230.191,256,230.191 S281.809,241.77,281.809,256S270.232,281.809,256,281.809z M286.644,452.373l7.978-122.859 c16.091-8.488,29.069-22.105,36.76-38.655l121.731-9.484C441.901,368.943,373.487,438.875,286.644,452.373z"></path>
+              </svg>
+            </button>
+          </div>`;
+
+        el.innerHTML = `
+          <div class="meta">
+            <div class="info">
+              <div class="name">${safe(ucfirst(v.label || v.model || '—'))}</div>
+              <div class="muted">${safe(v.plate || '')}</div>
+            </div>
+            ${actionsHTML}
+          </div>
+        `;
+
+        if (!impounded){
+          const quickBtn = el.querySelector('.quick-out');
+          quickBtn?.addEventListener('click', async (evt) => {
+            evt.stopPropagation();
+            quickBtn.classList.add('sent'); quickBtn.disabled = true;
+
+            const resp = await post('spawnVehicle', { plate: v.plate, model: v.model }) || {};
+            if (resp.success) {
+              showShotToast(resp.message || 'Véhicule sorti ✅');
+            } else {
+              showShotToast(resp.message || 'Impossible de sortir ce véhicule');
+            }
+
+            setTimeout(() => { quickBtn.disabled = false; quickBtn.classList.remove('sent'); }, 650);
+          });
+
+          const favBtn = el.querySelector('.mini-fav');
+          favBtn?.addEventListener('click', (evt) => {
+            evt.stopPropagation();
+            toggleFavorite(i);
+            favBtn.classList.add('pop'); setTimeout(()=> favBtn.classList.remove('pop'), 300);
+          });
+        }
+
+        el.addEventListener('click', () => {
+          if (impounded){
+            showShotToast('Ce véhicule est à la fourrière. Allez le récupérer à la fourrière.');
+            post('selectVehicle', { plate: v.plate, model: v.model, label: v.label });
+            return;
+          }
+          selectIndex(i);
+        });
+        el.addEventListener('keydown', (e) => {
+          if(e.key==='Enter' || e.key===' '){
+            e.preventDefault();
+            if (impounded){
+              showShotToast('Ce véhicule est à la fourrière. Allez le récupérer à la fourrière.');
+              post('selectVehicle', { plate: v.plate, model: v.model, label: v.label });
+              return;
+            }
+            selectIndex(i);
+          }
+        });
+
+        rail.appendChild(el);
+      });
+
+      requestAnimationFrame(() => {
+        [...rail.children].forEach((el, i) => {
+          el.classList.remove('reveal');
+          setTimeout(() => el.classList.add('reveal'), i * 50);
+        });
+      });
+    }
+
+    function selectIndex(i){
+      selected = i;
+      hideRenameDock();
+      [...rail.children].forEach((el, idx)=> el.classList.toggle('selected', idx===i));
+
+      const v = filtered[i];
+      if(!v) return;
+
+      if (isImpounded(v)){
+        hideTray();
+        showShotToast('Ce véhicule est à la fourrière. Rendez-vous à la fourrière pour le récupérer.');
+        post('selectVehicle', { plate: v.plate, model: v.model, label: v.label });
+        return;
+      }
+
+      showTray(v);
+      if (insuranceMode){
+        const st = insuranceState[normPlate(v.plate)];
+        if (st) setInsurancePrice(st.price, st.currency, v.plate);
+        else    setInsuranceLoading();
+      }
+      post('selectVehicle', { plate: v.plate, model: v.model, label: v.label });
+    }
+
+    function showTray(v){
+      trayTitle.innerHTML = `
+        <span class="name-line">${safe(ucfirst(v.label || v.model || 'Véhicule'))}</span>
+      `;
+      configureTrayForMode();
+      tray.classList.add('show');
+      tray.setAttribute('aria-hidden','false');
+    }
+
+    function hideTray(){
+      tray.classList.remove('show');
+      tray.setAttribute('aria-hidden','true');
+    }
+
+    function isImpounded(v){
+      if(!v) return false;
+      const cat = (v.category || '').toString().trim().toLowerCase();
+      return (
+        v.state === false || v.impounded === true || v.storage === 'impound' ||
+        cat === 'impound' || cat === 'fourriere' || cat === 'fourrière'
+      );
+    }
+
+    function startConfirmAbandon(v, anchorEl){
+      if(!v) return;
+
+      confirmDock.innerHTML = '';
+      const form = document.createElement('form');
+      form.id = 'confirmForm';
+      form.className = 'rename';
+      form.innerHTML = `
+        <div class="row">
+          <div style="font:600 14px/1.4 var(--font)">
+            Abandonner <strong>${safe(ucfirst(v.label || v.model || v.plate || 'ce véhicule'))}</strong> ?
+            <div class="muted" style="margin-top:6px">Cette action est irréversible.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <button class="btn danger"  type="button" id="confirmCancel">Annuler</button>
+          <button class="btn success" type="submit"  id="confirmOk">Confirmer</button>
+        </div>
+      `;
+      confirmDock.appendChild(form);
+
+      positionConfirmDock(anchorEl || tray);
+      showConfirmDock();
+      requestAnimationFrame(()=> positionConfirmDock(anchorEl || tray));
+
+      const cancel = form.querySelector('#confirmCancel');
+      cancel?.addEventListener('click', hideConfirmDock);
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const plateToRemove = v.plate;
+        await post('abandonVehicle', { plate: v.plate, model: v.model });
+        hideConfirmDock();
+        removeLocalVehicle(plateToRemove);
+        showShotToast('Véhicule abandonné.');
+      });
+
+      const onClickAway = (ev) => {
+        if(!confirmDock.contains(ev.target) && ev.target !== anchorEl){
+          hideConfirmDock(); window.removeEventListener('click', onClickAway, true);
+        }
+      };
+      window.addEventListener('click', onClickAway, true);
+    }
+
+    function positionConfirmDock(anchor){
+      const gap = 12;
+      const ar = (anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : tray.getBoundingClientRect());
+      const tr = tray.getBoundingClientRect();
+
+      const r  = confirmDock.getBoundingClientRect();
+      const w  = Math.min(360, Math.max(260, r.width || 280));
+      const h  = r.height || 56;
+
+      let left = tr.left - w - gap;
+      if (left < 10) left = tr.right + gap;
+
+      let top = Math.max(10, Math.min(window.innerHeight - 10 - h, ar.top));
+
+      confirmDock.style.left = left + 'px';
+      confirmDock.style.top  = top  + 'px';
+    }
+
+    function showConfirmDock(){
+      confirmDock.classList.add('show');
+      confirmDock.setAttribute('aria-hidden','false');
+    }
+    function hideConfirmDock(){
+      document.getElementById('confirmForm')?.remove();
+      confirmDock.classList.remove('show');
+      confirmDock.setAttribute('aria-hidden','true');
+    }
+
+    function toggleFavorite(i){
+      const v = filtered[i]; if(!v) return;
+      if (isImpounded(v)){ showShotToast('Impossible: véhicule à la fourrière.'); return; }
+      v.favorite = !v.favorite;
+
+      const card = rail.children[i];
+      const btn  = card?.querySelector('.mini-fav');
+      btn?.classList.toggle('active', v.favorite);
+      btn?.setAttribute('aria-pressed', v.favorite ? 'true' : 'false');
+      btn?.setAttribute('title', v.favorite ? 'Retirer des favoris' : 'Ajouter aux favoris');
+
+      const raw = vehiclesRaw.find(x => x.plate === v.plate);
+      if(raw) raw.favorite = v.favorite;
+
+      post('toggleFavorite', { plate: v.plate, favorite: v.favorite });
+
+      if (filter === 'fav' && !v.favorite) render();
+    }
+
+    document.getElementById('actOut')    .addEventListener('click', ()=> action('spawn'));
+    document.getElementById('actAbandon').addEventListener('click', ()=> action('abandon'));
+    document.getElementById('actRename')
+      .addEventListener('click', (e)=> action('rename', e.currentTarget));
+    document.getElementById('actKeys')   .addEventListener('click', ()=> action('duplicateKeys'));
+    trayClose.addEventListener('click', hideTray);
+
+    function action(type, anchorEl){
+      const v = filtered[selected]; if(!v) return;
+
+      if (type === 'abandon') {
+        startConfirmAbandon(v, anchorEl || tray);
+        return;
+      }
+
+      if(type==='rename'){ startRename(v, anchorEl || tray); return; }
+      if(type==='give'){   startGive(v,   anchorEl || tray); return; }
+
+      if (type === 'setWebhook'){
+        const v = filtered[selected]; if (!v) return;
+        startWebhook(v, anchorEl || tray);
+        return;
+      }
+
+      if (type === 'insure'){
+        const v = filtered[selected]; if (!v) return;
+        const st = insuranceState[normPlate(v.plate)];
+
+        let price = st?.price;
+        let currency = st?.currency;
+        let rawText = st?.raw;
+        if (price == null && insurePriceChip){
+          rawText  = insurePriceChip.textContent?.trim() || null;
+          price    = parsePriceTextToNumber(rawText);
+          currency = guessCurrencyFromText(rawText) || '';
+        }
+
+        const payload = { plate: v.plate, model: v.model };
+        if (price != null) payload.price = price;
+        if (currency)      payload.currency = currency;
+        if (rawText)       payload.priceText = rawText;
+
+        setInsureUILoading(true);
+
+        post('insureVehicle', payload);
+        return;
+      }
+
+      if (type === 'spawn'){
+        (async ()=>{
+          const v = filtered[selected]; if (!v) return;
+          const resp = await post('spawnVehicle', { plate: v.plate, model: v.model }) || {};
+          if (resp.success) {
+            showShotToast(resp.message || 'Véhicule sorti ✅');
+          } else {
+            showShotToast(resp.message || 'Impossible de sortir ce véhicule');
+          }
+        })();
+        return;
+      }
+
+      const map = {
+        duplicateKeys:'duplicateKeys',
+        repair:'repairVehicle',
+        give:'giveVehicle',
+        insure:'insureVehicle'
+      };
+      post(map[type] || type, { plate: v.plate, model: v.model });
+    }
+
+    function startWebhook(v, anchorEl){
+      if(!v) return;
+
+      webhookDock.innerHTML = '';
+      const form = document.createElement('form');
+      form.id = 'webhookForm';
+      form.className = 'rename';
+      form.innerHTML = `
+        <div class="row">
+          <input id="webhookInput" type="url" inputmode="url" placeholder="URL du webhook Discord..." />
+        </div>
+        <div class="footer">
+          <button class="btn danger"  type="button" id="webhookCancel">Annuler</button>
+          <button class="btn success" type="submit"  id="webhookSave">Enregistrer</button>
+        </div>
+      `;
+      webhookDock.appendChild(form);
+
+      positionWebhookDock(anchorEl || tray);
+      showWebhookDock();
+      requestAnimationFrame(()=> positionWebhookDock(anchorEl || tray));
+
+      const input  = form.querySelector('#webhookInput');
+      const cancel = form.querySelector('#webhookCancel');
+      input?.focus();
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const url = (input?.value || '').trim();
+
+        const ok = /^https:\/\/(canary\.|ptb\.)?discord\.com\/api\/webhooks\/\d+\/[\w-]+$/i.test(url);
+        if(!ok){
+          input?.focus();
+          input?.select?.();
+          return;
+        }
+
+        await post('setwebhook', { plate: v.plate, url });
+        showShotToast('Webhook défini pour le coffre.');
+        hideWebhookDock();
+      });
+
+      cancel?.addEventListener('click', hideWebhookDock);
+
+      const onClickAway = (ev) => {
+        if(!webhookDock.contains(ev.target) && ev.target !== anchorEl){
+          hideWebhookDock(); window.removeEventListener('click', onClickAway, true);
+        }
+      };
+      window.addEventListener('click', onClickAway, true);
+    }
+
+    function positionWebhookDock(anchor){
+      const gap = 12;
+      const ar = (anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : tray.getBoundingClientRect());
+      const tr = tray.getBoundingClientRect();
+      const r  = webhookDock.getBoundingClientRect();
+      const w  = Math.min(360, Math.max(260, r.width || 280));
+      const h  = r.height || 56;
+
+      let left = tr.left - w - gap;
+      if (left < 10) left = tr.right + gap;
+      let top = Math.max(10, Math.min(window.innerHeight - 10 - h, ar.top));
+
+      webhookDock.style.left = left + 'px';
+      webhookDock.style.top  = top  + 'px';
+    }
+
+    function showWebhookDock(){
+      webhookDock.classList.add('show');
+      webhookDock.setAttribute('aria-hidden','false');
+    }
+    function hideWebhookDock(){
+      document.getElementById('webhookForm')?.remove();
+      webhookDock.classList.remove('show');
+      webhookDock.setAttribute('aria-hidden','true');
+    }
+
+    function startGive(v, anchorEl){
+      if(!v) return;
+
+      giveDock.innerHTML = '';
+      const form = document.createElement('form');
+      form.id = 'giveForm';
+      form.className = 'rename';
+      form.innerHTML = `
+        <div class="row">
+          <input id="giveInput" type="number" min="1" step="1"
+                placeholder="ID du joueur (ex: 12)" inputmode="numeric" />
+        </div>
+        <div class="footer">
+          <button class="btn danger"  type="button" id="giveCancel">Annuler</button>
+          <button class="btn success" type="submit"  id="giveSave">Donner</button>
+        </div>
+      `;
+      giveDock.appendChild(form);
+
+      positionGiveDock(anchorEl || tray);
+      showGiveDock();
+      requestAnimationFrame(()=> positionGiveDock(anchorEl || tray));
+
+      const input  = form.querySelector('#giveInput');
+      const cancel = form.querySelector('#giveCancel');
+      input?.focus();
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const raw = (input?.value || '').trim();
+        const target = parseInt(raw, 10);
+
+        if (!raw || isNaN(target) || target <= 0){
+          input?.focus();
+          input?.select?.();
+          input?.classList.add('shake');
+          setTimeout(()=> input?.classList.remove('shake'), 350);
+          return;
+        }
+
+        await post('giveVehicle', { plate: v.plate, target });
+
+        removeLocalVehicle(v.plate);
+
+        hideGiveDock();
+      });
+
+      cancel?.addEventListener('click', hideGiveDock);
+
+      const onClickAway = (ev) => {
+        if(!giveDock.contains(ev.target) && ev.target !== anchorEl){
+          hideGiveDock(); window.removeEventListener('click', onClickAway, true);
+        }
+      };
+      window.addEventListener('click', onClickAway, true);
+    }
+
+    function normPlate(p){ return (p||'').toString().trim().toUpperCase(); }
+
+    function removeLocalVehicle(plate){
+      const idxRaw = vehiclesRaw.findIndex(x => x.plate === plate);
+      if (idxRaw !== -1) vehiclesRaw.splice(idxRaw, 1);
+
+      const idxFilt = filtered.findIndex(x => x.plate === plate);
+      if (idxFilt !== -1) {
+        filtered.splice(idxFilt, 1);
+        selected = -1;
+        hideTray();
+        render();
+      }
+    }
+
+    function positionGiveDock(anchor){
+      const gap = 12;
+      const ar = (anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : tray.getBoundingClientRect());
+      const tr = tray.getBoundingClientRect();
+
+      const r = giveDock.getBoundingClientRect();
+      const w = Math.min(360, Math.max(260, r.width || 280));
+      const h = r.height || 56;
+
+      let left = tr.left - w - gap;
+      if (left < 10) left = tr.right + gap;
+
+      let top = Math.max(10, Math.min(window.innerHeight - 10 - h, ar.top));
+
+      giveDock.style.left = left + 'px';
+      giveDock.style.top  = top  + 'px';
+    }
+
+    function showGiveDock(){
+      giveDock.classList.add('show');
+      giveDock.setAttribute('aria-hidden','false');
+    }
+    function hideGiveDock(){
+      document.getElementById('giveForm')?.remove();
+      giveDock.classList.remove('show');
+      giveDock.setAttribute('aria-hidden','true');
+    }
+
+    function startRename(v, anchorEl){
+      if(!v) return;
+
+      renameDock.innerHTML = '';
+      const form = document.createElement('form');
+      form.id = 'renameForm';
+      form.className = 'rename';
+      form.innerHTML = `
+        <div class="row">
+          <input id="renameInput" type="text" maxlength="40"
+                placeholder="Nouveau nom..." value="${safe(v.label || v.model || '')}">
+        </div>
+        <div class="footer">
+          <button class="btn danger"  type="button" id="renameCancel">Annuler</button>
+          <button class="btn success" type="submit"  id="renameSave">Enregistrer</button>
+        </div>
+      `;
+      renameDock.appendChild(form);
+
+      positionRenameDock(anchorEl || tray);
+      showRenameDock();
+      requestAnimationFrame(()=> positionRenameDock(anchorEl || tray));
+
+      const input  = form.querySelector('#renameInput');
+      const cancel = form.querySelector('#renameCancel');
+      input?.focus(); input?.select();
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = (input?.value || '').trim();
+        if(!name) { input?.focus(); return; }
+
+        await post('renameVehicle', { plate: v.plate, newName: name });
+
+        v.label = name;
+        const card = rail.children[selected];
+        card?.querySelector('.name')?.replaceChildren(document.createTextNode(ucfirst(name)));
+        trayTitle.innerHTML = `<span class="name-line">${safe(ucfirst(name))}</span>`;
+        hideRenameDock();
+      });
+
+      cancel?.addEventListener('click', hideRenameDock);
+
+      const onClickAway = (ev) => {
+        if(!renameDock.contains(ev.target) && ev.target !== anchorEl){
+          hideRenameDock(); window.removeEventListener('click', onClickAway, true);
+        }
+      };
+      window.addEventListener('click', onClickAway, true);
+    }
+
+    function computeDockWidth(){
+      return Math.round(Math.min(360, Math.max(260, window.innerWidth * 0.32)));
+    }
+
+    function positionRenameDock(anchor){
+      const gap = 12;
+
+      renameDock.style.bottom = 'auto';
+      renameDock.style.right  = 'auto';
+      renameDock.style.height = 'auto';
+      renameDock.style.width  = 'auto';
+
+      const ar = (anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : tray.getBoundingClientRect());
+      const tr = tray.getBoundingClientRect();
+
+      const r  = renameDock.getBoundingClientRect();
+      const w  = Math.min(360, Math.max(260, r.width || 280));
+      const h  = r.height || 56;
+
+      let left = tr.left - w - gap;
+      if (left < 10) left = tr.right + gap;
+
+      let top = Math.max(10, Math.min(window.innerHeight - 10 - h, ar.top));
+
+      renameDock.style.left = left + 'px';
+      renameDock.style.top  = top  + 'px';
+    }
+
+    window.addEventListener('resize', positionSearchDock);
+
+    function showRenameDock(){
+      renameDock.classList.add('show');
+      renameDock.setAttribute('aria-hidden','false');
+    }
+    function hideRenameDock(){
+      document.getElementById('renameForm')?.remove();
+      renameDock.classList.remove('show');
+      renameDock.setAttribute('aria-hidden','true');
+    }
+
+    const _hideTray = hideTray;
+    hideTray = function(){
+      hideRenameDock();
+      _hideTray();
+    };
+
+    const _hideTray2 = hideTray;
+    hideTray = function(){
+      hideRenameDock();
+      hideGiveDock();
+      _hideTray2();
+    };
+
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        if (giveDock.classList.contains('show')) hideGiveDock();
+      }
+    }, { capture:true });
+
+    cats.addEventListener('click', (e) => {
+      const btn = e.target.closest('.cat'); if(!btn) return;
+      const cat = btn.dataset.cat;
+      if(!cat || cat === filter) return;
+      [...cats.children].forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', b===btn ? 'true':'false');
+      });
+      filter = cat; selected = -1; hideTray(); render();
+      positionSearchDock();
+    });
+
+    // Navigation clavier : flèches haut/bas => véhicule par véhicule (pas de
+    // défilement libre). Sélectionne le véhicule et le fait défiler dans la vue.
+    function moveSelection(delta){
+      if (!filtered.length) return;
+      let idx = selected;
+      if (idx < 0){
+        idx = delta > 0 ? 0 : filtered.length - 1;
+      } else {
+        idx = Math.max(0, Math.min(filtered.length - 1, idx + delta));
+      }
+      if (idx === selected) return;
+      selectIndex(idx);
+      const card = rail.children[idx];
+      card?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (root.getAttribute('aria-hidden') !== 'false') return;
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      const ae = document.activeElement;
+      if (ae && ae.closest && ae.closest('input, textarea, select, [contenteditable="true"]')) return;
+      e.preventDefault();
+      moveSelection(e.key === 'ArrowDown' ? 1 : -1);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if(e.key==='Escape') closeUI();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        if(renameDock.classList.contains('show')) hideRenameDock();
+        else closeUI();
+      }
+    }, { capture:true });
+
+  function flashError(el){
+    if(!el) return;
+    el.classList.remove('shake','error-ring');
+    void el.offsetWidth;
+    el.classList.add('shake','error-ring');
+    setTimeout(()=> el.classList.remove('error-ring'), 500);
+  }
+
+    searchDock?.addEventListener('submit', (e) => {
+      e.preventDefault();
+    });
+    searchInput?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchInput.blur();
+      }
+    });
+
+    searchInput?.addEventListener('input', () => {
+      searchTerm = (searchInput.value || '').toLowerCase().trim();
+      searchDock.classList.toggle('has-value', !!searchTerm);
+      render();
+    });
+    searchClear?.addEventListener('click', () => {
+      searchInput.value = '';
+      searchTerm = '';
+      searchDock.classList.remove('has-value');
+      render();
+    });
+
+    document.getElementById('actInsure').addEventListener('click', ()=> action('insure'));
+
+    const uiClose = document.getElementById('uiClose');
+    uiClose?.addEventListener('click', closeUI);
+    uiClose?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); closeUI(); }
+    });
+
+    window.addEventListener('message', (ev) => {
+      const msg = ev.data || {};
+      console.log(msg.action)
+
+      if (msg.action === 'insureResult' || msg.action === 'insuranceConfirmed'){
+        const selKey = filtered[selected] ? normPlate(filtered[selected].plate) : null;
+        const key    = msg.plate ? normPlate(msg.plate) : selKey;
+
+        setInsureUILoading(false);
+
+        if (!key){
+          showShotToast('Réponse assurance reçue.');
+          return;
+        }
+
+        const was = insuranceState[key] || {};
+        const insuredNow = !!(msg.insured ?? msg.ok);
+        insuranceState[key] = {
+          ...was,
+          insured: insuredNow,
+          updatedAt: Date.now()
+        };
+
+        const priceVal =
+          (typeof msg.price  !== 'undefined') ? msg.price  :
+          (typeof msg.amount !== 'undefined') ? msg.amount :
+          (typeof msg.text   !== 'undefined') ? msg.text   : null;
+        if (priceVal != null){
+          setInsurancePrice(priceVal, msg.currency, msg.plate || (filtered[selected] && filtered[selected].plate));
+        }
+
+        if (selKey && key === selKey){
+          updateInsuranceRowsForPlate(filtered[selected].plate);
+        }
+
+        if (insuredNow){
+          showShotToast('Assurance activée ✅');
+        }else{
+          showShotToast('Assurance refusée' + (msg.error ? ` : ${msg.error}` : ''));
+        }
+      }
+
+      if (msg.action === 'bankInsufficient' || msg.action === 'bank:insufficient' || msg.action === 'insufficientFunds') {
+        const text = (msg && msg.message) || 'Fonds insuffisants sur le compte.';
+        showShotToast(text);
+
+        flashError(document.getElementById('tray'));
+
+        setInsureUILoading(false);
+        return;
+      }
+
+      if (msg.action === 'insurancePrice' || msg.action === 'setInsurancePrice'){
+        const selKey = filtered[selected] ? normPlate(filtered[selected].plate) : null;
+        const key = msg.plate ? normPlate(msg.plate) : selKey;
+
+        if (key){
+          insuranceState[key] = {
+            ...(insuranceState[key] || {}),
+            insured: !!(msg.isAssur ?? msg.insured ?? msg.isInsured)
+          };
+        }
+
+        setInsurancePrice(
+          (typeof msg.price !== 'undefined') ? msg.price :
+          (typeof msg.amount !== 'undefined') ? msg.amount :
+          (typeof msg.text  !== 'undefined') ? msg.text  : null,
+          msg.currency,
+          msg.plate || (filtered[selected] && filtered[selected].plate) || null
+        );
+
+        if (selKey && key === selKey){
+          updateInsuranceRowsForPlate(filtered[selected].plate);
+        }
+      }
+
+      if (msg.action === 'openGarage'){
+        resource = msg.resource || resource;
+
+        const rawInsurance =
+          msg.insuranceMenu ?? msg.assuranceMenu ?? msg.assurancemenu ?? msg.insurance ??
+          (msg.data && (msg.data.insuranceMenu ?? msg.data.assuranceMenu ?? msg.data.assurancemenu ?? msg.data.insurance));
+
+        const rawMosley =
+          msg.mosley ??
+          (msg.data && msg.data.mosley);
+
+        insuranceMode = flagOn(rawInsurance);
+        mosleyMode    = flagOn(rawMosley);
+
+        console.log('[garage] insuranceMode =', insuranceMode, 'mosleyMode =', mosleyMode);
+
+        openUI((msg.data && msg.data.vehicles) || []);
+        configureTrayForMode();
+      }
+      if(msg.action === 'closeGarage') closeUI();
+      if(msg.action === 'updateVehicles'){
+        vehiclesRaw = (msg.data && msg.data.vehicles) || vehiclesRaw;
+        render();
+      }
+      if (msg.action === 'sendUrl' && msg.url){
+        copyToClipboard(msg.url).then((ok)=>{
+          if (ok){
+            showShotToast('Lien de la photo dans votre presse\u2009papier !');
+          }else{
+            showShotToast('URL copiée impossible. Lien en console.');
+            console.log('[Garage] URL de la capture :', msg.url);
+          }
+        });
+      }
+    });
+
+    function shopIcon(seed){
+      const gid = 'shopGrad_' + String(seed || Math.random().toString(36).slice(2)).replace(/[^\w-]/g,'_');
+      return `
+        <svg class="shop-ico" viewBox="0 0 24 24" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"  stop-color="#FFE684">
+                <animate attributeName="offset" values="0;0.6;0" dur="2.4s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="100%" stop-color="#FF9800">
+                <animate attributeName="offset" values="1;0.4;1" dur="2.4s" repeatCount="indefinite" />
+              </stop>
+            </linearGradient>
+          </defs>
+          <path d="M11.25 7.84748C10.3141 8.10339 9.75 8.82154 9.75 9.5C9.75 10.1785 10.3141 10.8966 11.25 11.1525V7.84748Z" fill="url(#${gid})"></path>
+          <path d="M12.75 12.8475V16.1525C13.6859 15.8966 14.25 15.1785 14.25 14.5C14.25 13.8215 13.6859 13.1034 12.75 12.8475Z" fill="url(#${gid})"></path>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 5.25C12.4142 5.25 12.75 5.58579 12.75 6V6.31673C14.3804 6.60867 15.75 7.83361 15.75 9.5C15.75 9.91421 15.4142 10.25 15 10.25C14.5858 10.25 14.25 9.91421 14.25 9.5C14.25 8.82154 13.6859 8.10339 12.75 7.84748V11.3167C14.3804 11.6087 15.75 12.8336 15.75 14.5C15.75 16.1664 14.3804 17.3913 12.75 17.6833V18C12.75 18.4142 12.4142 18.75 12 18.75C11.5858 18.75 11.25 18.4142 11.25 18V17.6833C9.61957 17.3913 8.25 16.1664 8.25 14.5C8.25 14.0858 8.58579 13.75 9 13.75C9.41421 13.75 9.75 14.0858 9.75 14.5C9.75 15.1785 10.3141 15.8966 11.25 16.1525V12.6833C9.61957 12.3913 8.25 11.1664 8.25 9.5C8.25 7.83361 9.61957 6.60867 11.25 6.31673V6C11.25 5.58579 11.5858 5.25 12 5.25Z" fill="url(#${gid})"></path>
+        </svg>`;
+    }
+
+    function badgeFor(v){
+      const cc = (v.category || '').toLowerCase();
+      if (cc === 'boutique') return shopIcon(v.plate);
+      return 'Concession';
+    }
+    function safe(s){ return String(s).replace(/[<>&"]/g, m => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[m])) }
+    function ucfirst(s){ const t=String(s||''); return t.charAt(0).toUpperCase()+t.slice(1); }
+
+    // ===== UI click sound (synthétisé — même bruit que la boutique) ===========
+    let _audioCtx = null;
+    function getAudioCtx(){
+      if (_audioCtx) return _audioCtx;
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      if (!Ctor) return null;
+      try { _audioCtx = new Ctor(); } catch(e){ return null; }
+      return _audioCtx;
+    }
+
+    // 3 couches : noise transient large bande (snap), mid pop (corps), sub (poids).
+    const CLICK_VOL = 0.1;
+    let _lastClickAt = 0;
+    function playClickSound(opts){
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const nowMs = performance.now();
+      if (nowMs - _lastClickAt < 35) return; // throttle anti-spam
+      _lastClickAt = nowMs;
+      try { if (ctx.state === 'suspended') ctx.resume(); } catch(e){}
+
+      const now = ctx.currentTime;
+      const intensity = (opts && opts.soft) ? 0.6 : 1;
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.95 * CLICK_VOL * intensity, now);
+      master.connect(ctx.destination);
+
+      // 1) Transient SNAP : burst de bruit large bande, attaque ultra-rapide.
+      const noiseLen = 0.030;
+      const buf = ctx.createBuffer(1, Math.max(1, Math.floor(ctx.sampleRate * noiseLen)), ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) {
+        const env = (i < 4 ? 1 : (1 - i / data.length));
+        data[i] = (Math.random() * 2 - 1) * env;
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buf;
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.value = 2200;
+      bp.Q.value = 0.9;
+      const noiseG = ctx.createGain();
+      noiseG.gain.setValueAtTime(0.0001, now);
+      noiseG.gain.exponentialRampToValueAtTime(0.85, now + 0.001);
+      noiseG.gain.exponentialRampToValueAtTime(0.0001, now + noiseLen);
+      noise.connect(bp).connect(noiseG).connect(master);
+      noise.start(now);
+      noise.stop(now + noiseLen);
+
+      // 2) Mid POP : oscillateur square pour donner du grain.
+      const baseHz = 1300 + (Math.random() * 200 - 100);
+      const osc = ctx.createOscillator();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(baseHz, now);
+      osc.frequency.exponentialRampToValueAtTime(baseHz * 0.55, now + 0.05);
+      const oscFilt = ctx.createBiquadFilter();
+      oscFilt.type = 'lowpass';
+      oscFilt.frequency.value = 3200;
+      oscFilt.Q.value = 0.5;
+      const oscG = ctx.createGain();
+      oscG.gain.setValueAtTime(0.0001, now);
+      oscG.gain.exponentialRampToValueAtTime(0.55, now + 0.002);
+      oscG.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+      osc.connect(oscFilt).connect(oscG).connect(master);
+      osc.start(now);
+      osc.stop(now + 0.08);
+
+      // 3) Sub THUMP : sine basse pour le poids "haptique" du click.
+      const sub = ctx.createOscillator();
+      sub.type = 'sine';
+      sub.frequency.setValueAtTime(160, now);
+      sub.frequency.exponentialRampToValueAtTime(60, now + 0.07);
+      const subG = ctx.createGain();
+      subG.gain.setValueAtTime(0.0001, now);
+      subG.gain.exponentialRampToValueAtTime(0.50, now + 0.003);
+      subG.gain.exponentialRampToValueAtTime(0.0001, now + 0.085);
+      sub.connect(subG).connect(master);
+      sub.start(now);
+      sub.stop(now + 0.09);
+    }
+
+    // Écouteur global : joue le son sur tout clic quand le garage est ouvert,
+    // sauf clics sur inputs et sur éléments opt-out (data-no-click-sound).
+    document.addEventListener('click', (e) => {
+      if (root.getAttribute('aria-hidden') !== 'false') return;
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      if (t.closest('input, textarea, select')) return;
+      if (t.closest('[data-no-click-sound]')) return;
+      const isInteractive = !!t.closest('button, a, [role="button"], .btn, .cat, .car, .act, .quick-out, .mini-fav, .close-x, .ui-close, .ui-shot, [tabindex]');
+      playClickSound({ soft: !isInteractive });
+    }, true);
+
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<timecycle_modifier_data version="1.000000">
+    <modifier name="scarface_mine_tc" numMods="57" userFlags="0">
+<light_directional_amb_intensity>0.000 0.000</light_directional_amb_intensity>
+<light_directional_amb_intensity>0.000 0.000</light_directional_amb_intensity>
+        <light_amb_down_wrap>-0.950 0.000</light_amb_down_wrap>
+        <light_natural_amb_down_col_r>1.000 0.700</light_natural_amb_down_col_r>
+        <light_natural_amb_down_col_g>0.690 0.700</light_natural_amb_down_col_g>
+        <light_natural_amb_down_col_b>0.322 0.700</light_natural_amb_down_col_b>
+        <light_natural_amb_down_intensity>0.000 0.000</light_natural_amb_down_intensity>
+        <light_natural_amb_up_intensity_mult>0.000 0.000</light_natural_amb_up_intensity_mult>
+        <light_natural_push>0.000 0.000</light_natural_push>
+        <light_artificial_int_down_intensity>0.000 0.000</light_artificial_int_down_intensity>
+        <light_artificial_int_up_intensity>0.000 0.000</light_artificial_int_up_intensity>
+        <ped_light_col_r>0.875 1.000</ped_light_col_r>
+        <ped_light_col_g>0.957 1.000</ped_light_col_g>
+        <ped_light_col_b>1.000 1.000</ped_light_col_b>
+        <ped_light_mult>0.300 1.000</ped_light_mult>
+        <ped_light_direction_x>0.200 0.000</ped_light_direction_x>
+        <ped_light_direction_y>-1.328 0.000</ped_light_direction_y>
+        <ped_light_direction_z>0.660 0.000</ped_light_direction_z>
+        <light_amb_occ_mult>1.500 0.000</light_amb_occ_mult>
+        <light_amb_volumes_in_diffuse>1.000 0.000</light_amb_volumes_in_diffuse>
+        <ssao_inten>5.000 0.000</ssao_inten>
+        <postfx_bright_pass_thresh>0.875 0.000</postfx_bright_pass_thresh>
+        <postfx_intensity_bloom>1.440 0.000</postfx_intensity_bloom>
+        <postfx_correct_col_r>0.631 0.000</postfx_correct_col_r>
+        <postfx_correct_col_g>0.882 0.000</postfx_correct_col_g>
+        <postfx_correct_col_b>1.000 0.000</postfx_correct_col_b>
+        <postfx_shift_col_r>1.000 1.000</postfx_shift_col_r>
+        <postfx_shift_col_g>0.424 1.000</postfx_shift_col_g>
+        <postfx_shift_col_b>0.051 1.000</postfx_shift_col_b>
+        <postfx_shift_cutoff>1.482 0.000</postfx_shift_cutoff>
+        <postfx_desaturation>1.178 0.000</postfx_desaturation>
+        <postfx_tonemap_filmic_override_dark>1.000 0.000</postfx_tonemap_filmic_override_dark>
+        <postfx_tonemap_filmic_exposure_dark>1.000 0.000</postfx_tonemap_filmic_exposure_dark>
+        <postfx_tonemap_filmic_a>0.400 0.000</postfx_tonemap_filmic_a>
+        <postfx_tonemap_filmic_b>0.300 0.000</postfx_tonemap_filmic_b>
+        <postfx_tonemap_filmic_d>1.144 0.000</postfx_tonemap_filmic_d>
+        <postfx_tonemap_filmic_override_bright>1.000 0.000</postfx_tonemap_filmic_override_bright>
+        <postfx_tonemap_filmic_exposure_bright>-2.000 0.000</postfx_tonemap_filmic_exposure_bright>
+        <postfx_tonemap_filmic_a_bright>0.450 0.000</postfx_tonemap_filmic_a_bright>
+        <postfx_tonemap_filmic_b_bright>0.200 0.000</postfx_tonemap_filmic_b_bright>
+        <postfx_tonemap_filmic_c_bright>0.200 0.000</postfx_tonemap_filmic_c_bright>
+        <postfx_tonemap_filmic_d_bright>0.200 0.000</postfx_tonemap_filmic_d_bright>
+        <postfx_vignetting_radius>11.500 0.000</postfx_vignetting_radius>
+        <postfx_vignetting_contrast>0.041 0.000</postfx_vignetting_contrast>
+        <postfx_vignetting_col_r>0.024 0.000</postfx_vignetting_col_r>
+        <postfx_vignetting_col_g>0.133 0.000</postfx_vignetting_col_g>
+        <postfx_vignetting_col_b>1.000 0.000</postfx_vignetting_col_b>
+        <lens_dist_coeff>-0.908 0.000</lens_dist_coeff>
+        <chrom_aberration_coeff>0.015 0.000</chrom_aberration_coeff>
+        <chrom_aberration_coeff2>-0.085 0.000</chrom_aberration_coeff2>
+        <blur_vignetting_radius>31.500 0.000</blur_vignetting_radius>
+        <blur_vignetting_intensity>0.273 0.000</blur_vignetting_intensity>
+        <fog_start>-7.300 10.000</fog_start>
+        <fog_haze_col_r>-0.021 1.000</fog_haze_col_r>
+        <fog_haze_col_g>-0.030 1.000</fog_haze_col_g>
+        <fog_haze_col_b>0.819 1.000</fog_haze_col_b>
+        <fog_haze_density>5.000 5.000</fog_haze_density>
+        <fog_haze_hdr>-0.300 1.550</fog_haze_hdr>
+    </modifier>
+</timecycle_modifier_data>

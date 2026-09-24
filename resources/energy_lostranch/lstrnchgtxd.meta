@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CMapParentTxds>
+  <txdRelationships>
+	<Item>
+      <parent>ch1_06e_land</parent>
+      <child>energy_lstrnch_ext</child>
+    </Item>
+    <Item>
+      <parent>ch1_06e_lod</parent>
+      <child>hei_ch1_lod_0106_slod2_children</child>
+    </Item>
+            <Item>
+      <parent>ch1_06e_lod</parent>
+      <child>ch1_lod_0106_slod2_children</child>
+    </Item>
+        <Item>
+      <parent>energy_lstrnch_ext</parent>
+      <child>ch1_06e_lod</child>
+    </Item>
+            <Item>
+      <parent>energy_lstrnch_shells</parent>
+      <child>energy_lstrnch_ext</child>
+    </Item>
+  </txdRelationships>
+</CMapParentTxds>

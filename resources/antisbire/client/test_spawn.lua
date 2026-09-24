@@ -1,0 +1,53 @@
+--local function spawnCheaterVehicle(modelName)
+--    local model = type(modelName) == "string" and GetHashKey(modelName) or modelName
+--
+--    if not IsModelInCdimage(model) or not IsModelAVehicle(model) then
+--
+--        return nil
+--    end
+--
+--    RequestModel(model)
+--    local timeout = GetGameTimer() + 5000
+--    while not HasModelLoaded(model) and GetGameTimer() < timeout do
+--        Wait(10)
+--    end
+--    if not HasModelLoaded(model) then
+--
+--        return nil
+--    end
+--
+--    local ped     = PlayerPedId()
+--    local coords  = GetOffsetFromEntityInWorldCoords(ped, 0.0, 4.0, 0.0)
+--    local heading = GetEntityHeading(ped)
+--
+--    print(('^5[NETDIAG][VEHICLE]^7 %s test_spawn.lua:23 CreateVehicle NETWORKED model=%s'):format(GetCurrentResourceName(), tostring(model)))
+--    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
+--
+--    local netId = NetworkGetNetworkIdFromEntity(veh)
+--    SetNetworkIdCanMigrate(netId, true)
+--    SetEntityAsMissionEntity(veh, true, true)
+--    SetVehicleOnGroundProperly(veh)
+--    SetModelAsNoLongerNeeded(model)
+--
+--    return veh, netId
+--end
+--
+--RegisterCommand("cheatspawn", function(_, args)
+--    local modelName = args[1] or "adder"
+--    local veh, netId = spawnCheaterVehicle(modelName)
+--    if not veh then return end
+--
+--    TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+--
+--end, false)
+--
+--RegisterCommand("cheatspam", function(_, args)
+--    local count     = math.max(1, math.min(tonumber(args[1]) or 10, 50))
+--    local modelName = args[2] or "adder"
+--
+--    for i = 1, count do
+--        spawnCheaterVehicle(modelName)
+--        Wait(0)
+--    end
+--
+--end, false)

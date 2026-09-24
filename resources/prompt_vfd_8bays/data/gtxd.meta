@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CMapParentTxds>
+  <txdRelationships>
+    <Item>
+      <parent>prompt_vfd_2</parent>
+      <child>prompt_vfd</child>
+    </Item>
+  </txdRelationships>
+</CMapParentTxds>

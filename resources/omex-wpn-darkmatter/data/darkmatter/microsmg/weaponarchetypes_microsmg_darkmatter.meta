@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>w_sb_microsmg_darkmatter</modelName>
+			<txdName>w_sb_microsmg_darkmatter</txdName>
+			<ptfxAssetName>fxdarkmatter2</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>w_sb_microsmg_darkmatter_mag1</modelName>
+			<txdName>weapons_darkmatter</txdName>
+			<ptfxAssetName>fxdarkmatter2</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>

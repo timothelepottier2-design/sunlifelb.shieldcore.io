@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<TattooShopItemArray>
+  <TattooShopItems>
+    <Item>
+      <cost value="0" />
+      <textLabel>TAT_VMS_000</textLabel>
+      <id value="0" />
+      <collection>vms_overlays</collection>
+      <preset>mp_vms_tat_m_000</preset>
+      <updateGroup>Face</updateGroup>
+      <eFacing>TATTOO_FRONT</eFacing>
+      <eFaction>TATTOO_MP_FM</eFaction>
+			<lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_001</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_001</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_002</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_002</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_003</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_003</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_004</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_004</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_005</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_005</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_006</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_006</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_007</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_007</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_008</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_008</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_009</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_009</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_010</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_010</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_011</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_011</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_012</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_012</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_013</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_013</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_014</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_014</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_015</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_015</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_016</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_016</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+    <Item>
+    	<cost value="0" />
+    	<textLabel>TAT_VMS_017</textLabel>
+    	<id value="0" />
+    	<collection>vms_overlays</collection>
+    	<preset>mp_vms_tat_m_017</preset>
+    	<updateGroup>Face</updateGroup>
+    	<eFacing>TATTOO_FRONT</eFacing>
+    	<eFaction>TATTOO_MP_FM</eFaction>
+		  <lockHash/>
+    </Item>
+  </TattooShopItems>
+  <nameHash />
+</TattooShopItemArray>

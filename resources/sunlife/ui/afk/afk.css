@@ -1,0 +1,599 @@
+/* =========================================================================
+   Zone AFK — overlay plein écran.
+
+   Vit dans la page NUI existante de sunlife (ui/sound_script/index.html), qui
+   est le seul `ui_page` de la ressource. Tout est donc préfixé `afk-` et
+   encapsulé sous #afk-root pour ne rien pouvoir casser côté lecteur de sons.
+   ========================================================================= */
+
+/* Polices chargées dans le <head> de la page NUI.
+   `--afk-font-display` : Chakra Petch, pour tout ce qui doit claquer (titre,
+   montants, compteurs). `--afk-font-ui` : Kanit, pour les libellés et le
+   texte courant. Registre esport/technique, plus sobre qu'un lettrage sci-fi,
+   et des chiffres nettement plus lisibles en grande taille. */
+#afk-root {
+    --afk-font-display: 'Chakra Petch', 'Kanit', 'Segoe UI', sans-serif;
+    --afk-font-ui: 'Kanit', 'Roboto', 'Segoe UI', sans-serif;
+
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+
+    font-family: var(--afk-font-ui);
+    color: #e8edf7;
+
+    /* Le dégradé du mockup : bleu nuit profond qui s'éclaircit vers le haut,
+       avec une lueur chaude en bas (reflet du dégradé orange du titre). */
+    background:
+        radial-gradient(120% 80% at 50% 118%, rgba(255, 94, 61, 0.16) 0%, rgba(255, 94, 61, 0) 60%),
+        radial-gradient(90% 60% at 50% -10%, rgba(63, 84, 168, 0.28) 0%, rgba(63, 84, 168, 0) 70%),
+        linear-gradient(180deg, #0d1230 0%, #0a0f26 45%, #070b1c 100%);
+}
+
+#afk-root.afk-visible {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Variante "nuit" : on assombrit et on désature, sans changer la structure. */
+#afk-root.afk-dim {
+    filter: brightness(0.62) saturate(0.85);
+}
+
+/* --- Champ d'étoiles ---------------------------------------------------- */
+/* Généré en JS puis figé : pas d'animation par frame, l'overlay reste
+   affiché des heures d'affilée sur des machines modestes. */
+#afk-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.afk-star {
+    position: absolute;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+/* --- Barre supérieure --------------------------------------------------- */
+.afk-topbar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 26px 34px;
+}
+
+.afk-brand {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    min-width: 0;
+}
+
+.afk-brand img {
+    height: 82px;
+    width: auto;
+    display: block;
+    /* Le logo est fourni sur fond clair : la lueur le décolle du fond sombre. */
+    filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.6));
+}
+
+.afk-brand-text {
+    min-width: 0;
+}
+
+.afk-brand-title {
+    font-family: var(--afk-font-display);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.afk-brand-sub {
+    margin-top: 4px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #8d99b8;
+    white-space: nowrap;
+}
+
+.afk-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.afk-iconbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #c6cfe4;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.afk-iconbtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+}
+
+/* État "désactivé" des bascules (son coupé / thème nuit actif). */
+.afk-iconbtn.afk-off {
+    color: #6b7590;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.afk-iconbtn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.afk-leave {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 24px;
+    border: 1px solid rgba(239, 68, 68, 0.55);
+    border-radius: 12px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ff6b6b;
+    font-family: var(--afk-font-ui);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.afk-leave:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ff8f8f;
+}
+
+.afk-leave svg {
+    width: 19px;
+    height: 19px;
+}
+
+/* --- Défilement 2 crans -------------------------------------------------- */
+/* Deux pages seulement (Gains / Classement) : on glisse verticalement plutôt
+   que d'empiler du contenu scrollable, pour garder chaque page entièrement
+   visible sans jamais couper une carte. */
+.afk-viewport {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    overflow: hidden;
+}
+
+.afk-pages {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(0%);
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.afk-page {
+    flex: 0 0 100%;
+    height: 100%;
+}
+
+.afk-scroll {
+    position: absolute;
+    left: 46px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    height: 46vh;
+    min-height: 300px;
+}
+
+.afk-scroll-notch {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #4d5570;
+    cursor: pointer;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.afk-scroll-notch svg {
+    width: 26px;
+    height: 26px;
+}
+
+.afk-scroll-notch:hover { color: #8a94b3; }
+
+.afk-scroll-notch.is-active {
+    color: #ff8a3d;
+    transform: scale(1.12);
+}
+
+.afk-scroll-track {
+    position: relative;
+    flex: 1;
+    width: 2px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.afk-scroll-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0%;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #ffab4d 0%, #ff6a4d 100%);
+    transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Le curseur porte uniquement le logo. Il est attrapable a la souris :
+   pointer-events doit donc rester a `auto`, sinon le mousedown passe au
+   travers et le glisser ne demarre jamais. */
+.afk-scroll-thumb {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: top 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    pointer-events: auto;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.afk-scroll-thumb img {
+    width: 52px;
+    height: auto;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+}
+
+/* Pendant le glisser, le logo doit coller au pointeur : la transition de
+   0.5 s le ferait trainer derriere la souris. */
+.afk-scroll.is-dragging .afk-scroll-thumb,
+.afk-scroll.is-dragging .afk-scroll-fill {
+    transition: none;
+}
+
+.afk-scroll.is-dragging .afk-scroll-thumb {
+    cursor: grabbing;
+}
+
+/* --- Corps -------------------------------------------------------------- */
+.afk-main {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 34px;
+}
+
+.afk-title {
+    margin: 0;
+    font-family: var(--afk-font-display);
+    font-size: 78px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    line-height: 1;
+    background: linear-gradient(90deg, #ff9d3f 0%, #ff6a4d 45%, #ff4d6d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.afk-subtitle {
+    margin-top: 24px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    color: #aab5cd;
+}
+
+/* Sans cadre ni fond : juste l'icône, le libellé et le compteur. */
+.afk-elapsed {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    margin-top: 24px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    color: #9aa6c2;
+}
+
+.afk-elapsed svg {
+    width: 19px;
+    height: 19px;
+    opacity: 0.75;
+}
+
+.afk-elapsed strong {
+    font-family: var(--afk-font-display);
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* --- Cartes de gains ---------------------------------------------------- */
+/* Trois cartes désormais (argent / Suncoins / AFK Coins) : elles se partagent
+   la largeur au lieu d'être fixes, sinon la rangée déborde en 1080p. */
+.afk-cards {
+    display: flex;
+    gap: 26px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 1500px;
+    justify-content: center;
+}
+
+.afk-card {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 470px;
+    padding: 28px 30px 26px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(23, 31, 61, 0.9) 0%, rgba(15, 21, 44, 0.9) 100%);
+    overflow: hidden;
+}
+
+/* Le liseré coloré en haut de carte (vert / ambre selon la ressource). */
+.afk-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--afk-accent);
+}
+
+.afk-card--money { --afk-accent: #16d99a; --afk-accent-soft: rgba(22, 217, 154, 0.13); }
+.afk-card--coins { --afk-accent: #f5b027; --afk-accent-soft: rgba(245, 176, 39, 0.13); }
+.afk-card--afk   { --afk-accent: #6f8cff; --afk-accent-soft: rgba(111, 140, 255, 0.14); }
+
+.afk-card-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Pas de pastille ni de fond derrière l'icône : elle est posée directement
+   sur la carte, à sa couleur d'accent, et nettement plus grande. */
+.afk-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--afk-accent);
+}
+
+.afk-card-icon svg {
+    width: 38px;
+    height: 38px;
+}
+
+.afk-card-label {
+    flex: 1;
+    font-family: var(--afk-font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #c3cbe0;
+}
+
+.afk-card-rate {
+    padding: 7px 15px;
+    border-radius: 999px;
+    background: var(--afk-accent-soft);
+    color: var(--afk-accent);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+.afk-card-value {
+    margin-top: 24px;
+    font-family: var(--afk-font-display);
+    font-size: 50px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1;
+    color: #ffffff;
+}
+
+.afk-card-caption {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #8d99b8;
+}
+
+.afk-progress {
+    margin-top: 26px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+}
+
+.afk-progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: var(--afk-accent);
+    /* Transition courte : la barre est mise à jour une fois par seconde, une
+       transition plus longue la ferait traîner derrière le compteur. */
+    transition: width 0.9s linear;
+}
+
+.afk-next {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #8d99b8;
+}
+
+.afk-next-value {
+    font-family: var(--afk-font-display);
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--afk-accent);
+    font-weight: 700;
+}
+
+/* --- Classement AFK (page 2) -------------------------------------------- */
+.afk-title--sm {
+    font-size: 54px;
+    letter-spacing: 6px;
+}
+
+.afk-board {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.afk-board-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 13px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(23, 31, 61, 0.75) 0%, rgba(15, 21, 44, 0.75) 100%);
+}
+
+/* Les trois premiers portent leur couleur de podium. */
+.afk-board-row--1 { border-color: rgba(245, 176, 39, 0.45); }
+.afk-board-row--2 { border-color: rgba(190, 202, 226, 0.32); }
+.afk-board-row--3 { border-color: rgba(205, 127, 50, 0.36); }
+
+.afk-board-rank {
+    flex: 0 0 46px;
+    font-family: var(--afk-font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: #6f7a99;
+    text-align: center;
+}
+
+.afk-board-row--1 .afk-board-rank { color: #f5b027; }
+.afk-board-row--2 .afk-board-rank { color: #becae2; }
+.afk-board-row--3 .afk-board-rank { color: #cd7f32; }
+
+.afk-board-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #e8edf7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Marque la ligne du joueur qui regarde, sinon un top 10 n'a aucun repère. */
+.afk-board-row--me { border-color: rgba(111, 140, 255, 0.5); }
+.afk-board-row--me .afk-board-name { color: #9db0ff; font-weight: 600; }
+
+.afk-board-points {
+    flex: 0 0 auto;
+    font-family: var(--afk-font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: #f5b027;
+}
+
+.afk-board-points small {
+    margin-left: 6px;
+    font-family: var(--afk-font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    color: #7d88a5;
+}
+
+.afk-board-empty {
+    padding: 40px;
+    text-align: center;
+    font-size: 16px;
+    color: #7d88a5;
+}
+
+/* --- Pied de page ------------------------------------------------------- */
+.afk-footer {
+    position: relative;
+    z-index: 2;
+    padding: 26px 34px 34px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    color: #7d88a5;
+}
+
+.afk-footer b {
+    color: #ffb347;
+    font-weight: 700;
+}
+
+/* --- Écrans plus petits ------------------------------------------------- */
+@media (max-width: 1400px) {
+    .afk-cards { gap: 18px; }
+    .afk-card { padding: 22px 22px 20px; }
+    .afk-card-value { font-size: 40px; }
+    .afk-card-icon svg { width: 32px; height: 32px; }
+    .afk-title { font-size: 62px; letter-spacing: 6px; }
+}
+
+@media (max-width: 1000px) {
+    .afk-cards { flex-wrap: wrap; margin-top: 34px; }
+    .afk-card { flex: 1 1 45%; }
+    .afk-title { font-size: 44px; letter-spacing: 3px; }
+    .afk-brand-sub { display: none; }
+    .afk-brand img { height: 60px; }
+}

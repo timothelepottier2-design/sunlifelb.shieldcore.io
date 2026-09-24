@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<CVehicleModelInfoVariation>
+  <variationData>
+    <Item>
+      <modelName>gstsph1</modelName>
+      <colors>
+        <Item>
+          <indices content="char_array">
+            5
+            0
+            121
+            120
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            75
+            0
+            73
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            31
+            0
+            35
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            3
+            0
+            5
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            0
+            0
+            3
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            51
+            0
+            78
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            141
+            0
+            80
+            120
+            93
+            111
+          </indices>
+        </Item>
+      </colors>
+      <kits>
+        <Item>gstsph1_GOM_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges/>
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Standard White</Name>
+            <Value value="100"/>
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="0"/>
+      <sirenSettings value="0"/>
+    </Item>
+	    <Item>
+      <modelName>gstsph1b</modelName>
+      <colors>
+        <Item>
+          <indices content="char_array">
+            5
+            0
+            121
+            120
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            75
+            0
+            73
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            31
+            0
+            35
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            3
+            0
+            5
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            0
+            0
+            3
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            51
+            0
+            78
+            119
+            93
+            111
+          </indices>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            141
+            0
+            80
+            120
+            93
+            111
+          </indices>
+        </Item>
+      </colors>
+      <kits>
+        <Item>gstsph1b_GOM_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges/>
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Standard White</Name>
+            <Value value="100"/>
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="0"/>
+      <sirenSettings value="0"/>
+    </Item>
+  </variationData>
+</CVehicleModelInfoVariation>

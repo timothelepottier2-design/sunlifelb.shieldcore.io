@@ -1,0 +1,2597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CVehicleModelInfoVarGlobal>    
+  <Kits>
+    <Item>
+      <kitName>192367_obeytrs_modkit</kitName>
+      <id value="192367" />   
+      <kitType>MKT_SPECIAL</kitType>
+      <visibleMods> 
+        <Item>
+          <modelName>obeytrs_bon_cbn</modelName>
+          <modShopLabel>obeytrs_bon_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon1_cbn</modelName>
+          <modShopLabel>obeytrs_bon1_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon1_paint_black</modelName>
+          <modShopLabel>obeytrs_bon1_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon1_paint_cbn</modelName>
+          <modShopLabel>obeytrs_bon1_paint_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+      
+        <Item>
+          <modelName>obeytrs_bon2_cbn</modelName>
+          <modShopLabel>obeytrs_bon2_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon2_paint</modelName>
+          <modShopLabel>obeytrs_bon2_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon3_cbn</modelName>
+          <modShopLabel>obeytrs_bon3_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item>
+            <Item>misc_p</Item>
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon3_cbn_black</modelName>
+          <modShopLabel>obeytrs_bon3_cbn_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item>
+            <Item>misc_p</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon3_paint_black</modelName>
+          <modShopLabel>obeytrs_bon3_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item>
+            <Item>misc_p</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon3_paint_cbn</modelName>
+          <modShopLabel>obeytrs_bon3_paint_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item>
+            <Item>misc_p</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon4_cbn</modelName>
+          <modShopLabel>obeytrs_bon4_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon4_paint_black</modelName>
+          <modShopLabel>obeytrs_bon4_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon4_paint_cbn</modelName>
+          <modShopLabel>obeytrs_bon4_paint_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon5_cbn</modelName>
+          <modShopLabel>obeytrs_bon5_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon5_paint_black</modelName>
+          <modShopLabel>obeytrs_bon5_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon5_paint_cbn</modelName>
+          <modShopLabel>obeytrs_bon5_paint_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon6_cbn</modelName>
+          <modShopLabel>obeytrs_bon6_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon6_paint_black</modelName>
+          <modShopLabel>obeytrs_bon6_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bon6_paint_cbn</modelName>
+          <modShopLabel>obeytrs_bon6_paint_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BONNET</type>
+          <bone>bonnet</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_bumperf_cbn</modelName>
+          <modShopLabel>obeytrs_bumperf_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf1_black</modelName>
+          <modShopLabel>obeytrs_bumperf1_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf1_cbn</modelName>
+          <modShopLabel>obeytrs_bumperf1_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf2_black</modelName>
+          <modShopLabel>obeytrs_bumperf2_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf2_cbn</modelName>
+          <modShopLabel>obeytrs_bumperf2_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf3_black</modelName>
+          <modShopLabel>obeytrs_bumperf3_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf3_cbn</modelName>
+          <modShopLabel>obeytrs_bumperf3_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf4_black</modelName>
+          <modShopLabel>obeytrs_bumperf4_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf4_cbn</modelName>
+          <modShopLabel>obeytrs_bumperf4_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf5_black</modelName>
+          <modShopLabel>obeytrs_bumperf5_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf5_cbn</modelName>
+          <modShopLabel>obeytrs_bumperf5_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf6_black</modelName>
+          <modShopLabel>obeytrs_bumperf6_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperf6_cbn</modelName>
+          <modShopLabel>obeytrs_bumperf6_cbnk</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_l</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_bumperr_cbn</modelName>
+          <modShopLabel>obeytrs_bumperr_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperr1_black</modelName>
+          <modShopLabel>obeytrs_bumperr1_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperr1_cbn</modelName>
+          <modShopLabel>obeytrs_bumperr1_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperr2_black</modelName>
+          <modShopLabel>obeytrs_bumperr2_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperr2_cbn</modelName>
+          <modShopLabel>obeytrs_bumperr2_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperr3_black</modelName>
+          <modShopLabel>obeytrs_bumperr3_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperr3_cbn</modelName>
+          <modShopLabel>obeytrs_bumperr3_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperr4_black</modelName>
+          <modShopLabel>obeytrs_bumperr4_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_bumperr4_cbn</modelName>
+          <modShopLabel>obeytrs_bumperr4_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_m</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_skirt_cbn</modelName>
+          <modShopLabel>obeytrs_skirt_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_skirt1_black</modelName>
+          <modShopLabel>obeytrs_skirt1_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_skirt1_cbn</modelName>
+          <modShopLabel>obeytrs_skirt1_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_skirt2_black</modelName>
+          <modShopLabel>obeytrs_skirt2_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_skirt2_cbn</modelName>
+          <modShopLabel>obeytrs_skirt2_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_skirt3_black</modelName>
+          <modShopLabel>obeytrs_skirt3_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_skirt3_cbn</modelName>
+          <modShopLabel>obeytrs_skirt3_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_skirt4_black</modelName>
+          <modShopLabel>obeytrs_skirt4_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_skirt4_cbn</modelName>
+          <modShopLabel>obeytrs_skirt4_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_i</Item> 
+          </turnOffBones>
+          <type>VMT_SKIRT</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_wing_black</modelName>
+          <modShopLabel>obeytrs_wing_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing_cbn</modelName>
+          <modShopLabel>obeytrs_wing_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing_cbn_acc</modelName>
+          <modShopLabel>obeytrs_wing_cbn_acc</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing_cbn_black</modelName>
+          <modShopLabel>obeytrs_wing_cbn_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing2_black</modelName>
+          <modShopLabel>obeytrs_wing2_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing2_cbn</modelName>
+          <modShopLabel>obeytrs_wing2_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing2_cbn_acc</modelName>
+          <modShopLabel>obeytrs_wing2_cbn_acc</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing3_cbn</modelName>
+          <modShopLabel>obeytrs_wing3_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing3_paint</modelName>
+          <modShopLabel>obeytrs_wing3_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing4_cbn</modelName>
+          <modShopLabel>obeytrs_wing4_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing4_cbn</modelName>
+          <modShopLabel>obeytrs_wing4_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing4_paint</modelName>
+          <modShopLabel>obeytrs_wing4_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing5_cbn</modelName>
+          <modShopLabel>obeytrs_wing5_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing5_paint_black</modelName>
+          <modShopLabel>obeytrs_wing5_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wing5_paint_cbn</modelName>
+          <modShopLabel>obeytrs_wing5_paint_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_CHASSIS2</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        
+        <Item>
+          <modelName>obeytrs_wind_ds</modelName>
+          <modShopLabel>obeytrs_wind_ds</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_wind_ps</Item>
+          </linkedModels>        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_DOOR_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wind_ds_cbn</modelName>
+          <modShopLabel>obeytrs_wind_ds_cbn</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_wind_ps_cbn</Item>
+          </linkedModels>        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_DOOR_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_mirror1_ds_black</modelName>
+          <modShopLabel>obeytrs_mirror1_ds_black</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror1_ps_black</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror1_ds_cbn</modelName>
+          <modShopLabel>obeytrs_mirror1_ds_cbn</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror1_ps_cbn</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror1_ds_paint</modelName>
+          <modShopLabel>obeytrs_mirror1_ds_paint</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror1_ps_paint</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_mirror2_ds_black</modelName>
+          <modShopLabel>obeytrs_mirror2_ds_black</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror2_ps_black</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror2_ds_cbn</modelName>
+          <modShopLabel>obeytrs_mirror2_ds_cbn</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror2_ps_cbn</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror2_ds_paint</modelName>
+          <modShopLabel>obeytrs_mirror2_ds_paint</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror2_ps_paint</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_mirror3_ds_black</modelName>
+          <modShopLabel>obeytrs_mirror3_ds_black</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror3_ps_black</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror3_ds_cbn</modelName>
+          <modShopLabel>obeytrs_mirror3_ds_cbn</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror3_ps_cbn</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror3_ds_paint</modelName>
+          <modShopLabel>obeytrs_mirror3_ds_paint</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror3_ps_paint</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_mirror4_ds_black</modelName>
+          <modShopLabel>obeytrs_mirror4_ds_black</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror4_ps_black</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror4_ds_cbn</modelName>
+          <modShopLabel>obeytrs_mirror4_ds_cbn</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror4_ps_cbn</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror4_ds_paint</modelName>
+          <modShopLabel>obeytrs_mirror4_ds_paint</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_mirror4_ps_paint</Item>
+          </linkedModels>        
+          <turnOffBones>
+            <Item>misc_f</Item>
+            <Item>misc_g</Item> 
+          </turnOffBones>
+          <type>VMT_WING_L</type>
+          <bone>door_dside_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_spoiler3_black</modelName>
+          <modShopLabel>obeytrs_spoiler3_black</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_spoiler3_black_chas</Item>
+          </linkedModels>        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler3_cbn</modelName>
+          <modShopLabel>obeytrs_spoiler3_cbn</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_spoiler3_cbn_chas</Item>
+          </linkedModels>        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler3_paint</modelName>
+          <modShopLabel>obeytrs_spoiler3_paint</modShopLabel>
+          <linkedModels>
+          <Item>obeytrs_spoiler3_paint_chas</Item>
+          </linkedModels>        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_roof_spoiler_black</modelName>
+          <modShopLabel>obeytrs_roof_spoiler_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_TRUNK</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_roof_spoiler_cbn</modelName>
+          <modShopLabel>obeytrs_roof_spoiler_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_TRUNK</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_roof_spoiler_paint</modelName>
+          <modShopLabel>obeytrs_roof_spoiler_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_TRUNK</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler_black</modelName>
+          <modShopLabel>obeytrs_spoiler_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler_cbn</modelName>
+          <modShopLabel>obeytrs_spoiler_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler_cbn_paint</modelName>
+          <modShopLabel>obeytrs_spoiler_cbn_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler_paint</modelName>
+          <modShopLabel>obeytrs_spoiler_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler_paint_black</modelName>
+          <modShopLabel>obeytrs_spoiler_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_spoiler1_black</modelName>
+          <modShopLabel>obeytrs_spoiler1_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler1_cbn</modelName>
+          <modShopLabel>obeytrs_spoiler1_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler1_paint</modelName>
+          <modShopLabel>obeytrs_spoiler1_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_spoiler2_black</modelName>
+          <modShopLabel>obeytrs_spoiler2_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler2_cbn</modelName>
+          <modShopLabel>obeytrs_spoiler2_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler2_paint</modelName>
+          <modShopLabel>obeytrs_spoiler2_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_spoiler4_black</modelName>
+          <modShopLabel>obeytrs_spoiler4_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler4_cbn</modelName>
+          <modShopLabel>obeytrs_spoiler4_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler4_cbn_paint</modelName>
+          <modShopLabel>obeytrs_spoiler4_cbn_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler4_paint</modelName>
+          <modShopLabel>obeytrs_spoiler4_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler4_paint_black</modelName>
+          <modShopLabel>obeytrs_spoiler4_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_spoiler5_black</modelName>
+          <modShopLabel>obeytrs_spoiler5_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler5_black_paint</modelName>
+          <modShopLabel>obeytrs_spoiler5_black_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler5_cbn</modelName>
+          <modShopLabel>obeytrs_spoiler5_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler5_paint</modelName>
+          <modShopLabel>obeytrs_spoiler5_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler5_paint_black</modelName>
+          <modShopLabel>obeytrs_spoiler5_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_spoiler6_black</modelName>
+          <modShopLabel>obeytrs_spoiler6_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler6_cbn</modelName>
+          <modShopLabel>obeytrs_spoiler6_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler6_cbn_paint</modelName>
+          <modShopLabel>obeytrs_spoiler6_cbn_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler6_paint</modelName>
+          <modShopLabel>obeytrs_spoiler6_paint</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler6_paint_black</modelName>
+          <modShopLabel>obeytrs_spoiler6_paint_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+
+        <Item>
+          <modelName>obeytrs_rollcage_cbn</modelName>
+          <modShopLabel>obeytrs_rollcage_cbn</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_INTERIOR3</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_rollcage_black</modelName>
+          <modShopLabel>obeytrs_rollcage_black</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_INTERIOR3</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_rollcage_prim</modelName>
+          <modShopLabel>obeytrs_rollcage_prim</modShopLabel>
+          <linkedModels />        
+          <turnOffBones>
+          </turnOffBones>
+          <type>VMT_INTERIOR3</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+      </visibleMods>
+     <linkMods>
+     <Item>
+          <modelName>obeytrs_spoiler3_black_chas</modelName>
+          <bone>chassis</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler3_cbn_chas</modelName>
+          <bone>chassis</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_spoiler3_paint_chas</modelName>
+          <bone>chassis</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wind_ps</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_wind_ps_cbn</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror1_ps_black</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror1_ps_cbn</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror1_ps_paint</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror2_ps_black</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror2_ps_cbn</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror2_ps_paint</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror3_ps_black</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror3_ps_cbn</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror3_ps_paint</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror4_ps_black</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror4_ps_cbn</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+        <Item>
+          <modelName>obeytrs_mirror4_ps_paint</modelName>
+          <bone>door_pside_f</bone>
+          <turnOffExtra value="false" />
+        </Item>
+      </linkMods>
+      <statMods>
+        <Item>
+          <identifier />
+          <modifier value="25" />
+          <audioApply value="1.000000" />
+          <weight value="20" />
+          <type>VMT_ENGINE</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="50" />
+          <audioApply value="1.000000" />
+          <weight value="20" />
+          <type>VMT_ENGINE</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="75" />
+          <audioApply value="1.000000" />
+          <weight value="20" />
+          <type>VMT_ENGINE</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="100" />
+          <audioApply value="1.000000" />
+          <weight value="20" />
+          <type>VMT_ENGINE</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="25" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_BRAKES</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="50" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_BRAKES</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="100" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_BRAKES</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="25" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_GEARBOX</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="50" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_GEARBOX</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="100" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_GEARBOX</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="20" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_ARMOUR</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="400" />
+          <audioApply value="1.000000" />
+          <weight value="10" />
+          <type>VMT_ARMOUR</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="60" />
+          <audioApply value="1.000000" />
+          <weight value="20" />
+          <type>VMT_ARMOUR</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="80" />
+          <audioApply value="1.000000" />
+          <weight value="30" />
+          <type>VMT_ARMOUR</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="100" />
+          <audioApply value="1.000000" />
+          <weight value="40" />
+          <type>VMT_ARMOUR</type>
+        </Item>
+        <Item>
+          <identifier>HORN_TRUCK</identifier>
+          <modifier value="1766676233" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>HORN_COP</identifier>
+          <modifier value="2904189469" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>HORN_CLOWN</identifier>
+          <modifier value="2543206147" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>HORN_MUSICAL_1</identifier>
+          <modifier value="1732399718" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>HORN_MUSICAL_2</identifier>
+          <modifier value="2046162893" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>HORN_MUSICAL_3</identifier>
+          <modifier value="2194999691" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>HORN_MUSICAL_4</identifier>
+          <modifier value="2508304100" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>HORN_MUSICAL_5</identifier>
+          <modifier value="3707223535" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+<Item>
+          <identifier>HORN_SAD_TROMBONE</identifier>
+          <modifier value="632950117" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>MUSICAL_HORN_BUSINESS_1</identifier>
+          <modifier value="3628534289" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>MUSICAL_HORN_BUSINESS_2</identifier>
+          <modifier value="3892554122" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>MUSICAL_HORN_BUSINESS_3</identifier>
+          <modifier value="4112892878" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>MUSICAL_HORN_BUSINESS_4</identifier>
+          <modifier value="116877169" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>MUSICAL_HORN_BUSINESS_5</identifier>
+          <modifier value="2684983719" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+<identifier>MUSICAL_HORN_BUSINESS_6</identifier>
+<modifier value="2982690084" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>MUSICAL_HORN_BUSINESS_7</identifier>
+<modifier value="3203290992" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>DLC_BUSI2_C_MAJOR_NOTES_C0</identifier>
+<modifier value="771284519" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>DLC_BUSI2_C_MAJOR_NOTES_D0</identifier>
+<modifier value="2586621229" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>DLC_BUSI2_C_MAJOR_NOTES_E0</identifier>
+<modifier value="283386134" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>DLC_BUSI2_C_MAJOR_NOTES_F0</identifier>
+<modifier value="3884502400" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>DLC_BUSI2_C_MAJOR_NOTES_G0</identifier>
+<modifier value="265723083" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>DLC_BUSI2_C_MAJOR_NOTES_A0</identifier>
+<modifier value="1746883687" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>DLC_BUSI2_C_MAJOR_NOTES_B0</identifier>
+<modifier value="1919870950" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>DLC_BUSI2_C_MAJOR_NOTES_C1</identifier>
+<modifier value="1085277077" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>HIPSTER_HORN_1</identifier>
+<modifier value="444549672" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>HIPSTER_HORN_2</identifier>
+<modifier value="1603064898" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>HIPSTER_HORN_3</identifier>
+<modifier value="240366033" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+<Item>
+<identifier>HIPSTER_HORN_4</identifier>
+<modifier value="960137118" />
+<audioApply value="1.000000" />
+<weight value="0" />
+<type>VMT_HORN</type>
+</Item>
+        <Item>
+          <identifier>INDEP_HORN_1</identifier>
+          <modifier value="3572144790" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>INDEP_HORN_2</identifier>
+          <modifier value="3801396714" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>INDEP_HORN_3</identifier>
+          <modifier value="2843657151" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier>INDEP_HORN_4</identifier>
+          <modifier value="3341811489" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_HORN</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="10" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_SUSPENSION</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="20" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_SUSPENSION</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="30" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_SUSPENSION</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="40" />
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <type>VMT_SUSPENSION</type>
+        </Item>
+                <Item>
+		  <identifier />
+		  <modifier value="25" />
+		  <audioApply value="0.250000" />
+		  <weight value="0" />
+		  <type>VMT_WHEELS_REAR_OR_HYDRAULICS</type>
+		</Item>
+		<Item>
+		  <identifier />
+		  <modifier value="50" />
+		  <audioApply value="0.500000" />
+		  <weight value="0" />
+		  <type>VMT_WHEELS_REAR_OR_HYDRAULICS</type>
+		</Item>
+		<Item>
+		  <identifier />
+		  <modifier value="25" />
+		  <audioApply value="0.750000" />
+		  <weight value="0" />
+		  <type>VMT_WHEELS_REAR_OR_HYDRAULICS</type>
+		</Item>
+		<Item>
+		  <identifier />
+		  <modifier value="50" />
+		  <audioApply value="1.000000" />
+		  <weight value="0" />
+		  <type>VMT_WHEELS_REAR_OR_HYDRAULICS</type>
+		</Item>
+      </statMods>
+      <slotNames>
+        <Item>
+          <slot>VMT_GRILL</slot>
+          <name>TOP_TGATE</name>
+        </Item>
+      </slotNames>
+      <liveryNames />
+    </Item>
+  </Kits>
+<Lights>
+    <Item>
+      <id value="761" />	
+       <indicator>
+        <intensity value="0.375000" />
+        <falloffMax value="2.500000" />
+        <falloffExponent value="8.000000" />
+        <innerConeAngle value="30.000000" />
+        <outerConeAngle value="80.000000" />
+        <emmissiveBoost value="false" />
+        <color value="0xFFFF8000" />
+      </indicator>
+      <rearIndicatorCorona>
+        <size value="0.000000" />
+        <size_far value="0.000000" />
+        <intensity value="0.000000" />
+        <intensity_far value="0.000000" />
+        <color value="0x00000000" />
+        <numCoronas value="1" />
+        <distBetweenCoronas value="128" />
+        <distBetweenCoronas_far value="255" />
+        <xRotation value="0.000000" />
+        <yRotation value="0.000000" />
+        <zRotation value="0.000000" />
+        <zBias value="0.250000" />
+        <pullCoronaIn value="false" />
+      </rearIndicatorCorona>
+      <frontIndicatorCorona>
+        <size value="0.000000" />
+        <size_far value="0.000000" />
+        <intensity value="0.000000" />
+        <intensity_far value="0.000000" />
+        <color value="0x00000000" />
+        <numCoronas value="1" />
+        <distBetweenCoronas value="128" />
+        <distBetweenCoronas_far value="255" />
+        <xRotation value="0.000000" />
+        <yRotation value="0.000000" />
+        <zRotation value="0.000000" />
+        <zBias value="0.250000" />
+        <pullCoronaIn value="false" />
+      </frontIndicatorCorona>
+      <tailLight>
+        <intensity value="0.250000" />
+        <falloffMax value="4.000000" />
+        <falloffExponent value="16.000000" />
+        <innerConeAngle value="45.000000" />
+        <outerConeAngle value="90.000000" />
+        <emmissiveBoost value="false" />
+        <color value="0xFFFF0000" />
+      </tailLight>
+      <tailLightCorona>
+        <size value="0.900000" />
+        <size_far value="5.300000" />
+        <intensity value="4.000000" />
+        <intensity_far value="1.000000" />
+        <color value="0xFFFF0E05" />
+        <numCoronas value="0" />
+        <distBetweenCoronas value="22" />
+        <distBetweenCoronas_far value="255" />
+        <xRotation value="0.000000" />
+        <yRotation value="0.000000" />
+        <zRotation value="0.000000" />
+        <zBias value="0.000000" />
+        <pullCoronaIn value="false" />
+      </tailLightCorona>
+      <tailLightMiddleCorona>
+        <size value="0.100000" />
+        <size_far value="0.500000" />
+        <intensity value="0.100000" />
+        <intensity_far value="0.200000" />
+        <color value="0x88FF0000" />
+        <numCoronas value="0" />
+        <distBetweenCoronas value="65" />
+        <distBetweenCoronas_far value="25" />
+        <xRotation value="0.000000" />
+        <yRotation value="0.000000" />
+        <zRotation value="0.000000" />
+        <zBias value="0.000000" />
+        <pullCoronaIn value="false" />
+      </tailLightMiddleCorona>
+      <headLight>
+        <intensity value="1.000000" />
+        <falloffMax value="35.000000" />
+        <falloffExponent value="16.000000" />
+        <innerConeAngle value="0.000000" />
+        <outerConeAngle value="60.209999" />
+        <emmissiveBoost value="false" />
+        <color value="0xFFFFFFCC" />
+        <textureName>VehicleLight_car_oldsquare</textureName>
+        <mirrorTexture value="true" />
+      </headLight>
+      <headLightCorona>
+        <size value="0.080000" />
+        <size_far value="1.000000" />
+        <intensity value="5.000000" />
+        <intensity_far value="1.000000" />
+        <color value="0xFFFFFFFF" />
+        <numCoronas value="1" />
+        <distBetweenCoronas value="1" />
+        <distBetweenCoronas_far value="255" />
+        <xRotation value="0.000000" />
+        <yRotation value="0.000000" />
+        <zRotation value="0.000000" />
+        <zBias value="0.000000" />
+        <pullCoronaIn value="false" />
+      </headLightCorona>
+      <reversingLight>
+        <intensity value="0.500000" />
+        <falloffMax value="4.000000" />
+        <falloffExponent value="32.000000" />
+        <innerConeAngle value="45.000000" />
+        <outerConeAngle value="90.000000" />
+        <emmissiveBoost value="false" />
+        <color value="0xFFFFFFFF" />
+      </reversingLight>
+      <reversingLightCorona>
+        <size value="0.800000" />
+        <size_far value="2.000000" />
+        <intensity value="1.500000" />
+        <intensity_far value="1.000000" />
+        <color value="0x00F7F7F7" />
+        <numCoronas value="1" />
+        <distBetweenCoronas value="128" />
+        <distBetweenCoronas_far value="255" />
+        <xRotation value="0.000000" />
+        <yRotation value="0.000000" />
+        <zRotation value="0.000000" />
+        <zBias value="0.250000" />
+        <pullCoronaIn value="false" />
+      </reversingLightCorona>
+      <name>reapersterra</name>
+    </Item>
+   </Lights>
+</CVehicleModelInfoVarGlobal>

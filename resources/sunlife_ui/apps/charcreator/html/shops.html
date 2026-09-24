@@ -1,0 +1,2592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Création de personnage – FiveM</title>
+  
+  <link rel="preconnect" href="https://flagcdn.com" crossorigin>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    @import url('style.css');
+  </style>
+</head>
+<body>
+  <!-- HUD Caméra (hors interface) -->
+  <div class="cam-hud" id="camHud" role="toolbar" aria-label="Caméras">
+    <!-- Tête -->
+    <button class="cam-btn selected" type="button" data-cam="head" title="Caméra tête" aria-pressed="true" aria-label="Tête">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z"/>
+        <path d="M4 20a7 7 0 0 1 16 0"/>
+      </svg>
+    </button>
+
+    <!-- Corps -->
+    <button class="cam-btn" type="button" data-cam="body" title="Caméra corps" aria-pressed="false" aria-label="Corps">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3a3 3 0 1 1-3 3 3 3 0 0 1 3-3Z"/>
+        <path d="M6 21v-5a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v5"/>
+      </svg>
+    </button>
+
+    <!-- Chaussures -->
+    <button class="cam-btn" type="button" data-cam="shoes" title="Caméra chaussures" aria-pressed="false" aria-label="Chaussures">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 16c4 0 6-2 7-4l4 2c3 1 5 2 5 5H4a2 2 0 0 1-1-3Z"/>
+        <path d="M10 12l-2-2"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="app" id="app">
+    <!-- Sidebar gauche -->
+    <aside class="sidebar">
+      <!-- <div class="brand">
+        <div class="logo">CC</div>
+        <div class="name">Character Creator</div>
+      </div> -->
+
+      <nav class="menu" id="menu" aria-label="Progression">
+        <button class="btn progress selected" aria-disabled="true" data-step="identite">
+          <span class="ico">🪪</span><span class="ripple"></span>
+        </button>
+        <button class="btn progress" aria-disabled="true" data-step="sante">
+          <span class="ico">🩺</span><span class="ripple"></span>
+        </button>
+        <button class="btn progress" aria-disabled="true" data-step="heredite">
+          <span class="ico">🧬</span><span class="ripple"></span>
+        </button>
+        <button class="btn progress" aria-disabled="true" data-step="apparence">
+          <span class="ico">🎨</span><span class="ripple"></span>
+        </button>
+        <button class="btn progress" aria-disabled="true" data-step="visage">
+          <span class="ico">👁️</span><span class="ripple"></span>
+        </button>
+        <button class="btn progress" aria-disabled="true" data-step="traits">
+          <span class="ico">🧠</span><span class="ripple"></span>
+        </button>
+        <button class="btn progress" aria-disabled="true" data-step="confirmation">
+          <span class="ico">✅</span><span class="ripple"></span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Contenu -->
+    <main class="content">
+      <div class="topbar">
+        <div class="title">Création de personnage</div>
+        <div class="actions">
+          <button class="ghost" id="btnClose">Fermer</button>
+        </div>
+      </div>
+
+      <!-- Page 1: Identité -->
+      <section class="page" id="page-identite">
+        <div class="form-wrap">
+          <h2 class="section-title">Identité</h2>
+          <p class="hint">Renseigne les infos de base. Tu pourras peaufiner l'apparence ensuite.</p>
+
+          <div class="grid-2">
+            <div class="field">
+              <label class="label" for="firstName">Prénom</label>
+              <input class="input" id="firstName" name="firstName" placeholder="ex: Alex" maxlength="24" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label class="label" for="lastName">Nom</label>
+              <input class="input" id="lastName" name="lastName" placeholder="ex: Martin" maxlength="24" autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="field">
+              <label class="label" for="birth">Date de naissance</label>
+              <input type="text" class="input" id="birth" name="birth" placeholder="JJ/MM/AAAA" inputmode="numeric" autocomplete="off" maxlength="10" />
+            </div>
+
+            <div class="field">
+              <label class="label" for="height">Taille</label>
+              <div class="slider-row">
+                <input type="range" class="range" id="height" name="height" min="120" max="230" step="1" value="175" />
+                <span class="range-val" id="heightVal">175 cm</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Sexe</label>
+              <div class="field field-gender">
+              <div class="choice-row" role="radiogroup" aria-label="Sexe" data-group="gender">
+                <label class="chip" tabindex="0"><input type="radio" name="gender" value="male"><span class="gico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="15" r="5"/>
+                  <path d="M13 11l7-7"/>
+                  <path d="M16 4h4v4"/>
+                </svg>
+              </span>
+              <span>Homme</span></label>
+                <label class="chip" tabindex="0"><input type="radio" name="gender" value="female"><span class="gico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="5"/>
+                  <path d="M12 13v7"/>
+                  <path d="M9 20h6"/>
+                </svg>
+              </span>
+              <span>Femme</span></label>
+                <label class="chip" tabindex="0"><input type="radio" name="gender" value="other"><span class="gico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <path d="M12 2v4"/>
+                  <path d="M12 18v4"/>
+                  <path d="M2 12h4"/>
+                  <path d="M18 12h4"/>
+                </svg>
+              </span>
+              <span>Autre</span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
+              <label class="label">Nationalité</label>
+            </div>
+            <div class="flags" id="flags"></div>
+            <div class="toolbar">
+              <div class="left">Sélection actuelle: <b id="natChoice">aucune</b></div>
+            </div>
+          </div>
+
+          <div class="footer-actions">
+            <button class="btn-inline" id="btnPrev" disabled>Précédent</button>
+            <button class="btn-inline primary" id="btnNext" disabled>Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-sante">
+        <div class="form-wrap">
+          <h2 class="section-title">Santé</h2>
+          <p class="hint">Renseigne ces infos médicales pour aider le staff EMS en RP.</p>
+
+          <!-- Groupe sanguin (radio chips) -->
+          <div class="field">
+            <label class="label">Groupe sanguin</label>
+            <div class="choice-row" role="radiogroup" aria-label="Groupe sanguin" data-group="blood">
+              <label class="chip" tabindex="0"><input type="radio" name="blood" value="A+"><span>A+</span></label>
+              <label class="chip" tabindex="0"><input type="radio" name="blood" value="A-"><span>A-</span></label>
+              <label class="chip" tabindex="0"><input type="radio" name="blood" value="B+"><span>B+</span></label>
+              <label class="chip" tabindex="0"><input type="radio" name="blood" value="B-"><span>B-</span></label>
+              <label class="chip" tabindex="0"><input type="radio" name="blood" value="AB+"><span>AB+</span></label>
+              <label class="chip" tabindex="0"><input type="radio" name="blood" value="AB-"><span>AB-</span></label>
+              <label class="chip" tabindex="0"><input type="radio" name="blood" value="O+"><span>O+</span></label>
+              <label class="chip" tabindex="0"><input type="radio" name="blood" value="O-"><span>O-</span></label>
+            </div>
+          </div>
+
+          <!-- Addictions (multi) -->
+          <div class="field">
+            <label class="label">Addictions <span class="hint">(plusieurs choix possibles)</span></label>
+            <div class="choice-row" role="group" aria-label="Addictions" id="addictions">
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Tabac"><span>Tabac</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Alcool"><span>Alcool</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Caféine"><span>Caféine</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Cannabis"><span>Cannabis</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Cocaïne"><span>Cocaïne</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Opioïdes"><span>Opioïdes</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Amphétamines"><span>Amphétamines</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Jeux d’argent"><span>Jeux d’argent</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" name="addictions" value="Jeux vidéo"><span>Jeux vidéo</span></label>
+            </div>
+          </div>
+
+          <!-- Maladies courantes (multi) -->
+          <div class="field">
+            <label class="label">Maladies courantes <span class="hint">(coche si concerné)</span></label>
+            <div class="choice-row" role="group" aria-label="Maladies" id="conditions">
+              <label class="chip" tabindex="0"><input type="checkbox" value="Asthme"><span>Asthme</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Diabète"><span>Diabète</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Hypertension artérielle"><span>Hypertension artérielle</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Épilepsie"><span>Épilepsie</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Problèmes cardiaques"><span>Problèmes cardiaques</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Maladie respiratoire (BPCO)"><span>Maladie respiratoire (BPCO)</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Trouble de la thyroïde"><span>Trouble de la thyroïde</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Migraine chronique"><span>Migraine chronique</span></label>
+            </div>
+          </div>
+
+          <!-- Allergies (multi) -->
+          <div class="field">
+            <label class="label">Allergies <span class="hint">(coche si concerné)</span></label>
+            <div class="choice-row" role="group" aria-label="Allergies" id="allergies">
+              <label class="chip" tabindex="0"><input type="checkbox" value="Pénicilline"><span>Pénicilline</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Aspirine / AINS"><span>Aspirine / AINS</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Latex"><span>Latex</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Arachides / Fruits à coque"><span>Arachides / Fruits à coque</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Poissons / Crustacés"><span>Poissons / Crustacés</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Pollen / Graminées"><span>Pollen / Graminées</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Œufs"><span>Œufs</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Lait / Lactose"><span>Lait / Lactose</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Iode / Produits de contraste"><span>Iode / Produits de contraste</span></label>
+              <label class="chip" tabindex="0"><input type="checkbox" value="Gluten"><span>Gluten</span></label>
+            </div>
+          </div>
+
+          <div class="footer-actions">
+            <button class="btn-inline" data-nav="back">Précédent</button>
+            <button class="btn-inline primary" data-nav="forward">Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-heredite">
+        <div class="form-wrap">
+          <h2 class="section-title">Hérédité</h2>
+          <p class="hint">Choisis tes parents et règle la ressemblance/mix de peau.</p>
+
+          <div class="heredity-grid">
+            <!-- MÈRE -->
+            <div class="parent-card">
+              <div class="portrait"><img id="momPortrait" alt="Mère"></div>
+              <div>
+                <div class="header">Mère</div>
+                  <div class="controls">
+                    <button class="arrow left"  data-arrow="mom-left">←</button>
+                    <div class="name-display" id="momName" tabindex="0">Hannah</div>
+                    <button class="arrow right" data-arrow="mom-right">→</button>
+                  </div>
+              </div>
+            </div>
+
+            <!-- PÈRE -->
+            <div class="parent-card">
+              <div class="portrait"><img id="dadPortrait" alt="Père"></div>
+              <div>
+                <div class="header">Père</div>
+                <div class="controls">
+                  <button class="arrow left"  data-arrow="dad-left">←</button>
+                  <div class="name-display" id="dadName" tabindex="0">Benjamin</div>
+                  <button class="arrow right" data-arrow="dad-right">→</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="faceMix">Ressemblance du visage</label>
+            <div class="slider-row">
+              <span class="hint">Mère</span>
+              <input type="range" class="range" id="faceMix" min="0" max="100" step="1" value="50" />
+              <span class="hint">Père</span>
+              <span class="range-val" id="faceMixVal">50%</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="skinMix">Mix couleur de peau</label>
+            <div class="slider-row">
+              <span class="hint">Mère</span>
+              <input type="range" class="range" id="skinMix" min="0" max="100" step="1" value="50" />
+              <span class="hint">Père</span>
+              <span class="range-val" id="skinMixVal">50%</span>
+            </div>
+          </div>
+
+          <div class="footer-actions">
+            <button class="btn-inline" data-nav="back">Précédent</button>
+            <button class="btn-inline primary" data-nav="forward">Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-apparence">
+        <div class="form-wrap">
+          <h2 class="section-title">Apparence</h2>
+          <p class="hint">Choisis une catégorie, la variante et les couleurs.</p>
+
+          <!-- Onglets -->
+          <div class="tabs" id="appearanceTabs" role="tablist" aria-label="Apparence">
+            <button class="tab-btn active" role="tab" aria-selected="true" data-cat="hair">Cheveux</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-cat="brows">Sourcils</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-cat="beard">Barbe</button>
+            <!-- <button class="tab-btn" role="tab" aria-selected="false" data-cat="chest">Torse</button> -->
+          </div>
+
+          <div class="appearance-card">
+            <div class="header" id="appearanceHeader" style="font-weight:700;margin:0 0 6px;">Cheveux</div>
+            <div class="controls">
+              <button class="arrow left"  data-arrow="style-left">←</button>
+              <div class="name-display" id="styleName" tabindex="0">Coupe #1</div>
+              <button class="arrow right" data-arrow="style-right">→</button>
+            </div>
+            <!-- Opacité intégrée au cadre (affiché sauf pour "Cheveux") -->
+            <div class="field" id="appearanceOpacityField" style="display:none;">
+              <label class="label" for="appearanceOpacity">Opacité</label>
+              <div class="slider-row">
+                <input type="range" class="range" id="appearanceOpacity" min="0" max="100" step="1" value="50" />
+                <span class="range-val" id="appearanceOpacityVal">50%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Couleur primaire -->
+          <div class="field">
+            <label class="label">Couleur primaire</label>
+            <div class="color-grid" id="colorGridPrimary"></div>
+          </div>
+
+          <!-- Couleur secondaire -->
+          <div class="field">
+            <label class="label">Couleur secondaire</label>
+            <div class="color-grid" id="colorGridSecondary"></div>
+          </div>
+
+          <div class="footer-actions">
+            <button class="btn-inline" data-nav="back">Précédent</button>
+            <button class="btn-inline primary" data-nav="forward">Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-visage">
+        <div class="form-wrap">
+          <h2 class="section-title">Visage</h2>
+          <p class="hint">Choisis la couleur des yeux et les imperfections du visage.</p>
+
+          <!-- Couleur des yeux -->
+          <div class="field">
+            <label class="label">Couleur des yeux</label>
+            <div class="color-grid" id="eyeColorGrid"></div>
+          </div>
+
+          <!-- Vieillissement (style + opacité) -->
+          <div class="appearance-card">
+            <div class="header" style="font-weight:700;margin:0 0 6px;">Vieillissement</div>
+            <div class="controls">
+              <button class="arrow left"  data-arrow="aging-left">←</button>
+              <div class="name-display" id="agingName" tabindex="0">Vieillissement #1</div>
+              <button class="arrow right" data-arrow="aging-right">→</button>
+            </div>
+            <div class="field">
+              <label class="label" for="agingOpacity">Opacité du vieillissement</label>
+              <div class="slider-row">
+                <input type="range" class="range" id="agingOpacity" min="0" max="100" step="1" value="50" />
+                <span class="range-val" id="agingOpacityVal">50%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Teint (style + opacité) -->
+          <div class="appearance-card">
+            <div class="header" style="font-weight:700;margin:0 0 6px;">Teint</div>
+            <div class="controls">
+              <button class="arrow left"  data-arrow="complexion-left">←</button>
+              <div class="name-display" id="complexionName" tabindex="0">Teint #1</div>
+              <button class="arrow right" data-arrow="complexion-right">→</button>
+            </div>
+            <div class="field">
+              <label class="label" for="complexionOpacity">Opacité du teint</label>
+              <div class="slider-row">
+                <input type="range" class="range" id="complexionOpacity" min="0" max="100" step="1" value="50" />
+                <span class="range-val" id="complexionOpacityVal">50%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dommages du soleil (style + opacité) -->
+          <div class="appearance-card">
+            <div class="header" style="font-weight:700;margin:0 0 6px;">Dommages du soleil</div>
+            <div class="controls">
+              <button class="arrow left"  data-arrow="sun-left">←</button>
+              <div class="name-display" id="sunName" tabindex="0">Dommages du soleil #1</div>
+              <button class="arrow right" data-arrow="sun-right">→</button>
+            </div>
+            <div class="field">
+              <label class="label" for="sunOpacity">Opacité des dommages du soleil</label>
+              <div class="slider-row">
+                <input type="range" class="range" id="sunOpacity" min="0" max="100" step="1" value="50" />
+                <span class="range-val" id="sunOpacityVal">50%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grains de beauté (style + opacité) -->
+          <div class="appearance-card">
+            <div class="header" style="font-weight:700;margin:0 0 6px;">Grains de beauté</div>
+            <div class="controls">
+              <button class="arrow left"  data-arrow="moles-left">←</button>
+              <div class="name-display" id="molesName" tabindex="0">Grains de beauté #1</div>
+              <button class="arrow right" data-arrow="moles-right">→</button>
+            </div>
+            <div class="field">
+              <label class="label" for="molesOpacity">Opacité des grains de beauté</label>
+              <div class="slider-row">
+                <input type="range" class="range" id="molesOpacity" min="0" max="100" step="1" value="50" />
+                <span class="range-val" id="molesOpacityVal">50%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Imperfections du corps (style + opacité) -->
+          <div class="appearance-card">
+            <div class="header" style="font-weight:700;margin:0 0 6px;">Imperfections du corps</div>
+            <div class="controls">
+              <button class="arrow left"  data-arrow="body-left">←</button>
+              <div class="name-display" id="bodyName" tabindex="0">Imperfections du corps #1</div>
+              <button class="arrow right" data-arrow="body-right">→</button>
+            </div>
+            <div class="field">
+              <label class="label" for="bodyOpacity">Opacité des imperfections du corps</label>
+              <div class="slider-row">
+                <input type="range" class="range" id="bodyOpacity" min="0" max="100" step="1" value="50" />
+                <span class="range-val" id="bodyOpacityVal">50%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Imperfections du corps 2 (style + opacité) -->
+          <div class="appearance-card">
+            <div class="header" style="font-weight:700;margin:0 0 6px;">Imperfections du corps 2</div>
+            <div class="controls">
+              <button class="arrow left"  data-arrow="body2-left">←</button>
+              <div class="name-display" id="body2Name" tabindex="0">Imperfections du corps 2 #1</div>
+              <button class="arrow right" data-arrow="body2-right">→</button>
+            </div>
+            <div class="field">
+              <label class="label" for="body2Opacity">Opacité des imperfections du corps 2</label>
+              <div class="slider-row">
+                <input type="range" class="range" id="body2Opacity" min="0" max="100" step="1" value="50" />
+                <span class="range-val" id="body2OpacityVal">50%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== MAQUILLAGE (femme uniquement) ===== -->
+          <div id="makeupSection" style="display:none;">
+
+            <div class="appearance-card">
+              <div class="header" style="font-weight:700;margin:0 0 6px;">Maquillage</div>
+              <div class="controls">
+                <button class="arrow left"  data-arrow="makeup-left">←</button>
+                <div class="name-display" id="makeupName" tabindex="0">Maquillage #1</div>
+                <button class="arrow right" data-arrow="makeup-right">→</button>
+              </div>
+              <div class="field">
+                <label class="label" for="makeupOpacity">Opacité du maquillage</label>
+                <div class="slider-row">
+                  <input type="range" class="range" id="makeupOpacity" min="0" max="100" step="1" value="50" />
+                  <span class="range-val" id="makeupOpacityVal">50%</span>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Couleur primaire</label>
+                <div class="color-grid" id="makeupColorPrimary"></div>
+              </div>
+              <div class="field">
+                <label class="label">Couleur secondaire</label>
+                <div class="color-grid" id="makeupColorSecondary"></div>
+              </div>
+            </div>
+
+            <div class="appearance-card">
+              <div class="header" style="font-weight:700;margin:0 0 6px;">Rouge à lèvres</div>
+              <div class="controls">
+                <button class="arrow left"  data-arrow="lipstick-left">←</button>
+                <div class="name-display" id="lipstickName" tabindex="0">Rouge à lèvres #1</div>
+                <button class="arrow right" data-arrow="lipstick-right">→</button>
+              </div>
+              <div class="field">
+                <label class="label" for="lipstickOpacity">Opacité du rouge à lèvres</label>
+                <div class="slider-row">
+                  <input type="range" class="range" id="lipstickOpacity" min="0" max="100" step="1" value="50" />
+                  <span class="range-val" id="lipstickOpacityVal">50%</span>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Couleur primaire</label>
+                <div class="color-grid" id="lipstickColorPrimary"></div>
+              </div>
+              <div class="field">
+                <label class="label">Couleur secondaire</label>
+                <div class="color-grid" id="lipstickColorSecondary"></div>
+              </div>
+            </div>
+
+            <div class="appearance-card">
+              <div class="header" style="font-weight:700;margin:0 0 6px;">Blush</div>
+              <div class="controls">
+                <button class="arrow left"  data-arrow="blush-left">←</button>
+                <div class="name-display" id="blushName" tabindex="0">Blush #1</div>
+                <button class="arrow right" data-arrow="blush-right">→</button>
+              </div>
+              <div class="field">
+                <label class="label" for="blushOpacity">Opacité du blush</label>
+                <div class="slider-row">
+                  <input type="range" class="range" id="blushOpacity" min="0" max="100" step="1" value="50" />
+                  <span class="range-val" id="blushOpacityVal">50%</span>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Couleur</label>
+                <div class="color-grid" id="blushColorGrid"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="footer-actions">
+            <button class="btn-inline" data-nav="back">Précédent</button>
+            <button class="btn-inline primary" data-nav="forward">Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-traits">
+        <div class="form-wrap">
+          <h2 class="section-title">Traits</h2>
+          <p class="hint">Ajuste les morphologies du visage avec les curseurs ci-dessous.</p>
+
+          <!-- Sections générées en JS -->
+          <div id="traitSections" class="trait-sections"></div>
+
+          <div class="footer-actions">
+            <button class="btn-inline" data-nav="back">Précédent</button>
+            <button class="btn-inline primary" data-nav="forward">Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-confirmation">
+        <div class="form-wrap">
+          <h2 class="section-title">Confirmation</h2>
+          <p class="hint">Choisis ta tenue, ton pack, puis ton point d’arrivée.</p>
+
+          <div class="confirm-rows">
+            <!-- Rangée 1 : Tenues (scroll horizontal) -->
+            <div class="row">
+              <div class="row-title">Tenue d’arrivée</div>
+              <div id="outfitRow" class="hrow" role="listbox" aria-label="Tenue d'arrivée"></div>
+              <div class="toolbar">
+              </div>
+            </div>
+
+            <!-- Rangée 3 : Carte (grande, pan & zoom) -->
+            <div class="row">
+              <div class="row-title">Point de spawn</div>
+              <div id="spawnList" class="spawn-list" role="listbox" aria-label="Point de spawn"></div>
+            </div>
+          </div>
+
+          <div class="footer-actions">
+            <button class="btn-inline" data-nav="back">Précédent</button>
+            <button class="btn-inline primary" id="btnSubmit" disabled>Créer & spawn</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="snack" id="snack"></div>
+
+  <script>
+    // ===== Confirmation: configs (3 rangées) =====
+    const MAP_IMAGE_URL = 'imgs/gtav.png'; // ← remplace par ton image de carte
+    // Bords du monde (ajuste si besoin pour caler la carte)
+    const MAP_BOUNDS = { topLeft:{ x:-4500, y:8000 }, bottomRight:{ x:4500, y:-4000 } };
+
+    const OUTFITS = [
+      { id:'casual1',   label:'Décontractée', svg: `
+        <svg class="ico" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+            fill="#fff" aria-hidden="true">
+          <path fill-rule="evenodd" d="M13,3.05492878 L13,11.5857864 L19.0318994,17.6176858 C20.2635271,16.078015 21,14.1250137 21,12 C21,7.36744635 17.4999505,3.55237307 13,3.05492878 Z M17.6176858,19.0318994 L13,14.4142136 L13,20.9450712 C14.735853,20.7531824 16.3229182,20.0676219 17.6176858,19.0318994 Z M11,20.9450712 L11,14.4142136 L6.38231419,19.0318994 C7.67708178,20.0676219 9.26414698,20.7531824 11,20.9450712 Z M4.96810063,17.6176858 L11,11.5857864 L11,3.05492878 C6.50004954,3.55237307 3,7.36744635 3,12 C3,14.1250137 3.73647287,16.078015 4.96810063,17.6176858 Z M12,1 C18.0751322,1 23,5.92486775 23,12 C23,18.0751322 18.0751322,23 12,23 C5.92486775,23 1,18.0751322 1,12 C1,5.92486775 5.92486775,1 12,1 Z"></path>
+        </svg>
+      `},
+      { id:'business1', label:'Business',     svg: `
+        <svg class="ico" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+            fill="#fff" aria-hidden="true">
+          <path d="M470.537,137.504H41.471C18.565,137.504,0,156.077,0,178.976v56.797l211.507,44.607V252.1h87.772v28.28 L512,235.489v-56.513C512,156.077,493.435,137.504,470.537,137.504z"/>
+          <path d="M299.279,369.129h-87.772v-57.017L14.633,273.012V439.81c0,22.898,18.557,41.47,41.455,41.47h399.824 c22.898,0,41.463-18.572,41.463-41.47V272.721l-198.096,39.39V369.129z"/>
+          <rect x="233.452" y="274.044" width="43.882" height="73.132"/>
+          <path d="M193.786,72.206c0.008-1.703,0.638-3.057,1.75-4.208c1.127-1.103,2.49-1.718,4.176-1.734h112.577 c1.686,0.016,3.058,0.631,4.185,1.734c1.103,1.151,1.726,2.505,1.733,4.208v29.627h35.546V72.206 c0.008-11.41-4.665-21.875-12.143-29.329c-7.446-7.485-17.934-12.166-29.321-12.158H199.712 c-11.394-0.008-21.875,4.673-29.32,12.158c-7.47,7.454-12.158,17.918-12.135,29.329v29.627h35.529V72.206z"/>
+        </svg>
+      ` },
+      { id:'street1',   label:'Street',       svg: `
+        <svg class="ico" viewBox="0 0 186.907 186.907"
+            xmlns="http://www.w3.org/2000/svg" fill="#fff" aria-hidden="true">
+          <path d="M83.703,173.672c0,5.721-4.654,10.375-10.375,10.375s-10.375-4.654-10.375-10.375s4.654-10.375,10.375-10.375 S83.703,167.951,83.703,173.672z M176.532,58.346c-5.721,0-10.375,4.654-10.375,10.375s4.654,10.375,10.375,10.375 s10.375-4.654,10.375-10.375S182.253,58.346,176.532,58.346z M181.422,34.955c-3.382,10.437-10.548,21.486-20.177,31.114 l-96.899,96.9c-13.746,13.746-30.34,22.285-43.306,22.285c-6.194,0-11.421-1.952-15.114-5.646l-0.351-0.351 c-11.715-11.714-4.406-37.375,16.639-58.42l96.9-96.899c13.746-13.747,30.34-22.286,43.306-22.286 c6.194,0,11.421,1.952,15.114,5.646l0.351,0.351C183.918,13.68,185.173,23.378,181.422,34.955z M40.022,138.088 c0-2.646-2.145-4.792-4.792-4.792c-2.646,0-4.792,2.146-4.792,4.792c0,2.646,2.145,4.792,4.792,4.792 C37.877,142.88,40.022,140.735,40.022,138.088z M51.439,149.505c0-2.646-2.145-4.792-4.792-4.792c-2.646,0-4.792,2.145-4.792,4.792 c0,2.646,2.145,4.792,4.792,4.792C49.294,154.297,51.439,152.151,51.439,149.505z M53.397,124.713c0-2.646-2.145-4.792-4.792-4.792 c-2.646,0-4.792,2.146-4.792,4.792c0,2.646,2.145,4.792,4.792,4.792C51.252,129.505,53.397,127.36,53.397,124.713z M64.814,136.13 c0-2.646-2.145-4.792-4.792-4.792c-2.646,0-4.792,2.145-4.792,4.792c0,2.646,2.145,4.792,4.792,4.792 C62.669,140.922,64.814,138.776,64.814,136.13z M132.772,45.338c0-2.646-2.145-4.792-4.792-4.792c-2.646,0-4.792,2.146-4.792,4.792 c0,2.646,2.145,4.792,4.792,4.792C130.627,50.13,132.772,47.985,132.772,45.338z M144.189,56.755c0-2.646-2.145-4.792-4.792-4.792 c-2.646,0-4.792,2.145-4.792,4.792c0,2.646,2.145,4.792,4.792,4.792C142.044,61.547,144.189,59.401,144.189,56.755z M146.147,31.963 c0-2.646-2.145-4.792-4.792-4.792c-2.646,0-4.792,2.146-4.792,4.792c0,2.646,2.145,4.792,4.792,4.792 C144.002,36.755,146.147,34.61,146.147,31.963z M157.564,43.38c0-2.646-2.145-4.792-4.792-4.792c-2.646,0-4.792,2.145-4.792,4.792 c0,2.646,2.145,4.792,4.792,4.792C155.419,48.172,157.564,46.026,157.564,43.38z"/>
+        </svg>
+      ` },
+      { id:'sport1',    label:'Sport',        svg: `
+        <svg class="ico" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#fff" aria-hidden="true">
+          <g id="Sport">
+            <path d="M256,46.5544c-115.98,0-210,94.0209-210,210,11.0614,278.5613,408.9813,278.4822,420-.0011C466,140.5753,371.98,46.5544,256,46.5544Zm13.1314,64.0816,43.3441-28.8626a184.32,184.32,0,0,1,92.236,67.287L390.73,198.9456,322.2637,220.89l-53.1323-39.0514ZM199.5266,81.7734l43.3548,28.8679v71.192L189.7405,220.89l-68.47-21.9487-13.98-49.8832A184.2945,184.2945,0,0,1,199.5266,81.7734Zm-91.7,282.996a182.38,182.38,0,0,1-35.564-108.4681l40.9409-32.3831L181.6186,245.85,202.03,309.3984,159.6816,366.89Zm205.2255,66.3535c-35.6088,12.1391-78.5,12.137-114.1089-.0011l-18.0682-48.7359,42.4084-57.5736h65.437l42.4,57.5757Zm91.1188-66.3524-51.8549,2.1213L309.974,309.3994l20.4138-63.5507,68.4107-21.9263,40.9387,32.381A182.3643,182.3643,0,0,1,404.1711,364.7705Z"/>
+          </g>
+        </svg>
+      ` },
+    ];
+
+    const STARTER_PACKS = [
+      {
+        id:'legal', label:'Starter légal', type:'legal',
+        items:['Téléphone','Carte SIM','500$ cash','Sac à dos (10)','Carte de bus'],
+        svg: `
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color:#2E7D32" fill="currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0002 2.75C11.0217 2.75 10.1873 3.37503 9.87803 4.24993C9.73999 4.64047 9.3115 4.84517 8.92096 4.70713C8.53043 4.56909 8.32573 4.1406 8.46377 3.75007C8.97821 2.29459 10.3662 1.25 12.0002 1.25C13.6341 1.25 15.0222 2.29459 15.5366 3.75007C15.6747 4.1406 15.47 4.56909 15.0794 4.70713C14.6889 4.84517 14.2604 4.64047 14.1224 4.24993C13.8131 3.37503 12.9787 2.75 12.0002 2.75Z"/>
+          <path d="M14 12.5H10C9.72386 12.5 9.5 12.7239 9.5 13V15.1615C9.5 15.3659 9.62448 15.5498 9.8143 15.6257L10.5144 15.9058C11.4681 16.2872 12.5319 16.2872 13.4856 15.9058L14.1857 15.6257C14.3755 15.5498 14.5 15.3659 14.5 15.1615V13C14.5 12.7239 14.2761 12.5 14 12.5Z"/>
+          <path d="M8.01076 15.3691L3.00586 13.8677C3.03595 16.9822 3.21789 19.8505 4.31792 20.8283C5.63593 21.9998 7.75726 21.9998 11.9999 21.9998C16.2425 21.9998 18.3639 21.9998 19.6819 20.8283C20.7819 19.8505 20.9638 16.9822 20.9939 13.8677L15.9892 15.3691C15.913 16.1018 15.4372 16.7407 14.7428 17.0184L14.0426 17.2985C12.7314 17.823 11.2686 17.823 9.95735 17.2985L9.25722 17.0184C8.5628 16.7407 8.08702 16.1018 8.01076 15.3691Z"/>
+          <path d="M7.60893 5H16.3911C18.8412 5 20.0663 5 20.8934 5.67298C21.0524 5.80233 21.1977 5.94762 21.327 6.10659C22 6.9337 22 8.15877 22 10.6089C22 11.2307 22 11.5415 21.8492 11.784C21.8199 11.8312 21.7866 11.8759 21.7498 11.9176C21.5609 12.1317 21.2631 12.2211 20.6676 12.3997L16 13.8V13C16 11.8954 15.1046 11 14 11H10C8.89543 11 8 11.8954 8 13V13.8L3.3324 12.3997C2.7369 12.2211 2.43915 12.1317 2.25021 11.9176C2.21341 11.8759 2.18015 11.8312 2.15078 11.784C2 11.5415 2 11.2307 2 10.6089C2 8.15877 2 6.9337 2.67298 6.10659C2.80233 5.94763 2.94763 5.80233 3.10659 5.67298C3.9337 5 5.15877 5 7.60893 5Z"/>
+        </svg>
+        `
+      },
+      {
+        id:'illegal', label:'Starter illégal', type:'illegal',
+        items:['Téléphone brûleur','Lockpick ×3','Cagoule','Bandages ×3','250$ cash'],
+        svg:`<!-- Icône rouge (fill #E53935), dimension pilotée par CSS via .ico -->
+        <svg class="ico" viewBox="0 0 306.539 306.539" fill="#E53935" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g>
+            <path d="M298.489,88.77c4.446,0,8.05-3.604,8.05-8.05V54.918c0-4.446-3.604-8.05-8.05-8.05h-13.95v-0.05 c0-4.446-3.604-8.05-8.05-8.05h-60.067c-4.446,0-8.049,3.604-8.049,8.05v13.276c0,3.313-2.687,6-6,6h-69.834c-3.314,0-6-2.687-6-6 V46.819c0-4.446-3.604-8.05-8.05-8.05H18.122C8.114,38.77,0,46.883,0,56.892V88.77H298.489z"></path>
+            <path d="m0,100.77v4.443c0,10.009 8.114,18.123 18.122,18.123h3.491l-20.015,106.774c-1.743,9.298 0.744,18.889 6.786,26.169s15.01,11.491 24.47,11.491h48.624c15.303,0 28.437-10.9 31.256-25.942l10.818-57.713c2.965,0.189 5.962,0.296 8.986,0.296 20.268,0 39.479-4.302 54.094-12.111 16.599-8.871 25.74-21.376 25.74-35.21 0-4.777-1.115-9.39-3.226-13.755h67.342c4.446,0 8.05-3.604 8.05-8.05v-14.515h-284.538zm132.539,63.641c-1.783,0-3.536-0.048-5.269-0.124l4.6-24.541c4.677,6.26 10.613,11.876 18.155,16.056 1.535,0.851 3.198,1.255 4.838,1.255 3.518,0 6.93-1.86 8.756-5.155 2.677-4.83 0.931-10.917-3.9-13.594-6.44-3.569-11.231-8.954-14.798-14.973h38.306c5.826,4.289 9.146,9.119 9.146,13.755 0,12.896-25.589,27.321-59.834,27.321z"></path>
+          </g>
+        </svg>`
+      },
+    ];
+
+    const SPAWN_POINTS = [
+      { id:'lsia',    name:'Hôtel',           coords:{ x:-1037.6,  y:-2737.6, z:20.16 }, img:'https://r2.fivemanage.com/48MdTo3W2RpY2XhrRIocn/hotel.png' },
+    ];
+
+    const RES_NAME = 'sunlife_ui/charcreator';
+    function nui(name, data){
+      try{
+        fetch(`https://${RES_NAME}/${name}`, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(data || {})
+        });
+      }catch(e){}
+    }
+
+    function renderSpawnList(){
+      const list = document.getElementById('spawnList');
+      const out  = document.getElementById('spawnSelection');
+      if(!list) return;
+
+      list.innerHTML = '';
+
+      SPAWN_POINTS.forEach((s, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'spawn-card';
+        b.setAttribute('role', 'option');
+        b.setAttribute('aria-label', s.name);
+        b.dataset.id = s.id;
+
+        // image fond (ou fallback gradient)
+        if (s.img) b.style.setProperty('--img', `url("${s.img}")`);
+
+        b.innerHTML = `
+          <div class="meta">
+            <div class="title">${s.name}</div>
+          </div>
+          <div class="badge">Choisir</div>
+        `;
+
+        // sélection
+        const select = () => {
+          list.querySelectorAll('.spawn-card').forEach(x => x.classList.remove('selected'));
+          b.classList.add('selected');
+          state.data.confirmation.spawn = s;             // ← IMPORTANT
+          out && (out.textContent = s.name);
+          nui('chooseSpawn', { coords: s.coords, id: s.id });
+          updateSubmitEnabled();                         // ← active le bouton si tenue déjà choisie
+        };
+
+        b.addEventListener('click', select);
+        b.addEventListener('keydown', e=>{
+          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); select(); }
+        });
+
+        list.appendChild(b);
+
+        // auto-focus 1er si tu veux
+        if (i === 0) b.focus({preventScroll:true});
+      });
+    }
+
+  // Init quand le DOM est prêt
+  document.addEventListener('DOMContentLoaded', renderSpawnList);
+
+    // ===== Données de pays (emoji + nom) =====
+    const COUNTRIES = [
+      { code: 'FR', name: 'France', flag: '🇫🇷' },
+      { code: 'BE', name: 'Belgique', flag: '🇧🇪' },
+      { code: 'CH', name: 'Suisse', flag: '🇨🇭' },
+      { code: 'CA', name: 'Canada', flag: '🇨🇦' },
+      { code: 'LU', name: 'Luxembourg', flag: '🇱🇺' },
+      { code: 'MC', name: 'Monaco', flag: '🇲🇨' },
+      { code: 'DZ', name: 'Algérie', flag: '🇩🇿' },
+      { code: 'MA', name: 'Maroc', flag: '🇲🇦' },
+      { code: 'TN', name: 'Tunisie', flag: '🇹🇳' },
+      { code: 'SN', name: 'Sénégal', flag: '🇸🇳' },
+      { code: 'ML', name: 'Mali', flag: '🇲🇱' },
+      { code: 'CI', name: 'Côte d’Ivoire', flag: '🇨🇮' },
+      { code: 'CM', name: 'Cameroun', flag: '🇨🇲' },
+      { code: 'NE', name: 'Niger', flag: '🇳🇪' },
+      { code: 'BF', name: 'Burkina Faso', flag: '🇧🇫' },
+      { code: 'ES', name: 'Espagne', flag: '🇪🇸' },
+      { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
+      { code: 'IT', name: 'Italie', flag: '🇮🇹' },
+      { code: 'DE', name: 'Allemagne', flag: '🇩🇪' },
+      { code: 'NL', name: 'Pays-Bas', flag: '🇳🇱' },
+      { code: 'GB', name: 'Royaume-Uni', flag: '🇬🇧' },
+      { code: 'IE', name: 'Irlande', flag: '🇮🇪' },
+      { code: 'SE', name: 'Suède', flag: '🇸🇪' },
+      { code: 'NO', name: 'Norvège', flag: '🇳🇴' },
+      { code: 'FI', name: 'Finlande', flag: '🇫🇮' },
+      { code: 'DK', name: 'Danemark', flag: '🇩🇰' },
+      { code: 'PL', name: 'Pologne', flag: '🇵🇱' },
+      { code: 'TR', name: 'Turquie', flag: '🇹🇷' },
+      { code: 'RU', name: 'Russie', flag: '🇷🇺' },
+      { code: 'UA', name: 'Ukraine', flag: '🇺🇦' },
+      { code: 'RO', name: 'Roumanie', flag: '🇷🇴' },
+      { code: 'US', name: 'États-Unis', flag: '🇺🇸' },
+      { code: 'MX', name: 'Mexique', flag: '🇲🇽' },
+      { code: 'BR', name: 'Brésil', flag: '🇧🇷' },
+      { code: 'AR', name: 'Argentine', flag: '🇦🇷' },
+      { code: 'CL', name: 'Chili', flag: '🇨🇱' },
+      { code: 'AU', name: 'Australie', flag: '🇦🇺' },
+      { code: 'NZ', name: 'Nouvelle-Zélande', flag: '🇳🇿' },
+      { code: 'CN', name: 'Chine', flag: '🇨🇳' },
+      { code: 'JP', name: 'Japon', flag: '🇯🇵' },
+      { code: 'KR', name: 'Corée du Sud', flag: '🇰🇷' },
+      { code: 'IN', name: 'Inde', flag: '🇮🇳' },
+      { code: 'SA', name: 'Arabie saoudite', flag: '🇸🇦' },
+      { code: 'AE', name: 'Émirats arabes unis', flag: '🇦🇪' },
+      { code: 'QA', name: 'Qatar', flag: '🇶🇦' },
+      { code: 'EG', name: 'Égypte', flag: '🇪🇬' }
+    ];
+
+    // Base pour les portraits (change le chemin quand tu auras tes images)
+    const PORTRAIT_BASE = 'imgs/';
+
+    // ======= MÈRE =======
+    // id 21..41 = female_0..20, id 45 = Misty -> parent_female_21.png
+    const MOM_LIST = [
+      { id:21, file:'parent_female_0.png',  name:'Hannah'   },
+      { id:22, file:'parent_female_1.png',  name:'Audrey'   },
+      { id:23, file:'parent_female_2.png',  name:'Jasmine'  },
+      { id:24, file:'parent_female_3.png',  name:'Gisele'   },
+      { id:25, file:'parent_female_4.png',  name:'Amelia'   },
+      { id:26, file:'parent_female_5.png',  name:'Isabella' },
+      { id:27, file:'parent_female_6.png',  name:'Zoe'      },
+      { id:28, file:'parent_female_7.png',  name:'Ava'      },
+      { id:29, file:'parent_female_8.png',  name:'Camila'   },
+      { id:30, file:'parent_female_9.png',  name:'Violet'   },
+      { id:31, file:'parent_female_10.png', name:'Sophia'   },
+      { id:32, file:'parent_female_11.png', name:'Evelyn'   },
+      { id:33, file:'parent_female_12.png', name:'Nicole'   },
+      { id:34, file:'parent_female_13.png', name:'Ashley'   },
+      { id:35, file:'parent_female_14.png', name:'Grace'    },
+      { id:36, file:'parent_female_15.png', name:'Brianna'  },
+      { id:37, file:'parent_female_16.png', name:'Natalie'  },
+      { id:38, file:'parent_female_17.png', name:'Olivia'   },
+      { id:39, file:'parent_female_18.png', name:'Elizabeth'},
+      { id:40, file:'parent_female_19.png', name:'Charlotte'},
+      { id:41, file:'parent_female_20.png', name:'Emma'     },
+      { id:45, file:'parent_female_21.png', name:'Misty'    }, // spécial
+    ];
+
+    // ======= PÈRE =======
+    // id 0..20 = male_0..20, id 42..44 (Claude/Niko/John) -> parent_male_21..23.png
+    const DAD_LIST = [
+      { id:0,  file:'parent_male_0.png',  name:'Benjamin' },
+      { id:1,  file:'parent_male_1.png',  name:'Daniel'   },
+      { id:2,  file:'parent_male_2.png',  name:'Joshua'   },
+      { id:3,  file:'parent_male_3.png',  name:'Noah'     },
+      { id:4,  file:'parent_male_4.png',  name:'Andrew'   },
+      { id:5,  file:'parent_male_5.png',  name:'Juan'     },
+      { id:6,  file:'parent_male_6.png',  name:'Alex'     },
+      { id:7,  file:'parent_male_7.png',  name:'Isaac'    },
+      { id:8,  file:'parent_male_8.png',  name:'Evan'     },
+      { id:9,  file:'parent_male_9.png',  name:'Ethan'    },
+      { id:10, file:'parent_male_10.png', name:'Vincent'  },
+      { id:11, file:'parent_male_11.png', name:'Angel'    },
+      { id:12, file:'parent_male_12.png', name:'Diego'    },
+      { id:13, file:'parent_male_13.png', name:'Adrian'   },
+      { id:14, file:'parent_male_14.png', name:'Gabriel'  },
+      { id:15, file:'parent_male_15.png', name:'Michael'  },
+      { id:16, file:'parent_male_16.png', name:'Santiago' },
+      { id:17, file:'parent_male_17.png', name:'Kevin'    },
+      { id:18, file:'parent_male_18.png', name:'Louis'    },
+      { id:19, file:'parent_male_19.png', name:'Samuel'   },
+      { id:20, file:'parent_male_20.png', name:'Anthony'  },
+      { id:42, file:'parent_male_21.png', name:'Claude'   }, // spécial
+      { id:43, file:'parent_male_22.png', name:'Niko'     }, // spécial
+      { id:44, file:'parent_male_23.png', name:'John'     }, // spécial
+    ];
+    const SKIN_TONES_MOM = ['#f6d5c0','#e7b899','#d59f7a','#b37b56','#8e5a3a','#6b3f26']; // ajoute/retire librement
+    const SKIN_TONES_DAD = ['#f0cdb8','#e0b08e','#c98a5e','#a5683f','#7e4a2a','#5b311c']; // idem
+
+    // === Coupe & Couleurs de cheveux ===
+    const HAIR_STYLE_COUNT = 200; // ajuste selon ton pack de coupes
+
+    // Laisse vides pour remplir toi-même plus tard. Si vides, une palette fallback sera générée.
+    const HAIR_COLORS_PRIMARY = [];     // ex: ['#000000', '#2f2f2f', ...] 63 couleurs max
+    const HAIR_COLORS_SECONDARY = [];   // ex: ['#5a3825', '#7a4a2f', ...]
+
+    // === Apparence (tabs) ===
+    const APPEARANCE_TABS = [
+      { key:'hair',  label:'Cheveux',   prefix:'Coupe',     count: 200 },
+      { key:'brows', label:'Sourcils',  prefix:'Sourcils',  count: 20 },
+      { key:'beard', label:'Barbe',     prefix:'Barbe',     count: 30 },
+      { key:'chest', label:'Torse',     prefix:'Torse',     count: 16 },
+    ];
+    // === Sections & sliders des Traits (0..19 couverts) ===
+    const TRAIT_SECTIONS = [
+      {
+        key:'nose', label:'Nez', fields:[
+          { key:'width',  label:'Largeur du nez',         min:0, max:100, step:1, def:50, unit:'%' }, // 0
+          { key:'height', label:'Hauteur du nez',         min:0, max:100, step:1, def:50, unit:'%' }, // 1
+          { key:'length', label:'Longueur du nez',        min:0, max:100, step:1, def:50, unit:'%' }, // 2
+          { key:'curve',  label:'Courbure de l’arête',    min:0, max:100, step:1, def:50, unit:'%' }, // 3
+          { key:'tip',    label:'Abaissement de la pointe',min:0, max:100, step:1, def:50, unit:'%' }, // 4
+          { key:'twist',  label:'Torsion du nez',         min:0, max:100, step:1, def:50, unit:'%' }, // 5
+        ]
+      },
+      {
+        key:'brows', label:'Sourcils', fields:[
+          { key:'height', label:'Hauteur des sourcils',   min:0, max:100, step:1, def:50, unit:'%' }, // 6
+          { key:'depth',  label:'Profondeur des sourcils',min:0, max:100, step:1, def:50, unit:'%' }, // 7
+        ]
+      },
+      {
+        key:'cheeks', label:'Joues', fields:[
+          { key:'height', label:'Hauteur des pommettes',  min:0, max:100, step:1, def:50, unit:'%' }, // 8
+          { key:'width',  label:'Largeur des pommettes',  min:0, max:100, step:1, def:50, unit:'%' }, // 9
+          { key:'puff',   label:'Volume des joues',       min:0, max:100, step:1, def:50, unit:'%' }, // 10
+        ]
+      },
+      {
+        key:'eyes', label:'Yeux', fields:[
+          { key:'lidOpen', label:'Ouverture des paupières', min:0, max:100, step:1, def:50, unit:'%' }, // 11
+        ]
+      },
+      {
+        key:'lips', label:'Lèvres', fields:[
+          { key:'thickness', label:'Épaisseur des lèvres', min:0, max:100, step:1, def:50, unit:'%' }, // 12
+        ]
+      },
+      {
+        key:'jaw', label:'Mâchoire', fields:[
+          { key:'width',  label:'Largeur de la mâchoire', min:0, max:100, step:1, def:50, unit:'%' }, // 13
+          { key:'length', label:'Longueur de la mâchoire',min:0, max:100, step:1, def:50, unit:'%' }, // 14
+        ]
+      },
+      {
+        key:'chin', label:'Menton', fields:[
+          { key:'height', label:'Hauteur du menton',      min:0, max:100, step:1, def:50, unit:'%' }, // 15
+          { key:'length', label:'Longueur du menton',     min:0, max:100, step:1, def:50, unit:'%' }, // 16
+          { key:'width',  label:'Largeur du menton',      min:0, max:100, step:1, def:50, unit:'%' }, // 17
+          { key:'indent', label:'Creux du menton',        min:0, max:100, step:1, def:50, unit:'%' }, // 18
+        ]
+      },
+      {
+        key:'neck', label:'Cou', fields:[
+          { key:'width',  label:'Largeur du cou',         min:0, max:100, step:1, def:50, unit:'%' }, // 19
+        ]
+      },
+    ];
+
+    // === Mapping "clé de champ" -> index SetPedFaceFeature (0..19) ===
+    const FACE_FEATURE_MAP = {
+      'nose.width':0, 'nose.height':1, 'nose.length':2,
+      'nose.curve':3, 'nose.tip':4, 'nose.twist':5,
+      'brows.height':6, 'brows.depth':7,
+      'cheeks.height':8, 'cheeks.width':9, 'cheeks.puff':10,
+      'eyes.lidOpen':11,
+      'lips.thickness':12,
+      'jaw.width':13, 'jaw.length':14,
+      'chin.height':15, 'chin.length':16, 'chin.width':17, 'chin.indent':18,
+      'neck.width':19,
+    };
+
+    // 0..100 UI  ->  -1..1 natif GTA
+    const traitValToScale = v => Math.max(-1, Math.min(1, (Number(v) - 50) / 50));
+
+    // === Visage ===
+    const IMPERFECTION_COUNT = 30; // adapte à ton pack
+    const AGING_COUNT           = 20; // ajuste selon ton pack
+    const COMPLEXION_COUNT      = 20;
+    const SUN_DAMAGE_COUNT      = 20;
+    const MOLES_COUNT           = 30;
+    const BODY_BLEMISHES_COUNT  = 30;
+    const BODY_BLEMISHES2_COUNT = 30;
+    const MAKEUP_COUNT          = 75;
+    const LIPSTICK_COUNT        = 35;
+    const BLUSH_COUNT           = 35;
+
+    const EYE_COLORS = [
+      "#3F4537", "#283729", "#353E4D", "#652D4C", "#726E39",
+      "#2B2B2A", "#281E1A", "#84867D", "#7E816F", "#50555E",
+      "#6C1C14", "#781E13", "#78634A", "#174416", "#5C5571",
+      "#765743", "#675B6E", "#82886B", "#413133", "#6B3741",
+      "#70343D", "#FEFDFE", "#F4F4F6", "#ABABAD", "#26282C"
+    ];
+
+    // ===== Palette officielle GTA (64 couleurs) : cheveux / barbe / sourcils =====
+    const GTA_HAIR_RGB = [
+      [ 22, 19, 19 ],  // 0
+      [ 30, 28, 25 ],  // 1
+      [ 76, 56, 45 ],  // 2
+      [ 69, 34, 24 ],  // 3
+      [ 123, 59, 31 ], // 4
+      [ 149, 68, 35 ], // 5
+      [ 165, 87, 50 ], // 6
+      [ 175, 111, 72 ],// 7
+      [ 159, 105, 68 ],// 8
+      [ 198, 152, 108 ],// 9
+      [ 213, 170, 115 ],// 10
+      [ 223, 187, 132 ],// 11
+      [ 202, 164, 110 ],// 12
+      [ 238, 204, 130 ],// 13
+      [ 229, 190, 126 ],// 14
+      [ 250, 225, 167 ],// 15
+      [ 187, 140, 96 ], // 16
+      [ 163, 92, 60 ],  // 17
+      [ 144, 52, 37 ],  // 18
+      [ 134, 21, 17 ],  // 19
+      [ 164, 24, 18 ],  // 20
+      [ 195, 33, 24 ],  // 21
+      [ 221, 69, 34 ],  // 22
+      [ 229, 71, 30 ],  // 23
+      [ 208, 97, 56 ],  // 24
+      [ 113, 79, 38 ],  // 25
+      [ 132, 107, 95 ], // 26
+      [ 185, 164, 150 ],// 27
+      [ 218, 196, 180 ],// 28
+      [ 247, 230, 217 ],// 29
+      [ 102, 72, 93 ],  // 30
+      [ 162, 105, 138 ],// 31
+      [ 171, 174, 11 ], // 32
+      [ 239, 61, 200 ], // 33
+      [ 255, 69, 152 ], // 34
+      [ 255, 178, 191 ],// 35
+      [ 12, 168, 146 ], // 36
+      [ 8, 146, 165 ],  // 37
+      [ 11, 82, 134 ],  // 38
+      [ 118, 190, 117 ],// 39
+      [ 52, 156, 104 ], // 40
+      [ 22, 86, 85 ],   // 41
+      [ 152, 177, 40 ], // 42
+      [ 127, 162, 23 ], // 43
+      [ 241, 200, 98 ], // 44
+      [ 238, 178, 16 ], // 45
+      [ 224, 134, 14 ], // 46
+      [ 247, 157, 15 ], // 47
+      [ 243, 143, 16 ], // 48
+      [ 231, 70, 15 ],  // 49
+      [ 255, 101, 21 ], // 50
+      [ 254, 91, 34 ],  // 51
+      [ 252, 67, 21 ],  // 52
+      [ 196, 12, 15 ],  // 53
+      [ 143, 10, 14 ],  // 54
+      [ 44, 27, 22 ],   // 55
+      [ 80, 51, 37 ],   // 56
+      [ 98, 54, 37 ],   // 57
+      [ 60, 31, 24 ],   // 58
+      [ 69, 43, 32 ],   // 59
+      [ 8, 10, 14 ],    // 60
+      [ 212, 185, 158 ],// 61
+      [ 212, 185, 158 ],// 62 (dupli officielle)
+      [ 213, 170, 115 ],// 63
+    ];
+
+    // On affiche en CSS via rgb() et on réutilise la même palette pour primaire/secondaire
+    const COLORS_PRIMARY   = GTA_HAIR_RGB.map(([r,g,b]) => `rgb(${r}, ${g}, ${b})`);
+    const COLORS_SECONDARY = COLORS_PRIMARY;
+
+    let currentCat = 'hair';
+    const getTabCfg = (k=currentCat)=> APPEARANCE_TABS.find(t=>t.key===k) || APPEARANCE_TABS[0];
+    const currentSlot = ()=> state.data.appearance[currentCat];
+
+    // Affiche "Coupe #n"
+    function showHairStyle(){
+      const n = state.data.appearance.hairStyle ?? 1;
+      const nameEl = el('#hairStyleName');
+      if (nameEl) nameEl.textContent = `Coupe #${n}`;
+    }
+
+    // Incrémente/décrémente la coupe
+    function stepHairStyle(dir = 1){
+      let n = state.data.appearance.hairStyle ?? 1;
+      n += dir;
+      if (n < 1) n = HAIR_STYLE_COUNT;
+      if (n > HAIR_STYLE_COUNT) n = 1;
+      state.data.appearance.hairStyle = n;
+      showHairStyle();
+    }
+
+    // Bind flèches + clavier
+    function bindHair(){
+      const left = el('[data-arrow="hair-left"]');
+      const right = el('[data-arrow="hair-right"]');
+      const name = el('#hairStyleName');
+
+      if (left) left.addEventListener('click', ()=> stepHairStyle(-1));
+      if (right) right.addEventListener('click', ()=> stepHairStyle(+1));
+      if (name) name.addEventListener('keydown', (e)=>{
+        if (e.key === 'ArrowLeft'){ e.preventDefault(); stepHairStyle(-1); }
+        if (e.key === 'ArrowRight'){ e.preventDefault(); stepHairStyle(+1); }
+      });
+
+      if (typeof state.data.appearance.hairStyle !== 'number') state.data.appearance.hairStyle = 1;
+      showHairStyle();
+    }
+
+    // Palette fallback auto (7 lignes x 9 colonnes = 63 teintes HSL)
+    function generateFallbackColors(){
+      const arr = [];
+      for(let row=0; row<7; row++){
+        for(let col=0; col<13; col++){
+          const h = Math.round((col/13)*360);
+          const s = 65;
+          const l = 20 + row*10; // 20..80
+          arr.push(`hsl(${h}, ${s}%, ${l}%)`);
+        }
+      }
+      return arr;
+    }
+
+    function toGameHairIndex(i, total){ // 0..63
+      if (total <= 1) return 0;
+      return Math.round((i / (total - 1)) * 63);
+    }
+    function toGameEyeIndex(i, total){ // 0..31
+      if (total <= 1) return 0;
+      return Math.round((i / (total - 1)) * 31);
+    }
+
+    function renderColorGrid(containerSel, colors, getSelected, setSelected, onPick){
+      const wrap = el(containerSel); if (!wrap) return;
+      wrap.innerHTML = '';
+      const palette = (colors && colors.length) ? colors : generateFallbackColors();
+      const selected = getSelected?.();
+      palette.forEach((hex, i)=>{
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'color-tile';
+        b.style.setProperty('--tone', hex);
+        b.title = hex;
+        if (selected && selected.toLowerCase() === hex.toLowerCase()) b.classList.add('selected');
+        b.addEventListener('click', ()=>{
+          els('.color-tile', wrap).forEach(x=>x.classList.remove('selected'));
+          b.classList.add('selected');
+          setSelected?.(hex);
+          onPick?.(i, palette.length); // <— notifie l’index choisi
+        });
+        wrap.appendChild(b);
+      });
+    }
+
+    function showStyleName(){
+      const cfg = getTabCfg();
+      const n = Math.max(1, Math.min(cfg.count, currentSlot().style || 1));
+      currentSlot().style = n;
+      const nameEl = el('#styleName');
+      if (nameEl) nameEl.textContent = `${cfg.prefix} #${n}`;
+      const header = el('#appearanceHeader');
+      if (header) header.textContent = cfg.label;
+    }
+
+    function stepStyle(dir=1){
+      const cfg = getTabCfg();
+      let n = (currentSlot().style || 1) + dir;
+      if (n < 1) n = cfg.count;
+      if (n > cfg.count) n = 1;
+
+      if (!isSecondaryEnabled(currentCat)) {
+        delete currentSlot().secondary;
+      }
+
+      currentSlot().style = n;
+      showStyleName();
+      nui('skinChange', { action: currentCat, style: currentSlot().style });
+    }
+
+    function renderAppearanceColors(){
+      // Primaire: toujours affichée
+      renderColorGrid('#colorGridPrimary', COLORS_PRIMARY,
+        ()=> currentSlot().primary,
+        (val)=> { currentSlot().primary = val; },
+        (i,total)=> {
+          const idx = toGameHairIndex(i, total);
+          nui('skinChange', { action: currentCat, primary: idx });
+        }
+      );
+
+      // Secondaire: seulement pour cheveux
+      const secWrap = el('#colorGridSecondary');
+      if (isSecondaryEnabled(currentCat)) {
+        renderColorGrid('#colorGridSecondary', COLORS_SECONDARY,
+          ()=> currentSlot().secondary,
+          (val)=> { currentSlot().secondary = val; },
+          (i,total)=> {
+            const idx = toGameHairIndex(i, total);
+            nui('skinChange', { action: currentCat, secondary: idx });
+          }
+        );
+      } else if (secWrap) {
+        secWrap.innerHTML = ''; // nettoie la grille
+      }
+
+      // met à jour la visibilité du bloc secondaire
+      syncSecondaryFieldVisibility();
+    }
+
+    function syncAppearanceOpacityUI(){
+      const field = el('#appearanceOpacityField');
+      const r = el('#appearanceOpacity');
+      const v = el('#appearanceOpacityVal');
+      if (!field || !r || !v) return;
+
+      const hasOpacity = currentCat !== 'hair'; // opacité seulement pour brows/beard/chest
+      field.style.display = hasOpacity ? '' : 'none';
+      if (!hasOpacity) return;
+
+      // défaut si manquant
+      currentSlot().opacity ??= 50;
+
+      r.value = String(currentSlot().opacity);
+      v.textContent = r.value + '%';
+      setRangeFill(r);
+    }
+
+    function bindAppearanceOpacity(){
+      const r = el('#appearanceOpacity');
+      const v = el('#appearanceOpacityVal');
+      if (!r || !v) return;
+
+      r.addEventListener('input', ()=>{
+        // écrit dans le slot de l’onglet courant (brows/beard/chest)
+        currentSlot().opacity = +r.value;
+        v.textContent = r.value + '%';
+        setRangeFill(r);
+        nui('skinChange', { action: currentCat, opacity: currentSlot().opacity });
+      });
+    }
+
+    function setAppearanceTab(cat){
+      if (!state.data.appearance[cat]) {
+        state.data.appearance[cat] = isSecondaryEnabled(cat)
+          ? { style:1, primary:null, secondary:null }
+          : { style:1, primary:null };
+      }
+      currentCat = cat;
+
+      els('#appearanceTabs .tab-btn').forEach(b=>{
+        const active = b.dataset.cat === cat;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+        if (active) b.focus({preventScroll:true});
+      });
+
+      showStyleName();
+      renderAppearanceColors();
+      syncAppearanceOpacityUI();
+      syncSecondaryFieldVisibility(); // <— AJOUT
+    }
+
+    function bindAppearance(){
+      // flèches + clavier
+      const left = el('[data-arrow="style-left"]');
+      const right = el('[data-arrow="style-right"]');
+      const name = el('#styleName');
+      if (left) left.addEventListener('click', ()=> stepStyle(-1));
+      if (right) right.addEventListener('click', ()=> stepStyle(+1));
+      if (name) name.addEventListener('keydown', (e)=>{
+        if (e.key === 'ArrowLeft'){ e.preventDefault(); stepStyle(-1); }
+        if (e.key === 'ArrowRight'){ e.preventDefault(); stepStyle(+1); }
+      });
+
+      // tabs
+      els('#appearanceTabs .tab-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=> setAppearanceTab(btn.dataset.cat));
+        btn.addEventListener('keydown', (e)=>{
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+            e.preventDefault();
+            const tabs = els('#appearanceTabs .tab-btn');
+            const i = tabs.findIndex(t=>t.dataset.cat===currentCat);
+            const dir = e.key === 'ArrowRight' ? 1 : -1;
+            const next = (i + dir + tabs.length) % tabs.length;
+            setAppearanceTab(tabs[next].dataset.cat);
+          }
+        });
+      });
+
+      bindAppearanceOpacity();
+
+      // init
+      setAppearanceTab('hair');
+    }
+
+    function renderEyeColors(){
+      renderColorGrid(
+        '#eyeColorGrid',
+        EYE_COLORS,
+        ()=> state.data.face.eyeColor,
+        (val)=> { state.data.face.eyeColor = val; },
+        (i,total)=> {
+          const idx = toGameEyeIndex(i, total);
+          nui('skinChange', { action:'eyes', color: idx });
+        }
+      );
+    }
+
+    function bindFace(){
+      // flèches + clavier
+      const left = el('[data-arrow="imperf-left"]');
+      const right = el('[data-arrow="imperf-right"]');
+      const name = el('#imperfName');
+
+      if (left) left.addEventListener('click', ()=> stepImperf(-1));
+      if (right) right.addEventListener('click', ()=> stepImperf(+1));
+      if (name) name.addEventListener('keydown', (e)=>{
+        if (e.key === 'ArrowLeft'){ e.preventDefault(); stepImperf(-1); }
+        if (e.key === 'ArrowRight'){ e.preventDefault(); stepImperf(+1); }
+      });
+
+      // slider opacité
+      const op = el('#imperfOpacity');
+      const opVal = el('#imperfOpacityVal');
+      if (op){
+        op.value = String(state.data.face.imperfections.opacity ?? 50);
+        setRangeFill(op);
+        if (opVal) opVal.textContent = `${op.value}%`;
+        op.addEventListener('input', ()=>{
+          state.data.face.imperfections.opacity = +op.value;
+          if (opVal) opVal.textContent = `${op.value}%`;
+          setRangeFill(op);
+        });
+      }
+
+      renderEyeColors();
+      // autres overlays du visage
+      bindOverlayEntry('aging',         'Vieillissement',           AGING_COUNT,           'aging');
+      bindOverlayEntry('complexion',    'Teint',                    COMPLEXION_COUNT,      'complexion');
+      bindOverlayEntry('sunDamage',     'Dommages du soleil',       SUN_DAMAGE_COUNT,      'sun');
+      bindOverlayEntry('moles',         'Grains de beauté',         MOLES_COUNT,           'moles');
+      bindOverlayEntry('bodyBlemishes', 'Imperfections du corps',   BODY_BLEMISHES_COUNT,  'body');
+      bindOverlayEntry('bodyBlemishes2','Imperfections du corps 2', BODY_BLEMISHES2_COUNT, 'body2');
+
+      bindMakeupOverlays();
+      updateMakeupVisibility();
+    }
+
+    function bindOverlayEntry(key, label, count, prefix){
+      // crée l’état si besoin
+      state.data.face[key] ??= { style: 1, opacity: 50 };
+
+      const left = el(`[data-arrow="${prefix}-left"]`);
+      const right = el(`[data-arrow="${prefix}-right"]`);
+      const name = el(`#${prefix}Name`);
+      const slider = el(`#${prefix}Opacity`);
+      const sliderVal = el(`#${prefix}OpacityVal`);
+
+      const show = ()=>{
+        let n = Math.max(1, Math.min(count, state.data.face[key].style || 1));
+        state.data.face[key].style = n;
+        if (name) name.textContent = `${label} #${n}`;
+      };
+      const step = (dir=1)=>{
+        let n = (state.data.face[key].style || 1) + dir;
+        if (n < 1) n = count;
+        if (n > count) n = 1;
+        state.data.face[key].style = n;
+        show();
+        nui('skinChange', { action:key, style: state.data.face[key].style });
+      };
+
+      if (left)  left.addEventListener('click', ()=> step(-1));
+      if (right) right.addEventListener('click', ()=> step(+1));
+      if (name)  name.addEventListener('keydown', (e)=>{
+        if (e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+        if (e.key === 'ArrowRight'){ e.preventDefault(); step(+1); }
+      });
+
+      if (slider){
+        slider.value = String(state.data.face[key].opacity ?? 50);
+        setRangeFill(slider);
+        if (sliderVal) sliderVal.textContent = `${slider.value}%`;
+        slider.addEventListener('input', ()=>{
+          state.data.face[key].opacity = +slider.value;
+          nui('skinChange', { action:key, opacity: state.data.face[key].opacity });
+          if (sliderVal) sliderVal.textContent = `${slider.value}%`;
+          setRangeFill(slider);
+        });
+      }
+
+      show();
+    }
+
+    function bindMakeupColorOverlay(key, label, count, prefix, hasSecondary){
+      state.data.face[key] ??= { style: 1, opacity: 50, primary: null, secondary: null, color: null };
+
+      const left  = el(`[data-arrow="${prefix}-left"]`);
+      const right = el(`[data-arrow="${prefix}-right"]`);
+      const name  = el(`#${prefix}Name`);
+      const slider    = el(`#${prefix}Opacity`);
+      const sliderVal = el(`#${prefix}OpacityVal`);
+
+      const show = ()=>{
+        let n = Math.max(1, Math.min(count, state.data.face[key].style || 1));
+        state.data.face[key].style = n;
+        if (name) name.textContent = `${label} #${n}`;
+      };
+      const step = (dir=1)=>{
+        let n = (state.data.face[key].style || 1) + dir;
+        if (n < 1) n = count;
+        if (n > count) n = 1;
+        state.data.face[key].style = n;
+        show();
+        nui('skinChange', { action: key, style: state.data.face[key].style });
+      };
+
+      if (left)  left.addEventListener('click', ()=> step(-1));
+      if (right) right.addEventListener('click', ()=> step(+1));
+      if (name)  name.addEventListener('keydown', (e)=>{
+        if (e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+        if (e.key === 'ArrowRight'){ e.preventDefault(); step(+1); }
+      });
+
+      if (slider){
+        slider.value = String(state.data.face[key].opacity ?? 50);
+        setRangeFill(slider);
+        if (sliderVal) sliderVal.textContent = `${slider.value}%`;
+        slider.addEventListener('input', ()=>{
+          state.data.face[key].opacity = +slider.value;
+          nui('skinChange', { action: key, opacity: state.data.face[key].opacity });
+          if (sliderVal) sliderVal.textContent = `${slider.value}%`;
+          setRangeFill(slider);
+        });
+      }
+
+      const primarySel = hasSecondary ? `#${prefix}ColorPrimary` : `#${prefix}ColorGrid`;
+      renderColorGrid(primarySel, COLORS_PRIMARY,
+        ()=> state.data.face[key].primary || state.data.face[key].color,
+        (val)=>{ if(hasSecondary) state.data.face[key].primary = val; else state.data.face[key].color = val; },
+        (i)=>{
+          const idx = toGameHairIndex(i, COLORS_PRIMARY.length);
+          nui('skinChange', { action: key, primary: idx });
+        }
+      );
+
+      if (hasSecondary){
+        renderColorGrid(`#${prefix}ColorSecondary`, COLORS_SECONDARY,
+          ()=> state.data.face[key].secondary,
+          (val)=>{ state.data.face[key].secondary = val; },
+          (i)=>{
+            const idx = toGameHairIndex(i, COLORS_SECONDARY.length);
+            nui('skinChange', { action: key, secondary: idx });
+          }
+        );
+      }
+
+      show();
+    }
+
+    function bindMakeupOverlays(){
+      bindMakeupColorOverlay('makeup',   'Maquillage',       MAKEUP_COUNT,   'makeup',   true);
+      bindMakeupColorOverlay('lipstick', 'Rouge à lèvres',   LIPSTICK_COUNT, 'lipstick', true);
+      bindMakeupColorOverlay('blush',    'Blush',            BLUSH_COUNT,    'blush',    false);
+    }
+
+    function updateMakeupVisibility(){
+      const sec = el('#makeupSection');
+      if (!sec) return;
+      sec.style.display = (state.data.gender === 'female') ? 'grid' : 'none';
+    }
+
+    function ensureTraitState(){
+      state.data.traits ??= {};
+      TRAIT_SECTIONS.forEach(sec=>{
+        state.data.traits[sec.key] ??= {};
+        sec.fields.forEach(f=>{
+          if (typeof state.data.traits[sec.key][f.key] !== 'number'){
+            state.data.traits[sec.key][f.key] = f.def;
+          }
+        });
+      });
+    }
+
+    function renderTraitSections(){
+      const wrap = el('#traitSections'); if(!wrap) return;
+      wrap.innerHTML = '';
+
+      TRAIT_SECTIONS.forEach(sec=>{
+        const card = document.createElement('div');
+        card.className = 'trait-card';
+        card.innerHTML = `<div class="header">${sec.label}</div>`;
+
+        sec.fields.forEach(f=>{
+          const id   = `trait-${sec.key}-${f.key}`;
+          const val  = state.data.traits?.[sec.key]?.[f.key] ?? f.def;
+
+          const field = document.createElement('div');
+          field.className = 'field';
+          field.innerHTML = `
+            <label class="label" for="${id}">${f.label}</label>
+            <div class="slider-row">
+              <input type="range" class="range" id="${id}" min="${f.min}" max="${f.max}" step="${f.step}" value="${val}">
+              <span class="range-val" id="${id}-val">${val}${f.unit || ''}</span>
+            </div>
+          `;
+          card.appendChild(field);
+
+          // Bind après insertion
+          setTimeout(()=>{
+            const r = el('#'+id);
+            const v = el('#'+id+'-val');
+            if(!r || !v) return;
+
+            // init état
+            state.data.traits ??= {};
+            state.data.traits[sec.key] ??= {};
+            state.data.traits[sec.key][f.key] = Number(r.value);
+
+            // rendu du fill
+            setRangeFill(r);
+
+            // envoi initial (optionnel: garde le perso neutre si 50%)
+            const featureKey   = `${sec.key}.${f.key}`;
+            const featureIndex = FACE_FEATURE_MAP[featureKey];
+            if (featureIndex != null){
+              nui('skinChange', {
+                action: 'faceFeature',
+                index: featureIndex,
+                scale: traitValToScale(r.value),
+              });
+            }
+
+            r.addEventListener('input', ()=>{
+              state.data.traits[sec.key][f.key] = Number(r.value);
+              v.textContent = `${r.value}${f.unit || ''}`;
+              setRangeFill(r);
+
+              if (featureIndex != null){
+                nui('skinChange', {
+                  action: 'faceFeature',
+                  index: featureIndex,
+                  scale: traitValToScale(r.value),
+                });
+              }
+            });
+          },0);
+        });
+
+        wrap.appendChild(card);
+      });
+    }
+
+    function bindTraits(){
+      ensureTraitState();
+      renderTraitSections();
+      // met la cam sur la tête pour voir les modifs
+      try { setCameraMode('head'); } catch(e) {}
+    }
+
+    // Rend les deux grilles
+    function renderHairColors(){
+      renderColorGrid('#hairColorsPrimary', HAIR_COLORS_PRIMARY, 'hairPrimary');
+      renderColorGrid('#hairColorsSecondary', HAIR_COLORS_SECONDARY, 'hairSecondary');
+    }
+
+    function crossfadeImage(imgEl, nextSrc, nextAlt){
+      if(!imgEl) return;
+      const wrap = imgEl.parentElement;
+
+      // 1re init : pas d’anim si l’image n’est pas encore chargée
+      if(!imgEl.getAttribute('src')){
+        imgEl.src = nextSrc;
+        imgEl.alt = nextAlt || '';
+        return;
+      }
+
+      // nettoie d’éventuels restes d’une anim précédente
+      wrap.querySelectorAll('img').forEach(n => { if(n !== imgEl) n.remove(); });
+
+      const old = imgEl;
+      const oldId = old.id;
+      old.id = ''; // évite un doublon d’ID pendant le swap
+
+      const fresh = old.cloneNode(false);
+      fresh.id = oldId;
+      fresh.src = nextSrc;
+      fresh.alt = nextAlt || '';
+      fresh.style.opacity = '0';
+      wrap.appendChild(fresh);
+
+      // déclenche les transitions
+      // (force layout)
+      void fresh.getBoundingClientRect();
+      old.style.opacity = '0';
+      fresh.style.opacity = '1';
+
+      // nettoyage quand le fondu de l’ancienne se termine
+      old.addEventListener('transitionend', () => {
+        old.remove();
+      }, { once: true });
+    }
+    
+    function showParent(who){
+      const list = who === 'mom' ? MOM_LIST : DAD_LIST;
+      const idxKey = who + 'Index';
+      let idx = state.data.heredity[idxKey];
+
+      if (typeof idx !== 'number' || idx < 0 || idx >= list.length) {
+        const wantedId = parseInt(state.data.heredity[who], 10);
+        idx = list.findIndex(p => p.id === wantedId);
+        if (idx < 0) idx = 0;
+        state.data.heredity[idxKey] = idx;
+      }
+
+      const item = list[idx];
+
+      // state
+      state.data.heredity[who] = String(item.id);
+      state.data.heredity[who + 'Name'] = item.name;
+
+      // portraits + nom (inchangé)
+      const imgEl  = el(who === 'mom' ? '#momPortrait' : '#dadPortrait');
+      crossfadeImage(imgEl, PORTRAIT_BASE + item.file, item.name);
+      const nameEl = el(who === 'mom' ? '#momName' : '#dadName');
+      if (nameEl) nameEl.textContent = item.name;
+
+      // --- ICI: actions distinctes ---
+      const action = (who === 'mom') ? 'parent_mom' : 'parent_dad';
+      nui('skinChange', { action, id: item.id });
+    }
+
+    function stepParent(who, dir = 1){
+      const list = who === 'mom' ? MOM_LIST : DAD_LIST;
+      const idxKey = who + 'Index';
+      let idx = (state.data.heredity[idxKey] ?? 0) + dir;
+      if (idx < 0) idx = list.length - 1;
+      if (idx >= list.length) idx = 0;
+      state.data.heredity[idxKey] = idx;
+      showParent(who);
+    }
+
+    function bindParents(){
+      const momL = el('[data-arrow="mom-left"]');
+      const momR = el('[data-arrow="mom-right"]');
+      const dadL = el('[data-arrow="dad-left"]');
+      const dadR = el('[data-arrow="dad-right"]');
+      const momName = el('#momName');
+      const dadName = el('#dadName');
+
+      // clics flèches
+      if (momL) momL.addEventListener('click', () => stepParent('mom', -1));
+      if (momR) momR.addEventListener('click', () => stepParent('mom', +1));
+      if (dadL) dadL.addEventListener('click', () => stepParent('dad', -1));
+      if (dadR) dadR.addEventListener('click', () => stepParent('dad', +1));
+
+      // navigation clavier (gauche/droite) quand le nom a le focus
+      const keyNav = (who) => (e) => {
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); stepParent(who, -1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); stepParent(who, +1); }
+      };
+      if (momName) momName.addEventListener('keydown', keyNav('mom'));
+      if (dadName) dadName.addEventListener('keydown', keyNav('dad'));
+
+      // init selon l’état stocké (ou défaut)
+      state.data.heredity.momIndex ??= MOM_LIST.findIndex(p => p.id === +state.data.heredity.mom);
+      if (state.data.heredity.momIndex < 0) state.data.heredity.momIndex = 0;
+
+      state.data.heredity.dadIndex ??= DAD_LIST.findIndex(p => p.id === +state.data.heredity.dad);
+      if (state.data.heredity.dadIndex < 0) state.data.heredity.dadIndex = 0;
+
+      showParent('mom');
+      showParent('dad');
+    }
+
+    function renderSwatches(containerSel, tones, stateKey){
+      const wrap = el(containerSel);
+      if(!wrap) return;
+      wrap.innerHTML = '';
+      tones.forEach(hex=>{
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'swatch';
+        b.style.setProperty('--tone', hex);
+        b.title = hex;
+        b.addEventListener('click', ()=>{
+          els('.swatch', wrap).forEach(s=>s.classList.remove('selected'));
+          b.classList.add('selected');
+          state.data.heredity[stateKey] = hex;
+        });
+        wrap.appendChild(b);
+      });
+    }
+
+    function bindHereditySliders(){
+      const face = el('#faceMix'), skin = el('#skinMix');
+      const faceVal = el('#faceMixVal'), skinVal = el('#skinMixVal');
+      if(face){
+        setRangeFill(face);
+        face.addEventListener('input', ()=>{
+          state.data.heredity.faceMix = +face.value;
+          faceVal.textContent = face.value + '%';
+          setRangeFill(face);
+          nui('skinChange', { action:'blend',
+            faceMix: state.data.heredity.faceMix,
+            skinMix: state.data.heredity.skinMix
+          });
+        });
+      }
+      if(skin){
+        setRangeFill(skin);
+        skin.addEventListener('input', ()=>{
+          state.data.heredity.skinMix = +skin.value;
+          skinVal.textContent = skin.value + '%';
+          setRangeFill(skin);
+          nui('skinChange', { action:'blend',
+            faceMix: state.data.heredity.faceMix,
+            skinMix: state.data.heredity.skinMix
+          });
+        });
+      }
+    }
+
+    // ===== State =====
+    const state = {
+      stepIndex: 0,
+      data: {
+        firstName: '', lastName: '', birth: '', height: '', gender: '', nationality: '',
+        blood: '',
+        addictions: [],
+        conditions: [],
+        allergies: [],
+        heredity: { mom: '21', momName: 'Hannah', dad: '0', dadName: 'Benjamin',
+            faceMix: 50, skinMix: 50, momTone: null, dadTone: null },
+        appearance: {
+          hair:  { style: 1, primary: null, secondary: null },
+          brows: { style: 1, primary: null, opacity: 50 },
+          beard: { style: 1, primary: null, opacity: 50 },
+          chest: { style: 1, primary: null, opacity: 50 },
+        },
+        face: {
+          eyeColor: null,
+          aging:        { style: 1, opacity: 50 },
+          complexion:   { style: 1, opacity: 50 },
+          sunDamage:    { style: 1, opacity: 50 },
+          moles:        { style: 1, opacity: 50 },
+          bodyBlemishes:{ style: 1, opacity: 50 },
+          bodyBlemishes2:{ style: 1, opacity: 50 },
+          makeup:   { style: 1, opacity: 50, primary: null, secondary: null },
+          lipstick: { style: 1, opacity: 50, primary: null, secondary: null },
+          blush:    { style: 1, opacity: 50, color: null },
+        },
+        confirmation: { outfitId: null, spawn: null },
+      },
+    };
+
+    const steps = ['identite','sante','heredite','apparence','visage','traits','confirmation'];
+
+    const el = (sel, root=document) => root.querySelector(sel);
+    const els = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    const pages = {
+      identite: el('#page-identite'),
+      sante: el('#page-sante'),
+      apparence: el('#page-apparence'),
+      traits: el('#page-traits'),
+      confirmation: el('#page-confirmation'),
+      heredite: el('#page-heredite'),
+      visage: el('#page-visage'),
+    };
+
+    const btnNext = el('#btnNext');
+    const btnPrev = el('#btnPrev');
+
+    // ---- Logo du serveur pour la 1ère icône de la barre ----
+    const SERVER_LOGO_URL = 'https://i.ibb.co/mCR3JXTs/kawaiy-1.png';
+
+    // Appliquer aussi le logo au carré du haut (brand)
+    const brandLogo = document.querySelector('.brand .logo');
+    if (brandLogo) {
+      const fallback = brandLogo.textContent;          // "CC" au cas où
+      const img = document.createElement('img');
+      img.src = SERVER_LOGO_URL;                       // tu l'as déjà défini
+      img.alt = 'Logo serveur';
+      img.onerror = () => { brandLogo.textContent = fallback; };
+      brandLogo.textContent = '';                      // retire "CC"
+      brandLogo.appendChild(img);
+    }
+
+    // === Icônes SVG pour la barre latérale ===
+    const ICONS = {
+      visage: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      `,
+      heredite: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 3c5 0 5 6 10 6M7 21c5 0 5-6 10-6"/>
+          <path d="M7 3v4M7 17v4M17 7v4M17 13v4"/>
+        </svg>
+      `,
+      identite: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="3"/>
+          <circle cx="9" cy="12" r="3"/>
+          <path d="M14.5 10h4M14.5 14h4"/>
+        </svg>
+      `,
+      apparence: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <!-- palette simplifiée -->
+          <path d="M12 4a8 8 0 1 0 0 16h1a2.5 2.5 0 0 0 0-5h-1a3.5 3.5 0 1 1 0-7h1a2.5 2.5 0 0 0 0-5h-1z"/>
+          <circle cx="8.5" cy="9" r="1"/>
+          <circle cx="10.5" cy="6.5" r="1"/>
+          <circle cx="14.5" cy="7.5" r="1"/>
+          <circle cx="16" cy="11" r="1"/>
+        </svg>
+      `,
+      traits: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <!-- ampoule (esprit/traits) -->
+          <path d="M12 2a7 7 0 0 0-7 7c0 3 2 4.5 3 6h8c1-1.5 3-3 3-6a7 7 0 0 0-7-7z"/>
+          <path d="M9 18h6"/>
+          <path d="M10 22h4"/>
+        </svg>
+      `,
+      confirmation: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M8.5 12l2.5 2.5L16 9.5"/>
+        </svg>
+      `,
+      sante: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/>
+          <path d="M12 8v8M8 12h8"/>
+        </svg>
+      `,
+    };
+
+    // Icônes pour les onglets d'apparence
+    const TAB_ICON_SVGS = {
+      hair: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 10c2-5 7-8 12-6 3 1 4 4 4 7"/>
+          <path d="M6 14c1-3 4-5 6-5"/>
+          <path d="M10 16c0-2 2-5 6-5"/>
+        </svg>
+      `,
+      brows: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 10c2-2 4-2 6 0"/>
+          <path d="M15 10c2-2 4-2 6 0"/>
+          <path d="M6 14h2"/>
+          <path d="M16 14h2"/>
+        </svg>
+      `,
+      beard: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9v3c0 5 4 9 8 9s8-4 8-9V9"/>
+          <path d="M7 12c2 2 8 2 10 0"/>
+          <path d="M9 7a3 3 0 0 1 6 0"/>
+        </svg>
+      `,
+      chest: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="6" y="5" width="12" height="14" rx="3"/>
+          <path d="M9 11l1 1M12 11l1 1M15 11l1 1"/>
+          <path d="M9 14l1 1M12 14l1 1M15 14l1 1"/>
+        </svg>
+      `,
+    };
+
+    function isSecondaryEnabled(cat){ return cat === 'hair'; }
+
+    function syncSecondaryFieldVisibility(){
+      const field = el('#colorGridSecondary')?.closest('.field');
+      if (!field) return;
+      field.style.display = isSecondaryEnabled(currentCat) ? '' : 'none';
+    }
+
+    function decorateAppearanceTabIcons(){
+      els('#appearanceTabs .tab-btn').forEach(btn=>{
+        const cat = btn.dataset.cat;
+        const label = btn.textContent.trim();
+        if (TAB_ICON_SVGS[cat]) {
+          btn.innerHTML = TAB_ICON_SVGS[cat] + `<span>${label}</span>`;
+        }
+      });
+    }
+
+    function worldToPercent(x, y){
+      const { topLeft, bottomRight } = MAP_BOUNDS;
+      const px = (x - topLeft.x) / (bottomRight.x - topLeft.x);
+      const py = (topLeft.y - y) / (topLeft.y - bottomRight.y);
+      return { leftPct: px*100, topPct: py*100 };
+    }
+
+    function updateSubmitEnabled(){
+      const btn = el('#btnSubmit'); if(!btn) return;
+      const ok = !!(state.data.confirmation.outfitId && state.data.confirmation.spawn);
+      btn.disabled = !ok;
+    }
+
+    function renderOutfitsRow(){
+      const row = el('#outfitRow'); if(!row) return;
+      row.innerHTML = '';
+
+      OUTFITS.forEach(o=>{
+        const card = document.createElement('button');
+        card.dataset.label = o.label;
+        card.type = 'button';
+        card.className = 'sel-card outfit-card';
+        card.setAttribute('role','option');
+        card.setAttribute('aria-label', o.label);
+        card.setAttribute('data-id', o.id);
+
+        card.innerHTML = `
+          <div class="sq">${o.svg}</div>
+          <div class="outfit-name" aria-hidden="true">${o.label}</div>
+        `;
+
+        const select = () => {
+          els('.outfit-card', row).forEach(c=>c.classList.remove('selected'));
+          card.classList.add('selected');
+
+          state.data.confirmation.outfitId = o.id;
+          const oc = el('#outfitChoice'); if (oc) oc.textContent = o.label;
+
+          // ↙️ callback NUI « minimal » : envoie uniquement l’ID de la tenue
+          nui('outfitSelected', { id: o.id });
+
+          // (tu peux garder celui-ci si tu l’utilises déjà côté Lua)
+          // nui('chooseOutfit', { id: o.id, gender: state.data.gender });
+
+          updateSubmitEnabled();
+        };
+
+        card.addEventListener('click', select);
+        card.addEventListener('keydown', e=>{
+          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); select(); }
+        });
+
+        row.appendChild(card);
+      });
+    }
+
+    /* ===== Rangée 2 : Packs ===== */
+    function renderPacksRow(){
+      const row = el('#packRow'); if(!row) return;
+      const tip = el('#packTooltip');
+      row.innerHTML = '';
+      STARTER_PACKS.forEach(p=>{
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'sel-card pack-card';
+        card.setAttribute('role','option');
+        const typeClass = p.type==='legal' ? 'type-legal' : 'type-illegal';
+        const typeLabel = p.type==='legal' ? 'Légal' : 'Illégal';
+        card.innerHTML = `
+          <div class="sq" aria-hidden="true" style="display:flex;flex-direction:column;gap:8px;">
+            ${p.svg}
+          </div>
+          <div class="title">${p.label}</div>
+        `;
+
+        const tip = el('#packTooltip');
+
+        /* optionnel mais sûr : on détache la tooltip pour éviter qu'un parent transform casse le fixed */
+        if (tip && tip.parentElement !== document.body) {
+          document.body.appendChild(tip);
+        }
+
+        const OFFSET = 12;
+        const placeTip = (ev) => {
+          // forcer un layout pour avoir la taille réelle après innerHTML
+          const rect = tip.getBoundingClientRect();
+          let x = ev.clientX + OFFSET;
+          let y = ev.clientY + OFFSET;
+
+          // clamp dans le viewport (évite qu’elle “descende” hors écran)
+          if (x + rect.width  > window.innerWidth)  x = ev.clientX - rect.width  - OFFSET;
+          if (y + rect.height > window.innerHeight) y = ev.clientY - rect.height - OFFSET;
+
+          tip.style.left = x + 'px';
+          tip.style.top  = y + 'px';
+        };
+
+        const showTip = (ev) => {
+          if (!tip) return;
+          tip.classList.add('show');
+          tip.innerHTML = `<b>${p.label}</b><br><ul style="margin:6px 0 0 14px;padding:0;">
+            ${p.items.map(i=>`<li>${i}</li>`).join('')}
+          </ul>`;
+          // place après avoir injecté le contenu
+          requestAnimationFrame(() => placeTip(ev));
+        };
+
+        const moveTip = (ev) => { if (tip && tip.classList.contains('show')) placeTip(ev); };
+        const hideTip = () => { if (tip) tip.classList.remove('show'); };
+
+        card.addEventListener('mouseenter', showTip);
+        card.addEventListener('mousemove',  moveTip);
+        card.addEventListener('mouseleave', hideTip);
+
+        card.addEventListener('click', ()=>{
+          els('.pack-card', row).forEach(c=>c.classList.remove('selected'));
+          card.classList.add('selected');
+          state.data.confirmation.packId = p.id;
+          el('#packChoice').textContent = p.label;
+          nui('chooseStarterPack', { id:p.id });
+          updateSubmitEnabled();
+        });
+
+        row.appendChild(card);
+      });
+    }
+
+    // ——— mapping monde -> pixels (taille image réelle)
+    function worldToPixels(x, y, w, h){
+      const { topLeft, bottomRight } = MAP_BOUNDS;
+      const px = (x - topLeft.x) / (bottomRight.x - topLeft.x);
+      const py = (topLeft.y - y) / (topLeft.y - bottomRight.y);
+      return { x: px * w, y: py * h };
+    }
+
+    function renderSpawnMap(){
+      const img = el('#mapImg'), vp = el('#mapViewport'), content = el('#mapContent'), layer = el('#spawnMarkers');
+      if(!img || !vp || !content || !layer) return;
+
+      const map = { scale:1, min:0.6, max:3.2, tx:0, ty:0, imgW:0, imgH:0,
+                    dragging:false, dx:0, dy:0, startX:0, startY:0 };
+
+      const apply = ()=>{ content.style.transform = `translate(${map.tx}px, ${map.ty}px) scale(${map.scale})`; };
+
+      /* Empêche de voir du vide: centre si l’image est plus petite, clamp sinon */
+      const clampPan = ()=>{
+        const vw = vp.clientWidth, vh = vp.clientHeight;
+        const W = map.imgW * map.scale, H = map.imgH * map.scale;
+
+        if (W <= vw) { map.tx = (vw - W)/2; }
+        else { const minX = vw - W, maxX = 0; map.tx = Math.min(maxX, Math.max(minX, map.tx)); }
+
+        if (H <= vh) { map.ty = (vh - H)/2; }
+        else { const minY = vh - H, maxY = 0; map.ty = Math.min(maxY, Math.max(minY, map.ty)); }
+
+        apply();
+      };
+
+      /* Cover (remplit la zone → plus de bandes noires au fit) */
+      const fit = ()=>{
+        const vw = vp.clientWidth, vh = vp.clientHeight;
+        map.scale = Math.max(vw / map.imgW, vh / map.imgH); // COVER
+        clampPan();
+      };
+
+      img.src = MAP_IMAGE_URL;
+      img.addEventListener('error', ()=> snack('⚠️ Image de carte introuvable.'));
+      img.addEventListener('load', ()=>{
+        map.imgW = img.naturalWidth; map.imgH = img.naturalHeight;
+        content.style.width  = map.imgW + 'px';
+        content.style.height = map.imgH + 'px';
+
+        layer.innerHTML = '';
+        SPAWN_POINTS.forEach(s=>{
+          const p = worldToPixels(s.coords.x, s.coords.y, map.imgW, map.imgH);
+          const m = document.createElement('button');
+          m.type = 'button';
+          m.className = 'spawn-marker';
+          m.style.left = p.x + 'px';
+          m.style.top  = p.y + 'px';
+          m.title = s.name;
+          m.innerHTML = `<span class="label">${s.name}</span>`;
+
+          // sélection (click + clavier)
+          function select(ev){
+            ev.stopPropagation();
+            els('.spawn-marker', layer).forEach(x=>x.classList.remove('selected'));
+            m.classList.add('selected');
+            state.data.confirmation.spawn = s;
+            el('#spawnChoice').textContent = s.name;
+            nui('chooseSpawn', { coords: s.coords });
+            updateSubmitEnabled();
+          }
+          m.addEventListener('click', select);
+          m.addEventListener('keydown', e=>{
+            if(e.key==='Enter' || e.key===' '){
+              e.preventDefault();
+              select(e);
+            }
+          });
+
+          layer.appendChild(m);
+        });
+
+        fit();
+      }, { once:true });
+
+      // wheel zoom (vers la souris) + clamp
+      vp.addEventListener('wheel', (e)=>{
+        e.preventDefault();
+        const dir = e.deltaY < 0 ? 1 : -1;
+        const old = map.scale;
+        const target = Math.min(map.max, Math.max(map.min, +(old * (1 + dir*0.15)).toFixed(3)));
+        if (target === old) return;
+
+        const rect = vp.getBoundingClientRect();
+        const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
+        const ox = (cx - map.tx) / old,   oy = (cy - map.ty) / old;
+
+        map.scale = target;
+        map.tx = cx - ox * target;
+        map.ty = cy - oy * target;
+        clampPan();
+      }, { passive:false });
+
+      // boutons
+      el('[data-zoom="in"]').addEventListener('click', ()=>{
+        const evt = new WheelEvent('wheel', { deltaY: -100, bubbles:true, cancelable:true });
+        vp.dispatchEvent(evt);
+      });
+      el('[data-zoom="out"]').addEventListener('click', ()=>{
+        const evt = new WheelEvent('wheel', { deltaY: 100, bubbles:true, cancelable:true });
+        vp.dispatchEvent(evt);
+      });
+      el('[data-zoom="fit"]').addEventListener('click', fit);
+
+      // pan (drag) + clamp
+      const onDown = (e)=>{
+        map.dragging = true;
+        const p = (e.touches && e.touches[0]) || e;
+        map.startX = p.clientX; map.startY = p.clientY;
+        map.dx = map.tx; map.dy = map.ty;
+        vp.style.cursor = 'grabbing';
+      };
+      const onMove = (e)=>{
+        if(!map.dragging) return;
+        const p = (e.touches && e.touches[0]) || e;
+        map.tx = map.dx + (p.clientX - map.startX);
+        map.ty = map.dy + (p.clientY - map.startY);
+        clampPan();
+      };
+      const onUp = ()=>{ map.dragging = false; vp.style.cursor = 'default'; };
+
+      vp.addEventListener('mousedown', onDown);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+
+      vp.addEventListener('touchstart', onDown, { passive:true });
+      window.addEventListener('touchmove', onMove, { passive:false });
+      window.addEventListener('touchend', onUp);
+
+      // double-clic = zoom + (clamp derrière)
+      vp.addEventListener('dblclick', (e)=>{
+        const evt = new WheelEvent('wheel', { deltaY: -200, clientX: e.clientX, clientY: e.clientY, bubbles:true, cancelable:true });
+        vp.dispatchEvent(evt);
+      });
+
+      // re-fit à la taille de la fenêtre
+      window.addEventListener('resize', fit);
+    }
+
+    function initConfirmationPage(){
+      // crée les listes si ce n’est pas déjà fait
+      renderOutfits();
+      renderPacks();
+      renderSpawnMap();
+      updateSubmitEnabled();
+    }
+
+    // Remplace les emojis par les SVG correspondants
+    document.querySelectorAll('.menu .btn').forEach(btn => {
+      const step = btn.dataset.step;
+      const ico = btn.querySelector('.ico');
+      if (ico && ICONS[step]) {
+        ico.innerHTML = ICONS[step];
+      }
+    });
+
+    // Icônes pour les boutons Précédent / Suivant
+    function makeNavIcon(dir = 'left'){
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox','0 0 24 24');
+      svg.setAttribute('fill','none');
+      svg.setAttribute('stroke','currentColor');
+      svg.setAttribute('stroke-width','2');
+      svg.setAttribute('stroke-linecap','round');
+      svg.setAttribute('stroke-linejoin','round');
+      svg.setAttribute('aria-hidden','true');
+
+      const path = document.createElementNS(svgNS, 'path');
+      // chevrons simples et lisibles
+      if(dir === 'left'){
+        path.setAttribute('d','M15 18l-6-6 6-6');
+      } else {
+        path.setAttribute('d','M9 6l6 6-6 6');
+      }
+      svg.appendChild(path);
+      return svg;
+    }
+
+    // Ajoute l’icône à tous les boutons concernés (page courante + pages suivantes)
+    [btnPrev, ...els('[data-nav="back"]')].forEach(b=>{
+      if(!b) return;
+      // icône avant le texte
+      b.insertBefore(makeNavIcon('left'), b.firstChild);
+    });
+    [btnNext, ...els('[data-nav="forward"]')].forEach(b=>{
+      if(!b) return;
+      // icône après le texte
+      b.appendChild(makeNavIcon('right'));
+    });
+
+    // Render flags
+    const flagsWrap = el('#flags');
+    const natChoice = el('#natChoice');
+
+    function renderFlags(){
+      flagsWrap.innerHTML = '';
+      COUNTRIES.forEach(c => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'flag';
+        const img = document.createElement('img');
+        img.src = `https://flagcdn.com/${c.code.toLowerCase()}.svg`;
+        img.alt = c.name;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        b.appendChild(img);
+
+        b.setAttribute('data-country', c.name);
+        b.setAttribute('aria-label', c.name);
+        b.dataset.code = c.code;
+        b.addEventListener('click', () => selectNationality(c.code));
+        flagsWrap.appendChild(b);
+      });
+    }
+
+    function selectNationality(code){
+      state.data.nationality = code;
+      els('.flag', flagsWrap).forEach(f => f.classList.toggle('selected', f.dataset.code === code));
+      const found = COUNTRIES.find(c => c.code === code);
+
+      natChoice.innerHTML = found
+      ? `<img src="https://flagcdn.com/${found.code.toLowerCase()}.svg" alt="${found.name}" style="height:1em;vertical-align:-0.2em;border-radius:2px;margin-right:6px;"> ${found.name}`
+      : 'aucune';
+
+      validate();
+    }
+
+    function initRadioChips(containerSel, stateKey){
+      const container = el(containerSel); if(!container) return;
+      const labels = els('.chip', container);
+      labels.forEach(label=>{
+        label.setAttribute('role','radio');
+        label.setAttribute('aria-checked','false');
+        label.addEventListener('click', ()=>{
+          labels.forEach(l=>{
+            l.classList.remove('active'); l.setAttribute('aria-checked','false');
+            const i = l.querySelector('input'); if(i) i.checked = false;
+          });
+          label.classList.add('active'); label.setAttribute('aria-checked','true');
+          const input = label.querySelector('input');
+          if(input){
+            input.checked = true;
+            state.data[stateKey] = input.value;
+            if(stateKey === 'gender'){
+              nui('skinChange', { action:'sex', gender: state.data.gender });
+              updateMakeupVisibility();
+              if(state.data.gender !== 'female'){
+                nui('skinChange', { action:'makeup',   style: 0, opacity: 0 });
+                nui('skinChange', { action:'lipstick', style: 0, opacity: 0 });
+                nui('skinChange', { action:'blush',    style: 0, opacity: 0 });
+              }
+            }
+          }
+          validate();
+        });
+        label.addEventListener('keydown', e=>{
+          if(e.key==='Enter' || e.key===' '){ e.preventDefault(); label.click(); }
+        });
+      });
+    }
+
+    function initToggleChips(containerSel, stateKey){
+      const container = el(containerSel); if(!container) return;
+      const labels = els('.chip', container);
+      state.data[stateKey] = state.data[stateKey] || [];
+      labels.forEach(label=>{
+        label.setAttribute('role','checkbox');
+        label.setAttribute('aria-checked','false');
+        label.addEventListener('click', (e)=>{
+          // Empêche le toggle natif de l'input à l'intérieur du label
+          e.preventDefault();
+
+          const input = label.querySelector('input');
+          const val = input ? input.value : label.dataset.value;
+
+          const willBeOn = !label.classList.contains('active');
+          label.classList.toggle('active', willBeOn);
+          label.setAttribute('aria-checked', willBeOn ? 'true' : 'false');
+          if(input) input.checked = willBeOn;
+
+          const set = new Set(state.data[stateKey]);
+          if(willBeOn) set.add(val); else set.delete(val);
+          state.data[stateKey] = [...set];
+        });
+
+        label.addEventListener('keydown', e=>{
+          if(e.key==='Enter' || e.key===' '){ e.preventDefault(); label.click(); }
+        });
+      });
+    }
+
+    // Inputs
+    const firstName = el('#firstName');
+    const lastName = el('#lastName');
+    const birth = el('#birth');
+    const height = el('#height');
+
+    // Auto-format JJ/MM/AAAA (insertion des / après 2 et 4 chiffres)
+    birth.addEventListener('input', (e) => {
+      const digits = e.target.value.replace(/\D/g, '').slice(0, 8);
+      let out = digits;
+      if (digits.length > 4) out = `${digits.slice(0,2)}/${digits.slice(2,4)}/${digits.slice(4)}`;
+      else if (digits.length > 2) out = `${digits.slice(0,2)}/${digits.slice(2)}`;
+      if (e.target.value !== out) e.target.value = out;
+    });
+
+    [firstName, lastName, birth, height].forEach(inp => inp.addEventListener('input', () => {
+      state.data[inp.id] = inp.value.trim();
+      validate();
+    }));
+
+    // Slider hauteur
+    const heightVal = el('#heightVal');
+    function setRangeFill(r){
+      const min = Number(r.min), max = Number(r.max), val = Number(r.value);
+      const pct = ((val - min) * 100) / (max - min);
+      r.style.background = `linear-gradient(90deg, rgba(255,117,31,.65) ${pct}%, rgba(255,255,255,.10) ${pct}%)`;
+    }
+    height.addEventListener('input', () => {
+      state.data.height = height.value;
+      if(heightVal) heightVal.textContent = `${height.value} cm`;
+      setRangeFill(height);
+      validate();
+    });
+    if(height){
+      setRangeFill(height);
+      if(heightVal) heightVal.textContent = `${height.value} cm`;
+      state.data.height = height.value;
+    }
+
+    // === HUD Caméras (tête / corps / chaussures) ===
+    function setCameraMode(mode){
+      // Branche ta logique NUI ici si besoin :
+      // try { fetch('https://resource_name/setCamera', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ mode }) }); } catch(e) {}
+      const labels = { head:'Tête', body:'Corps', shoes:'Chaussures' };
+      nui('setCamera', { mode });
+      snack(`Caméra : ${labels[mode] || mode}`);
+    }
+
+    els('.cam-hud .cam-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.cam;
+        els('.cam-hud .cam-btn').forEach(b => {
+          const on = (b === btn);
+          b.classList.toggle('selected', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        setCameraMode(mode);
+      });
+    });
+
+    // Next/Prev
+    btnNext.addEventListener('click', () => goStep(1));
+    btnPrev.addEventListener('click', () => goStep(-1));
+
+    els('[data-nav="back"]').forEach(b => b.addEventListener('click', () => goStep(-1)));
+    els('[data-nav="forward"]').forEach(b => b.addEventListener('click', () => goStep(1)));
+
+    function goStep(delta){
+      const newIndex = Math.max(0, Math.min(steps.length-1, state.stepIndex + delta));
+      if(newIndex === state.stepIndex) return;
+
+      const currentKey = steps[state.stepIndex];
+      const nextKey = steps[newIndex];
+
+      pages[currentKey].classList.add('hidden');
+      pages[nextKey].classList.remove('hidden');
+
+      state.stepIndex = newIndex;
+      syncSidebar();
+      syncNavButtons();
+
+      requestAnimationFrame(()=>{
+        const page = pages[nextKey];
+        if(page) page.querySelectorAll('.range').forEach(r => setRangeFill(r));
+      });
+
+      // On arrive sur confirmation → preview
+      if(nextKey === 'confirmation'){
+        try { setCameraMode('body'); } catch(e){}
+        // remplit les rangées + carte
+        renderOutfitsRow();
+        renderPacksRow();
+        renderSpawnMap();
+        updateSubmitEnabled();
+      }
+    }
+
+    function syncSidebar(){
+      const currentKey = steps[state.stepIndex];
+      els('.menu .btn').forEach(btn => {
+        const match = btn.dataset.step === currentKey;
+        btn.classList.toggle('selected', match);
+      });
+    }
+
+    function syncNavButtons(){
+      const atStart = state.stepIndex === 0;
+      if(btnPrev){ btnPrev.disabled = atStart; }
+      if(btnNext){ btnNext.disabled = !canProceed(); }
+    }
+
+    function canProceed(){
+      const currentStep = steps[state.stepIndex];
+      if (currentStep === 'sante' && !state.data.blood) return false;
+      if (currentStep !== 'identite') return true;
+
+      const { firstName, lastName, birth, height, gender, nationality } = state.data;
+      return firstName && lastName && birth && gender && nationality &&
+            Number(height) >= 120 && Number(height) <= 230;
+    }
+
+    function validate(){
+      if(btnNext) btnNext.disabled = !canProceed();
+    }
+
+    // Submit → NUI + fermeture
+    const btnSubmit = el('#btnSubmit');
+    if (btnSubmit) {
+      btnSubmit.addEventListener('click', () => {
+        // évite le double-clic
+        btnSubmit.disabled = true;
+
+        // on envoie les données brutes (le LUA n'a pas besoin du wrapper { action, data })
+        nui('createCharacter', state.data);
+
+        // petit feedback
+        snack('Personnage créé !');
+
+        // ferme l’UI côté HTML…
+        document.documentElement.classList.remove('creator-open');
+
+        // …et notifie le script FiveM (tu peux SetNuiFocus(false,false) côté LUA)
+        nui('closeUI', {});
+      });
+    }
+
+    // Close → NUI (stub)
+    el('#btnClose').addEventListener('click', () => {
+      document.documentElement.classList.remove('creator-open');
+      nui('closeUI', {}); // côté Lua: RegisterNUICallback('closeUI', ...)
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.documentElement.classList.remove('creator-open');
+    });
+
+    function snack(txt){
+      const s = el('#snack');
+      s.textContent = txt; s.classList.add('show');
+      setTimeout(() => s.classList.remove('show'), 1800);
+    }
+    // Ouvre/ferme depuis SendNUIMessage({ action = 'openCreator' })
+    window.addEventListener('message', (e) => {
+      const { action, data } = e.data || {};
+      if (action === 'openCreator') {
+        renderFlags();
+        syncSidebar();
+        syncNavButtons();
+        initRadioChips('[data-group="gender"]', 'gender');
+        initRadioChips('[data-group="blood"]', 'blood');
+        initToggleChips('#addictions', 'addictions');
+        initToggleChips('#conditions', 'conditions');
+        initToggleChips('#allergies', 'allergies');
+        bindParents();
+        renderSwatches('#momTones', SKIN_TONES_MOM, 'momTone');
+        renderSwatches('#dadTones', SKIN_TONES_DAD, 'dadTone');
+        bindHereditySliders();
+        decorateAppearanceTabIcons();
+        bindAppearance();
+        bindFace();
+        bindTraits();
+
+        document.documentElement.classList.add('creator-open');
+        // (optionnel) préremplir/forcer la step de départ
+        state.stepIndex = 0;
+        Object.values(pages).forEach(p => p.classList.add('hidden'));
+        pages.identite.classList.remove('hidden');
+        syncSidebar(); syncNavButtons();
+        if (data?.prefill) { Object.assign(state.data, data.prefill); validate(); }
+        requestAnimationFrame(()=>{
+          document.querySelectorAll('.range').forEach(r => setRangeFill(r));
+        });
+      }
+      if (action === 'closeCreator') {
+        document.documentElement.classList.remove('creator-open');
+      }
+    });
+
+    // Détecte le NUI FiveM (CEF)
+    const isNUI = typeof GetParentResourceName === 'function' || /Cfx/i.test(navigator.userAgent);
+    if (isNUI) document.documentElement.classList.add('nui');
+
+    // === Icône "Autre" arc-en-ciel (LGBT) ===
+      (function(){
+        const svg = document.querySelector('[data-group="gender"] label.chip input[value="other"] + .gico svg');
+        if(!svg) return;
+        const NS = 'http://www.w3.org/2000/svg';
+        const defs = document.createElementNS(NS, 'defs');
+        const grad = document.createElementNS(NS, 'linearGradient');
+        const gid = 'grad-lgbt-' + Math.random().toString(36).slice(2,8);
+        grad.setAttribute('id', gid);
+        grad.setAttribute('x1','0%');  grad.setAttribute('y1','0%');
+        grad.setAttribute('x2','100%');grad.setAttribute('y2','0%');
+
+        [['0%','#e40303'],['16%','#ff8c00'],['33%','#ffed00'],
+        ['50%','#008026'],['66%','#004dff'],['83%','#750787'],
+        ['100%','#e40303']].forEach(([offset,color])=>{
+          const stop = document.createElementNS(NS,'stop');
+          stop.setAttribute('offset', offset);
+          stop.setAttribute('stop-color', color);
+          grad.appendChild(stop);
+        });
+
+        defs.appendChild(grad);
+        svg.insertBefore(defs, svg.firstChild);
+        svg.style.stroke = `url(#${gid})`;   // override le stroke: currentColor
+      })();
+
+  </script>
+
+  <!-- ============================================================
+       Click sound (identique à SNL_Boutique).
+       Web Audio synthétisé : 3 couches (snap + pop + sub) pour un
+       click "tactile/punchy". Aucun asset audio requis.
+       Throttle 35ms anti-spam, opt-out via [data-no-click-sound].
+       Ne joue que quand le créateur est ouvert (html.creator-open).
+       ============================================================ -->
+  <script>
+  (() => {
+    let _audioCtx = null;
+    function getAudioCtx(){
+      if (_audioCtx) return _audioCtx;
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      if (!Ctor) return null;
+      try { _audioCtx = new Ctor(); } catch(e){ return null; }
+      return _audioCtx;
+    }
+
+    const CLICK_VOL = 0.1;
+    let _lastClickAt = 0;
+    function playClickSound(opts){
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const nowMs = performance.now();
+      if (nowMs - _lastClickAt < 35) return;
+      _lastClickAt = nowMs;
+      try { if (ctx.state === 'suspended') ctx.resume(); } catch(e){}
+
+      const now = ctx.currentTime;
+      const intensity = (opts && opts.soft) ? 0.6 : 1;
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.95 * CLICK_VOL * intensity, now);
+      master.connect(ctx.destination);
+
+      // 1) Transient SNAP : burst de bruit large bande, attaque ultra-rapide.
+      const noiseLen = 0.030;
+      const buf = ctx.createBuffer(1, Math.max(1, Math.floor(ctx.sampleRate * noiseLen)), ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) {
+        const env = (i < 4 ? 1 : (1 - i / data.length));
+        data[i] = (Math.random() * 2 - 1) * env;
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buf;
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.value = 2200;
+      bp.Q.value = 0.9;
+      const noiseG = ctx.createGain();
+      noiseG.gain.setValueAtTime(0.0001, now);
+      noiseG.gain.exponentialRampToValueAtTime(0.85, now + 0.001);
+      noiseG.gain.exponentialRampToValueAtTime(0.0001, now + noiseLen);
+      noise.connect(bp).connect(noiseG).connect(master);
+      noise.start(now);
+      noise.stop(now + noiseLen);
+
+      // 2) Mid POP : oscillateur square pour donner du grain (plastic switch).
+      const baseHz = 1300 + (Math.random() * 200 - 100);
+      const osc = ctx.createOscillator();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(baseHz, now);
+      osc.frequency.exponentialRampToValueAtTime(baseHz * 0.55, now + 0.05);
+      const oscFilt = ctx.createBiquadFilter();
+      oscFilt.type = 'lowpass';
+      oscFilt.frequency.value = 3200;
+      oscFilt.Q.value = 0.5;
+      const oscG = ctx.createGain();
+      oscG.gain.setValueAtTime(0.0001, now);
+      oscG.gain.exponentialRampToValueAtTime(0.55, now + 0.002);
+      oscG.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+      osc.connect(oscFilt).connect(oscG).connect(master);
+      osc.start(now);
+      osc.stop(now + 0.08);
+
+      // 3) Sub THUMP : sine basse pour le poids "haptique" du click.
+      const sub = ctx.createOscillator();
+      sub.type = 'sine';
+      sub.frequency.setValueAtTime(160, now);
+      sub.frequency.exponentialRampToValueAtTime(60, now + 0.07);
+      const subG = ctx.createGain();
+      subG.gain.setValueAtTime(0.0001, now);
+      subG.gain.exponentialRampToValueAtTime(0.50, now + 0.003);
+      subG.gain.exponentialRampToValueAtTime(0.0001, now + 0.085);
+      sub.connect(subG).connect(master);
+      sub.start(now);
+      sub.stop(now + 0.09);
+    }
+
+    document.addEventListener('click', (e) => {
+      // Le créateur est gaté par html.creator-open : on ne joue rien si fermé.
+      if (!document.documentElement.classList.contains('creator-open')) return;
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      // Pas de son sur les inputs / opt-out.
+      if (t.closest('input, textarea, select')) return;
+      if (t.closest('[data-no-click-sound]')) return;
+      // "Soft" pour un clic dans le vide / hors cible interactive.
+      const isInteractive = !!t.closest('button, a, [role="button"], .btn, .btn-inline, .chip, .flag, .swatch, .color-tile, .tab-btn, .cam-btn, .sel-card, .selectable-card, .spawn-card, .spawn-marker, .controls .arrow, [tabindex]');
+      playClickSound({ soft: !isInteractive });
+    }, true);
+  })();
+  </script>
+</body>
+</html>

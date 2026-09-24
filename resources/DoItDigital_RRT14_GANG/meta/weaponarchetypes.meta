@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		<Item>
+			<modelName>did_rrt14_gang</modelName>
+			<txdName>did_rrt14_gang</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="500" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_afgrip</modelName>
+			<txdName>did_rrt14_gang</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo1</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo10</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo2</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo3</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo4</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo5</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo6</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo7</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo8</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_camo9</modelName>
+			<txdName>did_rrt14_gang_3</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_mag1</modelName>
+			<txdName>did_rrt14_gang_2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_mag2</modelName>
+			<txdName>did_rrt14_gang_2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_scope</modelName>
+			<txdName>did_rrt14_gang_2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+		<Item>
+			<modelName>did_rrt14_gang_supp</modelName>
+			<txdName>did_rrt14_gang_2</txdName>
+			<ptfxAssetName>NULL</ptfxAssetName>
+			<lodDist value="300" />
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
